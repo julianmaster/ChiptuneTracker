@@ -1,16 +1,13 @@
 package main;
 
-import com.jsyn.unitgen.SineOscillator;
-import com.jsyn.unitgen.TriangleOscillator;
-import com.jsyn.unitgen.UnitGenerator;
 
 public enum Instrument {
-	INSTRUMENT_1(new SineOscillator()),
-	INSTRUMENT_2(new TriangleOscillator());
+	INSTRUMENT_1(0),
+	INSTRUMENT_2(1);
 	
-	public UnitGenerator unit;
+	public int number;
 
-	private Instrument(UnitGenerator unit) {
-		this.unit = unit;
+	private Instrument(int number) {
+		this.number = number;
 	}
 }

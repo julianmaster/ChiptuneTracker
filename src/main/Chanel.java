@@ -3,35 +3,48 @@ package main;
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.unitgen.LineOut;
+import com.jsyn.unitgen.SineOscillator;
+import com.jsyn.unitgen.TriangleOscillator;
 import com.jsyn.unitgen.UnitGenerator;
 import com.jsyn.unitgen.UnitVoice;
+import com.jsyn.util.VoiceAllocator;
 import com.softsynth.shared.time.TimeStamp;
 
 public class Chanel implements Runnable {
 	
-	Synthesizer synth;
-	UnitGenerator ugen;
-	UnitVoice voice;
-	LineOut lineOut;
-	Sample sample;
+	private Synthesizer synth;
+	private VoiceAllocator allocator;
+	private UnitVoice[] voices;
+	private LineOut lineOut;
+	private Sample sample;
 	
-	public Chanel(UnitGenerator ugen) {
-		this.ugen = ugen;
+	public Chanel() {
 		// Create a context for the synthesizer.
 		synth = JSyn.createSynthesizer();
 		
-		// Add a tone generator.
-//		synth.add( ugen = new TriangleOscillator() );
-		synth.add( ugen);
-//		synth.add( ugen = new SineOscillator() );
-		
-		voice = (UnitVoice) ugen;
 		// Add an output mixer.
 		synth.add( lineOut = new LineOut() );
 		
-		// Connect the oscillator to the left and right audio output.
-		voice.getOutput().connect( 0, lineOut.input, 0 );
-		voice.getOutput().connect( 0, lineOut.input, 1 );
+		voices = new UnitVoice[2];
+		SineOscillator sinUnit;
+		addGenerator(sinUnit = new SineOscillator());
+		addVoice(sinUnit, 0);
+		
+		TriangleOscillator triUnit;
+		addGenerator(triUnit = new TriangleOscillator());
+		addVoice(triUnit, 0);
+		
+		allocator = new VoiceAllocator( voices );
+	}
+	
+	private void addGenerator(UnitGenerator gen) {
+		synth.add(gen);
+	}
+	
+	private void addVoice(UnitVoice voice, int index) {
+		voice.getOutput().connect(0, lineOut.input, 0);
+		voice.getOutput().connect(0, lineOut.input, 1);
+		voices[index] = voice;
 	}
 	
 	public void play(Sample sample) {
@@ -44,40 +57,37 @@ public class Chanel implements Runnable {
 		
 //		A revoir avec PlayChords
 		
-//		// Start synthesizer using default stereo output at 44100 Hz.
-//		synth.start();
-//		
-//		// Advance to a near future time so we have a clean start.
-//		TimeStamp timeStamp = new TimeStamp(synth.getCurrentTime() + 0.5);
-//		
-//		double time = timeStamp.getTime();
-//		
-//		// We only need to start the LineOut. It will pull data from the
-//		// oscillator.
-//		synth.startUnit( lineOut, timeStamp );
-//		
-//		double duration = 1 / (sample.speed / 2);
-////				double onTime = 1;
-//		for(Sound sound : sample.sounds) {
-////					synth.add(ugen = sound.instrument.unit);
-////					voice = (UnitVoice) ugen;
-//			voice.noteOn(sound.note.frequency, 0.5, timeStamp);
-//			voice.noteOff( timeStamp.makeRelative( duration ) );
-//			timeStamp = timeStamp.makeRelative( duration );
-//		}		
-//		
-//		// Sleep while the song is being generated in the background thread.
-//		try
-//		{
-//			System.out.println("Sleep while synthesizing.");
-//			synth.sleepUntil( time + duration * sample.sounds.length);
-//			System.out.println("Woke up...");
-//		} catch( InterruptedException e )
-//		{
-//			e.printStackTrace();
-//		}
-//		
-//		// Stop everything.
-//		synth.stop();
+		// Start synthesizer using default stereo output at 44100 Hz.
+		synth.start();
+		// We only need to start the LineOut. It will pull data from the
+		// voices.
+		lineOut.start();
+
+		// Get synthesizer time in seconds.
+		double timeNow = synth.getCurrentTime();
+
+		// Advance to a near future time so we have a clean start.
+		double time = timeNow + 1.0;
+		
+		double duration = 1 / (sample.speed / 2);
+		for(Sound sound : sample.sounds) {
+			allocator.noteOn(sound.instrument.number, sound.note.frequency, 0.5, new TimeStamp(time));
+			time += duration;
+			allocator.noteOff(sound.instrument.number, new TimeStamp(time));
+		}
+		
+		// Sleep while the song is being generated in the background thread.
+		try
+		{
+			System.out.println("Sleep while synthesizing.");
+			synth.sleepUntil( time + duration * sample.sounds.length);
+			System.out.println("Woke up...");
+		} catch( InterruptedException e )
+		{
+			e.printStackTrace();
+		}
+		
+		// Stop everything.
+		synth.stop();
 	}
 }
