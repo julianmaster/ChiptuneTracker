@@ -4,6 +4,8 @@ import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.instruments.SubtractiveSynthVoice;
 import com.jsyn.unitgen.LineOut;
+import com.jsyn.unitgen.SawtoothOscillator;
+import com.jsyn.unitgen.SquareOscillator;
 import com.jsyn.unitgen.UnitVoice;
 import com.jsyn.util.VoiceAllocator;
 import com.softsynth.shared.time.TimeStamp;
@@ -33,6 +35,7 @@ public class PlayChords
 		synth = JSyn.createSynthesizer();
 
 		// Add an output.
+		synth.add( new SquareOscillator() );
 		synth.add( lineOut = new LineOut() );
 
 		voices = new UnitVoice[MAX_VOICES];

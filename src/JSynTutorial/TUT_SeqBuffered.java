@@ -1,11 +1,16 @@
 package JSynTutorial;
-import java.util.*;
-import java.awt.*;
 import java.applet.Applet;
-import com.softsynth.jsyn.*;
-import com.softsynth.jsyn.circuits.*;
-import com.softsynth.jsyn.util.*;
-import com.softsynth.jsyn.view102.*;
+
+import com.softsynth.jsyn.AppletFrame;
+import com.softsynth.jsyn.EnvelopePlayer;
+import com.softsynth.jsyn.LineOut;
+import com.softsynth.jsyn.Synth;
+import com.softsynth.jsyn.SynthAlert;
+import com.softsynth.jsyn.SynthEnvelope;
+import com.softsynth.jsyn.SynthException;
+import com.softsynth.jsyn.TriangleOscillator;
+import com.softsynth.jsyn.view102.LabelledFader;
+import com.softsynth.jsyn.view102.Tweakable;
 
 /** Demonstrate how event buffering and absolute sleep solve the timing problems.
  */
@@ -28,7 +33,7 @@ public class TUT_SeqBuffered extends Applet implements Tweakable
 	   AppletFrame frame = new AppletFrame("Play Sequence using Event Buffer", applet);
 	   frame.resize(600,120);
 	   frame.show();
-	   frame.test();
+//	   frame.test();
 	}
 
  /*
@@ -42,7 +47,6 @@ public class TUT_SeqBuffered extends Applet implements Tweakable
 			Synth.startEngine(0);
 			
 			int startTime = Synth.getTickCount() + (int) Synth.getTickRate();
-			int duration = (int) (Synth.getTickRate() / 10);
 			
 			thread1 = makeThread();
 			thread2 = makeThread();
@@ -143,7 +147,6 @@ class TickerThread extends Thread
 		this.startTime = startTime;
 		this.notesPerMeasure = notesPerMeasure;
 		this.transpose = transpose;
-		measure  = measure;
 		duration = measure / notesPerMeasure;
 	}
 
@@ -161,11 +164,6 @@ class TickerThread extends Thread
 		envPlayer.amplitude.set( 0.5 );
 		envPlayer.envelopePort.clear( time ); // clear the queue
 		envPlayer.envelopePort.queue( time, envData );  // queue the envelope
-	}
-	
-	void bang()
-	{
-		bang( Synth.getTickCount() );
 	}
 
 	public void playNotes()

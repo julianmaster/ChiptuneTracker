@@ -2,9 +2,8 @@ package com.jsyn.examples;
 
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
-import com.jsyn.instruments.SubtractiveSynthVoice;
 import com.jsyn.unitgen.LineOut;
-import com.jsyn.unitgen.SawtoothOscillator;
+import com.jsyn.unitgen.SineOscillator;
 import com.jsyn.unitgen.UnitGenerator;
 import com.jsyn.unitgen.UnitVoice;
 import com.softsynth.shared.time.TimeStamp;
@@ -30,8 +29,8 @@ public class PlayNotes
 		synth.getAudioDeviceManager().setSuggestedOutputLatency( 0.123 );
 		
 		// Add a tone generator.
-		synth.add( ugen = new SawtoothOscillator() );
-		//synth.add( ugen = new SineOscillator() );
+//		synth.add( ugen = new SawtoothOscillator() );
+		synth.add( ugen = new SineOscillator() );
 		//synth.add( ugen = new SubtractiveSynthVoice() );
 		voice = (UnitVoice) ugen;
 		// Add an output mixer.

@@ -31,8 +31,8 @@ public class PlaySample
 		URL sampleFile;
 		try
 		{
-			sampleFile = new URL("http://www.softsynth.com/samples/Clarinet.wav");
-			//sampleFile = new URL("http://www.softsynth.com/samples/NotHereNow22K.wav");
+//			sampleFile = new URL("http://www.softsynth.com/samples/Clarinet.wav");
+			sampleFile = new URL("http://www.softsynth.com/samples/NotHereNow22K.wav");
 		} catch( MalformedURLException e2 )
 		{
 			e2.printStackTrace();
