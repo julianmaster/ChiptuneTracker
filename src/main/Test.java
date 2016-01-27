@@ -1,135 +1,161 @@
+package main;
+
+import com.jsyn.JSyn;
+import com.jsyn.Synthesizer;
+import com.jsyn.instruments.SubtractiveSynthVoice;
+import com.jsyn.unitgen.LineOut;
+import com.jsyn.unitgen.SawtoothOscillator;
+import com.jsyn.unitgen.SineOscillator;
+import com.jsyn.unitgen.SquareOscillator;
+import com.jsyn.unitgen.TriangleOscillator;
+import com.jsyn.unitgen.UnitVoice;
+import com.jsyn.util.VoiceAllocator;
+import com.softsynth.shared.time.TimeStamp;
+
 /**
- * Mix two sine wave oscillators using JSyn.
- *
- * @author (C) 1998 Phil Burk, All Rights Reserved
+ * Play chords and melody using the VoiceAllocator.
+ * 
+ * @author Phil Burk (C) 2009 Mobileer Inc
+ * 
  */
-
-package main;  /* Put resulting class into tutorial package. */
-
-import java.util.*;
-import java.awt.*;
-import java.applet.Applet;
-import com.softsynth.jsyn.*;
-import com.softsynth.jsyn.view102.*;
-
-public class Test extends Applet
+public class Test
 {
-/* Declare Synthesis Objects here */
-	SineOscillator     sineOsc1;
-	SineOscillator     sineOsc2;
-	AddUnit            mixer;
-	LineOut            lineOut;
-	
-	PortFader          freqFader1;
-	PortFader          ampFader1;
-	PortFader          freqFader2;
-	PortFader          ampFader2;
-	SynthScope         scope;
-	
-/* Can be run as either an application or as an applet. */
-	public static void main(String args[])
-	{
-/* DO: Change TUT_SineMix to match the name of your class. Must match file name! */
-	   Test  applet = new Test();
-	   AppletFrame frame = new AppletFrame("Test JSyn", applet);
-	   frame.resize(500,550);
-	   frame.show();
- /* Begin test after frame opened so that DirectSound will use Java window. */
-	   frame.test();
-	}
+	private static final int MAX_VOICES = 8;
+	private Synthesizer synth;
+	private VoiceAllocator allocator;
+	private LineOut lineOut;
+	/** Number of seconds to generate music in advance of presentation-time. */
+	private double advance = 0.2;
+	private double secondsPerBeat = 0.6;
+	// on time over note duration
+	private double dutyCycle = 0.8;
+	private double measure = secondsPerBeat * 4.0;
+	private UnitVoice[] voices;
 
- /*
-  * Setup synthesis by overriding start() method.
-  */
-	public void start()  
+	private void test()
 	{
-		/* Use GridBagLayout to get reasonably sized components. */
-		GridBagLayout  gridbag  =  new  GridBagLayout();
-		GridBagConstraints  constraint  =  new  GridBagConstraints();
-		setLayout(gridbag);
-		constraint.fill  =  GridBagConstraints.BOTH;
-		constraint.weightx  =  1.0;
+		synth = JSyn.createSynthesizer();
+
+		// Add an output.
+		synth.add( lineOut = new LineOut() );
+
+		voices = new UnitVoice[MAX_VOICES];
+		for( int i = 0; i < MAX_VOICES; i++ )
+		{
+//			SubtractiveSynthVoice voice = new SubtractiveSynthVoice();
+			TriangleOscillator sinUnit = new TriangleOscillator();
+			synth.add( sinUnit );
+			sinUnit.getOutput().connect( 0, lineOut.input, 0 );
+			sinUnit.getOutput().connect( 0, lineOut.input, 1 );
+			voices[i] = sinUnit;
+			sinUnit.amplitude.set(0);
+		}
+		allocator = new VoiceAllocator( voices );
+
+		// Start synthesizer using default stereo output at 44100 Hz.
+		synth.start();
+		// We only need to start the LineOut. It will pull data from the
+		// voices.
+		lineOut.start();
+
+		// Get synthesizer time in seconds.
+		double timeNow = synth.getCurrentTime();
+
+		// Advance to a near future time so we have a clean start.
+		double time = timeNow + 1.0;
 
 		try
 		{
-			Synth.startEngine(0);
- /* DO: Your setup code goes here. ******************/
- /* Create unit generators. */
-			sineOsc1 = new SineOscillator();
-			sineOsc2 = new SineOscillator();
-			mixer    = new AddUnit();
-			lineOut  = new LineOut();
+			int tonic = 60 - 12;
+			for( int i = 0; i < 4; i++ )
+			{
+				playMajorMeasure1( time, tonic );
+				time += measure;
+				catchUp( time );
+				playMajorMeasure1( time, tonic + 4 );
+				time += measure;
+				catchUp( time );
+			}
+			time += secondsPerBeat;
+			catchUp( time );
 
-/* Feed both oscillators to the mixer to be added together. */
-			sineOsc1.output.connect( mixer.inputA );
-			sineOsc2.output.connect( mixer.inputB );
+		} catch( InterruptedException e )
+		{
+			e.printStackTrace();
+		}
 
-/* Connect oscillator to LineOut so we can hear it. */
-			mixer.output.connect( 0, lineOut.input, 0 );
-//			mixer.output.connect( 0, lineOut.input, 1 );
-
-/* Start amplitudes at zero. */
-			sineOsc1.amplitude.set( 0.0 );
-			sineOsc2.amplitude.set( 0.0 );
-			
-/* Start units. */
-			lineOut.start();
-			mixer.start();
-			sineOsc1.start();
-			sineOsc2.start();
-			
-/* Set up constraints for nice placements of faders and scope. */
-			constraint.gridheight  =  1;  
-			constraint.gridwidth  =  GridBagConstraints.REMAINDER; 
-			constraint.weighty  =  0.0;
-
-/* Create a fader to control Frequency. */
-			add( freqFader1 = new PortFader( sineOsc1.frequency, 440.0, 0.0, 500.0) );
-			gridbag.setConstraints(freqFader1,  constraint);
-/* Create a fader to control Amplitude. */
-			add( ampFader1 = new PortFader( sineOsc1.amplitude, 0.0, 0.0, 1.0) );
-			gridbag.setConstraints(ampFader1,  constraint);
-			
-/* make similar faders for oscillator 2. */
-			add( freqFader2 = new PortFader( sineOsc2.frequency, 330.0, 0.0, 500.0) );
-			gridbag.setConstraints(freqFader2,  constraint);
-			add( ampFader2 = new PortFader( sineOsc2.amplitude, 0.0, 0.0, 1.0) );
-			gridbag.setConstraints(ampFader2,  constraint);
-
-/* *****************************************/
-/* Create an oscilloscope to show sine waveforms. */
-			add( scope = new SynthScope() );
-			scope.createProbe( sineOsc1.output, "Sine 1", Color.red );
-			scope.createProbe( sineOsc2.output, "Sine 2", Color.green );
-			scope.createProbe( mixer.output, "Mixed", Color.yellow );
-			scope.finish();
-
-			constraint.gridheight  =  GridBagConstraints.RELATIVE;  
-			constraint.weighty  =  1.0;
-			gridbag.setConstraints(scope,  constraint);
-
-/* Synchronize Java display to make buttons appear. */
-			getParent().validate();
-			getToolkit().sync();
-			
-	   } catch(SynthException e) {
-		  SynthAlert.showError(this,e);
-	   }
+		// Stop everything.
+		synth.stop();
 	}
 
-/*
- * Clean up synthesis by overriding stop() method.
- */
-	public void stop()  
+	private void playMajorMeasure1( double time, int base )
+			throws InterruptedException
 	{
-	   try
-	   {
- /* Your cleanup code goes here. */
-		  removeAll(); // remove components from Applet panel.
-		  Synth.stopEngine();
-	   } catch(SynthException e) {
-		  SynthAlert.showError(this,e);
-	   }
+		int p1 = base;
+		int p2 = base + 4;
+		int p3 = base + 7;
+		playChord1( time, p1, p2, p3 );
 	}
-   
+
+	private void playChord1( double time, int p1, int p2, int p3 )
+			throws InterruptedException
+	{
+		double dur = dutyCycle * secondsPerBeat;
+		playTriad( time, dur, p1, p2, p3 );
+		time += secondsPerBeat;
+		playTriad( time, dur, p1, p2, p3 );
+		time += secondsPerBeat;
+		playTriad( time, dur * 0.25, p1, p2, p3 );
+		time += secondsPerBeat * 0.25;
+		playTriad( time, dur * 0.25, p1, p2, p3 );
+		time += secondsPerBeat * 0.75;
+		playTriad( time, dur, p1, p2, p3 );
+		time += secondsPerBeat;
+	}
+
+	private void playTriad( double time, double dur, int p1, int p2, int p3 )
+			throws InterruptedException
+	{
+		noteOn( time, p1 );
+		noteOn( time, p2 );
+		noteOn( time, p3 );
+		double offTime = time + dur;
+		noteOff( offTime, p1 );
+		noteOff( offTime, p2 );
+		noteOff( offTime, p3 );
+	}
+
+	private void catchUp( double time ) throws InterruptedException
+	{
+		synth.sleepUntil( time - advance );
+	}
+
+	private void noteOff( double time, int noteNumber )
+	{
+		allocator.noteOff( noteNumber, new TimeStamp( time ) );
+	}
+
+	private void noteOn( double time, int noteNumber )
+	{
+		double frequency = convertPitchToFrequency( noteNumber );
+		double amplitude = 0.2;
+		TimeStamp timeStamp = new TimeStamp( time );
+		allocator.noteOn( noteNumber, frequency, amplitude, timeStamp );
+	}
+
+	/**
+	 * Calculate frequency in Hertz based on MIDI pitch. Middle C is 60.0. You
+	 * can use fractional pitches so 60.5 would give you a pitch half way
+	 * between C and C#.
+	 */
+	double convertPitchToFrequency( double pitch )
+	{
+		final double concertA = 440.0;
+		return concertA * Math.pow( 2.0, ((pitch - 69) * (1.0 / 12.0)) );
+	}
+
+	public static void main( String[] args )
+	{
+		new Test().test();
+	}
 }

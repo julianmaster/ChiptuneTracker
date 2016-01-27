@@ -34,6 +34,15 @@ public class Chanel implements Runnable {
 		addGenerator(triUnit = new TriangleOscillator());
 		addVoice(triUnit, 0);
 		
+//		voices = new UnitVoice[2];
+//		SubtractiveSynthVoice sinUnit;
+//		addGenerator(sinUnit = new SubtractiveSynthVoice());
+//		addVoice(sinUnit, 0);
+//		
+//		SubtractiveSynthVoice triUnit;
+//		addGenerator(triUnit = new SubtractiveSynthVoice());
+//		addVoice(triUnit, 0);
+		
 		allocator = new VoiceAllocator( voices );
 	}
 	
