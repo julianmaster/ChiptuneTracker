@@ -58,7 +58,8 @@ public class Chanel implements Runnable {
 	
 	public void play(Sample sample) {
 		this.sample = sample;
-		new Thread(this).start();
+		run();
+//		new Thread(this).start();
 	}
 
 	@Override
