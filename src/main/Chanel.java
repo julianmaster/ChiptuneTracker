@@ -5,7 +5,7 @@ import com.jsyn.Synthesizer;
 import com.jsyn.unitgen.LineOut;
 import com.jsyn.unitgen.SineOscillator;
 import com.jsyn.unitgen.TriangleOscillator;
-import com.jsyn.unitgen.UnitGenerator;
+import com.jsyn.unitgen.UnitOscillator;
 import com.jsyn.unitgen.UnitVoice;
 import com.jsyn.util.VoiceAllocator;
 import com.softsynth.shared.time.TimeStamp;
@@ -26,34 +26,19 @@ public class Chanel implements Runnable {
 		synth.add( lineOut = new LineOut() );
 		
 		voices = new UnitVoice[2];
-		SineOscillator sinUnit;
-		addGenerator(sinUnit = new SineOscillator());
-		addVoice(sinUnit, 0);
 		
-		TriangleOscillator triUnit;
-		addGenerator(triUnit = new TriangleOscillator());
-		addVoice(triUnit, 0);
-		
-//		voices = new UnitVoice[2];
-//		SubtractiveSynthVoice sinUnit;
-//		addGenerator(sinUnit = new SubtractiveSynthVoice());
-//		addVoice(sinUnit, 0);
-//		
-//		SubtractiveSynthVoice triUnit;
-//		addGenerator(triUnit = new SubtractiveSynthVoice());
-//		addVoice(triUnit, 0);
+		add(new SineOscillator(), 0);
+		add(new TriangleOscillator(), 1);
 		
 		allocator = new VoiceAllocator( voices );
 	}
 	
-	private void addGenerator(UnitGenerator gen) {
-		synth.add(gen);
-	}
-	
-	private void addVoice(UnitVoice voice, int index) {
-		voice.getOutput().connect(0, lineOut.input, 0);
-		voice.getOutput().connect(0, lineOut.input, 1);
-		voices[index] = voice;
+	public void add(UnitOscillator voice, int i) {
+		synth.add( voice );
+		voice.getOutput().connect( 0, lineOut.input, 0 );
+		voice.getOutput().connect( 0, lineOut.input, 1 );
+		voices[i] = voice;
+		voice.amplitude.set(0);
 	}
 	
 	public void play(Sample sample) {
@@ -62,7 +47,7 @@ public class Chanel implements Runnable {
 //		new Thread(this).start();
 	}
 
-	@Override
+//	@Override
 	public void run() {
 		
 //		A revoir avec PlayChords
@@ -81,7 +66,8 @@ public class Chanel implements Runnable {
 		
 		double duration = 1 / (sample.speed / 2);
 		for(Sound sound : sample.sounds) {
-			allocator.noteOn(sound.instrument.number, sound.note.frequency, 0.5, new TimeStamp(time));
+			double frequency = Notes.getFrequency(sound.octave, sound.note);
+			allocator.noteOn(sound.instrument.number, frequency, 0.5, new TimeStamp(time));
 			time += duration;
 			allocator.noteOff(sound.instrument.number, new TimeStamp(time));
 		}

@@ -2,15 +2,22 @@ package main;
 
 public class Sound {
 	public Note note;
+	public Integer octave;
 	public Instrument instrument;
+	public Integer volume;
 	
 	public Sound() {
-		note = Note.C1;
-		instrument =Instrument.INSTRUMENT_1;
+		octave = null;
+		note = null;
+		instrument = null;
+		volume = null;
 	}
 
-	public Sound(Note note, Instrument instrument) {
+	private Sound(Note note, Integer octave, Instrument instrument,
+			Integer volume) {
 		this.note = note;
+		this.octave = octave;
 		this.instrument = instrument;
+		this.volume = volume;
 	}
 }

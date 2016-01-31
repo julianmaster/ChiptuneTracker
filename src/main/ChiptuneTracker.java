@@ -1,79 +1,52 @@
 package main;
 
-import com.softsynth.jsyn.LineOut;
-import com.softsynth.jsyn.SawtoothOscillatorBL;
+import java.awt.Color;
+import java.awt.Dimension;
+
+import ui.CustomColor;
+import ui.Terminal;
 
 public class ChiptuneTracker {
+	public static final String TITLE = "ChiptuneTracker";
+	public static final int WINDOW_WIDTH = 29;
+	public static final int WINDOW_HEIGHT = 16;
+	public static final String TILESET_FILE = "src/assets/wanderlust.png";
+	public static final int CHARACTER_WIDTH = 12;
+	public static final int CHARACTER_HEIGHT = 12;
 	
-	SawtoothOscillatorBL osc;
-	LineOut lineOut;
+	public static final int TARGET_FPS = 60;
+	public static final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;
+	
+	public static Terminal terminal;
 	
 	public ChiptuneTracker() {
-//		Synth.startEngine(0);
-//		
-//		osc = new SawtoothOscillatorBL();
-//		lineOut = new LineOut();
-//		
-//		osc.output.connect(0, lineOut.input, 0);
-//		osc.output.connect(0, lineOut.input, 1);
-//		
-//		osc.start();
-//		lineOut.start();
-//		
-//		osc.frequency.set(200);
-//		osc.amplitude.set(0.1);
-//		
-//		Synth.sleepForTicks(400);
-//		
-//		osc.frequency.set(300);
-//		
-//		Synth.sleepForTicks(400);
-//		
-//		osc.stop();
-//		lineOut.stop();
-//		osc.delete();
-//		lineOut.delete();
-//		Synth.stopEngine();
+		terminal = new Terminal(TITLE, new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT), TILESET_FILE, CHARACTER_WIDTH, CHARACTER_HEIGHT);
+		terminal.setDefaultCharacterBackgroundColor(CustomColor.BLACK);
+		terminal.setDefaultCharacterColor(CustomColor.WHITE);
+		terminal.setDefaultCharacterBackgroundColor(Color.DARK_GRAY);
 		
-		Chanel chanel1 = new Chanel();
-//		Chanel chanel2 = new Chanel(new TriangleOscillator());
+		Synthesizer synthesizer = new Synthesizer();
+		synthesizer.run();
 		
-		Sample sample = new Sample();
-		sample.speed = 16;
-		sample.sounds = new Sound[12];
-		sample.sounds[0] = new Sound(Note.C1, Instrument.INSTRUMENT_1);
-		sample.sounds[1] = new Sound(Note.C1, Instrument.INSTRUMENT_1);
-		sample.sounds[2] = new Sound(Note.C1, Instrument.INSTRUMENT_1);
-		sample.sounds[3] = new Sound(Note.C1, Instrument.INSTRUMENT_1);
-		sample.sounds[4] = new Sound(Note.D1, Instrument.INSTRUMENT_2);
-		sample.sounds[5] = new Sound(Note.D1, Instrument.INSTRUMENT_2);
-		sample.sounds[6] = new Sound(Note.E1, Instrument.INSTRUMENT_2);
-		sample.sounds[7] = new Sound(Note.E1, Instrument.INSTRUMENT_2);
-		sample.sounds[8] = new Sound(Note.F1, Instrument.INSTRUMENT_1);
-		sample.sounds[9] = new Sound(Note.F1, Instrument.INSTRUMENT_1);
-		sample.sounds[10] = new Sound(Note.F1, Instrument.INSTRUMENT_1);
-		sample.sounds[11] = new Sound(Note.F1, Instrument.INSTRUMENT_1);
-		
-		
-//		Sample sample2 = new Sample();
-//		sample2.speed = 8;
-//		sample2.sounds = new Sound[12];
-//		sample2.sounds[0] = new Sound(Note.C1, Instrument.INSTRUMENT_1);
-//		sample2.sounds[1] = new Sound(Note.C1, Instrument.INSTRUMENT_1);
-//		sample2.sounds[2] = new Sound(Note.C1, Instrument.INSTRUMENT_1);
-//		sample2.sounds[3] = new Sound(Note.C1, Instrument.INSTRUMENT_1);
-//		sample2.sounds[4] = new Sound(Note.D1, Instrument.INSTRUMENT_1);
-//		sample2.sounds[5] = new Sound(Note.D1, Instrument.INSTRUMENT_1);
-//		sample2.sounds[6] = new Sound(Note.E1, Instrument.INSTRUMENT_1);
-//		sample2.sounds[7] = new Sound(Note.E1, Instrument.INSTRUMENT_1);
-//		sample2.sounds[8] = new Sound(Note.F1, Instrument.INSTRUMENT_1);
-//		sample2.sounds[9] = new Sound(Note.F1, Instrument.INSTRUMENT_1);
-//		sample2.sounds[10] = new Sound(Note.F1, Instrument.INSTRUMENT_1);
-//		sample2.sounds[11] = new Sound(Note.F1, Instrument.INSTRUMENT_1);
-		
-		chanel1.play(sample);
-//		chanel2.play(sample);
-		
+//		Chanel chanel1 = new Chanel();
+//		
+//		Sample sample = new Sample();
+//		sample.speed = 16;
+//		sample.sounds = new Sound[12];
+//		sample.sounds[0] = new Sound(1, Note.C, Instrument.INSTRUMENT_1);
+//		sample.sounds[1] = new Sound(1, Note.C, Instrument.INSTRUMENT_1);
+//		sample.sounds[2] = new Sound(1, Note.C, Instrument.INSTRUMENT_1);
+//		sample.sounds[3] = new Sound(1, Note.C, Instrument.INSTRUMENT_1);
+//		sample.sounds[4] = new Sound(1, Note.D, Instrument.INSTRUMENT_2);
+//		sample.sounds[5] = new Sound(1, Note.D, Instrument.INSTRUMENT_2);
+//		sample.sounds[6] = new Sound(1, Note.E, Instrument.INSTRUMENT_2);
+//		sample.sounds[7] = new Sound(1, Note.E, Instrument.INSTRUMENT_2);
+//		sample.sounds[8] = new Sound(1, Note.F, Instrument.INSTRUMENT_1);
+//		sample.sounds[9] = new Sound(1, Note.F, Instrument.INSTRUMENT_1);
+//		sample.sounds[10] = new Sound(1, Note.F, Instrument.INSTRUMENT_1);
+//		sample.sounds[11] = new Sound(1, Note.F, Instrument.INSTRUMENT_1);
+//		
+//		chanel1.play(sample);
 	}
 
 	/**
