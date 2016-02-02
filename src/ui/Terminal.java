@@ -92,6 +92,7 @@ public class Terminal extends JPanel implements KeyListener {
             Logger.getLogger(Terminal.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        this.setLayout(null);
         
         // Construction de la fenêtre
         window = new JFrame();

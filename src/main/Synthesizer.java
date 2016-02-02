@@ -5,13 +5,17 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JButton;
+
 public class Synthesizer {
+	private Instrument instrumentCursor = Instrument.INSTRUMENT_1;
 	private int sampleCursor = 1;
 	private int octaveCursor = 2;
 	private int volumeCursor = 5;
 	private int soundCursor = 0;
 	private int soundConfCursor = 0;
 	private List<Sample> samples = new ArrayList<>();
+	private JButton
 
 	public Synthesizer() {
 		changeSample(sampleCursor);
@@ -33,12 +37,12 @@ public class Synthesizer {
 				if(event.getKeyCode() == KeyEvent.VK_ADD) {
 					changeSample(sampleCursor + 1);
 				}
-				if(event.getKeyCode() == KeyEvent.VK_SUBTRACT) {
+				else if(event.getKeyCode() == KeyEvent.VK_SUBTRACT) {
 					changeSample(sampleCursor - 1);
 				}
 				
 				// Change position cursor
-				if(event.getKeyCode() == KeyEvent.VK_LEFT) {
+				else if(event.getKeyCode() == KeyEvent.VK_LEFT) {
 					if(soundConfCursor > 0) {
 						soundConfCursor--;
 					}
@@ -69,15 +73,76 @@ public class Synthesizer {
 					}
 				}
 				
+				// Write note
+				else if(event.getKeyCode() == KeyEvent.VK_A) {
+					setSound(Note.C);
+				}
+				else if(event.getKeyCode() == KeyEvent.VK_2) {
+					setSound(Note.C_D);
+				}
+				else if(event.getKeyCode() == KeyEvent.VK_Z) {
+					setSound(Note.D);
+				}
+				else if(event.getKeyCode() == KeyEvent.VK_3) {
+					setSound(Note.D_D);
+				}
+				else if(event.getKeyCode() == KeyEvent.VK_E) {
+					setSound(Note.E);
+				}
+				else if(event.getKeyCode() == KeyEvent.VK_R) {
+					setSound(Note.F);
+				}
+				else if(event.getKeyCode() == KeyEvent.VK_5) {
+					setSound(Note.F_D);
+				}
+				else if(event.getKeyCode() == KeyEvent.VK_T) {
+					setSound(Note.G);
+				}
+				else if(event.getKeyCode() == KeyEvent.VK_6) {
+					setSound(Note.G_D);
+				}
+				else if(event.getKeyCode() == KeyEvent.VK_Y) {
+					setSound(Note.A);
+				}
+				else if(event.getKeyCode() == KeyEvent.VK_7) {
+					setSound(Note.A_D);
+				}
+				else if(event.getKeyCode() == KeyEvent.VK_U) {
+					setSound(Note.B);
+				}
+				
+				
 				ChiptuneTracker.terminal.setEvent(null);
 			}
 			
 			show();
 			
 			try {
-				Thread.sleep((lastLoopTime - System.nanoTime() + ChiptuneTracker.OPTIMAL_TIME) / 1000000);
+				long value = (lastLoopTime - System.nanoTime() + ChiptuneTracker.OPTIMAL_TIME) / 1000000;
+				System.out.println(value);
+				Thread.sleep(value);
 			} catch (InterruptedException e) {
 			}
+		}
+	}
+	
+	private void setSound(Note note) {
+		Sample sample = samples.get(sampleCursor - 1);
+		Sound sound = sample.sounds[soundCursor];
+		
+		if(sound == null) {
+			sound = new Sound();
+			sample.sounds[soundCursor] = sound;
+		}
+		
+		sound.note = note;
+		sound.octave = octaveCursor;
+		sound.instrument = instrumentCursor;
+		sound.volume = volumeCursor;
+		
+		soundCursor++;
+		if(soundCursor > Sample.SIZE - 1) {
+			soundCursor = 0;
 		}
 	}
 	
@@ -131,7 +196,7 @@ public class Synthesizer {
 			int x = i / 8 * 7 + 1;
 			int y = i % 8 + 7;
 			
-			Sound sound = sample.sounds[soundCursor];
+			Sound sound = sample.sounds[i];
 			
 			if(i != soundCursor) {
 				if(sound != null) {
