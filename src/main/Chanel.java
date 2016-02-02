@@ -44,13 +44,9 @@ public class Chanel implements Runnable {
 	public void play(Sample sample) {
 		this.sample = sample;
 		run();
-//		new Thread(this).start();
 	}
 
-//	@Override
 	public void run() {
-		
-//		A revoir avec PlayChords
 		
 		// Start synthesizer using default stereo output at 44100 Hz.
 		synth.start();
