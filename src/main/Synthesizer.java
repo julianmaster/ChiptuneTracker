@@ -37,8 +37,12 @@ public class Synthesizer {
 			
 			try {
 				long value = (lastLoopTime - System.nanoTime() + ChiptuneTracker.OPTIMAL_TIME) / 1000000;
-//				System.out.println(value);
-				Thread.sleep(value);
+				if(value > 0) {
+					Thread.sleep(value);					
+				}
+				else {
+					Thread.sleep(5);
+				}
 			} catch (InterruptedException e) {
 			}
 		}

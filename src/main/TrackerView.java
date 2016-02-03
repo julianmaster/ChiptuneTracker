@@ -2,50 +2,47 @@ package main;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import ui.SelectableTerminalButton;
 import ui.TerminalButton;
 
 public class TrackerView extends View {
 	
 	private Instrument instrumentCursor = Instrument.INSTRUMENT_1;
 	private int sampleCursor = 1;
-	private int octaveCursor = 2;
-	private int volumeCursor = 5;
 	private int soundCursor = 0;
 	private int soundConfCursor = 0;
 	private List<TerminalButton> terminalButtons = new ArrayList<>();
 	
+	// Octave cursor
+	private int octaveCursor = 2;
+	// Octave button list
+	private List<SelectableTerminalButton> octaveButtons = new ArrayList<>();
+	// Current octave button active
+	private SelectableTerminalButton currentOctaveButton = null;
+	
+	// Octave cursor
+	private int volumeCursor = 5;
+	// Octave button list
+	private List<SelectableTerminalButton> volumeButtons = new ArrayList<>();
+	// Current octave button active
+	private SelectableTerminalButton currentVolumeButton = null;
+	
 	public TrackerView(Synthesizer synthesizer) {
 		super(synthesizer);
 		createSampleButtons();
+		createOctaveButtons();
+		createVolumeButtons();
 		changeSample(1);
 	}
 	
 	public void createSampleButtons() {
-		TerminalButton buttonDownSample = new TerminalButton(ChiptuneTracker.terminal, String.valueOf(
-				(char)17), Color.MAGENTA, Color.ORANGE, 1, 1, ChiptuneTracker.CHARACTER_WIDTH, ChiptuneTracker.CHARACTER_HEIGHT);
-		buttonDownSample.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-			}
-			
+		TerminalButton buttonDownSample = new TerminalButton(String.valueOf((char)17), Color.MAGENTA, Color.ORANGE, 1, 1, ChiptuneTracker.CHARACTER_WIDTH, ChiptuneTracker.CHARACTER_HEIGHT);
+		buttonDownSample.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				changeSample(sampleCursor - 1);
@@ -53,32 +50,60 @@ public class TrackerView extends View {
 		});
 		terminalButtons.add(buttonDownSample);
 		
-		TerminalButton buttonUpSample = new TerminalButton(ChiptuneTracker.terminal, String.valueOf(
-				(char)16), Color.MAGENTA, Color.ORANGE, 6, 1, ChiptuneTracker.CHARACTER_WIDTH, ChiptuneTracker.CHARACTER_HEIGHT);
-		buttonUpSample.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-			}
-			
+		TerminalButton buttonUpSample = new TerminalButton(String.valueOf((char)16), Color.MAGENTA, Color.ORANGE, 6, 1, ChiptuneTracker.CHARACTER_WIDTH, ChiptuneTracker.CHARACTER_HEIGHT);
+		buttonUpSample.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				changeSample(sampleCursor + 1);
 			}
 		});
 		terminalButtons.add(buttonUpSample);
+	}
+	
+	public void createOctaveButtons() {
+		for(int i = 1; i <= 4; i++) {
+			SelectableTerminalButton button = new SelectableTerminalButton(String.valueOf(i), Color.LIGHT_GRAY, Color.WHITE, Color.GREEN, 4 + i, 3, ChiptuneTracker.CHARACTER_WIDTH, ChiptuneTracker.CHARACTER_HEIGHT);
+			button.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					currentOctaveButton.select(false);
+					SelectableTerminalButton button = (SelectableTerminalButton)e.getSource();
+					button.select(true);
+					currentOctaveButton = button;
+					changeOctave(button.getName());
+				}
+			});
+			
+			octaveButtons.add(button);
+			if(i == 2) {
+				currentOctaveButton = button;
+				currentOctaveButton.select(true);
+			}
+		}
+		terminalButtons.addAll(octaveButtons);
+	}
+	
+	public void createVolumeButtons() {
+		for(int i = 0; i <= 7; i++) {
+			SelectableTerminalButton button = new SelectableTerminalButton(String.valueOf(i), Color.LIGHT_GRAY, Color.WHITE, Color.CYAN, 5 + i, 5, ChiptuneTracker.CHARACTER_WIDTH, ChiptuneTracker.CHARACTER_HEIGHT);
+			button.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					currentVolumeButton.select(false);
+					SelectableTerminalButton button = (SelectableTerminalButton)e.getSource();
+					button.select(true);
+					currentVolumeButton = button;
+					changeVolume(button.getName());
+				}
+			});
+			
+			volumeButtons.add(button);
+			if(i == 5) {
+				currentVolumeButton = button;
+				currentVolumeButton.select(true);
+			}
+		}
+		terminalButtons.addAll(volumeButtons);
 	}
 
 	@Override
@@ -195,7 +220,7 @@ public class TrackerView extends View {
 		}
 	}
 	
-	private void changeSample(int i) {
+	public void changeSample(int i) {
 		if(i > 0 && i < 100) {
 			sampleCursor = i;			
 		}
@@ -204,13 +229,21 @@ public class TrackerView extends View {
 			synthesizer.samples.add(new Sample());
 		}
 	}
+	
+	public void changeOctave(String octave) {
+		octaveCursor = Integer.valueOf(octave);
+	}
+	
+	public void changeVolume(String volume) {
+		volumeCursor = Integer.valueOf(volume);
+	}
 
 	@Override
 	public void paint() {
 		Sample sample = synthesizer.samples.get(sampleCursor - 1);
 		
 		for(TerminalButton terminalButton : terminalButtons) {
-			terminalButton.paint();
+			terminalButton.paint(ChiptuneTracker.terminal);
 		}
 		
 		// Sample
@@ -222,25 +255,9 @@ public class TrackerView extends View {
 		
 		// Octave
 		ChiptuneTracker.terminal.writeString(1, 3, "Oct", Color.LIGHT_GRAY);
-		for(int i = 1; i <= 4; i++) {
-			if(i != octaveCursor) {
-				ChiptuneTracker.terminal.writeString(5 + i - 1, 3, String.valueOf(i), Color.LIGHT_GRAY);
-			}
-			else {
-				ChiptuneTracker.terminal.writeString(5 + i - 1, 3, String.valueOf(i), Color.GREEN);
-			}
-		}
 		
 		// Volume
 		ChiptuneTracker.terminal.writeString(1, 5, "Vol", Color.LIGHT_GRAY);
-		for(int i = 0; i <= 7; i++) {
-			if(i != volumeCursor) {
-				ChiptuneTracker.terminal.writeString(5 + i, 5, String.valueOf(i), Color.LIGHT_GRAY);
-			}
-			else {
-				ChiptuneTracker.terminal.writeString(5 + i, 5, String.valueOf(i), Color.CYAN);
-			}
-		}
 		
 		// Sounds
 		for(int i = 0; i < Sample.SIZE; i++) {
@@ -297,6 +314,4 @@ public class TrackerView extends View {
 		// TODO Auto-generated method stub
 		
 	}
-
-
 }

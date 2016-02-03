@@ -10,18 +10,16 @@ public class TerminalButton extends JComponent implements MouseListener {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Terminal terminal;
 	private String name;
 	
 	private int x;
 	private int y;
 	
-	private Color mouseCurrentColor;
-	private Color mouseDefaultColor;
-	private Color mouseEnteredColor;
+	protected Color mouseCurrentColor;
+	protected Color mouseDefaultColor;
+	protected Color mouseEnteredColor;
 	
-	public TerminalButton(Terminal terminal, String name, Color mouseDefaultColor, Color mouseEnteredColor, int x, int y, int charsetWidth, int charsetHeight) {
-		this.terminal = terminal;
+	public TerminalButton(String name, Color mouseDefaultColor, Color mouseEnteredColor, int x, int y, int charsetWidth, int charsetHeight) {
 		this.name = name;
 		this.x = x;
 		this.y = y;
@@ -50,16 +48,32 @@ public class TerminalButton extends JComponent implements MouseListener {
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		mouseCurrentColor = mouseEnteredColor;
-		this.paint();
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
 		mouseCurrentColor = mouseDefaultColor;
-		this.paint();
 	}
 	
-	public void paint() {
+	public void paint(Terminal terminal) {
 		terminal.writeString(x, y, name, mouseCurrentColor);
+	}
+	
+	@Override
+	public String getName() {
+		return this.name;
+	}
+	
+	@Override
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public void setMouseDefaultColor(Color mouseDefaultColor) {
+		this.mouseDefaultColor = mouseDefaultColor;
+	}
+	
+	public void setMouseEnteredColor(Color mouseEnteredColor) {
+		this.mouseEnteredColor = mouseEnteredColor;
 	}
 }
