@@ -2,6 +2,8 @@ package main;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.List;
 
 import ui.CustomColor;
 import ui.Terminal;
@@ -18,6 +20,12 @@ public class ChiptuneTracker {
 	public static final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;
 	
 	public static Terminal terminal;
+	public static List<Sample> samples = new ArrayList<>();
+	public static Chanels chanels = new Chanels();
+	
+	private View currentView;
+	public TrackerView trackerView;
+	public EditorView editorView;
 	
 	public ChiptuneTracker() {
 		terminal = new Terminal(TITLE, new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT), TILESET_FILE, CHARACTER_WIDTH, CHARACTER_HEIGHT);
@@ -25,33 +33,53 @@ public class ChiptuneTracker {
 		terminal.setDefaultCharacterColor(CustomColor.WHITE);
 		terminal.setDefaultCharacterBackgroundColor(Color.DARK_GRAY);
 		
-		Synthesizer synthesizer = new Synthesizer();
-		synthesizer.run();
+		trackerView = new TrackerView(this);
+		editorView = new EditorView(this);
+		changeView(trackerView);
 		
-//		Chanel chanel1 = new Chanel();
-//		
-//		Sample sample = new Sample();
-//		sample.speed = 16;
-//		sample.sounds = new Sound[12];
-//		sample.sounds[0] = new Sound(1, Note.C, Instrument.INSTRUMENT_1);
-//		sample.sounds[1] = new Sound(1, Note.C, Instrument.INSTRUMENT_1);
-//		sample.sounds[2] = new Sound(1, Note.C, Instrument.INSTRUMENT_1);
-//		sample.sounds[3] = new Sound(1, Note.C, Instrument.INSTRUMENT_1);
-//		sample.sounds[4] = new Sound(1, Note.D, Instrument.INSTRUMENT_2);
-//		sample.sounds[5] = new Sound(1, Note.D, Instrument.INSTRUMENT_2);
-//		sample.sounds[6] = new Sound(1, Note.E, Instrument.INSTRUMENT_2);
-//		sample.sounds[7] = new Sound(1, Note.E, Instrument.INSTRUMENT_2);
-//		sample.sounds[8] = new Sound(1, Note.F, Instrument.INSTRUMENT_1);
-//		sample.sounds[9] = new Sound(1, Note.F, Instrument.INSTRUMENT_1);
-//		sample.sounds[10] = new Sound(1, Note.F, Instrument.INSTRUMENT_1);
-//		sample.sounds[11] = new Sound(1, Note.F, Instrument.INSTRUMENT_1);
-//		
-//		chanel1.play(sample);
+		run();
+	}
+	
+	public void run() {
+		long lastLoopTime = System.nanoTime();
+		
+		
+		while(true) {
+			long now = System.nanoTime();
+			double updateLength = now - lastLoopTime;
+			lastLoopTime = now;
+			double delta = updateLength / ChiptuneTracker.OPTIMAL_TIME;
+			
+			// Update
+			boolean change = currentView.update(delta);
+			
+			// Paint
+			if(change) {
+				currentView.paint();
+				ChiptuneTracker.terminal.repaint();
+			}
+			
+			try {
+				long value = (lastLoopTime - System.nanoTime() + ChiptuneTracker.OPTIMAL_TIME) / 1000000;
+				if(value > 0) {
+					Thread.sleep(value);					
+				}
+				else {
+					Thread.sleep(5);
+				}
+			} catch (InterruptedException e) {
+			}
+		}
+	}
+	
+	public void changeView(View nextView) {
+		if(currentView != null) {
+			currentView.quit();
+		}
+		currentView = nextView;
+		currentView.init();
 	}
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		new ChiptuneTracker();

@@ -165,10 +165,6 @@ public class Terminal extends JPanel implements KeyListener {
         clear(0, 0, m_size.width-1, m_size.height-1);
     }
 
-    public void clear(int x, int y){
-        clear(x, y, m_size.width-1, m_size.height-1);
-    }
-
     public void clear(int x, int y, int width, int height){
         if(x < 0 || x > m_size.width - 1){
             throw new IllegalArgumentException("X position between [0 and "+(m_size.width-1)+"]");
@@ -192,6 +188,10 @@ public class Terminal extends JPanel implements KeyListener {
                 m_oldTerminal[i][j] = tdc;
             }
         }
+        if(m_graphics != null) {
+        	m_graphics.setColor(m_defaultCharacterBackgroundColor);
+            m_graphics.fillRect(x * m_characterSize.width, y * m_characterSize.height, (x + width) * m_characterSize.width, (y + height) * m_characterSize.height);
+        }
     }
 
     @Override
@@ -199,10 +199,9 @@ public class Terminal extends JPanel implements KeyListener {
         if(m_image == null){
             m_image = this.createImage(this.getWidth(), this.getHeight());
             m_graphics = m_image.getGraphics();
+            m_graphics.setColor(m_defaultCharacterBackgroundColor);
+            m_graphics.fillRect(0, 0, this.getWidth(), this.getHeight());
         }
-
-        m_graphics.setColor(m_defaultCharacterBackgroundColor);
-        m_graphics.fillRect(0, 0, this.getWidth(), this.getHeight());
 
         for(int i = 0; i < m_size.height; i++){
             for(int j = 0; j < m_size.width; j++){

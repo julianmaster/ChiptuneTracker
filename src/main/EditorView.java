@@ -2,8 +2,7 @@ package main;
 
 public class EditorView extends View {
 
-	public EditorView(ChiptuneSynthesizer chiptuneSynthesizer) {
-		super(chiptuneSynthesizer);
+	public EditorView(ChiptuneTracker chiptuneTracker) {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -14,9 +13,9 @@ public class EditorView extends View {
 	}
 
 	@Override
-	public void update(double delta) {
+	public boolean update(double delta) {
 		// TODO Auto-generated method stub
-		
+		return false;
 	}
 
 	@Override

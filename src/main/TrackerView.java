@@ -32,8 +32,7 @@ public class TrackerView extends View {
 	// Current octave button active
 	private SelectableTerminalButton currentVolumeButton = null;
 	
-	public TrackerView(ChiptuneSynthesizer chiptuneSynthesizer) {
-		super(chiptuneSynthesizer);
+	public TrackerView(ChiptuneTracker chiptuneTracker) {
 		createSampleButtons();
 		createOctaveButtons();
 		createVolumeButtons();
@@ -114,7 +113,8 @@ public class TrackerView extends View {
 	}
 
 	@Override
-	public void update(double delta) {
+	public boolean update(double delta) {
+		boolean change = true;
 		KeyEvent event = ChiptuneTracker.terminal.getEvent();
 		if(event != null) {
 			// Change sample
@@ -194,14 +194,19 @@ public class TrackerView extends View {
 			else if(event.getKeyCode() == KeyEvent.VK_U) {
 				setSound(Note.B);
 			}
+			else {
+				change = false;
+			}
 			
 			
 			ChiptuneTracker.terminal.setEvent(null);
 		}
+		
+		return change;
 	}
 	
 	private void setSound(Note note) {
-		Sample sample = chiptuneSynthesizer.samples.get(sampleCursor - 1);
+		Sample sample = ChiptuneTracker.samples.get(sampleCursor - 1);
 		Sound sound = sample.sounds[soundCursor];
 		
 		if(sound == null) {
@@ -218,6 +223,8 @@ public class TrackerView extends View {
 		if(soundCursor > Sample.SIZE - 1) {
 			soundCursor = 0;
 		}
+		
+		ChiptuneTracker.chanels.play(sound, sample.speed);
 	}
 	
 	public void changeSample(int i) {
@@ -225,8 +232,8 @@ public class TrackerView extends View {
 			sampleCursor = i;			
 		}
 		
-		if(chiptuneSynthesizer.samples.size() < i) {
-			chiptuneSynthesizer.samples.add(new Sample());
+		if(ChiptuneTracker.samples.size() < i) {
+			ChiptuneTracker.samples.add(new Sample());
 		}
 	}
 	
@@ -240,7 +247,7 @@ public class TrackerView extends View {
 
 	@Override
 	public void paint() {
-		Sample sample = chiptuneSynthesizer.samples.get(sampleCursor - 1);
+		Sample sample = ChiptuneTracker.samples.get(sampleCursor - 1);
 		
 		for(TerminalButton terminalButton : terminalButtons) {
 			terminalButton.paint(ChiptuneTracker.terminal);
