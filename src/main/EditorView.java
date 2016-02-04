@@ -2,8 +2,8 @@ package main;
 
 public class EditorView extends View {
 
-	public EditorView(Synthesizer synthesizer) {
-		super(synthesizer);
+	public EditorView(ChiptuneSynthesizer chiptuneSynthesizer) {
+		super(chiptuneSynthesizer);
 		// TODO Auto-generated constructor stub
 	}
 

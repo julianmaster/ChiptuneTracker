@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Synthesizer {
+public class ChiptuneSynthesizer {
 
 	public List<Sample> samples = new ArrayList<>();
 	private View currentView;
 	public TrackerView trackerView;
 	public EditorView editorView;
 	
-	public Synthesizer() {
+	public ChiptuneSynthesizer() {
 		trackerView = new TrackerView(this);
 		editorView = new EditorView(this);
 		changeView(trackerView);

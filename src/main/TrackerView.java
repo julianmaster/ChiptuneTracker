@@ -32,8 +32,8 @@ public class TrackerView extends View {
 	// Current octave button active
 	private SelectableTerminalButton currentVolumeButton = null;
 	
-	public TrackerView(Synthesizer synthesizer) {
-		super(synthesizer);
+	public TrackerView(ChiptuneSynthesizer chiptuneSynthesizer) {
+		super(chiptuneSynthesizer);
 		createSampleButtons();
 		createOctaveButtons();
 		createVolumeButtons();
@@ -201,7 +201,7 @@ public class TrackerView extends View {
 	}
 	
 	private void setSound(Note note) {
-		Sample sample = synthesizer.samples.get(sampleCursor - 1);
+		Sample sample = chiptuneSynthesizer.samples.get(sampleCursor - 1);
 		Sound sound = sample.sounds[soundCursor];
 		
 		if(sound == null) {
@@ -225,8 +225,8 @@ public class TrackerView extends View {
 			sampleCursor = i;			
 		}
 		
-		if(synthesizer.samples.size() < i) {
-			synthesizer.samples.add(new Sample());
+		if(chiptuneSynthesizer.samples.size() < i) {
+			chiptuneSynthesizer.samples.add(new Sample());
 		}
 	}
 	
@@ -240,7 +240,7 @@ public class TrackerView extends View {
 
 	@Override
 	public void paint() {
-		Sample sample = synthesizer.samples.get(sampleCursor - 1);
+		Sample sample = chiptuneSynthesizer.samples.get(sampleCursor - 1);
 		
 		for(TerminalButton terminalButton : terminalButtons) {
 			terminalButton.paint(ChiptuneTracker.terminal);

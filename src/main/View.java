@@ -1,10 +1,10 @@
 package main;
 
 public abstract class View {
-	protected Synthesizer synthesizer;
+	protected ChiptuneSynthesizer chiptuneSynthesizer;
 	
-	public View(Synthesizer synthesizer) {
-		this.synthesizer = synthesizer;
+	public View(ChiptuneSynthesizer chiptuneSynthesizer) {
+		this.chiptuneSynthesizer = chiptuneSynthesizer;
 	}
 
 	public abstract void init();
