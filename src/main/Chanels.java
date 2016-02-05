@@ -34,6 +34,9 @@ public class Chanels {
 		}
 		
 		allocator = new VoiceAllocator(voices);
+		
+		synth.start();
+		lineOut.start();
 	}
 	
 	public void add(int position, UnitOscillator voice) {
@@ -45,22 +48,34 @@ public class Chanels {
 	}
 	
 	public void play(Sound sound, int speed) {
-		synth.start();
-		lineOut.start();
-		
-		double time = synth.getCurrentTime() + 0.2;
-		double duration = 1 / (speed / 2);
+		double time = synth.getCurrentTime();
+		double duration = 1 / ((double)speed / 2);
 		
 		double frequency = Notes.getFrequency(sound.octave, sound.note);
-		double volume = sound.volume / VOLUME_MAX;
+		double volume = (double)sound.volume / (double)VOLUME_MAX;
+		System.out.println(volume);
 		allocator.noteOn(sound.instrument.number, frequency, volume, new TimeStamp(time));
 		time += duration;
 		allocator.noteOff(sound.instrument.number, new TimeStamp(time));
-		
-		synth.stop();
 	}
 	
 	public void play(Sample sample) {
+		double time = synth.getCurrentTime();
+		double duration = 1 / ((double)sample.speed / 2);
 		
+		for(Sound sound : sample.sounds) {
+			double frequency = Notes.getFrequency(sound.octave, sound.note);
+			double volume = (double)sound.volume / (double)VOLUME_MAX;
+			allocator.noteOn(sound.instrument.number, frequency, volume, new TimeStamp(time));
+			time += duration;
+			allocator.noteOff(sound.instrument.number, new TimeStamp(time));
+		}
+	}
+	
+	public void update(boolean stop) {
+		if(stop) {
+			double time = synth.getCurrentTime();
+			allocator.allNotesOff(new TimeStamp(time));
+		}
 	}
 }

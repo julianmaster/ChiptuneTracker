@@ -13,7 +13,7 @@ public class Sound {
 		volume = null;
 	}
 
-	private Sound(Note note, Integer octave, Instrument instrument,
+	public Sound(Note note, Integer octave, Instrument instrument,
 			Integer volume) {
 		this.note = note;
 		this.octave = octave;

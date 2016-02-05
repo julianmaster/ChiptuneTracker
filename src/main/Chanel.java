@@ -31,6 +31,24 @@ public class Chanel implements Runnable {
 		add(new TriangleOscillator(), 1);
 		
 		allocator = new VoiceAllocator( voices );
+		
+//		Sample sample = new Sample();
+// 		sample.speed = 16;
+// 		sample.sounds = new Sound[12];
+// 		sample.sounds[0] = new Sound(Note.C, 1, Instrument.INSTRUMENT_1, 1);
+// 		sample.sounds[1] = new Sound(Note.C, 1, Instrument.INSTRUMENT_1, 1);
+// 		sample.sounds[2] = new Sound(Note.C, 1, Instrument.INSTRUMENT_1, 1);
+// 		sample.sounds[3] = new Sound(Note.C, 1, Instrument.INSTRUMENT_1, 1);
+// 		sample.sounds[4] = new Sound(Note.D, 1, Instrument.INSTRUMENT_2, 1);
+// 		sample.sounds[5] = new Sound(Note.D, 1, Instrument.INSTRUMENT_2, 1);
+// 		sample.sounds[6] = new Sound(Note.E, 1, Instrument.INSTRUMENT_2, 1);
+// 		sample.sounds[7] = new Sound(Note.E, 1, Instrument.INSTRUMENT_2, 1);
+// 		sample.sounds[8] = new Sound(Note.F, 1, Instrument.INSTRUMENT_1, 1);
+// 		sample.sounds[9] = new Sound(Note.F, 1, Instrument.INSTRUMENT_1, 1);
+// 		sample.sounds[10] = new Sound(Note.F, 1, Instrument.INSTRUMENT_1, 1);
+// 		sample.sounds[11] = new Sound(Note.F, 1, Instrument.INSTRUMENT_1, 1);
+// 		
+// 		this.play(sample);
 	}
 	
 	public void add(UnitOscillator voice, int i) {
@@ -60,7 +78,7 @@ public class Chanel implements Runnable {
 		// Advance to a near future time so we have a clean start.
 		double time = timeNow + 1.0;
 		
-		double duration = 1 / (sample.speed / 2);
+		double duration = 1 / ((double)sample.speed / 2);
 		for(Sound sound : sample.sounds) {
 			double frequency = Notes.getFrequency(sound.octave, sound.note);
 			allocator.noteOn(sound.instrument.number, frequency, 0.5, new TimeStamp(time));
@@ -74,12 +92,11 @@ public class Chanel implements Runnable {
 			System.out.println("Sleep while synthesizing.");
 			synth.sleepUntil( time + duration * sample.sounds.length);
 			System.out.println("Woke up...");
+			// Stop everything.
+			synth.stop();
 		} catch( InterruptedException e )
 		{
 			e.printStackTrace();
 		}
-		
-		// Stop everything.
-		synth.stop();
 	}
 }

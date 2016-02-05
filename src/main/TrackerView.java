@@ -194,6 +194,10 @@ public class TrackerView extends View {
 			else if(event.getKeyCode() == KeyEvent.VK_U) {
 				setSound(Note.B);
 			}
+			
+			else if(event.getKeyCode() == KeyEvent.VK_SPACE) {
+				ChiptuneTracker.chanels.play(ChiptuneTracker.samples.get(sampleCursor - 1));
+			}
 			else {
 				change = false;
 			}
