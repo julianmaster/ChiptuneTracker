@@ -53,7 +53,6 @@ public class Chanels {
 		
 		double frequency = Notes.getFrequency(sound.octave, sound.note);
 		double volume = (double)sound.volume / (double)VOLUME_MAX;
-		System.out.println(volume);
 		allocator.noteOn(sound.instrument.number, frequency, volume, new TimeStamp(time));
 		time += duration;
 		allocator.noteOff(sound.instrument.number, new TimeStamp(time));
@@ -64,11 +63,16 @@ public class Chanels {
 		double duration = 1 / ((double)sample.speed / 2);
 		
 		for(Sound sound : sample.sounds) {
-			double frequency = Notes.getFrequency(sound.octave, sound.note);
-			double volume = (double)sound.volume / (double)VOLUME_MAX;
-			allocator.noteOn(sound.instrument.number, frequency, volume, new TimeStamp(time));
-			time += duration;
-			allocator.noteOff(sound.instrument.number, new TimeStamp(time));
+			if(sound != null) {
+				double frequency = Notes.getFrequency(sound.octave, sound.note);
+				double volume = (double)sound.volume / (double)VOLUME_MAX;
+				allocator.noteOn(sound.instrument.number, frequency, volume, new TimeStamp(time));
+				time += duration;
+				allocator.noteOff(sound.instrument.number, new TimeStamp(time));
+			}
+			else {
+				time += duration;
+			}
 		}
 	}
 	

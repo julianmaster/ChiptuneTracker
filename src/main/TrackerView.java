@@ -194,6 +194,20 @@ public class TrackerView extends View {
 			else if(event.getKeyCode() == KeyEvent.VK_U) {
 				setSound(Note.B);
 			}
+			else if(event.getKeyCode() >= KeyEvent.VK_NUMPAD0 && event.getKeyCode() <= KeyEvent.VK_NUMPAD9) {
+				// Octave
+				if(soundConfCursor == 1) {
+					setOctave(event.getKeyCode() - 96);
+				}
+				// Instrument
+				else if(soundConfCursor == 2) {
+					setInstrument(event.getKeyCode() - 96);
+				}
+				// Volume
+				else if(soundConfCursor == 3) {
+					setVolume(event.getKeyCode() - 96);
+				}
+			}
 			
 			else if(event.getKeyCode() == KeyEvent.VK_SPACE) {
 				ChiptuneTracker.chanels.play(ChiptuneTracker.samples.get(sampleCursor - 1));
@@ -211,24 +225,74 @@ public class TrackerView extends View {
 	
 	private void setSound(Note note) {
 		Sample sample = ChiptuneTracker.samples.get(sampleCursor - 1);
-		Sound sound = sample.sounds[soundCursor];
 		
-		if(sound == null) {
-			sound = new Sound();
-			sample.sounds[soundCursor] = sound;
+		if(volumeCursor != 0) {
+			Sound sound = sample.sounds[soundCursor];
+			if(sound == null) {
+				sound = new Sound();
+				sample.sounds[soundCursor] = sound;
+			}
+			
+			sound.note = note;
+			sound.octave = octaveCursor;
+			sound.instrument = instrumentCursor;
+			sound.volume = volumeCursor;
+			
+			ChiptuneTracker.chanels.play(sound, sample.speed);
 		}
-		
-		sound.note = note;
-		sound.octave = octaveCursor;
-		sound.instrument = instrumentCursor;
-		sound.volume = volumeCursor;
+		else {
+			sample.sounds[soundCursor] = null;
+		}
 		
 		soundCursor++;
 		if(soundCursor > Sample.SIZE - 1) {
 			soundCursor = 0;
 		}
-		
-		ChiptuneTracker.chanels.play(sound, sample.speed);
+	}
+	
+	private void setOctave(int octave) {
+		if(octave >= 1 && octave <= 4) {
+			Sample sample = ChiptuneTracker.samples.get(sampleCursor - 1);
+			Sound sound = sample.sounds[soundCursor];
+			if(sound != null) {
+				sound.octave = octave;
+				
+				soundCursor++;
+				if(soundCursor > Sample.SIZE - 1) {
+					soundCursor = 0;
+				}
+				
+				ChiptuneTracker.chanels.play(sound, sample.speed);
+			}
+		}
+	}
+	
+	private void setInstrument(int instrument) {
+		soundCursor++;
+		if(soundCursor > Sample.SIZE - 1) {
+			soundCursor = 0;
+		}
+	}
+	
+	private void setVolume(int volume) {
+		if(volume >= 0 && volume <= 7) {
+			Sample sample = ChiptuneTracker.samples.get(sampleCursor - 1);
+			Sound sound = sample.sounds[soundCursor];
+			if(sound != null) {
+				
+				if(volume == 0) {
+					sample.sounds[soundCursor] = null;
+				}
+				else {
+					sound.volume = volume;
+				}
+				
+				soundCursor++;
+				if(soundCursor > Sample.SIZE - 1) {
+					soundCursor = 0;
+				}
+			}
+		}
 	}
 	
 	public void changeSample(int i) {
