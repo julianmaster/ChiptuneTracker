@@ -2,6 +2,7 @@ package main;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +50,13 @@ public class ChiptuneTracker {
 			double updateLength = now - lastLoopTime;
 			lastLoopTime = now;
 			double delta = updateLength / ChiptuneTracker.OPTIMAL_TIME;
+			
+			KeyEvent event = ChiptuneTracker.terminal.getEvent();
+			if(event != null) {
+				if(event.getKeyCode() == KeyEvent.VK_C && chanels.isPlay()) {
+					chanels.update(true);
+				}
+			}
 			
 			// Update
 			boolean change = currentView.update(delta);

@@ -36,6 +36,7 @@ public class TrackerView extends View {
 		createSampleButtons();
 		createOctaveButtons();
 		createVolumeButtons();
+		createSpeedButtons();
 		changeSample(1);
 	}
 	
@@ -103,6 +104,32 @@ public class TrackerView extends View {
 			}
 		}
 		terminalButtons.addAll(volumeButtons);
+	}
+	
+	public void createSpeedButtons() {
+		TerminalButton reduceButton = new TerminalButton("-", Color.MAGENTA, Color.ORANGE, 13, 1, ChiptuneTracker.CHARACTER_WIDTH, ChiptuneTracker.CHARACTER_HEIGHT);
+		reduceButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Sample sample = ChiptuneTracker.samples.get(sampleCursor - 1);
+				if(sample.speed > 1) {
+					sample.speed--;
+				}
+			}
+		});
+		terminalButtons.add(reduceButton);
+		
+		TerminalButton addButton = new TerminalButton("+", Color.MAGENTA, Color.ORANGE, 16, 1, ChiptuneTracker.CHARACTER_WIDTH, ChiptuneTracker.CHARACTER_HEIGHT);
+		addButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Sample sample = ChiptuneTracker.samples.get(sampleCursor - 1);
+				if(sample.speed < 32) {
+					sample.speed++;
+				}
+			}
+		});
+		terminalButtons.add(addButton);
 	}
 
 	@Override
@@ -208,7 +235,9 @@ public class TrackerView extends View {
 					setVolume(event.getKeyCode() - 96);
 				}
 			}
-			
+			else if(event.getKeyCode() == KeyEvent.VK_DELETE) {
+				deleteSound();
+			}
 			else if(event.getKeyCode() == KeyEvent.VK_SPACE) {
 				ChiptuneTracker.chanels.play(ChiptuneTracker.samples.get(sampleCursor - 1));
 			}
@@ -295,6 +324,16 @@ public class TrackerView extends View {
 		}
 	}
 	
+	public void deleteSound() {
+		Sample sample = ChiptuneTracker.samples.get(sampleCursor - 1);
+		sample.sounds[soundCursor] = null;
+		
+		soundCursor++;
+		if(soundCursor > Sample.SIZE - 1) {
+			soundCursor = 0;
+		}
+	}
+	
 	public void changeSample(int i) {
 		if(i > 0 && i < 100) {
 			sampleCursor = i;			
@@ -326,7 +365,7 @@ public class TrackerView extends View {
 		
 		// Speed
 		ChiptuneTracker.terminal.writeString(9, 1, "Spd", Color.LIGHT_GRAY);
-		ChiptuneTracker.terminal.writeString(13, 1, String.valueOf(sample.speed), Color.LIGHT_GRAY, Color.BLACK);
+		ChiptuneTracker.terminal.writeString(14, 1, String.format("%02d", sample.speed), Color.LIGHT_GRAY, Color.BLACK);
 		
 		// Octave
 		ChiptuneTracker.terminal.writeString(1, 3, "Oct", Color.LIGHT_GRAY);

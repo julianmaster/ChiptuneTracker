@@ -20,6 +20,8 @@ public class Chanels {
 	private UnitVoice[] voices;
 	private LineOut lineOut;
 	
+	private boolean play = false;
+	
 	public Chanels() {
 		synth = JSyn.createSynthesizer();
 		lineOut = new LineOut();
@@ -56,6 +58,7 @@ public class Chanels {
 		allocator.noteOn(sound.instrument.number, frequency, volume, new TimeStamp(time));
 		time += duration;
 		allocator.noteOff(sound.instrument.number, new TimeStamp(time));
+		play = true;
 	}
 	
 	public void play(Sample sample) {
@@ -81,5 +84,13 @@ public class Chanels {
 			double time = synth.getCurrentTime();
 			allocator.allNotesOff(new TimeStamp(time));
 		}
+	}
+	
+	public void setPlay(boolean play) {
+		this.play = play;
+	}
+	
+	public boolean isPlay() {
+		return play;
 	}
 }
