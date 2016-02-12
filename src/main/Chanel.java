@@ -10,93 +10,101 @@ import com.jsyn.unitgen.UnitVoice;
 import com.jsyn.util.VoiceAllocator;
 import com.softsynth.shared.time.TimeStamp;
 
-public class Chanel implements Runnable {
+public class Chanel {
+	public static final int CHANELS = 4;
+	public static final int INSTRUMENTS = 2;
+	public static final int VOLUME_MAX = 7;
 	
 	private Synthesizer synth;
 	private VoiceAllocator allocator;
 	private UnitVoice[] voices;
 	private LineOut lineOut;
-	private Sample sample;
+	
+	private Sample samplePlay;
+	private double sampleFrequency;
+	private double lastSoundTime;
+	private boolean play = false;
+	private int soundCursor;
 	
 	public Chanel() {
-		// Create a context for the synthesizer.
 		synth = JSyn.createSynthesizer();
+		lineOut = new LineOut();
 		
-		// Add an output mixer.
-		synth.add( lineOut = new LineOut() );
+		synth.add(lineOut);
 		
-		voices = new UnitVoice[2];
+		voices = new UnitVoice[CHANELS * INSTRUMENTS];
 		
-		add(new SineOscillator(), 0);
-		add(new TriangleOscillator(), 1);
+		for(int i = 0; i < CHANELS; i++) {
+			add(i * INSTRUMENTS, new SineOscillator());
+			add(i * INSTRUMENTS + 1, new TriangleOscillator());
+		}
 		
-		allocator = new VoiceAllocator( voices );
+		allocator = new VoiceAllocator(voices);
 		
-//		Sample sample = new Sample();
-// 		sample.speed = 16;
-// 		sample.sounds = new Sound[12];
-// 		sample.sounds[0] = new Sound(Note.C, 1, Instrument.INSTRUMENT_1, 1);
-// 		sample.sounds[1] = new Sound(Note.C, 1, Instrument.INSTRUMENT_1, 1);
-// 		sample.sounds[2] = new Sound(Note.C, 1, Instrument.INSTRUMENT_1, 1);
-// 		sample.sounds[3] = new Sound(Note.C, 1, Instrument.INSTRUMENT_1, 1);
-// 		sample.sounds[4] = new Sound(Note.D, 1, Instrument.INSTRUMENT_2, 1);
-// 		sample.sounds[5] = new Sound(Note.D, 1, Instrument.INSTRUMENT_2, 1);
-// 		sample.sounds[6] = new Sound(Note.E, 1, Instrument.INSTRUMENT_2, 1);
-// 		sample.sounds[7] = new Sound(Note.E, 1, Instrument.INSTRUMENT_2, 1);
-// 		sample.sounds[8] = new Sound(Note.F, 1, Instrument.INSTRUMENT_1, 1);
-// 		sample.sounds[9] = new Sound(Note.F, 1, Instrument.INSTRUMENT_1, 1);
-// 		sample.sounds[10] = new Sound(Note.F, 1, Instrument.INSTRUMENT_1, 1);
-// 		sample.sounds[11] = new Sound(Note.F, 1, Instrument.INSTRUMENT_1, 1);
-// 		
-// 		this.play(sample);
+		synth.start();
+		lineOut.start();
 	}
 	
-	public void add(UnitOscillator voice, int i) {
-		synth.add( voice );
-		voice.getOutput().connect( 0, lineOut.input, 0 );
-		voice.getOutput().connect( 0, lineOut.input, 1 );
-		voices[i] = voice;
+	public void add(int position, UnitOscillator voice) {
+		synth.add(voice);
+		voice.getOutput().connect(0, lineOut.input, 0);
+		voice.getOutput().connect(0, lineOut.input, 1);
+		voices[position] = voice;
 		voice.amplitude.set(0);
 	}
 	
-	public void play(Sample sample) {
-		this.sample = sample;
-		run();
+	public void play(Sound sound, int speed) {
+		double time = synth.getCurrentTime();
+		double duration = 1 / ((double)speed / 2);
+		
+		double frequency = Notes.getFrequency(sound.octave, sound.note);
+		double volume = (double)sound.volume / (double)VOLUME_MAX;
+		allocator.noteOn(sound.instrument.number, frequency, volume, new TimeStamp(time));
+		time += duration;
+		allocator.noteOff(sound.instrument.number, new TimeStamp(time));
 	}
-
-	public void run() {
-		
-		// Start synthesizer using default stereo output at 44100 Hz.
-		synth.start();
-		// We only need to start the LineOut. It will pull data from the
-		// voices.
-		lineOut.start();
-
-		// Get synthesizer time in seconds.
-		double timeNow = synth.getCurrentTime();
-
-		// Advance to a near future time so we have a clean start.
-		double time = timeNow + 1.0;
-		
-		double duration = 1 / ((double)sample.speed / 2);
-		for(Sound sound : sample.sounds) {
-			double frequency = Notes.getFrequency(sound.octave, sound.note);
-			allocator.noteOn(sound.instrument.number, frequency, 0.5, new TimeStamp(time));
-			time += duration;
-			allocator.noteOff(sound.instrument.number, new TimeStamp(time));
+	
+	public void play(Sample sample) {
+		samplePlay = sample; 
+		lastSoundTime = synth.getCurrentTime();
+		sampleFrequency = 1 / ((double)sample.speed / 2);
+		soundCursor = 0;
+		play = true;
+	}
+	
+	public void update() {
+		if(play) {
+			double currentTime = synth.getCurrentTime();
+			if(currentTime > lastSoundTime) {
+				Sound sound = samplePlay.sounds[soundCursor];
+				if(sound != null) {
+					double frequency = Notes.getFrequency(sound.octave, sound.note);
+					double volume = (double)sound.volume / (double) VOLUME_MAX;
+					lastSoundTime += sampleFrequency;
+					allocator.noteOn(sound.instrument.number, frequency, volume, new TimeStamp(lastSoundTime));
+					double endSoundTime = lastSoundTime + sampleFrequency;
+					allocator.noteOff(sound.instrument.number, new TimeStamp(endSoundTime));
+				}
+				else {
+					lastSoundTime += sampleFrequency;
+				}
+				
+				
+				soundCursor++;
+				if(soundCursor >= Sample.SIZE) {
+					play = false;
+				}
+			}
 		}
-		
-		// Sleep while the song is being generated in the background thread.
-		try
-		{
-			System.out.println("Sleep while synthesizing.");
-			synth.sleepUntil( time + duration * sample.sounds.length);
-			System.out.println("Woke up...");
-			// Stop everything.
-			synth.stop();
-		} catch( InterruptedException e )
-		{
-			e.printStackTrace();
-		}
+	}
+	
+	public boolean isPlay() {
+		return play;
+	}
+	
+	public void stop() {
+		play = false;
+		double time = synth.getCurrentTime();
+		allocator.allNotesOff(new TimeStamp(time));
 	}
 }

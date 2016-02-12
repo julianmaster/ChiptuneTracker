@@ -22,7 +22,7 @@ public class ChiptuneTracker {
 	
 	public static Terminal terminal;
 	public static List<Sample> samples = new ArrayList<>();
-	public static Chanels chanels = new Chanels();
+	public static Chanel chanel = new Chanel();
 	
 	private View currentView;
 	public TrackerView trackerView;
@@ -51,15 +51,9 @@ public class ChiptuneTracker {
 			lastLoopTime = now;
 			double delta = updateLength / ChiptuneTracker.OPTIMAL_TIME;
 			
-			KeyEvent event = ChiptuneTracker.terminal.getEvent();
-			if(event != null) {
-				if(event.getKeyCode() == KeyEvent.VK_C && chanels.isPlay()) {
-					chanels.update(true);
-				}
-			}
-			
 			// Update
 			boolean change = currentView.update(delta);
+			chanel.update();
 			
 			// Paint
 			if(change) {

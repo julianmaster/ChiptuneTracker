@@ -239,7 +239,14 @@ public class TrackerView extends View {
 				deleteSound();
 			}
 			else if(event.getKeyCode() == KeyEvent.VK_SPACE) {
-				ChiptuneTracker.chanels.play(ChiptuneTracker.samples.get(sampleCursor - 1));
+				if(!ChiptuneTracker.chanel.isPlay()) {
+					System.out.println("play");
+					ChiptuneTracker.chanel.play(ChiptuneTracker.samples.get(sampleCursor - 1));
+				}
+				else {
+					System.out.println("stop");
+					ChiptuneTracker.chanel.stop();
+				}
 			}
 			else {
 				change = false;
@@ -267,7 +274,7 @@ public class TrackerView extends View {
 			sound.instrument = instrumentCursor;
 			sound.volume = volumeCursor;
 			
-			ChiptuneTracker.chanels.play(sound, sample.speed);
+			ChiptuneTracker.chanel.play(sound, sample.speed);
 		}
 		else {
 			sample.sounds[soundCursor] = null;
@@ -291,7 +298,7 @@ public class TrackerView extends View {
 					soundCursor = 0;
 				}
 				
-				ChiptuneTracker.chanels.play(sound, sample.speed);
+				ChiptuneTracker.chanel.play(sound, sample.speed);
 			}
 		}
 	}
