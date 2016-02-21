@@ -3,21 +3,21 @@ package main;
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.unitgen.LineOut;
+import com.jsyn.unitgen.SawtoothOscillatorDPW;
 import com.jsyn.unitgen.SineOscillator;
+import com.jsyn.unitgen.SquareOscillatorBL;
 import com.jsyn.unitgen.TriangleOscillator;
-import com.jsyn.unitgen.UnitOscillator;
-import com.jsyn.unitgen.UnitVoice;
 import com.jsyn.util.VoiceAllocator;
 import com.softsynth.shared.time.TimeStamp;
 
 public class Chanel {
 	public static final int CHANELS = 4;
-	public static final int INSTRUMENTS = 2;
+	public static final int INSTRUMENTS = 1;
 	public static final int VOLUME_MAX = 7;
 	
 	private Synthesizer synth;
 	private VoiceAllocator allocator;
-	private UnitVoice[] voices;
+	private CustomCircuit[] voices;
 	private LineOut lineOut;
 	
 	private Sample samplePlay;
@@ -32,11 +32,17 @@ public class Chanel {
 		
 		synth.add(lineOut);
 		
-		voices = new UnitVoice[CHANELS * INSTRUMENTS];
+		voices = new CustomCircuit[CHANELS * INSTRUMENTS];
 		
 		for(int i = 0; i < CHANELS; i++) {
-			add(i * INSTRUMENTS, new SineOscillator());
-			add(i * INSTRUMENTS + 1, new TriangleOscillator());
+			add(i * INSTRUMENTS, new CustomCircuit(new SineOscillator()));
+//			add(i * INSTRUMENTS + 1, new CustomCircuit());
+//			add(i * INSTRUMENTS + 2, new CustomCircuit(new SawtoothOscillatorDPW()));
+//			add(i * INSTRUMENTS + 3, new CustomCircuit(new SquareOscillatorBL()));
+//			add(i * INSTRUMENTS + 4, new CustomCircuit());
+//			add(i * INSTRUMENTS + 5, new CustomCircuit());
+//			add(i * INSTRUMENTS + 6, new CustomCircuit(new WhiteNoise()));
+//			add(i * INSTRUMENTS + 7, new CustomCircuit(new TriangleOscillator()));
 		}
 		
 		allocator = new VoiceAllocator(voices);
@@ -45,12 +51,11 @@ public class Chanel {
 		lineOut.start();
 	}
 	
-	public void add(int position, UnitOscillator voice) {
-		synth.add(voice);
-		voice.getOutput().connect(0, lineOut.input, 0);
-		voice.getOutput().connect(0, lineOut.input, 1);
-		voices[position] = voice;
-		voice.amplitude.set(0);
+	public void add(int position, CustomCircuit circuit) {
+		synth.add(circuit);
+		circuit.getOutput().connect(0, lineOut.input, 0);
+		circuit.getOutput().connect(0, lineOut.input, 1);
+		voices[position] = circuit;
 	}
 	
 	public void play(Sound sound, int speed) {
@@ -59,9 +64,9 @@ public class Chanel {
 		
 		double frequency = Notes.getFrequency(sound.octave, sound.note);
 		double volume = (double)sound.volume / (double)VOLUME_MAX;
-		allocator.noteOn(sound.instrument.number, frequency, volume, new TimeStamp(time));
+		allocator.noteOn(sound.instrument, frequency, volume, new TimeStamp(time));
 		time += duration;
-		allocator.noteOff(sound.instrument.number, new TimeStamp(time));
+		allocator.noteOff(sound.instrument, new TimeStamp(time));
 	}
 	
 	public void play(Sample sample) {
@@ -81,9 +86,9 @@ public class Chanel {
 					double frequency = Notes.getFrequency(sound.octave, sound.note);
 					double volume = (double)sound.volume / (double) VOLUME_MAX;
 					lastSoundTime += sampleFrequency;
-					allocator.noteOn(sound.instrument.number, frequency, volume, new TimeStamp(lastSoundTime));
+					allocator.noteOn(sound.instrument, frequency, volume, new TimeStamp(lastSoundTime));
 					double endSoundTime = lastSoundTime + sampleFrequency;
-					allocator.noteOff(sound.instrument.number, new TimeStamp(endSoundTime));
+					allocator.noteOff(sound.instrument, new TimeStamp(endSoundTime));
 				}
 				else {
 					lastSoundTime += sampleFrequency;

@@ -12,11 +12,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+import main.SineSawtoothFunction;
+
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.scope.AudioScope;
 import com.jsyn.swing.JAppletFrame;
 import com.jsyn.swing.PortControllerFactory;
+import com.jsyn.unitgen.FunctionOscillator;
 import com.jsyn.unitgen.ImpulseOscillator;
 import com.jsyn.unitgen.ImpulseOscillatorBL;
 import com.jsyn.unitgen.LineOut;
@@ -132,6 +135,11 @@ public class SeeOscillators extends JApplet
 		addOscillator( new PulseOscillatorBL(), "PulseBL" );
 		addOscillator( new ImpulseOscillator(), "Impulse" );
 		addOscillator( new ImpulseOscillatorBL(), "ImpulseBL" );
+		
+		FunctionOscillator funOsc = new FunctionOscillator();
+		funOsc.function.set(new SineSawtoothFunction());
+		
+		addOscillator( funOsc, "Test" );
 
 		// Start synthesizer using default stereo output at 44100 Hz.
 		synth.start();

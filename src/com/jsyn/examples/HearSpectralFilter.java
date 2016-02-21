@@ -73,7 +73,6 @@ public class HearSpectralFilter
 			}
 		}
 		
-		// TODO Figure out why this sounds bad.
 		public void pitchUpOctave( Spectrum inputSpectrum,
 				Spectrum outputSpectrum )
 		{
@@ -214,7 +213,6 @@ public class HearSpectralFilter
 			new HearSpectralFilter().test();
 		} catch( IOException e )
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

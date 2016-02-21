@@ -74,12 +74,12 @@ public class PlayChords
 				playMajorMeasure1( time, tonic + 4 );
 				time += measure;
 				catchUp( time );
-//				playMajorMeasure1( time, tonic + 7 );
-//				time += measure;
-//				catchUp( time );
-//				playMinorMeasure1( time, tonic + 2 ); // minor chord
-//				time += measure;
-//				catchUp( time );
+				playMajorMeasure1( time, tonic + 7 );
+				time += measure;
+				catchUp( time );
+				playMinorMeasure1( time, tonic + 2 ); // minor chord
+				time += measure;
+				catchUp( time );
 			}
 			time += secondsPerBeat;
 			catchUp( time );
@@ -93,15 +93,15 @@ public class PlayChords
 		synth.stop();
 	}
 
-//	private void playMinorMeasure1( double time, int base )
-//			throws InterruptedException
-//	{
-//		int p1 = base;
-//		int p2 = base + 3;
-//		int p3 = base + 7;
-//		playChord1( time, p1, p2, p3 );
-//		playNoodle1( time, p1 + 24, p2 + 24, p3 + 24 );
-//	}
+	private void playMinorMeasure1( double time, int base )
+			throws InterruptedException
+	{
+		int p1 = base;
+		int p2 = base + 3;
+		int p3 = base + 7;
+		playChord1( time, p1, p2, p3 );
+		playNoodle1( time, p1 + 24, p2 + 24, p3 + 24 );
+	}
 
 	private void playMajorMeasure1( double time, int base )
 			throws InterruptedException
@@ -110,31 +110,31 @@ public class PlayChords
 		int p2 = base + 4;
 		int p3 = base + 7;
 		playChord1( time, p1, p2, p3 );
-//		playNoodle1( time, p1 + 24, p2 + 24, p3 + 24 );
+		playNoodle1( time, p1 + 24, p2 + 24, p3 + 24 );
 	}
 
-//	private void playNoodle1( double time, int p1, int p2, int p3 )
-//	{
-//		double secondsPerNote = secondsPerBeat * 0.5;
-//		for( int i = 0; i < 8; i++ )
-//		{
-//			int p = pickFromThree( p1, p2, p3 );
-//			noteOn( time, p );
-//			noteOff( time + dutyCycle * secondsPerNote, p );
-//			time += secondsPerNote;
-//		}
-//	}
+	private void playNoodle1( double time, int p1, int p2, int p3 )
+	{
+		double secondsPerNote = secondsPerBeat * 0.5;
+		for( int i = 0; i < 8; i++ )
+		{
+			int p = pickFromThree( p1, p2, p3 );
+			noteOn( time, p );
+			noteOff( time + dutyCycle * secondsPerNote, p );
+			time += secondsPerNote;
+		}
+	}
 
-//	private int pickFromThree( int p1, int p2, int p3 )
-//	{
-//		int r = (int) (Math.random() * 3.0);
-//		if( r < 1 )
-//			return p1;
-//		else if( r < 2 )
-//			return p2;
-//		else
-//			return p3;
-//	}
+	private int pickFromThree( int p1, int p2, int p3 )
+	{
+		int r = (int) (Math.random() * 3.0);
+		if( r < 1 )
+			return p1;
+		else if( r < 2 )
+			return p2;
+		else
+			return p3;
+	}
 
 	private void playChord1( double time, int p1, int p2, int p3 )
 			throws InterruptedException

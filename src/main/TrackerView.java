@@ -12,7 +12,6 @@ import ui.TerminalButton;
 
 public class TrackerView extends View {
 	
-	private Instrument instrumentCursor = Instrument.INSTRUMENT_1;
 	private int sampleCursor = 1;
 	private int soundCursor = 0;
 	private int soundConfCursor = 0;
@@ -25,18 +24,26 @@ public class TrackerView extends View {
 	// Current octave button active
 	private SelectableTerminalButton currentOctaveButton = null;
 	
-	// Octave cursor
+	// Volume cursor
 	private int volumeCursor = 5;
-	// Octave button list
+	// Volume button list
 	private List<SelectableTerminalButton> volumeButtons = new ArrayList<>();
-	// Current octave button active
+	// Current volume button active
 	private SelectableTerminalButton currentVolumeButton = null;
+	
+	// Oscillator cursor
+	private int instrumentCursor = 0;
+	// Oscillator button list
+	private List<SelectableTerminalButton> instrumentButtons = new ArrayList<>();
+	// Current oscillator button active
+	private SelectableTerminalButton currentInstrumentButton = null;
 	
 	public TrackerView(ChiptuneTracker chiptuneTracker) {
 		createSampleButtons();
 		createOctaveButtons();
 		createVolumeButtons();
 		createSpeedButtons();
+		createOscillatorButtons();
 		changeSample(1);
 	}
 	
@@ -106,6 +113,29 @@ public class TrackerView extends View {
 		terminalButtons.addAll(volumeButtons);
 	}
 	
+	public void createOscillatorButtons() {
+		for(int i = 0; i <= 7; i++) {
+			SelectableTerminalButton button = new SelectableTerminalButton(String.valueOf((char)(224 + i)), Color.LIGHT_GRAY, Color.WHITE, Color.MAGENTA, ChiptuneTracker.WINDOW_WIDTH - 8 - 1 + i, 3, ChiptuneTracker.CHARACTER_WIDTH, ChiptuneTracker.CHARACTER_HEIGHT);
+			button.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					currentInstrumentButton.select(false);
+					SelectableTerminalButton button = (SelectableTerminalButton)e.getSource();
+					button.select(true);
+					currentInstrumentButton = button;
+					changeInstrument(button.getName());
+				}
+			});
+			
+			instrumentButtons.add(button);
+			if(i == 0) {
+				currentInstrumentButton = button;
+				currentInstrumentButton.select(true);
+			}
+		}
+		terminalButtons.addAll(instrumentButtons);
+	}
+	
 	public void createSpeedButtons() {
 		TerminalButton reduceButton = new TerminalButton("-", Color.MAGENTA, Color.ORANGE, 13, 1, ChiptuneTracker.CHARACTER_WIDTH, ChiptuneTracker.CHARACTER_HEIGHT);
 		reduceButton.addMouseListener(new MouseAdapter() {
@@ -166,7 +196,7 @@ public class TrackerView extends View {
 				if(soundConfCursor < 4) {
 					soundConfCursor++;
 				}
-				else if(soundCursor / 8 < 4) {
+				else if(soundCursor / 8 < 3) {
 					soundConfCursor = 0;
 					soundCursor = soundCursor + 8;
 				}
@@ -259,6 +289,12 @@ public class TrackerView extends View {
 		return change;
 	}
 	
+	/*
+	 * -----------------
+	 * Key actions
+	 * -----------------
+	 */
+	
 	private void setSound(Note note) {
 		Sample sample = ChiptuneTracker.samples.get(sampleCursor - 1);
 		
@@ -303,25 +339,32 @@ public class TrackerView extends View {
 		}
 	}
 	
-	private void setInstrument(int instrument) {
-		soundCursor++;
-		if(soundCursor > Sample.SIZE - 1) {
-			soundCursor = 0;
-		}
-	}
-	
 	private void setVolume(int volume) {
 		if(volume >= 0 && volume <= 7) {
 			Sample sample = ChiptuneTracker.samples.get(sampleCursor - 1);
 			Sound sound = sample.sounds[soundCursor];
 			if(sound != null) {
-				
 				if(volume == 0) {
 					sample.sounds[soundCursor] = null;
 				}
 				else {
 					sound.volume = volume;
 				}
+				
+				soundCursor++;
+				if(soundCursor > Sample.SIZE - 1) {
+					soundCursor = 0;
+				}
+			}
+		}
+	}
+	
+	private void setInstrument(int instrument) {
+		if(instrument >= 0 && instrument <= 7) {
+			Sample sample = ChiptuneTracker.samples.get(sampleCursor - 1);
+			Sound sound = sample.sounds[soundCursor];
+			if(sound != null) {
+				sound.instrument = instrument;
 				
 				soundCursor++;
 				if(soundCursor > Sample.SIZE - 1) {
@@ -341,6 +384,12 @@ public class TrackerView extends View {
 		}
 	}
 	
+	/*
+	 * ----------------
+	 * Buttons
+	 * ----------------
+	 */
+	
 	public void changeSample(int i) {
 		if(i > 0 && i < 100) {
 			sampleCursor = i;			
@@ -357,6 +406,22 @@ public class TrackerView extends View {
 	
 	public void changeVolume(String volume) {
 		volumeCursor = Integer.valueOf(volume);
+	}
+	
+	public void changeInstrument(String instrument) {
+		int numIntrument = Integer.valueOf(instrument.charAt(0)) - 224;
+		if(numIntrument >= 0 && numIntrument <= 7) {
+			Sample sample = ChiptuneTracker.samples.get(sampleCursor - 1);
+			Sound sound = sample.sounds[soundCursor];
+			if(sound != null) {
+				sound.instrument = numIntrument;
+				
+				soundCursor++;
+				if(soundCursor > Sample.SIZE - 1) {
+					soundCursor = 0;
+				}
+			}
+		}
 	}
 
 	@Override
@@ -380,6 +445,11 @@ public class TrackerView extends View {
 		// Volume
 		ChiptuneTracker.terminal.writeString(1, 5, "Vol", Color.LIGHT_GRAY);
 		
+		// Effects
+		for(int i = 0; i < 8; i++) {
+			ChiptuneTracker.terminal.write(ChiptuneTracker.WINDOW_WIDTH - 8 - 1 + i, 5, (char)(240 + i), Color.LIGHT_GRAY, Color.BLACK);
+		}
+		
 		// Sounds
 		for(int i = 0; i < Sample.SIZE; i++) {
 			int x = i / 8 * 7 + 1;
@@ -391,13 +461,13 @@ public class TrackerView extends View {
 				if(sound != null) {
 					ChiptuneTracker.terminal.writeString(x, y, sound.note.str, Color.WHITE, Color.BLACK);
 					ChiptuneTracker.terminal.write(x+2, y, Character.forDigit(sound.octave, 10), Color.GREEN, Color.BLACK);
-					ChiptuneTracker.terminal.write(x+3, y,  Character.forDigit(sound.instrument.number, 10), Color.MAGENTA, Color.BLACK);
+					ChiptuneTracker.terminal.write(x+3, y,  Character.forDigit(sound.instrument, 10), Color.MAGENTA, Color.BLACK);
 					ChiptuneTracker.terminal.write(x+4, y,  Character.forDigit(sound.volume, 10), Color.CYAN, Color.BLACK);
-					ChiptuneTracker.terminal.write(x+5, y, (char)250, Color.GRAY, Color.BLACK);
+					ChiptuneTracker.terminal.write(x+5, y, (char)239, Color.GRAY, Color.BLACK);
 				}
 				else {
 					for(int j = x; j < x + 6; j++) {
-						ChiptuneTracker.terminal.write(j, y, (char)250, Color.GRAY, Color.BLACK);
+						ChiptuneTracker.terminal.write(j, y, (char)239, Color.GRAY, Color.BLACK);
 					}
 				}
 			}
@@ -405,17 +475,17 @@ public class TrackerView extends View {
 				if(sound != null) {
 					printSelect(0, x, y, sound.note.str, Color.WHITE);
 					printSelect(1, x+2, y, String.valueOf(sound.octave), Color.LIGHT_GRAY);
-					printSelect(2, x+3, y, String.valueOf(sound.instrument.number), Color.MAGENTA);
+					printSelect(2, x+3, y, String.valueOf(sound.instrument), Color.MAGENTA);
 					printSelect(3, x+4, y, String.valueOf(sound.volume), Color.CYAN);
-					printSelect(4, x+5, y, String.valueOf((char)250), Color.GRAY);
+					printSelect(4, x+5, y, String.valueOf((char)239), Color.GRAY);
 				}
 				else {
-					printSelect(0, x, y, String.valueOf((char)250), Color.GRAY);
-					printSelect(0, x+1, y, String.valueOf((char)250), Color.GRAY);
-					printSelect(1, x+2, y, String.valueOf((char)250), Color.GRAY);
-					printSelect(2, x+3, y, String.valueOf((char)250), Color.GRAY);
-					printSelect(3, x+4, y, String.valueOf((char)250), Color.GRAY);
-					printSelect(4, x+5, y, String.valueOf((char)250), Color.GRAY);
+					printSelect(0, x, y, String.valueOf((char)239), Color.GRAY);
+					printSelect(0, x+1, y, String.valueOf((char)239), Color.GRAY);
+					printSelect(1, x+2, y, String.valueOf((char)239), Color.GRAY);
+					printSelect(2, x+3, y, String.valueOf((char)239), Color.GRAY);
+					printSelect(3, x+4, y, String.valueOf((char)239), Color.GRAY);
+					printSelect(4, x+5, y, String.valueOf((char)239), Color.GRAY);
 				}
 			}
 		}
@@ -432,7 +502,5 @@ public class TrackerView extends View {
 
 	@Override
 	public void quit() {
-		// TODO Auto-generated method stub
-		
 	}
 }

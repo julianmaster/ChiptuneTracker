@@ -3,7 +3,7 @@ package main;
 public class Sound {
 	public Note note;
 	public Integer octave;
-	public Instrument instrument;
+	public Integer instrument;
 	public Integer volume;
 	
 	public Sound() {
@@ -13,7 +13,7 @@ public class Sound {
 		volume = null;
 	}
 
-	public Sound(Note note, Integer octave, Instrument instrument,
+	public Sound(Note note, Integer octave, Integer instrument,
 			Integer volume) {
 		this.note = note;
 		this.octave = octave;

@@ -195,7 +195,6 @@ public class PlayGrains extends JApplet
 			lineOut.start();
 		} catch( IOException e )
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
