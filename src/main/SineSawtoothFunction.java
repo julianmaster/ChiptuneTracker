@@ -8,6 +8,6 @@ public class SineSawtoothFunction implements Function {
 
 	@Override
 	public double evaluate(double input) {
-		return (input - (Math.tanh(((input+0.5)-Math.floor(input+0.5)-0.5)*H)/(2*Math.tanh(0.5*H))+Math.floor(input+0.5)))*3;
+		return ((input+1)/2 - (Math.tanh((((input+1)/2+0.5)-Math.floor((input+1)/2+0.5)-0.5)*H)/(2*Math.tanh(0.5*H))+Math.floor((input+1)/2+0.5)))*2.3;
 	}
 }

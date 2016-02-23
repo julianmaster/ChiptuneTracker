@@ -2,6 +2,7 @@ package main;
 
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
+import com.jsyn.unitgen.FunctionOscillator;
 import com.jsyn.unitgen.LineOut;
 import com.jsyn.unitgen.SawtoothOscillatorDPW;
 import com.jsyn.unitgen.SineOscillator;
@@ -12,7 +13,7 @@ import com.softsynth.shared.time.TimeStamp;
 
 public class Chanel {
 	public static final int CHANELS = 4;
-	public static final int INSTRUMENTS = 1;
+	public static final int INSTRUMENTS = 4;
 	public static final int VOLUME_MAX = 7;
 	
 	private Synthesizer synth;
@@ -36,9 +37,11 @@ public class Chanel {
 		
 		for(int i = 0; i < CHANELS; i++) {
 			add(i * INSTRUMENTS, new CustomCircuit(new SineOscillator()));
-//			add(i * INSTRUMENTS + 1, new CustomCircuit());
-//			add(i * INSTRUMENTS + 2, new CustomCircuit(new SawtoothOscillatorDPW()));
-//			add(i * INSTRUMENTS + 3, new CustomCircuit(new SquareOscillatorBL()));
+			FunctionOscillator sineSawtoothOscillator = new FunctionOscillator();
+			sineSawtoothOscillator.function.set(new SineSawtoothFunction());
+			add(i * INSTRUMENTS + 1, new CustomCircuit(sineSawtoothOscillator));
+			add(i * INSTRUMENTS + 2, new CustomCircuit(new SawtoothOscillatorDPW()));
+			add(i * INSTRUMENTS + 3, new CustomCircuit(new SquareOscillatorBL()));
 //			add(i * INSTRUMENTS + 4, new CustomCircuit());
 //			add(i * INSTRUMENTS + 5, new CustomCircuit());
 //			add(i * INSTRUMENTS + 6, new CustomCircuit(new WhiteNoise()));
