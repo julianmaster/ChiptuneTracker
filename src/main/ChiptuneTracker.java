@@ -2,12 +2,12 @@ package main;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import ui.CustomColor;
-import ui.Terminal;
+import ui.AsciiPanel;
+import ui.AsciiTerminal;
+import ui.CustomAsciiTerminal;
 
 public class ChiptuneTracker {
 	public static final String TITLE = "ChiptuneTracker";
@@ -20,7 +20,10 @@ public class ChiptuneTracker {
 	public static final int TARGET_FPS = 60;
 	public static final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;
 	
-	public static Terminal terminal;
+	public static AsciiTerminal asciiTerminal;
+	public static AsciiPanel asciiPanel;
+	
+//	public static Terminal asciiPanel;
 	public static List<Sample> samples = new ArrayList<>();
 	public static Chanel chanel = new Chanel();
 	
@@ -29,13 +32,17 @@ public class ChiptuneTracker {
 	public EditorView editorView;
 	
 	public ChiptuneTracker() {
-		terminal = new Terminal(TITLE, new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT), TILESET_FILE, CHARACTER_WIDTH, CHARACTER_HEIGHT);
-		terminal.setDefaultCharacterBackgroundColor(CustomColor.BLACK);
-		terminal.setDefaultCharacterColor(CustomColor.WHITE);
-		terminal.setDefaultCharacterBackgroundColor(Color.DARK_GRAY);
+		asciiTerminal = new CustomAsciiTerminal(TITLE, new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT), TILESET_FILE, CHARACTER_WIDTH, CHARACTER_HEIGHT);
+		asciiPanel = asciiTerminal.getAsciiPanel();
+		asciiPanel.setDefaultCharacterBackgroundColor(Color.DARK_GRAY);
+		asciiPanel.setDefaultCharacterColor(Color.WHITE);
 		
-		trackerView = new TrackerView(this);
-		editorView = new EditorView(this);
+//		asciiPanel = new Terminal(TITLE, new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT), TILESET_FILE, CHARACTER_WIDTH, CHARACTER_HEIGHT);
+//		asciiPanel.setDefaultCharacterBackgroundColor(Color.DARK_GRAY);
+//		asciiPanel.setDefaultCharacterColor(Color.WHITE);
+		
+		trackerView = new TrackerView();
+		editorView = new EditorView();
 		changeView(trackerView);
 		
 		run();
@@ -43,7 +50,6 @@ public class ChiptuneTracker {
 	
 	public void run() {
 		long lastLoopTime = System.nanoTime();
-		
 		
 		while(true) {
 			long now = System.nanoTime();
@@ -58,7 +64,6 @@ public class ChiptuneTracker {
 			// Paint
 			if(change) {
 				currentView.paint();
-				ChiptuneTracker.terminal.repaint();
 			}
 			
 			try {
@@ -80,6 +85,7 @@ public class ChiptuneTracker {
 		}
 		currentView = nextView;
 		currentView.init();
+		currentView.paint();
 	}
 
 	public static void main(String[] args) {

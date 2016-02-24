@@ -2,7 +2,7 @@ package main;
 
 public class EditorView extends View {
 
-	public EditorView(ChiptuneTracker chiptuneTracker) {
+	public EditorView() {
 		// TODO Auto-generated constructor stub
 	}
 

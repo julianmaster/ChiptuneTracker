@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -38,7 +39,7 @@ public class TrackerView extends View {
 	// Current oscillator button active
 	private SelectableTerminalButton currentInstrumentButton = null;
 	
-	public TrackerView(ChiptuneTracker chiptuneTracker) {
+	public TrackerView() {
 		createSampleButtons();
 		createOctaveButtons();
 		createVolumeButtons();
@@ -165,126 +166,126 @@ public class TrackerView extends View {
 	@Override
 	public void init() {
 		for(TerminalButton terminalButton : terminalButtons) {
-			ChiptuneTracker.terminal.add(terminalButton);
+			ChiptuneTracker.asciiPanel.add(terminalButton);
 		}
 	}
 
 	@Override
 	public boolean update(double delta) {
 		boolean change = true;
-		KeyEvent event = ChiptuneTracker.terminal.getEvent();
-		if(event != null) {
-			// Change sample
-			if(event.getKeyCode() == KeyEvent.VK_ADD) {
-				changeSample(sampleCursor + 1);
-			}
-			else if(event.getKeyCode() == KeyEvent.VK_SUBTRACT) {
-				changeSample(sampleCursor - 1);
-			}
-			
-			// Change position cursor
-			else if(event.getKeyCode() == KeyEvent.VK_LEFT) {
-				if(soundConfCursor > 0) {
-					soundConfCursor--;
-				}
-				else if(soundCursor / 8 > 0) {
-					soundConfCursor = 4;
-					soundCursor = soundCursor - 8;
-				}
-			}
-			else if(event.getKeyCode() == KeyEvent.VK_RIGHT) {
-				if(soundConfCursor < 4) {
-					soundConfCursor++;
-				}
-				else if(soundCursor / 8 < 3) {
-					soundConfCursor = 0;
-					soundCursor = soundCursor + 8;
-				}
-			}
-			else if(event.getKeyCode() == KeyEvent.VK_UP) {
-				soundCursor--;
-				if(soundCursor < 0) {
-					soundCursor = Sample.SIZE - 1;
-				}
-			}
-			else if(event.getKeyCode() == KeyEvent.VK_DOWN) {
-				soundCursor++;
-				if(soundCursor > Sample.SIZE - 1) {
-					soundCursor = 0;
-				}
-			}
-			
-			// Write note
-			else if(event.getKeyCode() == KeyEvent.VK_A) {
-				setSound(Note.C);
-			}
-			else if(event.getKeyCode() == KeyEvent.VK_2) {
-				setSound(Note.C_D);
-			}
-			else if(event.getKeyCode() == KeyEvent.VK_Z) {
-				setSound(Note.D);
-			}
-			else if(event.getKeyCode() == KeyEvent.VK_3) {
-				setSound(Note.D_D);
-			}
-			else if(event.getKeyCode() == KeyEvent.VK_E) {
-				setSound(Note.E);
-			}
-			else if(event.getKeyCode() == KeyEvent.VK_R) {
-				setSound(Note.F);
-			}
-			else if(event.getKeyCode() == KeyEvent.VK_5) {
-				setSound(Note.F_D);
-			}
-			else if(event.getKeyCode() == KeyEvent.VK_T) {
-				setSound(Note.G);
-			}
-			else if(event.getKeyCode() == KeyEvent.VK_6) {
-				setSound(Note.G_D);
-			}
-			else if(event.getKeyCode() == KeyEvent.VK_Y) {
-				setSound(Note.A);
-			}
-			else if(event.getKeyCode() == KeyEvent.VK_7) {
-				setSound(Note.A_D);
-			}
-			else if(event.getKeyCode() == KeyEvent.VK_U) {
-				setSound(Note.B);
-			}
-			else if(event.getKeyCode() >= KeyEvent.VK_NUMPAD0 && event.getKeyCode() <= KeyEvent.VK_NUMPAD9) {
-				// Octave
-				if(soundConfCursor == 1) {
-					setOctave(event.getKeyCode() - 96);
-				}
-				// Instrument
-				else if(soundConfCursor == 2) {
-					setInstrument(event.getKeyCode() - 96);
-				}
-				// Volume
-				else if(soundConfCursor == 3) {
-					setVolume(event.getKeyCode() - 96);
-				}
-			}
-			else if(event.getKeyCode() == KeyEvent.VK_DELETE) {
-				deleteSound();
-			}
-			else if(event.getKeyCode() == KeyEvent.VK_SPACE) {
-				if(!ChiptuneTracker.chanel.isPlay()) {
-					System.out.println("play");
-					ChiptuneTracker.chanel.play(ChiptuneTracker.samples.get(sampleCursor - 1));
-				}
-				else {
-					System.out.println("stop");
-					ChiptuneTracker.chanel.stop();
-				}
-			}
-			else {
-				change = false;
-			}
-			
-			
-			ChiptuneTracker.terminal.setEvent(null);
-		}
+//		KeyEvent event = ChiptuneTracker.asciiTerminal.getEvent();
+//		if(event != null) {
+//			// Change sample
+//			if(event.getKeyCode() == KeyEvent.VK_ADD) {
+//				changeSample(sampleCursor + 1);
+//			}
+//			else if(event.getKeyCode() == KeyEvent.VK_SUBTRACT) {
+//				changeSample(sampleCursor - 1);
+//			}
+//			
+//			// Change position cursor
+//			else if(event.getKeyCode() == KeyEvent.VK_LEFT) {
+//				if(soundConfCursor > 0) {
+//					soundConfCursor--;
+//				}
+//				else if(soundCursor / 8 > 0) {
+//					soundConfCursor = 4;
+//					soundCursor = soundCursor - 8;
+//				}
+//			}
+//			else if(event.getKeyCode() == KeyEvent.VK_RIGHT) {
+//				if(soundConfCursor < 4) {
+//					soundConfCursor++;
+//				}
+//				else if(soundCursor / 8 < 3) {
+//					soundConfCursor = 0;
+//					soundCursor = soundCursor + 8;
+//				}
+//			}
+//			else if(event.getKeyCode() == KeyEvent.VK_UP) {
+//				soundCursor--;
+//				if(soundCursor < 0) {
+//					soundCursor = Sample.SIZE - 1;
+//				}
+//			}
+//			else if(event.getKeyCode() == KeyEvent.VK_DOWN) {
+//				soundCursor++;
+//				if(soundCursor > Sample.SIZE - 1) {
+//					soundCursor = 0;
+//				}
+//			}
+//			
+//			// Write note
+//			else if(event.getKeyCode() == KeyEvent.VK_A) {
+//				setSound(Note.C);
+//			}
+//			else if(event.getKeyCode() == KeyEvent.VK_2) {
+//				setSound(Note.C_D);
+//			}
+//			else if(event.getKeyCode() == KeyEvent.VK_Z) {
+//				setSound(Note.D);
+//			}
+//			else if(event.getKeyCode() == KeyEvent.VK_3) {
+//				setSound(Note.D_D);
+//			}
+//			else if(event.getKeyCode() == KeyEvent.VK_E) {
+//				setSound(Note.E);
+//			}
+//			else if(event.getKeyCode() == KeyEvent.VK_R) {
+//				setSound(Note.F);
+//			}
+//			else if(event.getKeyCode() == KeyEvent.VK_5) {
+//				setSound(Note.F_D);
+//			}
+//			else if(event.getKeyCode() == KeyEvent.VK_T) {
+//				setSound(Note.G);
+//			}
+//			else if(event.getKeyCode() == KeyEvent.VK_6) {
+//				setSound(Note.G_D);
+//			}
+//			else if(event.getKeyCode() == KeyEvent.VK_Y) {
+//				setSound(Note.A);
+//			}
+//			else if(event.getKeyCode() == KeyEvent.VK_7) {
+//				setSound(Note.A_D);
+//			}
+//			else if(event.getKeyCode() == KeyEvent.VK_U) {
+//				setSound(Note.B);
+//			}
+//			else if(event.getKeyCode() >= KeyEvent.VK_NUMPAD0 && event.getKeyCode() <= KeyEvent.VK_NUMPAD9) {
+//				// Octave
+//				if(soundConfCursor == 1) {
+//					setOctave(event.getKeyCode() - 96);
+//				}
+//				// Instrument
+//				else if(soundConfCursor == 2) {
+//					setInstrument(event.getKeyCode() - 96);
+//				}
+//				// Volume
+//				else if(soundConfCursor == 3) {
+//					setVolume(event.getKeyCode() - 96);
+//				}
+//			}
+//			else if(event.getKeyCode() == KeyEvent.VK_DELETE) {
+//				deleteSound();
+//			}
+//			else if(event.getKeyCode() == KeyEvent.VK_SPACE) {
+//				if(!ChiptuneTracker.chanel.isPlay()) {
+//					ChiptuneTracker.chanel.play(ChiptuneTracker.samples.get(sampleCursor - 1));
+//				}
+//				else {
+//					ChiptuneTracker.chanel.stop();
+//				}
+//			}
+//			else {
+//				change = false;
+//			}
+//			
+//			ChiptuneTracker.asciiTerminal.setEvent(null);
+//		}
+//		else {
+//			change = false;
+//		}
 		
 		return change;
 	}
@@ -426,28 +427,28 @@ public class TrackerView extends View {
 
 	@Override
 	public void paint() {
+//		for(Component terminalButton : terminalButtons) {
+//			terminalButton.repaint();
+//		}
+		
 		Sample sample = ChiptuneTracker.samples.get(sampleCursor - 1);
 		
-		for(TerminalButton terminalButton : terminalButtons) {
-			terminalButton.paint(ChiptuneTracker.terminal);
-		}
-		
 		// Sample
-		ChiptuneTracker.terminal.writeString(3, 1, String.format("%02d", sampleCursor), Color.WHITE);
+		ChiptuneTracker.asciiPanel.writeString(3, 1, String.format("%02d", sampleCursor), Color.WHITE);
 		
 		// Speed
-		ChiptuneTracker.terminal.writeString(9, 1, "Spd", Color.LIGHT_GRAY);
-		ChiptuneTracker.terminal.writeString(14, 1, String.format("%02d", sample.speed), Color.LIGHT_GRAY, Color.BLACK);
+		ChiptuneTracker.asciiPanel.writeString(9, 1, "Spd", Color.LIGHT_GRAY);
+		ChiptuneTracker.asciiPanel.writeString(14, 1, String.format("%02d", sample.speed), Color.LIGHT_GRAY, Color.BLACK);
 		
 		// Octave
-		ChiptuneTracker.terminal.writeString(1, 3, "Oct", Color.LIGHT_GRAY);
+		ChiptuneTracker.asciiPanel.writeString(1, 3, "Oct", Color.LIGHT_GRAY);
 		
 		// Volume
-		ChiptuneTracker.terminal.writeString(1, 5, "Vol", Color.LIGHT_GRAY);
+		ChiptuneTracker.asciiPanel.writeString(1, 5, "Vol", Color.LIGHT_GRAY);
 		
 		// Effects
 		for(int i = 0; i < 8; i++) {
-			ChiptuneTracker.terminal.write(ChiptuneTracker.WINDOW_WIDTH - 8 - 1 + i, 5, (char)(240 + i), Color.LIGHT_GRAY, Color.BLACK);
+			ChiptuneTracker.asciiPanel.write(ChiptuneTracker.WINDOW_WIDTH - 8 - 1 + i, 5, (char)(240 + i), Color.LIGHT_GRAY, Color.BLACK);
 		}
 		
 		// Sounds
@@ -459,15 +460,15 @@ public class TrackerView extends View {
 			
 			if(i != soundCursor) {
 				if(sound != null) {
-					ChiptuneTracker.terminal.writeString(x, y, sound.note.str, Color.WHITE, Color.BLACK);
-					ChiptuneTracker.terminal.write(x+2, y, Character.forDigit(sound.octave, 10), Color.GREEN, Color.BLACK);
-					ChiptuneTracker.terminal.write(x+3, y,  Character.forDigit(sound.instrument, 10), Color.MAGENTA, Color.BLACK);
-					ChiptuneTracker.terminal.write(x+4, y,  Character.forDigit(sound.volume, 10), Color.CYAN, Color.BLACK);
-					ChiptuneTracker.terminal.write(x+5, y, (char)239, Color.GRAY, Color.BLACK);
+					ChiptuneTracker.asciiPanel.writeString(x, y, sound.note.str, Color.WHITE, Color.BLACK);
+					ChiptuneTracker.asciiPanel.write(x+2, y, Character.forDigit(sound.octave, 10), Color.GREEN, Color.BLACK);
+					ChiptuneTracker.asciiPanel.write(x+3, y,  Character.forDigit(sound.instrument, 10), Color.MAGENTA, Color.BLACK);
+					ChiptuneTracker.asciiPanel.write(x+4, y,  Character.forDigit(sound.volume, 10), Color.CYAN, Color.BLACK);
+					ChiptuneTracker.asciiPanel.write(x+5, y, (char)239, Color.GRAY, Color.BLACK);
 				}
 				else {
 					for(int j = x; j < x + 6; j++) {
-						ChiptuneTracker.terminal.write(j, y, (char)239, Color.GRAY, Color.BLACK);
+						ChiptuneTracker.asciiPanel.write(j, y, (char)239, Color.GRAY, Color.BLACK);
 					}
 				}
 			}
@@ -489,18 +490,24 @@ public class TrackerView extends View {
 				}
 			}
 		}
+		
+		ChiptuneTracker.asciiTerminal.repaint();
+//		ChiptuneTracker.asciiPanel.repaint();
 	}
 	
 	private void printSelect(int position, int x, int y, String s, Color color) {
 		if(soundConfCursor == position) {
-			ChiptuneTracker.terminal.writeString(x, y, s, color, Color.YELLOW);
+			ChiptuneTracker.asciiPanel.writeString(x, y, s, color, Color.YELLOW);
 		}
 		else {
-			ChiptuneTracker.terminal.writeString(x, y, s, color, Color.BLUE);
+			ChiptuneTracker.asciiPanel.writeString(x, y, s, color, Color.BLUE);
 		}
 	}
 
 	@Override
 	public void quit() {
+		for(Component terminalButton : terminalButtons) {
+			ChiptuneTracker.asciiPanel.remove(terminalButton);
+		}
 	}
 }
