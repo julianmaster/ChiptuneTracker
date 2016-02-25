@@ -8,36 +8,36 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import ui.SelectableTerminalButton;
-import ui.TerminalButton;
+import ui.AsciiSelectableTerminalButton;
+import ui.AsciiTerminalButton;
 
 public class TrackerView extends View {
 	
 	private int sampleCursor = 1;
 	private int soundCursor = 0;
 	private int soundConfCursor = 0;
-	private List<TerminalButton> terminalButtons = new ArrayList<>();
+	private List<AsciiTerminalButton> terminalButtons = new ArrayList<>();
 	
 	// Octave cursor
 	private int octaveCursor = 2;
 	// Octave button list
-	private List<SelectableTerminalButton> octaveButtons = new ArrayList<>();
+	private List<AsciiSelectableTerminalButton> octaveButtons = new ArrayList<>();
 	// Current octave button active
-	private SelectableTerminalButton currentOctaveButton = null;
+	private AsciiSelectableTerminalButton currentOctaveButton = null;
 	
 	// Volume cursor
 	private int volumeCursor = 5;
 	// Volume button list
-	private List<SelectableTerminalButton> volumeButtons = new ArrayList<>();
+	private List<AsciiSelectableTerminalButton> volumeButtons = new ArrayList<>();
 	// Current volume button active
-	private SelectableTerminalButton currentVolumeButton = null;
+	private AsciiSelectableTerminalButton currentVolumeButton = null;
 	
 	// Oscillator cursor
 	private int instrumentCursor = 0;
 	// Oscillator button list
-	private List<SelectableTerminalButton> instrumentButtons = new ArrayList<>();
+	private List<AsciiSelectableTerminalButton> instrumentButtons = new ArrayList<>();
 	// Current oscillator button active
-	private SelectableTerminalButton currentInstrumentButton = null;
+	private AsciiSelectableTerminalButton currentInstrumentButton = null;
 	
 	public TrackerView() {
 		createSampleButtons();
@@ -49,7 +49,7 @@ public class TrackerView extends View {
 	}
 	
 	public void createSampleButtons() {
-		TerminalButton buttonDownSample = new TerminalButton(String.valueOf((char)17), Color.MAGENTA, Color.ORANGE, 1, 1, ChiptuneTracker.CHARACTER_WIDTH, ChiptuneTracker.CHARACTER_HEIGHT);
+		AsciiTerminalButton buttonDownSample = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)17), 1, 1, Color.MAGENTA, Color.ORANGE);
 		buttonDownSample.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -58,7 +58,7 @@ public class TrackerView extends View {
 		});
 		terminalButtons.add(buttonDownSample);
 		
-		TerminalButton buttonUpSample = new TerminalButton(String.valueOf((char)16), Color.MAGENTA, Color.ORANGE, 6, 1, ChiptuneTracker.CHARACTER_WIDTH, ChiptuneTracker.CHARACTER_HEIGHT);
+		AsciiTerminalButton buttonUpSample = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)16), 6, 1, Color.MAGENTA, Color.ORANGE);
 		buttonUpSample.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -70,13 +70,13 @@ public class TrackerView extends View {
 	
 	public void createOctaveButtons() {
 		for(int i = 1; i <= 4; i++) {
-			SelectableTerminalButton button = new SelectableTerminalButton(String.valueOf(i), Color.LIGHT_GRAY, Color.WHITE, Color.GREEN, 4 + i, 3, ChiptuneTracker.CHARACTER_WIDTH, ChiptuneTracker.CHARACTER_HEIGHT);
+			AsciiSelectableTerminalButton button = new AsciiSelectableTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf(i), 4 + i, 3, Color.LIGHT_GRAY, Color.WHITE, Color.GREEN);
 			button.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					currentOctaveButton.select(false);
-					SelectableTerminalButton button = (SelectableTerminalButton)e.getSource();
-					button.select(true);
+					currentOctaveButton.setSelect(false);
+					AsciiSelectableTerminalButton button = (AsciiSelectableTerminalButton)e.getSource();
+					button.setSelect(true);
 					currentOctaveButton = button;
 					changeOctave(button.getName());
 				}
@@ -85,7 +85,7 @@ public class TrackerView extends View {
 			octaveButtons.add(button);
 			if(i == 2) {
 				currentOctaveButton = button;
-				currentOctaveButton.select(true);
+				currentOctaveButton.setSelect(true);
 			}
 		}
 		terminalButtons.addAll(octaveButtons);
@@ -93,13 +93,13 @@ public class TrackerView extends View {
 	
 	public void createVolumeButtons() {
 		for(int i = 0; i <= 7; i++) {
-			SelectableTerminalButton button = new SelectableTerminalButton(String.valueOf(i), Color.LIGHT_GRAY, Color.WHITE, Color.CYAN, 5 + i, 5, ChiptuneTracker.CHARACTER_WIDTH, ChiptuneTracker.CHARACTER_HEIGHT);
+			AsciiSelectableTerminalButton button = new AsciiSelectableTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf(i), 5 + i, 5, Color.LIGHT_GRAY, Color.WHITE, Color.CYAN);
 			button.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					currentVolumeButton.select(false);
-					SelectableTerminalButton button = (SelectableTerminalButton)e.getSource();
-					button.select(true);
+					currentVolumeButton.setSelect(false);
+					AsciiSelectableTerminalButton button = (AsciiSelectableTerminalButton)e.getSource();
+					button.setSelect(true);
 					currentVolumeButton = button;
 					changeVolume(button.getName());
 				}
@@ -108,7 +108,7 @@ public class TrackerView extends View {
 			volumeButtons.add(button);
 			if(i == 5) {
 				currentVolumeButton = button;
-				currentVolumeButton.select(true);
+				currentVolumeButton.setSelect(true);
 			}
 		}
 		terminalButtons.addAll(volumeButtons);
@@ -116,13 +116,13 @@ public class TrackerView extends View {
 	
 	public void createOscillatorButtons() {
 		for(int i = 0; i <= 7; i++) {
-			SelectableTerminalButton button = new SelectableTerminalButton(String.valueOf((char)(224 + i)), Color.LIGHT_GRAY, Color.WHITE, Color.MAGENTA, ChiptuneTracker.WINDOW_WIDTH - 8 - 1 + i, 3, ChiptuneTracker.CHARACTER_WIDTH, ChiptuneTracker.CHARACTER_HEIGHT);
+			AsciiSelectableTerminalButton button = new AsciiSelectableTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)(224 + i)), ChiptuneTracker.WINDOW_WIDTH - 8 - 1 + i, 3, Color.LIGHT_GRAY, Color.WHITE, Color.MAGENTA);
 			button.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					currentInstrumentButton.select(false);
-					SelectableTerminalButton button = (SelectableTerminalButton)e.getSource();
-					button.select(true);
+					currentInstrumentButton.setSelect(false);
+					AsciiSelectableTerminalButton button = (AsciiSelectableTerminalButton)e.getSource();
+					button.setSelect(true);
 					currentInstrumentButton = button;
 					changeInstrument(button.getName());
 				}
@@ -131,14 +131,14 @@ public class TrackerView extends View {
 			instrumentButtons.add(button);
 			if(i == 0) {
 				currentInstrumentButton = button;
-				currentInstrumentButton.select(true);
+				currentInstrumentButton.setSelect(true);
 			}
 		}
 		terminalButtons.addAll(instrumentButtons);
 	}
 	
 	public void createSpeedButtons() {
-		TerminalButton reduceButton = new TerminalButton("-", Color.MAGENTA, Color.ORANGE, 13, 1, ChiptuneTracker.CHARACTER_WIDTH, ChiptuneTracker.CHARACTER_HEIGHT);
+		AsciiTerminalButton reduceButton = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, "-", 13, 1, Color.MAGENTA, Color.ORANGE);
 		reduceButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -150,7 +150,7 @@ public class TrackerView extends View {
 		});
 		terminalButtons.add(reduceButton);
 		
-		TerminalButton addButton = new TerminalButton("+", Color.MAGENTA, Color.ORANGE, 16, 1, ChiptuneTracker.CHARACTER_WIDTH, ChiptuneTracker.CHARACTER_HEIGHT);
+		AsciiTerminalButton addButton = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, "+", 16, 1, Color.MAGENTA, Color.ORANGE);
 		addButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -165,129 +165,120 @@ public class TrackerView extends View {
 
 	@Override
 	public void init() {
-		for(TerminalButton terminalButton : terminalButtons) {
+		for(AsciiTerminalButton terminalButton : terminalButtons) {
 			ChiptuneTracker.asciiPanel.add(terminalButton);
 		}
 	}
 
 	@Override
-	public boolean update(double delta) {
-		boolean change = true;
-//		KeyEvent event = ChiptuneTracker.asciiTerminal.getEvent();
-//		if(event != null) {
-//			// Change sample
-//			if(event.getKeyCode() == KeyEvent.VK_ADD) {
-//				changeSample(sampleCursor + 1);
-//			}
-//			else if(event.getKeyCode() == KeyEvent.VK_SUBTRACT) {
-//				changeSample(sampleCursor - 1);
-//			}
-//			
-//			// Change position cursor
-//			else if(event.getKeyCode() == KeyEvent.VK_LEFT) {
-//				if(soundConfCursor > 0) {
-//					soundConfCursor--;
-//				}
-//				else if(soundCursor / 8 > 0) {
-//					soundConfCursor = 4;
-//					soundCursor = soundCursor - 8;
-//				}
-//			}
-//			else if(event.getKeyCode() == KeyEvent.VK_RIGHT) {
-//				if(soundConfCursor < 4) {
-//					soundConfCursor++;
-//				}
-//				else if(soundCursor / 8 < 3) {
-//					soundConfCursor = 0;
-//					soundCursor = soundCursor + 8;
-//				}
-//			}
-//			else if(event.getKeyCode() == KeyEvent.VK_UP) {
-//				soundCursor--;
-//				if(soundCursor < 0) {
-//					soundCursor = Sample.SIZE - 1;
-//				}
-//			}
-//			else if(event.getKeyCode() == KeyEvent.VK_DOWN) {
-//				soundCursor++;
-//				if(soundCursor > Sample.SIZE - 1) {
-//					soundCursor = 0;
-//				}
-//			}
-//			
-//			// Write note
-//			else if(event.getKeyCode() == KeyEvent.VK_A) {
-//				setSound(Note.C);
-//			}
-//			else if(event.getKeyCode() == KeyEvent.VK_2) {
-//				setSound(Note.C_D);
-//			}
-//			else if(event.getKeyCode() == KeyEvent.VK_Z) {
-//				setSound(Note.D);
-//			}
-//			else if(event.getKeyCode() == KeyEvent.VK_3) {
-//				setSound(Note.D_D);
-//			}
-//			else if(event.getKeyCode() == KeyEvent.VK_E) {
-//				setSound(Note.E);
-//			}
-//			else if(event.getKeyCode() == KeyEvent.VK_R) {
-//				setSound(Note.F);
-//			}
-//			else if(event.getKeyCode() == KeyEvent.VK_5) {
-//				setSound(Note.F_D);
-//			}
-//			else if(event.getKeyCode() == KeyEvent.VK_T) {
-//				setSound(Note.G);
-//			}
-//			else if(event.getKeyCode() == KeyEvent.VK_6) {
-//				setSound(Note.G_D);
-//			}
-//			else if(event.getKeyCode() == KeyEvent.VK_Y) {
-//				setSound(Note.A);
-//			}
-//			else if(event.getKeyCode() == KeyEvent.VK_7) {
-//				setSound(Note.A_D);
-//			}
-//			else if(event.getKeyCode() == KeyEvent.VK_U) {
-//				setSound(Note.B);
-//			}
-//			else if(event.getKeyCode() >= KeyEvent.VK_NUMPAD0 && event.getKeyCode() <= KeyEvent.VK_NUMPAD9) {
-//				// Octave
-//				if(soundConfCursor == 1) {
-//					setOctave(event.getKeyCode() - 96);
-//				}
-//				// Instrument
-//				else if(soundConfCursor == 2) {
-//					setInstrument(event.getKeyCode() - 96);
-//				}
-//				// Volume
-//				else if(soundConfCursor == 3) {
-//					setVolume(event.getKeyCode() - 96);
-//				}
-//			}
-//			else if(event.getKeyCode() == KeyEvent.VK_DELETE) {
-//				deleteSound();
-//			}
-//			else if(event.getKeyCode() == KeyEvent.VK_SPACE) {
-//				if(!ChiptuneTracker.chanel.isPlay()) {
-//					ChiptuneTracker.chanel.play(ChiptuneTracker.samples.get(sampleCursor - 1));
-//				}
-//				else {
-//					ChiptuneTracker.chanel.stop();
-//				}
-//			}
-//			else {
-//				change = false;
-//			}
-//			
-//			ChiptuneTracker.asciiTerminal.setEvent(null);
-//		}
-//		else {
-//			change = false;
-//		}
-		
-		return change;
+	public void update(double delta) {
+		KeyEvent event = ChiptuneTracker.asciiTerminal.getEvent();
+		if(event != null) {
+			// Change sample
+			if(event.getKeyCode() == KeyEvent.VK_ADD) {
+				changeSample(sampleCursor + 1);
+			}
+			else if(event.getKeyCode() == KeyEvent.VK_SUBTRACT) {
+				changeSample(sampleCursor - 1);
+			}
+			
+			// Change position cursor
+			else if(event.getKeyCode() == KeyEvent.VK_LEFT) {
+				if(soundConfCursor > 0) {
+					soundConfCursor--;
+				}
+				else if(soundCursor / 8 > 0) {
+					soundConfCursor = 4;
+					soundCursor = soundCursor - 8;
+				}
+			}
+			else if(event.getKeyCode() == KeyEvent.VK_RIGHT) {
+				if(soundConfCursor < 4) {
+					soundConfCursor++;
+				}
+				else if(soundCursor / 8 < 3) {
+					soundConfCursor = 0;
+					soundCursor = soundCursor + 8;
+				}
+			}
+			else if(event.getKeyCode() == KeyEvent.VK_UP) {
+				soundCursor--;
+				if(soundCursor < 0) {
+					soundCursor = Sample.SIZE - 1;
+				}
+			}
+			else if(event.getKeyCode() == KeyEvent.VK_DOWN) {
+				soundCursor++;
+				if(soundCursor > Sample.SIZE - 1) {
+					soundCursor = 0;
+				}
+			}
+			
+			// Write note
+			else if(event.getKeyCode() == KeyEvent.VK_A) {
+				setSound(Note.C);
+			}
+			else if(event.getKeyCode() == KeyEvent.VK_2) {
+				setSound(Note.C_D);
+			}
+			else if(event.getKeyCode() == KeyEvent.VK_Z) {
+				setSound(Note.D);
+			}
+			else if(event.getKeyCode() == KeyEvent.VK_3) {
+				setSound(Note.D_D);
+			}
+			else if(event.getKeyCode() == KeyEvent.VK_E) {
+				setSound(Note.E);
+			}
+			else if(event.getKeyCode() == KeyEvent.VK_R) {
+				setSound(Note.F);
+			}
+			else if(event.getKeyCode() == KeyEvent.VK_5) {
+				setSound(Note.F_D);
+			}
+			else if(event.getKeyCode() == KeyEvent.VK_T) {
+				setSound(Note.G);
+			}
+			else if(event.getKeyCode() == KeyEvent.VK_6) {
+				setSound(Note.G_D);
+			}
+			else if(event.getKeyCode() == KeyEvent.VK_Y) {
+				setSound(Note.A);
+			}
+			else if(event.getKeyCode() == KeyEvent.VK_7) {
+				setSound(Note.A_D);
+			}
+			else if(event.getKeyCode() == KeyEvent.VK_U) {
+				setSound(Note.B);
+			}
+			else if(event.getKeyCode() >= KeyEvent.VK_NUMPAD0 && event.getKeyCode() <= KeyEvent.VK_NUMPAD9) {
+				// Octave
+				if(soundConfCursor == 1) {
+					setOctave(event.getKeyCode() - 96);
+				}
+				// Instrument
+				else if(soundConfCursor == 2) {
+					setInstrument(event.getKeyCode() - 96);
+				}
+				// Volume
+				else if(soundConfCursor == 3) {
+					setVolume(event.getKeyCode() - 96);
+				}
+			}
+			else if(event.getKeyCode() == KeyEvent.VK_DELETE) {
+				deleteSound();
+			}
+			else if(event.getKeyCode() == KeyEvent.VK_SPACE) {
+				if(!ChiptuneTracker.chanel.isPlay()) {
+					ChiptuneTracker.chanel.play(ChiptuneTracker.samples.get(sampleCursor - 1));
+				}
+				else {
+					ChiptuneTracker.chanel.stop();
+				}
+			}
+			
+			ChiptuneTracker.asciiTerminal.setEvent(null);
+		}
 	}
 	
 	/*
@@ -427,10 +418,6 @@ public class TrackerView extends View {
 
 	@Override
 	public void paint() {
-//		for(Component terminalButton : terminalButtons) {
-//			terminalButton.repaint();
-//		}
-		
 		Sample sample = ChiptuneTracker.samples.get(sampleCursor - 1);
 		
 		// Sample
@@ -490,9 +477,6 @@ public class TrackerView extends View {
 				}
 			}
 		}
-		
-		ChiptuneTracker.asciiTerminal.repaint();
-//		ChiptuneTracker.asciiPanel.repaint();
 	}
 	
 	private void printSelect(int position, int x, int y, String s, Color color) {
@@ -506,7 +490,7 @@ public class TrackerView extends View {
 
 	@Override
 	public void quit() {
-		for(Component terminalButton : terminalButtons) {
+		for(AsciiTerminalButton terminalButton : terminalButtons) {
 			ChiptuneTracker.asciiPanel.remove(terminalButton);
 		}
 	}

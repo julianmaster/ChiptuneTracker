@@ -9,25 +9,20 @@ public class EditorView extends View {
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
-	public boolean update(double delta) {
+	public void update(double delta) {
 		// TODO Auto-generated method stub
-		return false;
 	}
 
 	@Override
 	public void paint() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void quit() {
 		// TODO Auto-generated method stub
-		
 	}
-
 }
