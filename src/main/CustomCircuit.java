@@ -30,7 +30,7 @@ public class CustomCircuit extends Circuit implements UnitVoice {
 		
 		ampEnv.attack.set(0.01);
 		ampEnv.sustain.set(1.0);
-		ampEnv.release.set(0.1);
+		ampEnv.release.set(0.01);
 		
 //		ampEnv.attack.set(0.01);
 //		ampEnv.sustain.set(0.0);

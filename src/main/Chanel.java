@@ -13,7 +13,7 @@ import com.softsynth.shared.time.TimeStamp;
 
 public class Chanel {
 	public static final int CHANELS = 4;
-	public static final int INSTRUMENTS = 4;
+	public static final int INSTRUMENTS = 6;
 	public static final int VOLUME_MAX = 7;
 	
 	private Synthesizer synth;
@@ -42,8 +42,10 @@ public class Chanel {
 			add(i * INSTRUMENTS + 1, new CustomCircuit(sineSawtoothOscillator));
 			add(i * INSTRUMENTS + 2, new CustomCircuit(new SawtoothOscillatorDPW()));
 			add(i * INSTRUMENTS + 3, new CustomCircuit(new SquareOscillatorBL()));
-//			add(i * INSTRUMENTS + 4, new CustomCircuit());
-//			add(i * INSTRUMENTS + 5, new CustomCircuit());
+			add(i * INSTRUMENTS + 4, new CustomCircuit(new DemiSquareOscillator()));
+			FunctionOscillator mountainOscillator = new FunctionOscillator();
+			sineSawtoothOscillator.function.set(new MoutainFunction());
+			add(i * INSTRUMENTS + 5, new CustomCircuit(mountainOscillator));
 //			add(i * INSTRUMENTS + 6, new CustomCircuit(new WhiteNoise()));
 //			add(i * INSTRUMENTS + 7, new CustomCircuit(new TriangleOscillator()));
 		}
@@ -97,8 +99,8 @@ public class Chanel {
 					lastSoundTime += sampleFrequency;
 				}
 				
-				
 				soundCursor++;
+				System.out.println("Cursor: "+soundCursor);
 				if(soundCursor >= Sample.SIZE) {
 					play = false;
 				}
@@ -114,5 +116,10 @@ public class Chanel {
 		play = false;
 		double time = synth.getCurrentTime();
 		allocator.allNotesOff(new TimeStamp(time));
+		allocator.allNotesOff(new TimeStamp(lastSoundTime));
+	}
+	
+	public int getSoundCursor() {
+		return soundCursor;
 	}
 }

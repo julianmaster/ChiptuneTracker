@@ -12,6 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+import main.MoutainFunction;
+import main.DemiSquareOscillator;
 import main.SineSawtoothFunction;
 
 import com.jsyn.JSyn;
@@ -136,10 +138,15 @@ public class SeeOscillators extends JApplet
 		addOscillator( new ImpulseOscillator(), "Impulse" );
 		addOscillator( new ImpulseOscillatorBL(), "ImpulseBL" );
 		
-		FunctionOscillator funOsc = new FunctionOscillator();
-		funOsc.function.set(new SineSawtoothFunction());
+		FunctionOscillator funOsc1 = new FunctionOscillator();
+		funOsc1.function.set(new SineSawtoothFunction());
+		addOscillator( funOsc1, "SineSawtooth" );
 		
-		addOscillator( funOsc, "Test" );
+		addOscillator(new DemiSquareOscillator(), "DemiSquare");
+		
+		FunctionOscillator funOsc2 = new FunctionOscillator();
+		funOsc2.function.set(new MoutainFunction());
+		addOscillator( funOsc2, "Mountain" );
 
 		// Start synthesizer using default stereo output at 44100 Hz.
 		synth.start();

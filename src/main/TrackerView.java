@@ -445,35 +445,71 @@ public class TrackerView extends View {
 			
 			Sound sound = sample.sounds[i];
 			
-			if(i != soundCursor) {
-				if(sound != null) {
-					ChiptuneTracker.asciiPanel.writeString(x, y, sound.note.str, Color.WHITE, Color.BLACK);
-					ChiptuneTracker.asciiPanel.write(x+2, y, Character.forDigit(sound.octave, 10), Color.GREEN, Color.BLACK);
-					ChiptuneTracker.asciiPanel.write(x+3, y,  Character.forDigit(sound.instrument, 10), Color.MAGENTA, Color.BLACK);
-					ChiptuneTracker.asciiPanel.write(x+4, y,  Character.forDigit(sound.volume, 10), Color.CYAN, Color.BLACK);
-					ChiptuneTracker.asciiPanel.write(x+5, y, (char)239, Color.GRAY, Color.BLACK);
+			// The music isn't play
+			if(!ChiptuneTracker.chanel.isPlay()) {
+				if(i != soundCursor) {
+					if(sound != null) {
+						ChiptuneTracker.asciiPanel.writeString(x, y, sound.note.str, Color.WHITE, Color.BLACK);
+						ChiptuneTracker.asciiPanel.write(x+2, y, Character.forDigit(sound.octave, 10), Color.GREEN, Color.BLACK);
+						ChiptuneTracker.asciiPanel.write(x+3, y,  Character.forDigit(sound.instrument, 10), Color.MAGENTA, Color.BLACK);
+						ChiptuneTracker.asciiPanel.write(x+4, y,  Character.forDigit(sound.volume, 10), Color.CYAN, Color.BLACK);
+						ChiptuneTracker.asciiPanel.write(x+5, y, (char)239, Color.GRAY, Color.BLACK);
+					}
+					else {
+						for(int j = x; j < x + 6; j++) {
+							ChiptuneTracker.asciiPanel.write(j, y, (char)239, Color.GRAY, Color.BLACK);
+						}
+					}
 				}
 				else {
-					for(int j = x; j < x + 6; j++) {
-						ChiptuneTracker.asciiPanel.write(j, y, (char)239, Color.GRAY, Color.BLACK);
+					if(sound != null) {
+						printSelect(0, x, y, sound.note.str, Color.WHITE);
+						printSelect(1, x+2, y, String.valueOf(sound.octave), Color.LIGHT_GRAY);
+						printSelect(2, x+3, y, String.valueOf(sound.instrument), Color.MAGENTA);
+						printSelect(3, x+4, y, String.valueOf(sound.volume), Color.CYAN);
+						printSelect(4, x+5, y, String.valueOf((char)239), Color.GRAY);
+					}
+					else {
+						printSelect(0, x, y, String.valueOf((char)239), Color.GRAY);
+						printSelect(0, x+1, y, String.valueOf((char)239), Color.GRAY);
+						printSelect(1, x+2, y, String.valueOf((char)239), Color.GRAY);
+						printSelect(2, x+3, y, String.valueOf((char)239), Color.GRAY);
+						printSelect(3, x+4, y, String.valueOf((char)239), Color.GRAY);
+						printSelect(4, x+5, y, String.valueOf((char)239), Color.GRAY);
 					}
 				}
 			}
+			// The music is play
 			else {
-				if(sound != null) {
-					printSelect(0, x, y, sound.note.str, Color.WHITE);
-					printSelect(1, x+2, y, String.valueOf(sound.octave), Color.LIGHT_GRAY);
-					printSelect(2, x+3, y, String.valueOf(sound.instrument), Color.MAGENTA);
-					printSelect(3, x+4, y, String.valueOf(sound.volume), Color.CYAN);
-					printSelect(4, x+5, y, String.valueOf((char)239), Color.GRAY);
+				int soundPlayCursor = ChiptuneTracker.chanel.getSoundCursor();
+				
+				if(i != soundPlayCursor) {
+					if(sound != null) {
+						ChiptuneTracker.asciiPanel.writeString(x, y, sound.note.str, Color.WHITE, Color.BLACK);
+						ChiptuneTracker.asciiPanel.write(x+2, y, Character.forDigit(sound.octave, 10), Color.GREEN, Color.BLACK);
+						ChiptuneTracker.asciiPanel.write(x+3, y,  Character.forDigit(sound.instrument, 10), Color.MAGENTA, Color.BLACK);
+						ChiptuneTracker.asciiPanel.write(x+4, y,  Character.forDigit(sound.volume, 10), Color.CYAN, Color.BLACK);
+						ChiptuneTracker.asciiPanel.write(x+5, y, (char)239, Color.GRAY, Color.BLACK);
+					}
+					else {
+						for(int j = x; j < x + 6; j++) {
+							ChiptuneTracker.asciiPanel.write(j, y, (char)239, Color.GRAY, Color.BLACK);
+						}
+					}
 				}
 				else {
-					printSelect(0, x, y, String.valueOf((char)239), Color.GRAY);
-					printSelect(0, x+1, y, String.valueOf((char)239), Color.GRAY);
-					printSelect(1, x+2, y, String.valueOf((char)239), Color.GRAY);
-					printSelect(2, x+3, y, String.valueOf((char)239), Color.GRAY);
-					printSelect(3, x+4, y, String.valueOf((char)239), Color.GRAY);
-					printSelect(4, x+5, y, String.valueOf((char)239), Color.GRAY);
+					if(sound != null) {
+						ChiptuneTracker.asciiPanel.writeString(x, y, sound.note.str, Color.WHITE, Color.YELLOW);
+						ChiptuneTracker.asciiPanel.write(x+2, y, Character.forDigit(sound.octave, 10), Color.GREEN, Color.YELLOW);
+						ChiptuneTracker.asciiPanel.write(x+3, y,  Character.forDigit(sound.instrument, 10), Color.MAGENTA, Color.YELLOW);
+						ChiptuneTracker.asciiPanel.write(x+4, y,  Character.forDigit(sound.volume, 10), Color.CYAN, Color.YELLOW);
+						ChiptuneTracker.asciiPanel.write(x+5, y, (char)239, Color.GRAY, Color.YELLOW);
+					}
+					else {
+						for(int j = x; j < x + 6; j++) {
+							ChiptuneTracker.asciiPanel.write(j, y, (char)239, Color.GRAY, Color.YELLOW);
+						}
+					}
 				}
 			}
 		}
