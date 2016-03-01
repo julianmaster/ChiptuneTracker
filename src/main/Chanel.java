@@ -108,6 +108,16 @@ public class Chanel {
 		}
 	}
 	
+	public void play(Sound sound, int chanel, int speed, double time) {
+		double frequency = Notes.getFrequency(sound.octave, sound.note);
+		double volume = (double) sound.volume / (double) VOLUME_MAX;
+		double samplefrequency = 1 / ((double) speed / 2);
+		lastSoundTime += sampleFrequency;
+		allocator.noteOn(chanel* INSTRUMENTS + sound.instrument, frequency, volume, new TimeStamp(time));
+		double endTime = time + samplefrequency;
+		allocator.noteOff(chanel * INSTRUMENTS + sound.instrument, new TimeStamp(endTime));
+	}
+	
 	public boolean isPlay() {
 		return play;
 	}
