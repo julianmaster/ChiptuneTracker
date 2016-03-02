@@ -302,7 +302,7 @@ public class TrackerView extends View {
 			sound.instrument = instrumentCursor;
 			sound.volume = volumeCursor;
 			
-			ChiptuneTracker.chanel.play(sound, sample.speed);
+			ChiptuneTracker.chanel.play(sound);
 		}
 		else {
 			sample.sounds[soundCursor] = null;
@@ -326,7 +326,7 @@ public class TrackerView extends View {
 					soundCursor = 0;
 				}
 				
-				ChiptuneTracker.chanel.play(sound, sample.speed);
+				ChiptuneTracker.chanel.play(sound);
 			}
 		}
 	}
@@ -347,6 +347,7 @@ public class TrackerView extends View {
 				if(soundCursor > Sample.SIZE - 1) {
 					soundCursor = 0;
 				}
+				ChiptuneTracker.chanel.play(sound);
 			}
 		}
 	}
@@ -362,6 +363,7 @@ public class TrackerView extends View {
 				if(soundCursor > Sample.SIZE - 1) {
 					soundCursor = 0;
 				}
+				ChiptuneTracker.chanel.play(sound);
 			}
 		}
 	}

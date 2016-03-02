@@ -63,15 +63,9 @@ public class Chanel {
 		voices[position] = circuit;
 	}
 	
-	public void play(Sound sound, int speed) {
+	public void play(Sound sound) {
 		double time = synth.getCurrentTime();
-		double duration = 1 / ((double)speed / 2);
-		
-		double frequency = Notes.getFrequency(sound.octave, sound.note);
-		double volume = (double)sound.volume / (double)VOLUME_MAX;
-		allocator.noteOn(sound.instrument, frequency, volume, new TimeStamp(time));
-		time += duration;
-		allocator.noteOff(sound.instrument, new TimeStamp(time));
+		play(sound, 0, 16, time);
 	}
 	
 	public void play(Sample sample) {
@@ -100,7 +94,6 @@ public class Chanel {
 				}
 				
 				soundCursor++;
-				System.out.println("Cursor: "+soundCursor);
 				if(soundCursor >= Sample.SIZE) {
 					play = false;
 				}
