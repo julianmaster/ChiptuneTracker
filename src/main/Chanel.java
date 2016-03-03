@@ -69,33 +69,32 @@ public class Chanel {
 	}
 	
 	public void play(Sample sample) {
-		samplePlay = sample; 
+		samplePlay = sample;
 		lastSoundTime = synth.getCurrentTime();
 		sampleFrequency = 1 / ((double)sample.speed / 2);
 		soundCursor = 0;
 		play = true;
+		if(samplePlay.sounds[soundCursor] != null) {
+			play(samplePlay.sounds[soundCursor], 0, sample.speed, lastSoundTime);
+		}
 	}
 	
 	public void update() {
 		if(play) {
 			double currentTime = synth.getCurrentTime();
 			if(currentTime > lastSoundTime) {
-				Sound sound = samplePlay.sounds[soundCursor];
-				if(sound != null) {
-					double frequency = Notes.getFrequency(sound.octave, sound.note);
-					double volume = (double)sound.volume / (double) VOLUME_MAX;
-					lastSoundTime += sampleFrequency;
-					allocator.noteOn(sound.instrument, frequency, volume, new TimeStamp(lastSoundTime));
-					double endSoundTime = lastSoundTime + sampleFrequency;
-					allocator.noteOff(sound.instrument, new TimeStamp(endSoundTime));
-				}
-				else {
-					lastSoundTime += sampleFrequency;
-				}
-				
 				soundCursor++;
 				if(soundCursor >= Sample.SIZE) {
 					play = false;
+				}
+				
+				Sound sound = samplePlay.sounds[soundCursor];
+				if(sound != null) {
+					lastSoundTime += sampleFrequency;
+					play(sound, 0, samplePlay.speed, lastSoundTime);
+				}
+				else {
+					lastSoundTime += sampleFrequency;
 				}
 			}
 		}
@@ -105,7 +104,6 @@ public class Chanel {
 		double frequency = Notes.getFrequency(sound.octave, sound.note);
 		double volume = (double) sound.volume / (double) VOLUME_MAX;
 		double samplefrequency = 1 / ((double) speed / 2);
-		lastSoundTime += sampleFrequency;
 		allocator.noteOn(chanel* INSTRUMENTS + sound.instrument, frequency, volume, new TimeStamp(time));
 		double endTime = time + samplefrequency;
 		allocator.noteOff(chanel * INSTRUMENTS + sound.instrument, new TimeStamp(endTime));
