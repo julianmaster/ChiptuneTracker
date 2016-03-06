@@ -1,5 +1,8 @@
 package main;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.unitgen.FunctionOscillator;
@@ -7,7 +10,6 @@ import com.jsyn.unitgen.LineOut;
 import com.jsyn.unitgen.SawtoothOscillatorDPW;
 import com.jsyn.unitgen.SineOscillator;
 import com.jsyn.unitgen.SquareOscillatorBL;
-import com.jsyn.unitgen.TriangleOscillator;
 import com.jsyn.util.VoiceAllocator;
 import com.softsynth.shared.time.TimeStamp;
 
@@ -26,6 +28,10 @@ public class Chanel {
 	private double lastSoundTime;
 	private boolean play = false;
 	private int soundCursor;
+	
+	private int UICursor;
+	private TimerTask cursorTask;
+	private Timer timer;
 	
 	public Chanel() {
 		synth = JSyn.createSynthesizer();
@@ -49,11 +55,12 @@ public class Chanel {
 //			add(i * INSTRUMENTS + 6, new CustomCircuit(new WhiteNoise()));
 //			add(i * INSTRUMENTS + 7, new CustomCircuit(new TriangleOscillator()));
 		}
-		
 		allocator = new VoiceAllocator(voices);
 		
 		synth.start();
 		lineOut.start();
+		
+		timer = new Timer();
 	}
 	
 	public void add(int position, CustomCircuit circuit) {
@@ -77,15 +84,32 @@ public class Chanel {
 		if(samplePlay.sounds[soundCursor] != null) {
 			play(samplePlay.sounds[soundCursor], 0, sample.speed, lastSoundTime);
 		}
+
+		// Timer UI cursor
+		UICursor = 0;
+		cursorTask = new TimerTask() {
+			@Override
+			public void run() {
+				if(UICursor <= Sample.SIZE) {
+					UICursor++;
+				}
+				else {
+					stop();
+				}
+			}
+		};
+		timer.scheduleAtFixedRate(cursorTask, (long)(sampleFrequency*1000), (long)(sampleFrequency*1000));
 	}
 	
 	public void update() {
 		if(play) {
 			double currentTime = synth.getCurrentTime();
 			if(currentTime > lastSoundTime) {
-				soundCursor++;
-				if(soundCursor >= Sample.SIZE) {
-					play = false;
+				if(soundCursor < Sample.SIZE - 1) {
+					soundCursor++;
+				}
+				else {
+					return;
 				}
 				
 				Sound sound = samplePlay.sounds[soundCursor];
@@ -115,12 +139,15 @@ public class Chanel {
 	
 	public void stop() {
 		play = false;
+		cursorTask.cancel();
 		double time = synth.getCurrentTime();
 		allocator.allNotesOff(new TimeStamp(time));
 		allocator.allNotesOff(new TimeStamp(lastSoundTime));
 	}
 	
 	public int getSoundCursor() {
-		return soundCursor;
+		return UICursor;
 	}
+	
+	
 }
