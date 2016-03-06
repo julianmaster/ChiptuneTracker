@@ -12,6 +12,10 @@ import ui.AsciiSelectableTerminalButton;
 import ui.AsciiTerminal;
 import ui.CustomAsciiTerminal;
 
+// A regarder :
+//  * Music Components in Java
+//  * jMusic
+
 public class ChiptuneTracker {
 	public static final String TITLE = "ChiptuneTracker";
 	public static final int WINDOW_WIDTH = 29;

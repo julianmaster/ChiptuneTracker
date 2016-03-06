@@ -14,8 +14,8 @@ import com.jsyn.util.VoiceAllocator;
 import com.softsynth.shared.time.TimeStamp;
 
 public class Chanel {
-	public static final int CHANELS = 4;
-	public static final int INSTRUMENTS = 6;
+	public static final int CHANELS = 1;
+	public static final int INSTRUMENTS = 5;
 	public static final int VOLUME_MAX = 7;
 	
 	private Synthesizer synth;
@@ -49,9 +49,9 @@ public class Chanel {
 			add(i * INSTRUMENTS + 2, new CustomCircuit(new SawtoothOscillatorDPW()));
 			add(i * INSTRUMENTS + 3, new CustomCircuit(new SquareOscillatorBL()));
 			add(i * INSTRUMENTS + 4, new CustomCircuit(new DemiSquareOscillator()));
-			FunctionOscillator mountainOscillator = new FunctionOscillator();
-			sineSawtoothOscillator.function.set(new MoutainFunction());
-			add(i * INSTRUMENTS + 5, new CustomCircuit(mountainOscillator));
+//			FunctionOscillator mountainOscillator = new FunctionOscillator();
+//			sineSawtoothOscillator.function.set(new MoutainFunction());
+//			add(i * INSTRUMENTS + 5, new CustomCircuit(mountainOscillator));
 //			add(i * INSTRUMENTS + 6, new CustomCircuit(new WhiteNoise()));
 //			add(i * INSTRUMENTS + 7, new CustomCircuit(new TriangleOscillator()));
 		}
@@ -101,6 +101,16 @@ public class Chanel {
 		timer.scheduleAtFixedRate(cursorTask, (long)(sampleFrequency*1000), (long)(sampleFrequency*1000));
 	}
 	
+	public void play(Sound sound, int chanel, int speed, double time) {
+		double frequency = Notes.getFrequency(sound.octave, sound.note);
+		double volume = (double) sound.volume / (double) VOLUME_MAX;
+		double samplefrequency = 1 / ((double) speed / 2);
+		System.out.println(sound.instrument);
+		allocator.noteOn(chanel * INSTRUMENTS + sound.instrument, frequency, volume, new TimeStamp(time));
+		double endTime = time + samplefrequency;
+		allocator.noteOff(chanel * INSTRUMENTS + sound.instrument, new TimeStamp(endTime));
+	}
+	
 	public void update() {
 		if(play) {
 			double currentTime = synth.getCurrentTime();
@@ -124,15 +134,6 @@ public class Chanel {
 		}
 	}
 	
-	public void play(Sound sound, int chanel, int speed, double time) {
-		double frequency = Notes.getFrequency(sound.octave, sound.note);
-		double volume = (double) sound.volume / (double) VOLUME_MAX;
-		double samplefrequency = 1 / ((double) speed / 2);
-		allocator.noteOn(chanel* INSTRUMENTS + sound.instrument, frequency, volume, new TimeStamp(time));
-		double endTime = time + samplefrequency;
-		allocator.noteOff(chanel * INSTRUMENTS + sound.instrument, new TimeStamp(endTime));
-	}
-	
 	public boolean isPlay() {
 		return play;
 	}
@@ -148,6 +149,4 @@ public class Chanel {
 	public int getSoundCursor() {
 		return UICursor;
 	}
-	
-	
 }

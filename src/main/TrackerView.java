@@ -41,9 +41,9 @@ public class TrackerView extends View {
 	
 	public TrackerView() {
 		createSampleButtons();
+		createSpeedButtons();
 		createOctaveButtons();
 		createVolumeButtons();
-		createSpeedButtons();
 		createOscillatorButtons();
 		changeSample(1);
 	}
@@ -66,6 +66,32 @@ public class TrackerView extends View {
 			}
 		});
 		terminalButtons.add(buttonUpSample);
+	}
+	
+	public void createSpeedButtons() {
+		AsciiTerminalButton reduceButton = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, "-", 13, 1, Color.MAGENTA, Color.ORANGE);
+		reduceButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Sample sample = ChiptuneTracker.samples.get(sampleCursor - 1);
+				if(sample.speed > 1) {
+					sample.speed--;
+				}
+			}
+		});
+		terminalButtons.add(reduceButton);
+		
+		AsciiTerminalButton addButton = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, "+", 16, 1, Color.MAGENTA, Color.ORANGE);
+		addButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Sample sample = ChiptuneTracker.samples.get(sampleCursor - 1);
+				if(sample.speed < 32) {
+					sample.speed++;
+				}
+			}
+		});
+		terminalButtons.add(addButton);
 	}
 	
 	public void createOctaveButtons() {
@@ -137,32 +163,6 @@ public class TrackerView extends View {
 		terminalButtons.addAll(instrumentButtons);
 	}
 	
-	public void createSpeedButtons() {
-		AsciiTerminalButton reduceButton = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, "-", 13, 1, Color.MAGENTA, Color.ORANGE);
-		reduceButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				Sample sample = ChiptuneTracker.samples.get(sampleCursor - 1);
-				if(sample.speed > 1) {
-					sample.speed--;
-				}
-			}
-		});
-		terminalButtons.add(reduceButton);
-		
-		AsciiTerminalButton addButton = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, "+", 16, 1, Color.MAGENTA, Color.ORANGE);
-		addButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				Sample sample = ChiptuneTracker.samples.get(sampleCursor - 1);
-				if(sample.speed < 32) {
-					sample.speed++;
-				}
-			}
-		});
-		terminalButtons.add(addButton);
-	}
-
 	@Override
 	public void init() {
 		for(AsciiTerminalButton terminalButton : terminalButtons) {
@@ -403,19 +403,7 @@ public class TrackerView extends View {
 	}
 	
 	public void changeInstrument(String instrument) {
-		int numIntrument = Integer.valueOf(instrument.charAt(0)) - 224;
-		if(numIntrument >= 0 && numIntrument <= 7) {
-			Sample sample = ChiptuneTracker.samples.get(sampleCursor - 1);
-			Sound sound = sample.sounds[soundCursor];
-			if(sound != null) {
-				sound.instrument = numIntrument;
-				
-				soundCursor++;
-				if(soundCursor > Sample.SIZE - 1) {
-					soundCursor = 0;
-				}
-			}
-		}
+		instrumentCursor = Integer.valueOf(instrument.charAt(0) - 224);
 	}
 
 	@Override
