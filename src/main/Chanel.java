@@ -10,16 +10,16 @@ import com.jsyn.unitgen.LineOut;
 import com.jsyn.unitgen.SawtoothOscillatorDPW;
 import com.jsyn.unitgen.SineOscillator;
 import com.jsyn.unitgen.SquareOscillatorBL;
-import com.jsyn.util.VoiceAllocator;
+import com.jsyn.unitgen.WhiteNoise;
+import com.softsynth.shared.time.ScheduledCommand;
 import com.softsynth.shared.time.TimeStamp;
 
 public class Chanel {
 	public static final int CHANELS = 1;
-	public static final int INSTRUMENTS = 3;
+	public static final int INSTRUMENTS = 7;
 	public static final int VOLUME_MAX = 7;
 	
 	private Synthesizer synth;
-//	private VoiceAllocator allocator;
 	private CustomCircuit[] voices;
 	private LineOut lineOut;
 	
@@ -42,20 +42,19 @@ public class Chanel {
 		voices = new CustomCircuit[CHANELS * INSTRUMENTS];
 		
 		for(int i = 0; i < CHANELS; i++) {
-			add(i * INSTRUMENTS, new CustomCircuit(new SineOscillator()));
+			add(i * INSTRUMENTS, new OscillatorCircuit(new SineOscillator()));
 			FunctionOscillator sineSawtoothOscillator = new FunctionOscillator();
 			sineSawtoothOscillator.function.set(new SineSawtoothFunction());
-			add(i * INSTRUMENTS + 1, new CustomCircuit(sineSawtoothOscillator));
-			add(i * INSTRUMENTS + 2, new CustomCircuit(new SawtoothOscillatorDPW()));
-//			add(i * INSTRUMENTS + 3, new CustomCircuit(new SquareOscillatorBL()));
-//			add(i * INSTRUMENTS + 4, new CustomCircuit(new DemiSquareOscillator()));
-//			FunctionOscillator mountainOscillator = new FunctionOscillator();
-//			sineSawtoothOscillator.function.set(new MoutainFunction());
-//			add(i * INSTRUMENTS + 5, new CustomCircuit(mountainOscillator));
-//			add(i * INSTRUMENTS + 6, new CustomCircuit(new WhiteNoise()));
+			add(i * INSTRUMENTS + 1, new OscillatorCircuit(sineSawtoothOscillator));
+			add(i * INSTRUMENTS + 2, new OscillatorCircuit(new SawtoothOscillatorDPW()));
+			add(i * INSTRUMENTS + 3, new OscillatorCircuit(new SquareOscillatorBL()));
+			add(i * INSTRUMENTS + 4, new OscillatorCircuit(new DemiSquareOscillator()));
+			FunctionOscillator mountainOscillator = new FunctionOscillator();
+			sineSawtoothOscillator.function.set(new MoutainFunction());
+			add(i * INSTRUMENTS + 5, new OscillatorCircuit(mountainOscillator));
+			add(i * INSTRUMENTS + 6, new WhiteNoiseCircuit(new WhiteNoise()));
 //			add(i * INSTRUMENTS + 7, new CustomCircuit(new TriangleOscillator()));
 		}
-//		allocator = new VoiceAllocator(voices);
 		
 		synth.start();
 		lineOut.start();
@@ -68,6 +67,10 @@ public class Chanel {
 		circuit.getOutput().connect(0, lineOut.input, 0);
 		circuit.getOutput().connect(0, lineOut.input, 1);
 		voices[position] = circuit;
+	}
+	
+	public Synthesizer getSynthesizer(int chanel, int instrument) {
+		return voices[chanel * INSTRUMENTS + instrument].getSynthesizer();
 	}
 	
 	public void play(Sound sound) {
@@ -101,16 +104,28 @@ public class Chanel {
 		timer.scheduleAtFixedRate(cursorTask, (long)(sampleFrequency*1000), (long)(sampleFrequency*1000));
 	}
 	
-	public void play(Sound sound, int chanel, int speed, double time) {
-		double frequency = Notes.getFrequency(sound.octave, sound.note);
-		double volume = (double) sound.volume / (double) VOLUME_MAX;
+	public void play(final Sound sound, final int chanel, int speed, double time) {
+		final double frequency = Notes.getFrequency(sound.octave, sound.note);
+		final double volume = (double) sound.volume / (double) VOLUME_MAX;
 		double samplefrequency = 1 / ((double) speed / 2);
 		System.out.println(sound.instrument);
-		voices[chanel * INSTRUMENTS + sound.instrument].noteOn(frequency, volume, new TimeStamp(time));
-//		allocator.noteOn(chanel * INSTRUMENTS + sound.instrument, frequency, volume, new TimeStamp(time));
-		double endTime = time + samplefrequency;
-		voices[chanel * INSTRUMENTS + sound.instrument].noteOff(new TimeStamp(time));
-//		allocator.noteOff(chanel * INSTRUMENTS + sound.instrument, new TimeStamp(endTime));
+		
+		final TimeStamp start = new TimeStamp(time);
+		TimeStamp end = new TimeStamp(time + samplefrequency);
+		
+		getSynthesizer(chanel, sound.instrument).scheduleCommand(start, new ScheduledCommand() {
+			@Override
+			public void run() {
+				voices[chanel * INSTRUMENTS + sound.instrument].noteOn(frequency, volume, voices[chanel * INSTRUMENTS + sound.instrument].getSynthesizer().createTimeStamp());
+			}
+		});
+		
+		getSynthesizer(chanel, sound.instrument).scheduleCommand(end, new ScheduledCommand() {
+			@Override
+			public void run() {
+				voices[chanel * INSTRUMENTS + sound.instrument].noteOff(voices[chanel * INSTRUMENTS + sound.instrument].getSynthesizer().createTimeStamp());
+			}
+		});
 	}
 	
 	public void update() {
@@ -148,8 +163,6 @@ public class Chanel {
 			circuit.noteOff(new TimeStamp(time));
 			circuit.noteOff(new TimeStamp(lastSoundTime));
 		}
-//		allocator.allNotesOff(new TimeStamp(time));
-//		allocator.allNotesOff(new TimeStamp(lastSoundTime));
 	}
 	
 	public int getSoundCursor() {
