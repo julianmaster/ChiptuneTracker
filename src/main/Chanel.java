@@ -15,11 +15,11 @@ import com.softsynth.shared.time.TimeStamp;
 
 public class Chanel {
 	public static final int CHANELS = 1;
-	public static final int INSTRUMENTS = 5;
+	public static final int INSTRUMENTS = 3;
 	public static final int VOLUME_MAX = 7;
 	
 	private Synthesizer synth;
-	private VoiceAllocator allocator;
+//	private VoiceAllocator allocator;
 	private CustomCircuit[] voices;
 	private LineOut lineOut;
 	
@@ -47,15 +47,15 @@ public class Chanel {
 			sineSawtoothOscillator.function.set(new SineSawtoothFunction());
 			add(i * INSTRUMENTS + 1, new CustomCircuit(sineSawtoothOscillator));
 			add(i * INSTRUMENTS + 2, new CustomCircuit(new SawtoothOscillatorDPW()));
-			add(i * INSTRUMENTS + 3, new CustomCircuit(new SquareOscillatorBL()));
-			add(i * INSTRUMENTS + 4, new CustomCircuit(new DemiSquareOscillator()));
+//			add(i * INSTRUMENTS + 3, new CustomCircuit(new SquareOscillatorBL()));
+//			add(i * INSTRUMENTS + 4, new CustomCircuit(new DemiSquareOscillator()));
 //			FunctionOscillator mountainOscillator = new FunctionOscillator();
 //			sineSawtoothOscillator.function.set(new MoutainFunction());
 //			add(i * INSTRUMENTS + 5, new CustomCircuit(mountainOscillator));
 //			add(i * INSTRUMENTS + 6, new CustomCircuit(new WhiteNoise()));
 //			add(i * INSTRUMENTS + 7, new CustomCircuit(new TriangleOscillator()));
 		}
-		allocator = new VoiceAllocator(voices);
+//		allocator = new VoiceAllocator(voices);
 		
 		synth.start();
 		lineOut.start();
@@ -106,9 +106,11 @@ public class Chanel {
 		double volume = (double) sound.volume / (double) VOLUME_MAX;
 		double samplefrequency = 1 / ((double) speed / 2);
 		System.out.println(sound.instrument);
-		allocator.noteOn(chanel * INSTRUMENTS + sound.instrument, frequency, volume, new TimeStamp(time));
+		voices[chanel * INSTRUMENTS + sound.instrument].noteOn(frequency, volume, new TimeStamp(time));
+//		allocator.noteOn(chanel * INSTRUMENTS + sound.instrument, frequency, volume, new TimeStamp(time));
 		double endTime = time + samplefrequency;
-		allocator.noteOff(chanel * INSTRUMENTS + sound.instrument, new TimeStamp(endTime));
+		voices[chanel * INSTRUMENTS + sound.instrument].noteOff(new TimeStamp(time));
+//		allocator.noteOff(chanel * INSTRUMENTS + sound.instrument, new TimeStamp(endTime));
 	}
 	
 	public void update() {
@@ -142,8 +144,12 @@ public class Chanel {
 		play = false;
 		cursorTask.cancel();
 		double time = synth.getCurrentTime();
-		allocator.allNotesOff(new TimeStamp(time));
-		allocator.allNotesOff(new TimeStamp(lastSoundTime));
+		for(CustomCircuit circuit : voices) {
+			circuit.noteOff(new TimeStamp(time));
+			circuit.noteOff(new TimeStamp(lastSoundTime));
+		}
+//		allocator.allNotesOff(new TimeStamp(time));
+//		allocator.allNotesOff(new TimeStamp(lastSoundTime));
 	}
 	
 	public int getSoundCursor() {
