@@ -34,8 +34,8 @@ public class ChiptuneTracker {
 	public static Chanel chanel = new Chanel();
 	
 	private View currentView;
-	public TrackerView trackerView;
-	public EditorView editorView;
+	public static TrackerView trackerView;
+	public static EditorView editorView;
 	
 	public ChiptuneTracker() {
 		asciiTerminal = new CustomAsciiTerminal(TITLE, new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT), TILESET_FILE, CHARACTER_WIDTH, CHARACTER_HEIGHT);
@@ -43,8 +43,8 @@ public class ChiptuneTracker {
 		asciiPanel.setDefaultCharacterBackgroundColor(Color.DARK_GRAY);
 		asciiPanel.setDefaultCharacterColor(Color.WHITE);
 		
-		trackerView = new TrackerView();
-		editorView = new EditorView();
+		trackerView = new TrackerView(this);
+		editorView = new EditorView(this);
 		changeView(trackerView);
 		
 		run();
@@ -86,7 +86,7 @@ public class ChiptuneTracker {
 		}
 		currentView = nextView;
 		currentView.init();
-		currentView.paint();
+		ChiptuneTracker.asciiPanel.clear();
 	}
 
 	public static void main(String[] args) {

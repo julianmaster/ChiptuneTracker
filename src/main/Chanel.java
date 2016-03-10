@@ -17,7 +17,7 @@ import com.softsynth.shared.time.TimeStamp;
 
 public class Chanel {
 	public static final int CHANELS = 1;
-	public static final int INSTRUMENTS = 7;
+	public static final int INSTRUMENTS = 8;
 	public static final int VOLUME_MAX = 7;
 	
 	private Synthesizer synth;
@@ -51,7 +51,7 @@ public class Chanel {
 			add(i * INSTRUMENTS + 3, new OscillatorCircuit(new SquareOscillatorBL()));
 			add(i * INSTRUMENTS + 4, new OscillatorCircuit(new DemiSquareOscillator()));
 			FunctionOscillator mountainOscillator = new FunctionOscillator();
-			sineSawtoothOscillator.function.set(new MoutainFunction());
+			mountainOscillator.function.set(new MoutainFunction());
 			add(i * INSTRUMENTS + 5, new OscillatorCircuit(mountainOscillator));
 			add(i * INSTRUMENTS + 6, new WhiteNoiseCircuit(new WhiteNoise()));
 			add(i * INSTRUMENTS + 7, new OscillatorCircuit(new TriangleOscillator()));
