@@ -68,6 +68,10 @@ public class TrackerView extends View {
 		terminalButtons.add(buttonUpSample);
 	}
 	
+	public void createSwitchViewButtons() {
+//		AsciiTerminalButton buttonTrackerView = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, "", x, y, mouseDefaultColor, mouseEnteredColor)
+	}
+	
 	public void createSpeedButtons() {
 		AsciiTerminalButton reduceButton = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, "-", 13, 1, Color.MAGENTA, Color.ORANGE);
 		reduceButton.addMouseListener(new MouseAdapter() {

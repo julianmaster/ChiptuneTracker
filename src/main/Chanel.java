@@ -10,6 +10,7 @@ import com.jsyn.unitgen.LineOut;
 import com.jsyn.unitgen.SawtoothOscillatorDPW;
 import com.jsyn.unitgen.SineOscillator;
 import com.jsyn.unitgen.SquareOscillatorBL;
+import com.jsyn.unitgen.TriangleOscillator;
 import com.jsyn.unitgen.WhiteNoise;
 import com.softsynth.shared.time.ScheduledCommand;
 import com.softsynth.shared.time.TimeStamp;
@@ -53,7 +54,7 @@ public class Chanel {
 			sineSawtoothOscillator.function.set(new MoutainFunction());
 			add(i * INSTRUMENTS + 5, new OscillatorCircuit(mountainOscillator));
 			add(i * INSTRUMENTS + 6, new WhiteNoiseCircuit(new WhiteNoise()));
-//			add(i * INSTRUMENTS + 7, new CustomCircuit(new TriangleOscillator()));
+			add(i * INSTRUMENTS + 7, new OscillatorCircuit(new TriangleOscillator()));
 		}
 		
 		synth.start();
