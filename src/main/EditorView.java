@@ -12,7 +12,7 @@ import ui.AsciiTerminalButton;
 
 public class EditorView extends View {
 
-	private static ChiptuneTracker chiptuneTracker;
+	private final ChiptuneTracker chiptuneTracker;
 	
 	private List<AsciiTerminalButton> terminalButtons = new ArrayList<>();
 	
@@ -20,10 +20,40 @@ public class EditorView extends View {
 	private AsciiSelectableTerminalButton buttonEditorView;
 	private AsciiSelectableTerminalButton buttonTrackerView;
 	
+	private int patternCursor = 0;
+	
 	public EditorView(ChiptuneTracker chiptuneTracker) {
 		this.chiptuneTracker = chiptuneTracker;
-		
+		createPatternButtons();
 		createSwitchViewButtons();
+	}
+
+	public void createPatternButtons() {
+		AsciiTerminalButton buttonDownSample = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)17), 9, 1, Color.MAGENTA, Color.ORANGE);
+		buttonDownSample.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		buttonDownSample.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				patternCursor--;
+				if(patternCursor < 0) {
+					patternCursor = 0;
+				}
+			}
+		});
+		terminalButtons.add(buttonDownSample);
+		
+		AsciiTerminalButton buttonUpSample = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)16), ChiptuneTracker.WINDOW_WIDTH - 12, 1, Color.MAGENTA, Color.ORANGE);
+		buttonUpSample.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		buttonUpSample.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				patternCursor++;
+				if(patternCursor > 95) {
+					patternCursor = 95;
+				}
+			}
+		});
+		terminalButtons.add(buttonUpSample);
 	}
 	
 	public void createSwitchViewButtons() {
@@ -41,7 +71,7 @@ public class EditorView extends View {
 		buttonEditorView.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		terminalButtons.add(buttonEditorView);
 	}
-
+	
 	@Override
 	public void init() {
 		buttonTrackerView.setSelect(false);
@@ -49,6 +79,10 @@ public class EditorView extends View {
 		for(AsciiTerminalButton terminalButton : terminalButtons) {
 			ChiptuneTracker.asciiPanel.add(terminalButton);
 		}
+	}
+	
+	public void changeButtons() {
+		
 	}
 
 	@Override
@@ -58,7 +92,11 @@ public class EditorView extends View {
 
 	@Override
 	public void paint() {
-		// TODO Auto-generated method stub
+		// Pattern
+		
+		ChiptuneTracker.asciiPanel.writeString(1, 1, "PATTERN", Color.gray);
+		
+		ChiptuneTracker.asciiPanel.writeString(11, 1, "PATTERN", Color.gray);
 	}
 
 	@Override

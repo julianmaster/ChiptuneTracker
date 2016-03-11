@@ -109,7 +109,6 @@ public class Chanel {
 		final double frequency = Notes.getFrequency(sound.octave, sound.note);
 		final double volume = (double) sound.volume / (double) VOLUME_MAX;
 		double samplefrequency = 1 / ((double) speed / 2);
-		System.out.println(sound.instrument);
 		
 		final TimeStamp start = new TimeStamp(time);
 		TimeStamp end = new TimeStamp(time + samplefrequency);

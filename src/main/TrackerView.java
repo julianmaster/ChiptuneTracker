@@ -13,7 +13,7 @@ import ui.AsciiTerminalButton;
 
 public class TrackerView extends View {
 	
-	private static ChiptuneTracker chiptuneTracker;
+	private final ChiptuneTracker chiptuneTracker;
 	private int sampleCursor = 1;
 	private int soundCursor = 0;
 	private int soundConfCursor = 0;
