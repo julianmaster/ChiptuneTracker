@@ -19,10 +19,12 @@ import ui.CustomAsciiTerminal;
 public class ChiptuneTracker {
 	public static final String TITLE = "ChiptuneTracker";
 	public static final int WINDOW_WIDTH = 29;
-	public static final int WINDOW_HEIGHT = 16;
+	public static final int WINDOW_HEIGHT = 18;
 	public static final String TILESET_FILE = "src/assets/wanderlust.png";
 	public static final int CHARACTER_WIDTH = 12;
 	public static final int CHARACTER_HEIGHT = 12;
+	public static final Color INDIGO = new Color(61, 81, 181);
+	public static final Color DEEP_ORANGE = new Color(255, 120, 8);
 	
 	public static final int TARGET_FPS = 60;
 	public static final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;
@@ -85,8 +87,8 @@ public class ChiptuneTracker {
 			currentView.quit();
 		}
 		currentView = nextView;
-		currentView.init();
 		ChiptuneTracker.asciiPanel.clear();
+		currentView.init();
 	}
 
 	public static void main(String[] args) {

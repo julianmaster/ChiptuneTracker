@@ -20,6 +20,7 @@ public class TrackerView extends View {
 	private List<AsciiTerminalButton> terminalButtons = new ArrayList<>();
 	
 	// Panels buttons
+	private AsciiSelectableTerminalButton buttonMenuView;
 	private AsciiSelectableTerminalButton buttonTrackerView;
 	private AsciiSelectableTerminalButton buttonEditorView;
 	
@@ -55,34 +56,16 @@ public class TrackerView extends View {
 		changeSample(1);
 	}
 	
-	public void createSampleButtons() {
-		AsciiTerminalButton buttonDownSample = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)17), 1, 1, Color.MAGENTA, Color.ORANGE);
-		buttonDownSample.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		buttonDownSample.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				changeSample(sampleCursor - 1);
-			}
-		});
-		terminalButtons.add(buttonDownSample);
-		
-		AsciiTerminalButton buttonUpSample = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)16), 6, 1, Color.MAGENTA, Color.ORANGE);
-		buttonUpSample.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		buttonUpSample.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				changeSample(sampleCursor + 1);
-			}
-		});
-		terminalButtons.add(buttonUpSample);
-	}
-	
 	public void createSwitchViewButtons() {
-		buttonTrackerView = new AsciiSelectableTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)13) + "Tra", ChiptuneTracker.WINDOW_WIDTH - 10, 1, Color.MAGENTA, Color.ORANGE, Color.ORANGE);
+		buttonMenuView = new AsciiSelectableTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)255) + "Menu", 1, 0, Color.WHITE, ChiptuneTracker.DEEP_ORANGE, ChiptuneTracker.DEEP_ORANGE, ChiptuneTracker.INDIGO);
+		buttonMenuView.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		terminalButtons.add(buttonMenuView);
+		
+		buttonTrackerView = new AsciiSelectableTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)13) + "Sample", 7, 0, Color.WHITE, ChiptuneTracker.DEEP_ORANGE, ChiptuneTracker.DEEP_ORANGE, ChiptuneTracker.INDIGO);
 		buttonTrackerView.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		terminalButtons.add(buttonTrackerView);
 		
-		buttonEditorView = new AsciiSelectableTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)14) + "Edi", ChiptuneTracker.WINDOW_WIDTH - 5, 1, Color.MAGENTA, Color.ORANGE, Color.ORANGE);
+		buttonEditorView = new AsciiSelectableTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)14) + "Pattern", 15, 0, Color.WHITE, ChiptuneTracker.DEEP_ORANGE, ChiptuneTracker.DEEP_ORANGE, ChiptuneTracker.INDIGO);
 		buttonEditorView.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		buttonEditorView.addMouseListener(new MouseAdapter() {
 			@Override
@@ -93,8 +76,30 @@ public class TrackerView extends View {
 		terminalButtons.add(buttonEditorView);
 	}
 	
+	public void createSampleButtons() {
+		AsciiTerminalButton buttonDownSample = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)17), 1, 2, Color.MAGENTA, Color.ORANGE);
+		buttonDownSample.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		buttonDownSample.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				changeSample(sampleCursor - 1);
+			}
+		});
+		terminalButtons.add(buttonDownSample);
+		
+		AsciiTerminalButton buttonUpSample = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)16), 6, 2, Color.MAGENTA, Color.ORANGE);
+		buttonUpSample.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		buttonUpSample.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				changeSample(sampleCursor + 1);
+			}
+		});
+		terminalButtons.add(buttonUpSample);
+	}
+	
 	public void createSpeedButtons() {
-		AsciiTerminalButton reduceButton = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, "-", 13, 1, Color.MAGENTA, Color.ORANGE);
+		AsciiTerminalButton reduceButton = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, "-", 13, 2, Color.MAGENTA, Color.ORANGE);
 		reduceButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		reduceButton.addMouseListener(new MouseAdapter() {
 			@Override
@@ -107,7 +112,7 @@ public class TrackerView extends View {
 		});
 		terminalButtons.add(reduceButton);
 		
-		AsciiTerminalButton addButton = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, "+", 16, 1, Color.MAGENTA, Color.ORANGE);
+		AsciiTerminalButton addButton = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, "+", 16, 2, Color.MAGENTA, Color.ORANGE);
 		addButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		addButton.addMouseListener(new MouseAdapter() {
 			@Override
@@ -123,7 +128,7 @@ public class TrackerView extends View {
 	
 	public void createOctaveButtons() {
 		for(int i = 1; i <= 4; i++) {
-			AsciiSelectableTerminalButton button = new AsciiSelectableTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf(i), 4 + i, 3, Color.LIGHT_GRAY, Color.WHITE, Color.GREEN);
+			AsciiSelectableTerminalButton button = new AsciiSelectableTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf(i), 4 + i, 4, Color.LIGHT_GRAY, Color.WHITE, Color.GREEN);
 			button.setCursor(new Cursor(Cursor.HAND_CURSOR));
 			button.addMouseListener(new MouseAdapter() {
 				@Override
@@ -147,7 +152,7 @@ public class TrackerView extends View {
 	
 	public void createVolumeButtons() {
 		for(int i = 0; i <= 7; i++) {
-			AsciiSelectableTerminalButton button = new AsciiSelectableTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf(i), 5 + i, 5, Color.LIGHT_GRAY, Color.WHITE, Color.CYAN);
+			AsciiSelectableTerminalButton button = new AsciiSelectableTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf(i), 5 + i, 6, Color.LIGHT_GRAY, Color.WHITE, Color.CYAN);
 			button.setCursor(new Cursor(Cursor.HAND_CURSOR));
 			button.addMouseListener(new MouseAdapter() {
 				@Override
@@ -171,7 +176,7 @@ public class TrackerView extends View {
 	
 	public void createOscillatorButtons() {
 		for(int i = 0; i <= 7; i++) {
-			AsciiSelectableTerminalButton button = new AsciiSelectableTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)(224 + i)), ChiptuneTracker.WINDOW_WIDTH - 8 - 1 + i, 3, Color.LIGHT_GRAY, Color.WHITE, Color.MAGENTA);
+			AsciiSelectableTerminalButton button = new AsciiSelectableTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)(224 + i)), ChiptuneTracker.WINDOW_WIDTH - 8 - 1 + i, 4, Color.LIGHT_GRAY, Color.WHITE, Color.MAGENTA);
 			button.setCursor(new Cursor(Cursor.HAND_CURSOR));
 			button.addMouseListener(new MouseAdapter() {
 				@Override
@@ -195,6 +200,11 @@ public class TrackerView extends View {
 	
 	@Override
 	public void init() {
+		for(int i = 0; i < ChiptuneTracker.WINDOW_WIDTH; i++) {
+			ChiptuneTracker.asciiPanel.write(i, 0, ' ', Color.WHITE, ChiptuneTracker.INDIGO);
+			ChiptuneTracker.asciiPanel.write(i, ChiptuneTracker.WINDOW_HEIGHT - 1, ' ', Color.WHITE, ChiptuneTracker.INDIGO);
+		}
+		
 		buttonTrackerView.setSelect(true);
 		buttonEditorView.setSelect(false);
 		for(AsciiTerminalButton terminalButton : terminalButtons) {
@@ -442,28 +452,33 @@ public class TrackerView extends View {
 	public void paint() {
 		Sample sample = ChiptuneTracker.samples.get(sampleCursor - 1);
 		
+		// header
+		for(int i = 0; i< ChiptuneTracker.WINDOW_WIDTH; i++) {
+//			ChiptuneTracker.asciiPanel.w
+		}
+		
 		// Sample
-		ChiptuneTracker.asciiPanel.writeString(3, 1, String.format("%02d", sampleCursor), Color.WHITE);
+		ChiptuneTracker.asciiPanel.writeString(3, 2, String.format("%02d", sampleCursor), Color.WHITE);
 		
 		// Speed
-		ChiptuneTracker.asciiPanel.writeString(9, 1, "Spd", Color.LIGHT_GRAY);
-		ChiptuneTracker.asciiPanel.writeString(14, 1, String.format("%02d", sample.speed), Color.LIGHT_GRAY, Color.BLACK);
+		ChiptuneTracker.asciiPanel.writeString(9, 2, "Spd", Color.LIGHT_GRAY);
+		ChiptuneTracker.asciiPanel.writeString(14, 2, String.format("%02d", sample.speed), Color.LIGHT_GRAY, Color.BLACK);
 		
 		// Octave
-		ChiptuneTracker.asciiPanel.writeString(1, 3, "Oct", Color.LIGHT_GRAY);
+		ChiptuneTracker.asciiPanel.writeString(1, 4, "Oct", Color.LIGHT_GRAY);
 		
 		// Volume
-		ChiptuneTracker.asciiPanel.writeString(1, 5, "Vol", Color.LIGHT_GRAY);
+		ChiptuneTracker.asciiPanel.writeString(1, 6, "Vol", Color.LIGHT_GRAY);
 		
 		// Effects
 		for(int i = 0; i < 8; i++) {
-			ChiptuneTracker.asciiPanel.write(ChiptuneTracker.WINDOW_WIDTH - 8 - 1 + i, 5, (char)(240 + i), Color.LIGHT_GRAY, Color.BLACK);
+			ChiptuneTracker.asciiPanel.write(ChiptuneTracker.WINDOW_WIDTH - 8 - 1 + i, 6, (char)(240 + i), Color.LIGHT_GRAY, Color.BLACK);
 		}
 		
 		// Sounds
 		for(int i = 0; i < Sample.SIZE; i++) {
 			int x = i / 8 * 7 + 1;
-			int y = i % 8 + 7;
+			int y = i % 8 + 8;
 			
 			Sound sound = sample.sounds[i];
 			

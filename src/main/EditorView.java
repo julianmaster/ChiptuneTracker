@@ -17,6 +17,7 @@ public class EditorView extends View {
 	private List<AsciiTerminalButton> terminalButtons = new ArrayList<>();
 	
 	// Panels buttons
+	private AsciiSelectableTerminalButton buttonMenuView;
 	private AsciiSelectableTerminalButton buttonEditorView;
 	private AsciiSelectableTerminalButton buttonTrackerView;
 	
@@ -57,7 +58,11 @@ public class EditorView extends View {
 	}
 	
 	public void createSwitchViewButtons() {
-		buttonTrackerView = new AsciiSelectableTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)13) + "Tra", ChiptuneTracker.WINDOW_WIDTH - 10, 1, Color.MAGENTA, Color.ORANGE, Color.ORANGE);
+		buttonMenuView = new AsciiSelectableTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)255) + "Menu", 1, 0, Color.WHITE, ChiptuneTracker.DEEP_ORANGE, ChiptuneTracker.DEEP_ORANGE, ChiptuneTracker.INDIGO);
+		buttonMenuView.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		terminalButtons.add(buttonMenuView);
+		
+		buttonTrackerView = new AsciiSelectableTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)13) + "Sample", 7, 0, Color.WHITE, ChiptuneTracker.DEEP_ORANGE, ChiptuneTracker.DEEP_ORANGE, ChiptuneTracker.INDIGO);
 		buttonTrackerView.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		buttonTrackerView.addMouseListener(new MouseAdapter() {
 			@Override
@@ -67,13 +72,18 @@ public class EditorView extends View {
 		});
 		terminalButtons.add(buttonTrackerView);
 		
-		buttonEditorView = new AsciiSelectableTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)14) + "Edi", ChiptuneTracker.WINDOW_WIDTH - 5, 1, Color.MAGENTA, Color.ORANGE, Color.ORANGE);
+		buttonEditorView = new AsciiSelectableTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)14) + "Pattern", 15, 0, Color.WHITE, ChiptuneTracker.DEEP_ORANGE, ChiptuneTracker.DEEP_ORANGE, ChiptuneTracker.INDIGO);
 		buttonEditorView.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		terminalButtons.add(buttonEditorView);
 	}
 	
 	@Override
 	public void init() {
+		for(int i = 0; i < ChiptuneTracker.WINDOW_WIDTH; i++) {
+			ChiptuneTracker.asciiPanel.write(i, 0, ' ', Color.WHITE, ChiptuneTracker.INDIGO);
+			ChiptuneTracker.asciiPanel.write(i, ChiptuneTracker.WINDOW_HEIGHT - 1, ' ', Color.WHITE, ChiptuneTracker.INDIGO);
+		}
+		
 		buttonTrackerView.setSelect(false);
 		buttonEditorView.setSelect(true);
 		for(AsciiTerminalButton terminalButton : terminalButtons) {
