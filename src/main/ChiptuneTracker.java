@@ -2,14 +2,9 @@ package main;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 
 import ui.AsciiPanel;
-import ui.AsciiSelectableTerminalButton;
-import ui.AsciiTerminal;
 import ui.CustomAsciiTerminal;
 
 // A regarder :
@@ -32,7 +27,8 @@ public class ChiptuneTracker {
 	public static CustomAsciiTerminal asciiTerminal;
 	public static AsciiPanel asciiPanel;
 	
-	public static List<Sample> samples = new ArrayList<>();
+	public static LinkedList<Sample> samples = new LinkedList<>();
+	public static LinkedList<Pattern> patterns = new LinkedList<>();
 	public static Chanel chanel = new Chanel();
 	
 	private View currentView;

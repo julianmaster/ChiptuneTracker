@@ -53,7 +53,7 @@ public class TrackerView extends View {
 		createOctaveButtons();
 		createVolumeButtons();
 		createOscillatorButtons();
-		changeSample(1);
+		changeSample(0);
 	}
 	
 	public void createSwitchViewButtons() {
@@ -312,7 +312,7 @@ public class TrackerView extends View {
 			}
 			else if(event.getKeyCode() == KeyEvent.VK_SPACE) {
 				if(!ChiptuneTracker.chanel.isPlay()) {
-					ChiptuneTracker.chanel.play(ChiptuneTracker.samples.get(sampleCursor - 1));
+					ChiptuneTracker.chanel.play(ChiptuneTracker.samples.get(sampleCursor));
 				}
 				else {
 					ChiptuneTracker.chanel.stop();
@@ -330,7 +330,7 @@ public class TrackerView extends View {
 	 */
 	
 	private void setSound(Note note) {
-		Sample sample = ChiptuneTracker.samples.get(sampleCursor - 1);
+		Sample sample = ChiptuneTracker.samples.get(sampleCursor);
 		
 		if(volumeCursor != 0) {
 			Sound sound = sample.sounds[soundCursor];
@@ -358,7 +358,7 @@ public class TrackerView extends View {
 	
 	private void setOctave(int octave) {
 		if(octave >= 1 && octave <= 4) {
-			Sample sample = ChiptuneTracker.samples.get(sampleCursor - 1);
+			Sample sample = ChiptuneTracker.samples.get(sampleCursor);
 			Sound sound = sample.sounds[soundCursor];
 			if(sound != null) {
 				sound.octave = octave;
@@ -375,7 +375,7 @@ public class TrackerView extends View {
 	
 	private void setVolume(int volume) {
 		if(volume >= 0 && volume <= 7) {
-			Sample sample = ChiptuneTracker.samples.get(sampleCursor - 1);
+			Sample sample = ChiptuneTracker.samples.get(sampleCursor);
 			Sound sound = sample.sounds[soundCursor];
 			if(sound != null) {
 				if(volume == 0) {
@@ -396,7 +396,7 @@ public class TrackerView extends View {
 	
 	private void setInstrument(int instrument) {
 		if(instrument >= 0 && instrument <= 7) {
-			Sample sample = ChiptuneTracker.samples.get(sampleCursor - 1);
+			Sample sample = ChiptuneTracker.samples.get(sampleCursor);
 			Sound sound = sample.sounds[soundCursor];
 			if(sound != null) {
 				sound.instrument = instrument;
@@ -411,7 +411,7 @@ public class TrackerView extends View {
 	}
 	
 	public void deleteSound() {
-		Sample sample = ChiptuneTracker.samples.get(sampleCursor - 1);
+		Sample sample = ChiptuneTracker.samples.get(sampleCursor);
 		sample.sounds[soundCursor] = null;
 		
 		soundCursor++;
@@ -427,11 +427,11 @@ public class TrackerView extends View {
 	 */
 	
 	public void changeSample(int i) {
-		if(i > 0 && i < 100) {
+		if(i >= 0 && i < 100) {
 			sampleCursor = i;			
 		}
 		
-		if(ChiptuneTracker.samples.size() < i) {
+		if(ChiptuneTracker.samples.size() < i + 1) {
 			ChiptuneTracker.samples.add(new Sample());
 		}
 	}
@@ -450,12 +450,7 @@ public class TrackerView extends View {
 
 	@Override
 	public void paint() {
-		Sample sample = ChiptuneTracker.samples.get(sampleCursor - 1);
-		
-		// header
-		for(int i = 0; i< ChiptuneTracker.WINDOW_WIDTH; i++) {
-//			ChiptuneTracker.asciiPanel.w
-		}
+		Sample sample = ChiptuneTracker.samples.get(sampleCursor);
 		
 		// Sample
 		ChiptuneTracker.asciiPanel.writeString(3, 2, String.format("%02d", sampleCursor), Color.WHITE);
@@ -507,12 +502,10 @@ public class TrackerView extends View {
 						printSelect(4, x+5, y, String.valueOf((char)239), Color.GRAY);
 					}
 					else {
-						printSelect(0, x, y, String.valueOf((char)239), Color.GRAY);
-						printSelect(0, x+1, y, String.valueOf((char)239), Color.GRAY);
-						printSelect(1, x+2, y, String.valueOf((char)239), Color.GRAY);
-						printSelect(2, x+3, y, String.valueOf((char)239), Color.GRAY);
-						printSelect(3, x+4, y, String.valueOf((char)239), Color.GRAY);
-						printSelect(4, x+5, y, String.valueOf((char)239), Color.GRAY);
+						printSelect(0, x, y, new String(new char[]{(char)239,(char)239}), Color.GRAY);
+						for(int j = 1; j < 5; j++) {
+							printSelect(j, x+j+1, y, String.valueOf((char)239), Color.GRAY);
+						}
 					}
 				}
 			}
@@ -520,32 +513,24 @@ public class TrackerView extends View {
 			else {
 				int soundPlayCursor = ChiptuneTracker.chanel.getSoundCursor();
 				
-				if(i != soundPlayCursor) {
-					if(sound != null) {
-						ChiptuneTracker.asciiPanel.writeString(x, y, sound.note.str, Color.WHITE, Color.BLACK);
-						ChiptuneTracker.asciiPanel.write(x+2, y, Character.forDigit(sound.octave, 10), Color.GREEN, Color.BLACK);
-						ChiptuneTracker.asciiPanel.write(x+3, y,  Character.forDigit(sound.instrument, 10), Color.MAGENTA, Color.BLACK);
-						ChiptuneTracker.asciiPanel.write(x+4, y,  Character.forDigit(sound.volume, 10), Color.CYAN, Color.BLACK);
-						ChiptuneTracker.asciiPanel.write(x+5, y, (char)239, Color.GRAY, Color.BLACK);
-					}
-					else {
-						for(int j = x; j < x + 6; j++) {
-							ChiptuneTracker.asciiPanel.write(j, y, (char)239, Color.GRAY, Color.BLACK);
-						}
-					}
+				// Default color
+				Color backgroundColor = Color.BLACK;
+				
+				// if this sound is play change the background color
+				if(i == soundPlayCursor) {
+					backgroundColor = Color.YELLOW;
+				}
+				
+				if(sound != null) {
+					ChiptuneTracker.asciiPanel.writeString(x, y, sound.note.str, Color.WHITE, backgroundColor);
+					ChiptuneTracker.asciiPanel.write(x+2, y, Character.forDigit(sound.octave, 10), Color.GREEN, backgroundColor);
+					ChiptuneTracker.asciiPanel.write(x+3, y,  Character.forDigit(sound.instrument, 10), Color.MAGENTA, backgroundColor);
+					ChiptuneTracker.asciiPanel.write(x+4, y,  Character.forDigit(sound.volume, 10), Color.CYAN, backgroundColor);
+					ChiptuneTracker.asciiPanel.write(x+5, y, (char)239, Color.GRAY, backgroundColor);
 				}
 				else {
-					if(sound != null) {
-						ChiptuneTracker.asciiPanel.writeString(x, y, sound.note.str, Color.WHITE, Color.YELLOW);
-						ChiptuneTracker.asciiPanel.write(x+2, y, Character.forDigit(sound.octave, 10), Color.GREEN, Color.YELLOW);
-						ChiptuneTracker.asciiPanel.write(x+3, y,  Character.forDigit(sound.instrument, 10), Color.MAGENTA, Color.YELLOW);
-						ChiptuneTracker.asciiPanel.write(x+4, y,  Character.forDigit(sound.volume, 10), Color.CYAN, Color.YELLOW);
-						ChiptuneTracker.asciiPanel.write(x+5, y, (char)239, Color.GRAY, Color.YELLOW);
-					}
-					else {
-						for(int j = x; j < x + 6; j++) {
-							ChiptuneTracker.asciiPanel.write(j, y, (char)239, Color.GRAY, Color.YELLOW);
-						}
+					for(int j = x; j < x + 6; j++) {
+						ChiptuneTracker.asciiPanel.write(j, y, (char)239, Color.GRAY, backgroundColor);
 					}
 				}
 			}
