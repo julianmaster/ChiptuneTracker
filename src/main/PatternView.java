@@ -10,7 +10,7 @@ import java.util.List;
 import ui.AsciiSelectableTerminalButton;
 import ui.AsciiTerminalButton;
 
-public class EditorView extends View {
+public class PatternView extends View {
 
 	private final ChiptuneTracker chiptuneTracker;
 	
@@ -21,12 +21,19 @@ public class EditorView extends View {
 	private AsciiSelectableTerminalButton buttonEditorView;
 	private AsciiSelectableTerminalButton buttonTrackerView;
 	
+	// Samples buttons
+	private AsciiSelectableTerminalButton sample1;
+	private AsciiSelectableTerminalButton sample2;
+	private AsciiSelectableTerminalButton sample3;
+	private AsciiSelectableTerminalButton sample4;
+	
 	private int patternCursor = 0;
 	
-	public EditorView(ChiptuneTracker chiptuneTracker) {
+	public PatternView(ChiptuneTracker chiptuneTracker) {
 		this.chiptuneTracker = chiptuneTracker;
 		createPatternButtons();
 		createSwitchViewButtons();
+		createSampleButtons();
 		changePattern(0);
 	}
 
@@ -40,7 +47,7 @@ public class EditorView extends View {
 		buttonTrackerView.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				chiptuneTracker.changeView(ChiptuneTracker.trackerView);
+				chiptuneTracker.changeView(ChiptuneTracker.sampleView);
 			}
 		});
 		terminalButtons.add(buttonTrackerView);
@@ -76,6 +83,25 @@ public class EditorView extends View {
 			}
 		});
 		terminalButtons.add(buttonUpSample);
+	}
+	
+	public void createSampleButtons() {
+		sample1 = new AsciiSelectableTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)253), 1, 4, Color.WHITE, Color.YELLOW, Color.GREEN);
+		sample1.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		sample1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(sample1.isSelect()) {
+					sample1.setName(String.valueOf((char)253));
+					sample1.setSelect(false);
+				}
+				else {
+					sample1.setName(String.valueOf((char)254));
+					sample1.setSelect(true);
+				}
+			}
+		});
+		terminalButtons.add(sample1);
 	}
 	
 	@Override
@@ -147,7 +173,11 @@ public class EditorView extends View {
 			sample4 = chiptuneTracker.samples.get(pattern.sample4);
 		}
 		
-		paintSample(sample1, 2, 5);
+		
+		paintSample(sample1, 1, 5);
+		paintSample(sample2, 8, 5);
+		paintSample(sample3, 15, 5);
+		paintSample(sample4, 22, 5);
 	}
 	
 	public void paintSample(Sample sample, int offsetX, int offsetY) {

@@ -11,7 +11,7 @@ import java.util.List;
 import ui.AsciiSelectableTerminalButton;
 import ui.AsciiTerminalButton;
 
-public class TrackerView extends View {
+public class SampleView extends View {
 	
 	private final ChiptuneTracker chiptuneTracker;
 	private int sampleCursor = 1;
@@ -45,7 +45,7 @@ public class TrackerView extends View {
 	// Current oscillator button active
 	private AsciiSelectableTerminalButton currentInstrumentButton = null;
 	
-	public TrackerView(ChiptuneTracker chiptuneTracker) {
+	public SampleView(ChiptuneTracker chiptuneTracker) {
 		this.chiptuneTracker = chiptuneTracker;
 		createSampleButtons();
 		createSwitchViewButtons();
@@ -70,7 +70,7 @@ public class TrackerView extends View {
 		buttonEditorView.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				chiptuneTracker.changeView(ChiptuneTracker.editorView);
+				chiptuneTracker.changeView(ChiptuneTracker.patternView);
 			}
 		});
 		terminalButtons.add(buttonEditorView);
