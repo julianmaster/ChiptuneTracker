@@ -27,6 +27,12 @@ public class PatternView extends View {
 	private AsciiSelectableTerminalButton sample3;
 	private AsciiSelectableTerminalButton sample4;
 	
+	// pattern buttons
+	private AsciiSelectableTerminalButton pattern1;
+	private AsciiSelectableTerminalButton pattern2;
+	private AsciiSelectableTerminalButton pattern3;
+	private AsciiSelectableTerminalButton pattern4;
+	
 	private int patternCursor = 0;
 	
 	public PatternView(ChiptuneTracker chiptuneTracker) {
@@ -58,6 +64,7 @@ public class PatternView extends View {
 	}
 	
 	public void createPatternButtons() {
+		// Down button
 		AsciiTerminalButton buttonDownSample = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)17), 9, 2, Color.MAGENTA, Color.ORANGE);
 		buttonDownSample.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		buttonDownSample.addMouseListener(new MouseAdapter() {
@@ -71,6 +78,7 @@ public class PatternView extends View {
 		});
 		terminalButtons.add(buttonDownSample);
 		
+		// Up button
 		AsciiTerminalButton buttonUpSample = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)16), ChiptuneTracker.WINDOW_WIDTH - 6, 2, Color.MAGENTA, Color.ORANGE);
 		buttonUpSample.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		buttonUpSample.addMouseListener(new MouseAdapter() {
@@ -83,6 +91,20 @@ public class PatternView extends View {
 			}
 		});
 		terminalButtons.add(buttonUpSample);
+		
+		// pattern1
+//		pattern1 = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)16), ChiptuneTracker.WINDOW_WIDTH - 6, 2, Color.MAGENTA, Color.ORANGE);
+//		buttonUpSample.setCursor(new Cursor(Cursor.HAND_CURSOR));
+//		buttonUpSample.addMouseListener(new MouseAdapter() {
+//			@Override
+//			public void mouseClicked(MouseEvent e) {
+//				patternCursor++;
+//				if(patternCursor > 95) {
+//					patternCursor = 95;
+//				}
+//			}
+//		});
+//		terminalButtons.add(buttonUpSample);
 	}
 	
 	public void createSampleButtons() {
