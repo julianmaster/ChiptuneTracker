@@ -13,16 +13,9 @@ import ui.AsciiTerminalButton;
 
 public class SampleView extends View {
 	
-	private final ChiptuneTracker chiptuneTracker;
 	private int sampleCursor = 1;
 	private int soundCursor = 0;
 	private int soundConfCursor = 0;
-	private List<AsciiTerminalButton> terminalButtons = new ArrayList<>();
-	
-	// Panels buttons
-	private AsciiSelectableTerminalButton buttonMenuView;
-	private AsciiSelectableTerminalButton buttonTrackerView;
-	private AsciiSelectableTerminalButton buttonEditorView;
 	
 	// Octave cursor
 	private int octaveCursor = 2;
@@ -46,7 +39,7 @@ public class SampleView extends View {
 	private AsciiSelectableTerminalButton currentInstrumentButton = null;
 	
 	public SampleView(ChiptuneTracker chiptuneTracker) {
-		this.chiptuneTracker = chiptuneTracker;
+		super(chiptuneTracker);
 		createSampleButtons();
 		createSwitchViewButtons();
 		createSpeedButtons();
@@ -54,26 +47,6 @@ public class SampleView extends View {
 		createVolumeButtons();
 		createOscillatorButtons();
 		changeSample(0);
-	}
-	
-	public void createSwitchViewButtons() {
-		buttonMenuView = new AsciiSelectableTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)255) + "Menu", 1, 0, Color.WHITE, ChiptuneTracker.DEEP_ORANGE, ChiptuneTracker.DEEP_ORANGE, ChiptuneTracker.INDIGO);
-		buttonMenuView.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		terminalButtons.add(buttonMenuView);
-		
-		buttonTrackerView = new AsciiSelectableTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)13) + "Sample", 7, 0, Color.WHITE, ChiptuneTracker.DEEP_ORANGE, ChiptuneTracker.DEEP_ORANGE, ChiptuneTracker.INDIGO);
-		buttonTrackerView.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		terminalButtons.add(buttonTrackerView);
-		
-		buttonEditorView = new AsciiSelectableTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)14) + "Pattern", 15, 0, Color.WHITE, ChiptuneTracker.DEEP_ORANGE, ChiptuneTracker.DEEP_ORANGE, ChiptuneTracker.INDIGO);
-		buttonEditorView.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		buttonEditorView.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				chiptuneTracker.changeView(ChiptuneTracker.patternView);
-			}
-		});
-		terminalButtons.add(buttonEditorView);
 	}
 	
 	public void createSampleButtons() {
@@ -104,7 +77,7 @@ public class SampleView extends View {
 		reduceButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Sample sample = ChiptuneTracker.samples.get(sampleCursor - 1);
+				Sample sample = ChiptuneTracker.samples.get(sampleCursor);
 				if(sample.speed > 1) {
 					sample.speed--;
 				}
@@ -117,7 +90,7 @@ public class SampleView extends View {
 		addButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Sample sample = ChiptuneTracker.samples.get(sampleCursor - 1);
+				Sample sample = ChiptuneTracker.samples.get(sampleCursor);
 				if(sample.speed < 32) {
 					sample.speed++;
 				}
@@ -205,11 +178,9 @@ public class SampleView extends View {
 			ChiptuneTracker.asciiPanel.write(i, ChiptuneTracker.WINDOW_HEIGHT - 1, ' ', Color.WHITE, ChiptuneTracker.INDIGO);
 		}
 		
-		buttonTrackerView.setSelect(true);
-		buttonEditorView.setSelect(false);
-		for(AsciiTerminalButton terminalButton : terminalButtons) {
-			ChiptuneTracker.asciiPanel.add(terminalButton);
-		}
+		buttonSampleView.setSelect(true);
+		buttonPatternView.setSelect(false);
+		super.init();
 	}
 
 	@Override
