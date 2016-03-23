@@ -24,11 +24,44 @@ public class Chanel {
 	private CustomCircuit[] voices;
 	private LineOut lineOut;
 	
-	private Sample samplePlay;
+	private int sample;
+	private int sampleSpeed;
 	private double sampleFrequency;
 	private double lastSoundTime;
-	private boolean play = false;
+	private boolean playSample = false;
 	private int soundCursor;
+	
+	// Pattern
+	private int patternPlay;
+	private boolean playPattern = false;
+	
+	// Pattern Sample1 
+	private int sample1;
+	private int sample1Speed;
+	private double sample1FrequencySpeed;
+	private double sample1LastSoundTime;
+	private int sample1SoundCursor;
+
+	// Pattern Sample2 
+	private int sample2;
+	private int sample2Speed;
+	private double sample2FrequencySpeed;
+	private double sample2LastSoundTime;
+	private int sample2SoundCursor;
+
+	// Pattern Sample3 
+	private int sample3;
+	private int sample3Speed;
+	private double sample3FrequencySpeed;
+	private double sample3LastSoundTime;
+	private int sample3SoundCursor;
+	
+	// Pattern Sample4 
+	private int sample4;
+	private int sample4Speed;
+	private double sample4FrequencySpeed;
+	private double sample4LastSoundTime;
+	private int sample4SoundCursor;
 	
 	private int UICursor;
 	private TimerTask cursorTask;
@@ -79,14 +112,18 @@ public class Chanel {
 		play(sound, 0, 16, time);
 	}
 	
-	public void play(Sample sample) {
-		samplePlay = sample;
+	public void playSample(int sample) {
+		this.sample = sample;
+		
+		Sample samplePlay = ChiptuneTracker.samples.get(sample);
+		
 		lastSoundTime = synth.getCurrentTime();
-		sampleFrequency = 1 / ((double)sample.speed / 2);
+		sampleSpeed = samplePlay.speed;
+		sampleFrequency = 1 / ((double)samplePlay.speed / 2);
 		soundCursor = 0;
-		play = true;
+		playSample = true;
 		if(samplePlay.sounds[soundCursor] != null) {
-			play(samplePlay.sounds[soundCursor], 0, sample.speed, lastSoundTime);
+			play(samplePlay.sounds[soundCursor], 0, samplePlay.speed, lastSoundTime);
 		}
 
 		// Timer UI cursor
@@ -105,7 +142,51 @@ public class Chanel {
 		timer.scheduleAtFixedRate(cursorTask, (long)(sampleFrequency*1000), (long)(sampleFrequency*1000));
 	}
 	
-	public void play(final Sound sound, final int chanel, int speed, double time) {
+	public void update() {
+		if(playSample) {
+			double currentTime = synth.getCurrentTime();
+			if(currentTime > lastSoundTime) {
+				if(soundCursor < Sample.SIZE - 1) {
+					soundCursor++;
+				}
+				else {
+					return;
+				}
+				
+				Sound sound = ChiptuneTracker.samples.get(sample).sounds[soundCursor];
+				if(sound != null) {
+					lastSoundTime += sampleFrequency;
+					play(sound, 0, sampleSpeed, lastSoundTime);
+				}
+				else {
+					lastSoundTime += sampleFrequency;
+				}
+			}
+		}
+		
+		if(playPattern) {
+			double currentTime = synth.getCurrentTime();
+			
+			boolean sample1Play = false;
+			boolean sample2Play = false;
+			boolean sample3Play = false;
+			boolean sample4Play = false;
+			if(currentTime > sample1LastSoundTime) {
+				sample1Play = true;
+			}
+			if(currentTime > sample2LastSoundTime) {
+				sample1Play = true;
+			}
+			if(currentTime > sample3LastSoundTime) {
+				sample1Play = true;
+			}
+			if(currentTime > sample4LastSoundTime) {
+				sample1Play = true;
+			}
+		}
+	}
+	
+	private void play(final Sound sound, final int chanel, int speed, double time) {
 		final double frequency = Notes.getFrequency(sound.octave, sound.note);
 		final double volume = (double) sound.volume / (double) VOLUME_MAX;
 		double samplefrequency = 1 / ((double) speed / 2);
@@ -128,35 +209,12 @@ public class Chanel {
 		});
 	}
 	
-	public void update() {
-		if(play) {
-			double currentTime = synth.getCurrentTime();
-			if(currentTime > lastSoundTime) {
-				if(soundCursor < Sample.SIZE - 1) {
-					soundCursor++;
-				}
-				else {
-					return;
-				}
-				
-				Sound sound = samplePlay.sounds[soundCursor];
-				if(sound != null) {
-					lastSoundTime += sampleFrequency;
-					play(sound, 0, samplePlay.speed, lastSoundTime);
-				}
-				else {
-					lastSoundTime += sampleFrequency;
-				}
-			}
-		}
-	}
-	
-	public boolean isPlay() {
-		return play;
+	public boolean isPlaySample() {
+		return playSample;
 	}
 	
 	public void stop() {
-		play = false;
+		playSample = false;
 		cursorTask.cancel();
 		double time = synth.getCurrentTime();
 		for(CustomCircuit circuit : voices) {

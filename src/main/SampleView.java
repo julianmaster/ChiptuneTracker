@@ -17,6 +17,10 @@ public class SampleView extends View {
 	private int soundCursor = 0;
 	private int soundConfCursor = 0;
 	
+	// Loop buttons
+	AsciiTerminalButton buttonLoopStartSample;
+	AsciiTerminalButton buttonLoopStopSample;
+	
 	// Octave cursor
 	private int octaveCursor = 2;
 	// Octave button list
@@ -47,6 +51,7 @@ public class SampleView extends View {
 		createVolumeButtons();
 		createOscillatorButtons();
 		changeSample(0);
+		createLoopButtons();
 	}
 	
 	public void createSampleButtons() {
@@ -72,7 +77,7 @@ public class SampleView extends View {
 	}
 	
 	public void createSpeedButtons() {
-		AsciiTerminalButton reduceButton = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, "-", 13, 2, Color.MAGENTA, Color.ORANGE);
+		AsciiTerminalButton reduceButton = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, "-", 12, 2, Color.MAGENTA, Color.ORANGE);
 		reduceButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		reduceButton.addMouseListener(new MouseAdapter() {
 			@Override
@@ -85,7 +90,7 @@ public class SampleView extends View {
 		});
 		terminalButtons.add(reduceButton);
 		
-		AsciiTerminalButton addButton = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, "+", 16, 2, Color.MAGENTA, Color.ORANGE);
+		AsciiTerminalButton addButton = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, "+", 15, 2, Color.MAGENTA, Color.ORANGE);
 		addButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		addButton.addMouseListener(new MouseAdapter() {
 			@Override
@@ -97,6 +102,53 @@ public class SampleView extends View {
 			}
 		});
 		terminalButtons.add(addButton);
+	}
+	
+	public void createLoopButtons() {
+		Sample sample = ChiptuneTracker.samples.get(sampleCursor);
+		
+		buttonLoopStartSample = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, String.format("%02d", sample.loopStart), ChiptuneTracker.WINDOW_WIDTH - 6, 2, Color.WHITE, Color.ORANGE, Color.BLACK);
+		buttonLoopStartSample.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		buttonLoopStartSample.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Sample sample = ChiptuneTracker.samples.get(sampleCursor);
+				if(e.getButton() == MouseEvent.BUTTON1) {
+					if(sample.loopStart < sample.loopStop) {
+						sample.loopStart++;
+					}
+				}
+				if(e.getButton() == MouseEvent.BUTTON3) {
+					if(sample.loopStart > 0) {
+						sample.loopStart--;
+					}
+				}
+				buttonLoopStartSample.setName(String.format("%02d", sample.loopStart));
+			}
+		});
+		terminalButtons.add(buttonLoopStartSample);
+		
+		buttonLoopStopSample = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, String.format("%02d", sample.loopStop), ChiptuneTracker.WINDOW_WIDTH - 3, 2, Color.WHITE, Color.ORANGE, Color.BLACK);
+		buttonLoopStopSample.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		buttonLoopStopSample.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Sample sample = ChiptuneTracker.samples.get(sampleCursor);
+				if(e.getButton() == MouseEvent.BUTTON1) {
+					if(sample.loopStop < Sample.SIZE) {
+						sample.loopStop++;
+					}
+				}
+				if(e.getButton() == MouseEvent.BUTTON3) {
+					if(sample.loopStop > sample.loopStart) {
+						sample.loopStop--;
+					}
+				}
+				buttonLoopStopSample.setName(String.format("%02d", sample.loopStop));
+			}
+		});
+		terminalButtons.add(buttonLoopStopSample);
+		
 	}
 	
 	public void createOctaveButtons() {
@@ -180,6 +232,11 @@ public class SampleView extends View {
 		
 		buttonSampleView.setSelect(true);
 		buttonPatternView.setSelect(false);
+		
+		Sample sample = ChiptuneTracker.samples.get(sampleCursor);
+		buttonLoopStartSample.setName(String.format("%02d", sample.loopStart));
+		buttonLoopStopSample.setName(String.format("%02d", sample.loopStop));
+		
 		super.init();
 	}
 
@@ -282,8 +339,8 @@ public class SampleView extends View {
 				deleteSound();
 			}
 			else if(event.getKeyCode() == KeyEvent.VK_SPACE) {
-				if(!ChiptuneTracker.chanel.isPlay()) {
-					ChiptuneTracker.chanel.play(ChiptuneTracker.samples.get(sampleCursor));
+				if(!ChiptuneTracker.chanel.isPlaySample()) {
+					ChiptuneTracker.chanel.playSample(sampleCursor);
 				}
 				else {
 					ChiptuneTracker.chanel.stop();
@@ -427,8 +484,11 @@ public class SampleView extends View {
 		ChiptuneTracker.asciiPanel.writeString(3, 2, String.format("%02d", sampleCursor), Color.WHITE);
 		
 		// Speed
-		ChiptuneTracker.asciiPanel.writeString(9, 2, "Spd", Color.LIGHT_GRAY);
-		ChiptuneTracker.asciiPanel.writeString(14, 2, String.format("%02d", sample.speed), Color.LIGHT_GRAY, Color.BLACK);
+		ChiptuneTracker.asciiPanel.writeString(8, 2, "Spd", Color.LIGHT_GRAY);
+		ChiptuneTracker.asciiPanel.writeString(13, 2, String.format("%02d", sample.speed), Color.LIGHT_GRAY, Color.BLACK);
+		
+		// Loop
+		ChiptuneTracker.asciiPanel.writeString(18, 2, "Loop", Color.LIGHT_GRAY);
 		
 		// Octave
 		ChiptuneTracker.asciiPanel.writeString(1, 4, "Oct", Color.LIGHT_GRAY);
@@ -449,7 +509,7 @@ public class SampleView extends View {
 			Sound sound = sample.sounds[i];
 			
 			// The music isn't play
-			if(!ChiptuneTracker.chanel.isPlay()) {
+			if(!ChiptuneTracker.chanel.isPlaySample()) {
 				if(i != soundCursor) {
 					if(sound != null) {
 						ChiptuneTracker.asciiPanel.writeString(x, y, sound.note.str, Color.WHITE, Color.BLACK);
