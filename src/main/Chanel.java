@@ -27,6 +27,7 @@ public class Chanel {
 	private int sample;
 	private int sampleSpeed;
 	private double sampleFrequency;
+	private boolean sampleLoop = false;
 	private double lastSoundTime;
 	private boolean playSample = false;
 	private int soundCursor;
@@ -112,8 +113,8 @@ public class Chanel {
 		play(sound, 0, 16, time);
 	}
 	
-	public void playSample(int sample) {
-		this.sample = sample;
+	public void playSample(int sampleIndex) {
+		this.sample = sampleIndex;
 		
 		Sample samplePlay = ChiptuneTracker.samples.get(sample);
 		
@@ -131,7 +132,11 @@ public class Chanel {
 		cursorTask = new TimerTask() {
 			@Override
 			public void run() {
-				if(UICursor <= Sample.SIZE) {
+				if(sampleLoop) {
+					sampleLoop = false;
+					UICursor = ChiptuneTracker.samples.get(sample).loopStart;
+				}
+				else if(UICursor <= Sample.SIZE) {
 					UICursor++;
 				}
 				else {
@@ -151,6 +156,11 @@ public class Chanel {
 				}
 				else {
 					return;
+				}
+				
+				if(soundCursor == ChiptuneTracker.samples.get(sample).loopStop && soundCursor != ChiptuneTracker.samples.get(sample).loopStart) {
+					soundCursor = ChiptuneTracker.samples.get(sample).loopStart;
+					sampleLoop = true;
 				}
 				
 				Sound sound = ChiptuneTracker.samples.get(sample).sounds[soundCursor];
@@ -211,6 +221,10 @@ public class Chanel {
 	
 	public boolean isPlaySample() {
 		return playSample;
+	}
+	
+	public int getSample() {
+		return sample;
 	}
 	
 	public void stop() {
