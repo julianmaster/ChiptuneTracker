@@ -24,12 +24,12 @@ public class Chanel {
 	private CustomCircuit[] voices;
 	private LineOut lineOut;
 	
+	private boolean playSample = false;
 	private int sample;
 	private int sampleSpeed;
 	private double sampleFrequency;
 	private boolean sampleLoop = false;
 	private double lastSoundTime;
-	private boolean playSample = false;
 	private int soundCursor;
 	
 	// Pattern
@@ -39,28 +39,32 @@ public class Chanel {
 	// Pattern Sample1 
 	private int sample1;
 	private int sample1Speed;
-	private double sample1FrequencySpeed;
+	private double sample1Frequency;
+	private boolean sample1Loop = false;
 	private double sample1LastSoundTime;
 	private int sample1SoundCursor;
 
 	// Pattern Sample2 
 	private int sample2;
 	private int sample2Speed;
-	private double sample2FrequencySpeed;
+	private double sample2Frequency;
+	private boolean sample2Loop = false;
 	private double sample2LastSoundTime;
 	private int sample2SoundCursor;
 
 	// Pattern Sample3 
 	private int sample3;
 	private int sample3Speed;
-	private double sample3FrequencySpeed;
+	private double sample3Frequency;
+	private boolean sample3Loop = false;
 	private double sample3LastSoundTime;
 	private int sample3SoundCursor;
 	
 	// Pattern Sample4 
 	private int sample4;
 	private int sample4Speed;
-	private double sample4FrequencySpeed;
+	private double sample4Frequency;
+	private boolean sample4Loop = false;
 	private double sample4LastSoundTime;
 	private int sample4SoundCursor;
 	
@@ -123,9 +127,6 @@ public class Chanel {
 		sampleFrequency = 1 / ((double)samplePlay.speed / 2);
 		soundCursor = 0;
 		playSample = true;
-		if(samplePlay.sounds[soundCursor] != null) {
-			play(samplePlay.sounds[soundCursor], 0, samplePlay.speed, lastSoundTime);
-		}
 
 		// Timer UI cursor
 		UICursor = 0;
@@ -151,18 +152,6 @@ public class Chanel {
 		if(playSample) {
 			double currentTime = synth.getCurrentTime();
 			if(currentTime > lastSoundTime) {
-				if(soundCursor < Sample.SIZE - 1) {
-					soundCursor++;
-				}
-				else {
-					return;
-				}
-				
-				if(soundCursor == ChiptuneTracker.samples.get(sample).loopStop && soundCursor != ChiptuneTracker.samples.get(sample).loopStart) {
-					soundCursor = ChiptuneTracker.samples.get(sample).loopStart;
-					sampleLoop = true;
-				}
-				
 				Sound sound = ChiptuneTracker.samples.get(sample).sounds[soundCursor];
 				if(sound != null) {
 					lastSoundTime += sampleFrequency;
@@ -170,6 +159,15 @@ public class Chanel {
 				}
 				else {
 					lastSoundTime += sampleFrequency;
+				}
+				
+				if(soundCursor < Sample.SIZE) {
+					soundCursor++;
+				}
+				
+				if(soundCursor == ChiptuneTracker.samples.get(sample).loopStop && soundCursor != ChiptuneTracker.samples.get(sample).loopStart) {
+					soundCursor = ChiptuneTracker.samples.get(sample).loopStart;
+					sampleLoop = true;
 				}
 			}
 		}
@@ -181,17 +179,90 @@ public class Chanel {
 			boolean sample2Play = false;
 			boolean sample3Play = false;
 			boolean sample4Play = false;
+			
 			if(currentTime > sample1LastSoundTime) {
 				sample1Play = true;
+				if(sample1 == Sample.SIZE) {
+					Pattern pattern = ChiptuneTracker.patterns.get(patternPlay);
+					if(pattern.sample1 != null || pattern.sample2 != null || pattern.sample3 != null || pattern.sample4 != null) {
+						patternPlay++;
+						sample2Play = true;
+						sample3Play = true;
+						sample4Play = true;
+						sample1 = 0;
+						sample2 = 0;
+						sample3 = 0;
+						sample4 = 0;
+					}
+					else {
+						playPattern = false;
+						return;
+					}
+				}
 			}
 			if(currentTime > sample2LastSoundTime) {
-				sample1Play = true;
+				sample2Play = true;
+				if(sample2 == Sample.SIZE) {
+					Pattern pattern = ChiptuneTracker.patterns.get(patternPlay);
+					if(pattern.sample1 != null || pattern.sample2 != null || pattern.sample3 != null || pattern.sample4 != null) {
+						patternPlay++;
+						sample1Play = true;
+						sample3Play = true;
+						sample4Play = true;
+						sample1 = 0;
+						sample2 = 0;
+						sample3 = 0;
+						sample4 = 0;
+					}
+					else {
+						playPattern = false;
+						return;
+					}
+				}
 			}
 			if(currentTime > sample3LastSoundTime) {
-				sample1Play = true;
+				sample3Play = true;
+				if(sample3 == Sample.SIZE) {
+					Pattern pattern = ChiptuneTracker.patterns.get(patternPlay);
+					if(pattern.sample1 != null || pattern.sample2 != null || pattern.sample3 != null || pattern.sample4 != null) {
+						patternPlay++;
+						sample1Play = true;
+						sample2Play = true;
+						sample4Play = true;
+						sample1 = 0;
+						sample2 = 0;
+						sample3 = 0;
+						sample4 = 0;
+					}
+					else {
+						playPattern = false;
+						return;
+					}
+				}
 			}
 			if(currentTime > sample4LastSoundTime) {
-				sample1Play = true;
+				sample4Play = true;
+				if(sample4 == Sample.SIZE) {
+					Pattern pattern = ChiptuneTracker.patterns.get(patternPlay);
+					if(pattern.sample1 != null || pattern.sample2 != null || pattern.sample3 != null || pattern.sample4 != null) {
+						patternPlay++;
+						sample1Play = true;
+						sample2Play = true;
+						sample3Play = true;
+						sample1 = 0;
+						sample2 = 0;
+						sample3 = 0;
+						sample4 = 0;
+					}
+					else {
+						playPattern = false;
+						return;
+					}
+				}
+			}
+			
+			if(sample1Play) {
+				Sample sample = ChiptuneTracker.samples.get(sample1);
 			}
 		}
 	}
