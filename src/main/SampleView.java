@@ -339,11 +339,11 @@ public class SampleView extends View {
 				deleteSound();
 			}
 			else if(event.getKeyCode() == KeyEvent.VK_SPACE) {
-				if(!ChiptuneTracker.chanel.isPlaySample()) {
-					ChiptuneTracker.chanel.playSample(sampleCursor);
+				if(!ChiptuneTracker.chanels.isPlaySample() && !ChiptuneTracker.chanels.isPlayPattern()) {
+					ChiptuneTracker.chanels.playSample(sampleCursor);
 				}
 				else {
-					ChiptuneTracker.chanel.stop();
+					ChiptuneTracker.chanels.stopSample();
 				}
 			}
 			
@@ -372,7 +372,7 @@ public class SampleView extends View {
 			sound.instrument = instrumentCursor;
 			sound.volume = volumeCursor;
 			
-			ChiptuneTracker.chanel.play(sound);
+			ChiptuneTracker.chanels.playSound(sound);
 		}
 		else {
 			sample.sounds[soundCursor] = null;
@@ -396,7 +396,7 @@ public class SampleView extends View {
 					soundCursor = 0;
 				}
 				
-				ChiptuneTracker.chanel.play(sound);
+				ChiptuneTracker.chanels.playSound(sound);
 			}
 		}
 	}
@@ -417,7 +417,7 @@ public class SampleView extends View {
 				if(soundCursor > Sample.SIZE - 1) {
 					soundCursor = 0;
 				}
-				ChiptuneTracker.chanel.play(sound);
+				ChiptuneTracker.chanels.playSound(sound);
 			}
 		}
 	}
@@ -433,7 +433,7 @@ public class SampleView extends View {
 				if(soundCursor > Sample.SIZE - 1) {
 					soundCursor = 0;
 				}
-				ChiptuneTracker.chanel.play(sound);
+				ChiptuneTracker.chanels.playSound(sound);
 			}
 		}
 	}
@@ -509,7 +509,7 @@ public class SampleView extends View {
 			Sound sound = sample.sounds[i];
 			
 			// The music isn't play
-			if(!ChiptuneTracker.chanel.isPlaySample()) {
+			if(!ChiptuneTracker.chanels.isPlaySample()) {
 				if(i != soundCursor) {
 					if(sound != null) {
 						ChiptuneTracker.asciiPanel.writeString(x, y, sound.note.str, Color.WHITE, Color.BLACK);
@@ -542,7 +542,7 @@ public class SampleView extends View {
 			}
 			// The music is play
 			else {
-				int soundPlayCursor = ChiptuneTracker.chanel.getSoundCursor();
+				int soundPlayCursor = ChiptuneTracker.chanels.getSampleCursor();
 				
 				// Default color
 				Color backgroundColor = Color.BLACK;

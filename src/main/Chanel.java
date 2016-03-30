@@ -1,8 +1,5 @@
 package main;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.unitgen.FunctionOscillator;
@@ -16,105 +13,66 @@ import com.softsynth.shared.time.ScheduledCommand;
 import com.softsynth.shared.time.TimeStamp;
 
 public class Chanel {
-	public static final int CHANELS = 1;
 	public static final int INSTRUMENTS = 8;
 	public static final int VOLUME_MAX = 7;
+	
+	private final Chanels chanels;
 	
 	private Synthesizer synth;
 	private CustomCircuit[] voices;
 	private LineOut lineOut;
 	
-	private boolean playSample = false;
+	private boolean start = false;
+	private boolean finish = false;
+	
 	private int sample;
 	private int sampleSpeed;
 	private double sampleFrequency;
-	private boolean sampleLoop = false;
 	private double lastSoundTime;
 	private int soundCursor;
 	
-	// Pattern
-	private int patternPlay;
-	private boolean playPattern = false;
-	
-	// Pattern Sample1 
-	private int sample1;
-	private int sample1Speed;
-	private double sample1Frequency;
-	private boolean sample1Loop = false;
-	private double sample1LastSoundTime;
-	private int sample1SoundCursor;
-
-	// Pattern Sample2 
-	private int sample2;
-	private int sample2Speed;
-	private double sample2Frequency;
-	private boolean sample2Loop = false;
-	private double sample2LastSoundTime;
-	private int sample2SoundCursor;
-
-	// Pattern Sample3 
-	private int sample3;
-	private int sample3Speed;
-	private double sample3Frequency;
-	private boolean sample3Loop = false;
-	private double sample3LastSoundTime;
-	private int sample3SoundCursor;
-	
-	// Pattern Sample4 
-	private int sample4;
-	private int sample4Speed;
-	private double sample4Frequency;
-	private boolean sample4Loop = false;
-	private double sample4LastSoundTime;
-	private int sample4SoundCursor;
-	
 	private int UICursor;
-	private TimerTask cursorTask;
-	private Timer timer;
 	
-	public Chanel() {
+	public Chanel(Chanels chanels) {
+		this.chanels = chanels;
 		synth = JSyn.createSynthesizer();
 		lineOut = new LineOut();
 		
 		synth.add(lineOut);
 		
-		voices = new CustomCircuit[CHANELS * INSTRUMENTS];
+		voices = new CustomCircuit[INSTRUMENTS];
 		
-		for(int i = 0; i < CHANELS; i++) {
-			add(i * INSTRUMENTS, new OscillatorCircuit(new SineOscillator()));
-			FunctionOscillator sineSawtoothOscillator = new FunctionOscillator();
-			sineSawtoothOscillator.function.set(new SineSawtoothFunction());
-			add(i * INSTRUMENTS + 1, new OscillatorCircuit(sineSawtoothOscillator));
-			add(i * INSTRUMENTS + 2, new OscillatorCircuit(new SawtoothOscillatorDPW()));
-			add(i * INSTRUMENTS + 3, new OscillatorCircuit(new SquareOscillatorBL()));
-			add(i * INSTRUMENTS + 4, new OscillatorCircuit(new DemiSquareOscillator()));
-			FunctionOscillator mountainOscillator = new FunctionOscillator();
-			mountainOscillator.function.set(new MoutainFunction());
-			add(i * INSTRUMENTS + 5, new OscillatorCircuit(mountainOscillator));
-			add(i * INSTRUMENTS + 6, new WhiteNoiseCircuit(new WhiteNoise()));
-			add(i * INSTRUMENTS + 7, new OscillatorCircuit(new TriangleOscillator()));
-		}
+		add(0, new OscillatorCircuit(new SineOscillator()));
+		FunctionOscillator sineSawtoothOscillator = new FunctionOscillator();
+		sineSawtoothOscillator.function.set(new SineSawtoothFunction());
+		add(1, new OscillatorCircuit(sineSawtoothOscillator));
+		add(2, new OscillatorCircuit(new SawtoothOscillatorDPW()));
+		add(3, new OscillatorCircuit(new SquareOscillatorBL()));
+		add(4, new OscillatorCircuit(new DemiSquareOscillator()));
+		FunctionOscillator mountainOscillator = new FunctionOscillator();
+		mountainOscillator.function.set(new MoutainFunction());
+		add(5, new OscillatorCircuit(mountainOscillator));
+		add(6, new WhiteNoiseCircuit(new WhiteNoise()));
+		add(7, new OscillatorCircuit(new TriangleOscillator()));
 		
 		synth.start();
 		lineOut.start();
-		
-		timer = new Timer();
 	}
 	
-	public void add(int position, CustomCircuit circuit) {
+	private void add(int position, CustomCircuit circuit) {
 		synth.add(circuit);
 		circuit.getOutput().connect(0, lineOut.input, 0);
 		circuit.getOutput().connect(0, lineOut.input, 1);
 		voices[position] = circuit;
 	}
 	
-	public Synthesizer getSynthesizer(int chanel, int instrument) {
+	private Synthesizer getSynthesizer(int chanel, int instrument) {
 		return voices[chanel * INSTRUMENTS + instrument].getSynthesizer();
 	}
 	
 	public void play(Sound sound) {
 		double time = synth.getCurrentTime();
-		play(sound, 0, 16, time);
+		play(sound, 0, 0, 16, time);
 	}
 	
 	public void playSample(int sampleIndex) {
@@ -126,39 +84,30 @@ public class Chanel {
 		sampleSpeed = samplePlay.speed;
 		sampleFrequency = 1 / ((double)samplePlay.speed / 2);
 		soundCursor = 0;
-		playSample = true;
+		start = true;
+		finish = false;
 
 		// Timer UI cursor
-		UICursor = 0;
-		cursorTask = new TimerTask() {
-			@Override
-			public void run() {
-				if(sampleLoop) {
-					sampleLoop = false;
-					UICursor = ChiptuneTracker.samples.get(sample).loopStart;
-				}
-				else if(UICursor <= Sample.SIZE) {
-					UICursor++;
-				}
-				else {
-					stop();
-				}
-			}
-		};
-		timer.scheduleAtFixedRate(cursorTask, (long)(sampleFrequency*1000), (long)(sampleFrequency*1000));
+		UICursor = -1;
 	}
 	
 	public void update() {
-		if(playSample) {
+		if(!finish) {
 			double currentTime = synth.getCurrentTime();
 			if(currentTime > lastSoundTime) {
 				Sound sound = ChiptuneTracker.samples.get(sample).sounds[soundCursor];
-				if(sound != null) {
+				if(start) {
+					play(sound, 0, soundCursor, sampleSpeed, currentTime);
+					lastSoundTime = currentTime;
+					start = false;
+				}
+				else if(sound != null) {
 					lastSoundTime += sampleFrequency;
-					play(sound, 0, sampleSpeed, lastSoundTime);
+					play(sound, 0, soundCursor, sampleSpeed, lastSoundTime);
 				}
 				else {
 					lastSoundTime += sampleFrequency;
+					tickUICursor(lastSoundTime, soundCursor);
 				}
 				
 				if(soundCursor < Sample.SIZE) {
@@ -167,107 +116,16 @@ public class Chanel {
 				
 				if(soundCursor == ChiptuneTracker.samples.get(sample).loopStop && soundCursor != ChiptuneTracker.samples.get(sample).loopStart) {
 					soundCursor = ChiptuneTracker.samples.get(sample).loopStart;
-					sampleLoop = true;
 				}
-			}
-		}
-		
-		if(playPattern) {
-			double currentTime = synth.getCurrentTime();
-			
-			boolean sample1Play = false;
-			boolean sample2Play = false;
-			boolean sample3Play = false;
-			boolean sample4Play = false;
-			
-			if(currentTime > sample1LastSoundTime) {
-				sample1Play = true;
-				if(sample1 == Sample.SIZE) {
-					Pattern pattern = ChiptuneTracker.patterns.get(patternPlay);
-					if(pattern.sample1 != null || pattern.sample2 != null || pattern.sample3 != null || pattern.sample4 != null) {
-						patternPlay++;
-						sample2Play = true;
-						sample3Play = true;
-						sample4Play = true;
-						sample1 = 0;
-						sample2 = 0;
-						sample3 = 0;
-						sample4 = 0;
-					}
-					else {
-						playPattern = false;
-						return;
-					}
+				
+				if(soundCursor == Sample.SIZE) {
+					stop(lastSoundTime + sampleFrequency);
 				}
-			}
-			if(currentTime > sample2LastSoundTime) {
-				sample2Play = true;
-				if(sample2 == Sample.SIZE) {
-					Pattern pattern = ChiptuneTracker.patterns.get(patternPlay);
-					if(pattern.sample1 != null || pattern.sample2 != null || pattern.sample3 != null || pattern.sample4 != null) {
-						patternPlay++;
-						sample1Play = true;
-						sample3Play = true;
-						sample4Play = true;
-						sample1 = 0;
-						sample2 = 0;
-						sample3 = 0;
-						sample4 = 0;
-					}
-					else {
-						playPattern = false;
-						return;
-					}
-				}
-			}
-			if(currentTime > sample3LastSoundTime) {
-				sample3Play = true;
-				if(sample3 == Sample.SIZE) {
-					Pattern pattern = ChiptuneTracker.patterns.get(patternPlay);
-					if(pattern.sample1 != null || pattern.sample2 != null || pattern.sample3 != null || pattern.sample4 != null) {
-						patternPlay++;
-						sample1Play = true;
-						sample2Play = true;
-						sample4Play = true;
-						sample1 = 0;
-						sample2 = 0;
-						sample3 = 0;
-						sample4 = 0;
-					}
-					else {
-						playPattern = false;
-						return;
-					}
-				}
-			}
-			if(currentTime > sample4LastSoundTime) {
-				sample4Play = true;
-				if(sample4 == Sample.SIZE) {
-					Pattern pattern = ChiptuneTracker.patterns.get(patternPlay);
-					if(pattern.sample1 != null || pattern.sample2 != null || pattern.sample3 != null || pattern.sample4 != null) {
-						patternPlay++;
-						sample1Play = true;
-						sample2Play = true;
-						sample3Play = true;
-						sample1 = 0;
-						sample2 = 0;
-						sample3 = 0;
-						sample4 = 0;
-					}
-					else {
-						playPattern = false;
-						return;
-					}
-				}
-			}
-			
-			if(sample1Play) {
-				Sample sample = ChiptuneTracker.samples.get(sample1);
 			}
 		}
 	}
 	
-	private void play(final Sound sound, final int chanel, int speed, double time) {
+	private void play(final Sound sound, final int chanel, final int position, int speed, double time) {
 		final double frequency = Notes.getFrequency(sound.octave, sound.note);
 		final double volume = (double) sound.volume / (double) VOLUME_MAX;
 		double samplefrequency = 1 / ((double) speed / 2);
@@ -279,6 +137,7 @@ public class Chanel {
 			@Override
 			public void run() {
 				voices[chanel * INSTRUMENTS + sound.instrument].noteOn(frequency, volume, voices[chanel * INSTRUMENTS + sound.instrument].getSynthesizer().createTimeStamp());
+				UICursor = position;
 			}
 		});
 		
@@ -290,8 +149,14 @@ public class Chanel {
 		});
 	}
 	
-	public boolean isPlaySample() {
-		return playSample;
+	private void tickUICursor(double time, final int position) {
+		final TimeStamp start = new TimeStamp(time);
+		synth.scheduleCommand(start, new ScheduledCommand() {
+			@Override
+			public void run() {
+				UICursor = position;
+			}
+		});
 	}
 	
 	public int getSample() {
@@ -299,13 +164,22 @@ public class Chanel {
 	}
 	
 	public void stop() {
-		playSample = false;
-		cursorTask.cancel();
 		double time = synth.getCurrentTime();
 		for(CustomCircuit circuit : voices) {
 			circuit.noteOff(new TimeStamp(time));
 			circuit.noteOff(new TimeStamp(lastSoundTime));
 		}
+	}
+	
+	private void stop(double time) {
+		finish = true;
+		final TimeStamp start = new TimeStamp(time);
+		synth.scheduleCommand(start, new ScheduledCommand() {
+			@Override
+			public void run() {
+				chanels.stopSample();
+			}
+		});
 	}
 	
 	public int getSoundCursor() {

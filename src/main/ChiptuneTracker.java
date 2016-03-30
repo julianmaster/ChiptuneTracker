@@ -29,7 +29,8 @@ public class ChiptuneTracker {
 	
 	public static LinkedList<Sample> samples = new LinkedList<>();
 	public static LinkedList<Pattern> patterns = new LinkedList<>();
-	public static Chanel chanel = new Chanel();
+//	public static Chanel chanel = new Chanel();
+	public static Chanels chanels = new Chanels();
 	
 	private View currentView;
 	public static SampleView sampleView;
@@ -59,7 +60,7 @@ public class ChiptuneTracker {
 			
 			// Update
 			currentView.update(delta);
-			chanel.update();
+			chanels.update();
 			
 			// Paint
 			currentView.paint();
