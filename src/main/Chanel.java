@@ -145,6 +145,9 @@ public class Chanel {
 			@Override
 			public void run() {
 				voices[chanel * INSTRUMENTS + sound.instrument].noteOff(voices[chanel * INSTRUMENTS + sound.instrument].getSynthesizer().createTimeStamp());
+				if(soundCursor == Sample.SIZE) {
+					chanels.nextPattern();
+				}
 			}
 		});
 	}

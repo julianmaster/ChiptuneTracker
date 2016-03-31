@@ -579,8 +579,6 @@ public class SampleView extends View {
 
 	@Override
 	public void quit() {
-		for(AsciiTerminalButton terminalButton : terminalButtons) {
-			ChiptuneTracker.asciiPanel.remove(terminalButton);
-		}
+		super.quit();
 	}
 }

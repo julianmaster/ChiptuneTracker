@@ -17,9 +17,24 @@ public class Chanels {
 		}
 	}
 	
+	/**
+	 * ----------
+	 * Sound
+	 * ---------- 
+	 */
+	
 	public void playSound(Sound sound) {
 		chanels[0].play(sound);
 	}
+	
+	
+	
+	
+	/**
+	 * ----------
+	 * Sample
+	 * ---------- 
+	 */
 	
 	public void playSample(int sampleIndex) {
 		playSample = true;
@@ -31,6 +46,14 @@ public class Chanels {
 		playSample = false;
 	}
 	
+	public void getSample() {
+		chanels[0].getSample();
+	}
+	
+	public int getSampleCursor() {
+		return chanels[0].getSoundCursor();
+	}
+	
 	public boolean isPlaySample() {
 		return playSample;
 	}
@@ -39,12 +62,25 @@ public class Chanels {
 		this.playSample = playSample;
 	}
 	
-	public void getSample() {
-		chanels[0].getSample();
+	
+	
+	/**
+	 * ----------
+	 * Pattern
+	 * ---------- 
+	 */
+	
+	public void playPattern(int patternIndex) {
+		currentPattern = patternIndex;
+		playPattern = true;
+		nextPattern();
 	}
 	
-	public int getSampleCursor() {
-		return chanels[0].getSoundCursor();
+	public void stopPattern() {
+		for(int i = 0; i < CHANELS; i++) {
+			chanels[i].stop();
+		}
+		playPattern = false;
 	}
 	
 	public boolean isPlayPattern() {
@@ -57,12 +93,49 @@ public class Chanels {
 	
 	public void nextPattern() {
 		if(playPattern) {
-			// Play the next pattern
+			for(int i = 0; i < CHANELS; i++) {
+				chanels[i].stop();
+			}
+			
+			Pattern pattern = ChiptuneTracker.patterns.get(currentPattern);
+			
+			boolean finish = true;
+			if(pattern.sample1 != null) {
+				chanels[0].playSample(pattern.sample1);
+				finish = false;
+			}
+			if(pattern.sample2 != null) {
+				chanels[1].playSample(pattern.sample2);
+				finish = false;
+			}
+			if(pattern.sample3 != null) {
+				chanels[2].playSample(pattern.sample3);
+				finish = false;
+			}
+			if(pattern.sample4 != null) {
+				chanels[3].playSample(pattern.sample4);
+				finish = false;
+			}
+			
+			playPattern = !finish;
+			if(playPattern) {
+				currentPattern++;
+			}
 		}
 		else {
 			playSample = false;
 		}
 	}
+	
+	
+	
+	
+	
+	/**
+	 * ----------
+	 * Update
+	 * ---------- 
+	 */
 	
 	public void update() {
 		if(playSample) {

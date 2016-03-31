@@ -2,6 +2,7 @@ package main;
 
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -305,6 +306,22 @@ public class PatternView extends View {
 		buttonSampleView.setSelect(false);
 		buttonPatternView.setSelect(true);
 		super.init();
+		if(sample1.isSelect()) {
+			ChiptuneTracker.asciiPanel.add(sample1Down);
+			ChiptuneTracker.asciiPanel.add(sample1Up);
+		}
+		if(sample2.isSelect()) {
+			ChiptuneTracker.asciiPanel.add(sample2Down);
+			ChiptuneTracker.asciiPanel.add(sample2Up);
+		}
+		if(sample3.isSelect()) {
+			ChiptuneTracker.asciiPanel.add(sample3Down);
+			ChiptuneTracker.asciiPanel.add(sample3Up);
+		}
+		if(sample4.isSelect()) {
+			ChiptuneTracker.asciiPanel.add(sample4Down);
+			ChiptuneTracker.asciiPanel.add(sample4Up);
+		}
 	}
 	
 	public void changePatternOffset() {
@@ -454,7 +471,19 @@ public class PatternView extends View {
 	
 	@Override
 	public void update(double delta) {
-		// TODO Auto-generated method stub
+		KeyEvent event = ChiptuneTracker.asciiTerminal.getEvent();
+		if(event != null) {
+			if(event.getKeyCode() == KeyEvent.VK_SPACE) {
+				if(!ChiptuneTracker.chanels.isPlaySample() && !ChiptuneTracker.chanels.isPlayPattern()) {
+					ChiptuneTracker.chanels.playPattern(patternCursor);
+				}
+				else {
+					ChiptuneTracker.chanels.stopPattern();
+				}
+			}
+			
+			ChiptuneTracker.asciiTerminal.setEvent(null);
+		}
 	}
 	
 	@Override
@@ -522,8 +551,22 @@ public class PatternView extends View {
 
 	@Override
 	public void quit() {
-		for(AsciiTerminalButton terminalButton : terminalButtons) {
-			ChiptuneTracker.asciiPanel.remove(terminalButton);
+		super.quit();
+		if(sample1.isSelect()) {
+			ChiptuneTracker.asciiPanel.remove(sample1Down);
+			ChiptuneTracker.asciiPanel.remove(sample1Up);
+		}
+		if(sample2.isSelect()) {
+			ChiptuneTracker.asciiPanel.remove(sample2Down);
+			ChiptuneTracker.asciiPanel.remove(sample2Up);
+		}
+		if(sample3.isSelect()) {
+			ChiptuneTracker.asciiPanel.remove(sample3Down);
+			ChiptuneTracker.asciiPanel.remove(sample3Up);
+		}
+		if(sample4.isSelect()) {
+			ChiptuneTracker.asciiPanel.remove(sample4Down);
+			ChiptuneTracker.asciiPanel.remove(sample4Up);
 		}
 	}
 }

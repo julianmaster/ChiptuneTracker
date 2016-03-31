@@ -61,5 +61,9 @@ public abstract class View {
 	
 	public abstract void paint();
 	
-	public abstract void quit();	
+	public void quit() {
+		for(AsciiTerminalButton terminalButton : terminalButtons) {
+			ChiptuneTracker.asciiPanel.remove(terminalButton);
+		}
+	}
 }
