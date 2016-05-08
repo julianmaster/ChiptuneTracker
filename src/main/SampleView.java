@@ -13,7 +13,7 @@ import ui.AsciiTerminalButton;
 
 public class SampleView extends View {
 	
-	private int sampleCursor = 1;
+	private int sampleCursor = 0;
 	private int soundCursor = 0;
 	private int soundConfCursor = 0;
 	
@@ -45,7 +45,6 @@ public class SampleView extends View {
 	public SampleView(ChiptuneTracker chiptuneTracker) {
 		super(chiptuneTracker);
 		createSampleButtons();
-		createSwitchViewButtons();
 		createSpeedButtons();
 		createOctaveButtons();
 		createVolumeButtons();
@@ -225,11 +224,12 @@ public class SampleView extends View {
 	
 	@Override
 	public void init() {
-		for(int i = 0; i < ChiptuneTracker.WINDOW_WIDTH; i++) {
-			ChiptuneTracker.asciiPanel.write(i, 0, ' ', Color.WHITE, ChiptuneTracker.INDIGO);
-			ChiptuneTracker.asciiPanel.write(i, ChiptuneTracker.WINDOW_HEIGHT - 1, ' ', Color.WHITE, ChiptuneTracker.INDIGO);
+		if(ChiptuneTracker.initSampleView) {
+			ChiptuneTracker.initSampleView = false;
+			changeSample(0);
 		}
 		
+		buttonMenuView.setSelect(false);
 		buttonSampleView.setSelect(true);
 		buttonPatternView.setSelect(false);
 		

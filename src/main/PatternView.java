@@ -41,7 +41,6 @@ public class PatternView extends View {
 	public PatternView(ChiptuneTracker chiptuneTracker) {
 		super(chiptuneTracker);
 		createPatternButtons();
-		createSwitchViewButtons();
 		createSampleButtons();
 		createSampleDownButtons();
 		createSampleUpButtons();
@@ -298,11 +297,16 @@ public class PatternView extends View {
 	
 	@Override
 	public void init() {
-		for(int i = 0; i < ChiptuneTracker.WINDOW_WIDTH; i++) {
-			ChiptuneTracker.asciiPanel.write(i, 0, ' ', Color.WHITE, ChiptuneTracker.INDIGO);
-			ChiptuneTracker.asciiPanel.write(i, ChiptuneTracker.WINDOW_HEIGHT - 1, ' ', Color.WHITE, ChiptuneTracker.INDIGO);
+		if(ChiptuneTracker.initPatternView) {
+			ChiptuneTracker.initPatternView = false;
+			patternCursor = 0;
+			patternOffset = 0;
+			changePatternOffset();
+			changePatternButtons();
+			changeSampleButtons();
 		}
 		
+		buttonMenuView.setSelect(false);
 		buttonSampleView.setSelect(false);
 		buttonPatternView.setSelect(true);
 		super.init();

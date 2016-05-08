@@ -18,21 +18,22 @@ public class ChiptuneTracker {
 	public static final String TILESET_FILE = "src/assets/wanderlust.png";
 	public static final int CHARACTER_WIDTH = 12;
 	public static final int CHARACTER_HEIGHT = 12;
-	public static final Color INDIGO = new Color(61, 81, 181);
-	public static final Color DEEP_ORANGE = new Color(255, 120, 8);
 	
 	public static final int TARGET_FPS = 60;
 	public static final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;
 	
 	public static CustomAsciiTerminal asciiTerminal;
 	public static AsciiPanel asciiPanel;
+	public static boolean change = true;
 	
+	public static boolean initSampleView = false;
+	public static boolean initPatternView = false;
 	public static LinkedList<Sample> samples = new LinkedList<>();
 	public static LinkedList<Pattern> patterns = new LinkedList<>();
-//	public static Chanel chanel = new Chanel();
 	public static Chanels chanels = new Chanels();
 	
 	private View currentView;
+	public static MenuView menuView;
 	public static SampleView sampleView;
 	public static PatternView patternView;
 	
@@ -42,6 +43,7 @@ public class ChiptuneTracker {
 		asciiPanel.setDefaultCharacterBackgroundColor(Color.DARK_GRAY);
 		asciiPanel.setDefaultCharacterColor(Color.WHITE);
 		
+		menuView = new MenuView(this);
 		sampleView = new SampleView(this);
 		patternView = new PatternView(this);
 		changeView(sampleView);

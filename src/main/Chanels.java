@@ -1,8 +1,14 @@
 package main;
 
+import com.jsyn.JSyn;
+import com.jsyn.Synthesizer;
+import com.jsyn.unitgen.LineOut;
+
 public class Chanels {
 	public final static int CHANELS = 4;
 	public Chanel[] chanels;
+	private Synthesizer synth;
+	private LineOut lineOut;
 	
 	private boolean playSample = false;
 	
@@ -10,11 +16,19 @@ public class Chanels {
 	private int currentPattern;
 	
 	public Chanels() {
+		synth = JSyn.createSynthesizer();
+		
+		lineOut = new LineOut();
+		synth.add(lineOut);
+		
 		chanels = new Chanel[CHANELS];
 		
 		for(int i = 0; i < CHANELS; i++) {
 			chanels[i] = new Chanel(this);
 		}
+		
+		synth.start();
+		lineOut.start();
 	}
 	
 	/**
@@ -146,5 +160,20 @@ public class Chanels {
 				chanels[i].update();
 			}
 		}
+	}
+	
+	
+	/**
+	 * ----------
+	 * Getters / Setters
+	 * ---------- 
+	 */
+	
+	public Synthesizer getSynth() {
+		return synth;
+	}
+	
+	public LineOut getLineOut() {
+		return lineOut;
 	}
 }

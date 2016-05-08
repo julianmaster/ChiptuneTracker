@@ -18,9 +18,7 @@ public class Chanel {
 	
 	private final Chanels chanels;
 	
-	private Synthesizer synth;
 	private CustomCircuit[] voices;
-	private LineOut lineOut;
 	
 	private boolean start = false;
 	private boolean finish = false;
@@ -35,11 +33,7 @@ public class Chanel {
 	
 	public Chanel(Chanels chanels) {
 		this.chanels = chanels;
-		synth = JSyn.createSynthesizer();
-		lineOut = new LineOut();
-		
-		synth.add(lineOut);
-		
+
 		voices = new CustomCircuit[INSTRUMENTS];
 		
 		add(0, new OscillatorCircuit(new SineOscillator()));
@@ -54,25 +48,22 @@ public class Chanel {
 		add(5, new OscillatorCircuit(mountainOscillator));
 		add(6, new WhiteNoiseCircuit(new WhiteNoise()));
 		add(7, new OscillatorCircuit(new TriangleOscillator()));
-		
-		synth.start();
-		lineOut.start();
 	}
 	
 	private void add(int position, CustomCircuit circuit) {
-		synth.add(circuit);
-		circuit.getOutput().connect(0, lineOut.input, 0);
-		circuit.getOutput().connect(0, lineOut.input, 1);
+		chanels.getSynth().add(circuit);
+		circuit.getOutput().connect(0, chanels.getLineOut().input, 0);
+		circuit.getOutput().connect(0, chanels.getLineOut().input, 1);
 		voices[position] = circuit;
 	}
 	
-	private Synthesizer getSynthesizer(int chanel, int instrument) {
-		return voices[chanel * INSTRUMENTS + instrument].getSynthesizer();
+	private Synthesizer getSynthesizer(int instrument) {
+		return voices[instrument].getSynthesizer();
 	}
 	
 	public void play(Sound sound) {
-		double time = synth.getCurrentTime();
-		play(sound, 0, 0, 16, time);
+		double time = chanels.getSynth().getCurrentTime();
+		play(sound, 0, 16, time);
 	}
 	
 	public void playSample(int sampleIndex) {
@@ -80,7 +71,7 @@ public class Chanel {
 		
 		Sample samplePlay = ChiptuneTracker.samples.get(sample);
 		
-		lastSoundTime = synth.getCurrentTime();
+		lastSoundTime = chanels.getSynth().getCurrentTime();
 		sampleSpeed = samplePlay.speed;
 		sampleFrequency = 1 / ((double)samplePlay.speed / 2);
 		soundCursor = 0;
@@ -93,22 +84,23 @@ public class Chanel {
 	
 	public void update() {
 		if(!finish) {
-			double currentTime = synth.getCurrentTime();
+			double currentTime = chanels.getSynth().getCurrentTime();
 			if(currentTime > lastSoundTime) {
 				Sound sound = ChiptuneTracker.samples.get(sample).sounds[soundCursor];
 				if(start) {
-					play(sound, 0, soundCursor, sampleSpeed, currentTime);
+					play(sound, soundCursor, sampleSpeed, currentTime);
 					lastSoundTime = currentTime;
 					start = false;
 				}
 				else if(sound != null) {
 					lastSoundTime += sampleFrequency;
-					play(sound, 0, soundCursor, sampleSpeed, lastSoundTime);
+					play(sound, soundCursor, sampleSpeed, lastSoundTime);
 				}
-				else {
-					lastSoundTime += sampleFrequency;
-					tickUICursor(lastSoundTime, soundCursor);
-				}
+				// FIXME : Problème pour la dernière note
+//				else {
+//					lastSoundTime += sampleFrequency;
+//					tickUICursor(lastSoundTime, soundCursor);
+//				}
 				
 				if(soundCursor < Sample.SIZE) {
 					soundCursor++;
@@ -120,31 +112,34 @@ public class Chanel {
 				
 				if(soundCursor == Sample.SIZE) {
 					stop(lastSoundTime + sampleFrequency);
+					tickUICursor(lastSoundTime + sampleFrequency, soundCursor);
 				}
 			}
 		}
 	}
 	
-	private void play(final Sound sound, final int chanel, final int position, int speed, double time) {
+	private void play(final Sound sound, final int position, int speed, double time) {
 		final double frequency = Notes.getFrequency(sound.octave, sound.note);
-		final double volume = (double) sound.volume / (double) VOLUME_MAX;
+		// Cap the value to 0.25 (1 chanel on 4 play as same time)
+		final double volume = Math.min((double) sound.volume / (double) (VOLUME_MAX * Chanels.CHANELS), 0.25d);
 		double samplefrequency = 1 / ((double) speed / 2);
 		
 		final TimeStamp start = new TimeStamp(time);
 		TimeStamp end = new TimeStamp(time + samplefrequency);
 		
-		getSynthesizer(chanel, sound.instrument).scheduleCommand(start, new ScheduledCommand() {
+		getSynthesizer(sound.instrument).scheduleCommand(start, new ScheduledCommand() {
 			@Override
 			public void run() {
-				voices[chanel * INSTRUMENTS + sound.instrument].noteOn(frequency, volume, voices[chanel * INSTRUMENTS + sound.instrument].getSynthesizer().createTimeStamp());
+				voices[sound.instrument].noteOn(frequency, volume, voices[sound.instrument].getSynthesizer().createTimeStamp());
 				UICursor = position;
 			}
 		});
 		
-		getSynthesizer(chanel, sound.instrument).scheduleCommand(end, new ScheduledCommand() {
+		getSynthesizer(sound.instrument).scheduleCommand(end, new ScheduledCommand() {
 			@Override
 			public void run() {
-				voices[chanel * INSTRUMENTS + sound.instrument].noteOff(voices[chanel * INSTRUMENTS + sound.instrument].getSynthesizer().createTimeStamp());
+				voices[sound.instrument].noteOff(voices[sound.instrument].getSynthesizer().createTimeStamp());
+				// FIXME : Voir pour déplacer le lancement du pattern suivant
 				if(soundCursor == Sample.SIZE) {
 					chanels.nextPattern();
 				}
@@ -154,7 +149,7 @@ public class Chanel {
 	
 	private void tickUICursor(double time, final int position) {
 		final TimeStamp start = new TimeStamp(time);
-		synth.scheduleCommand(start, new ScheduledCommand() {
+		chanels.getSynth().scheduleCommand(start, new ScheduledCommand() {
 			@Override
 			public void run() {
 				UICursor = position;
@@ -167,7 +162,7 @@ public class Chanel {
 	}
 	
 	public void stop() {
-		double time = synth.getCurrentTime();
+		double time = chanels.getSynth().getCurrentTime();
 		for(CustomCircuit circuit : voices) {
 			circuit.noteOff(new TimeStamp(time));
 			circuit.noteOff(new TimeStamp(lastSoundTime));
@@ -175,11 +170,11 @@ public class Chanel {
 	}
 	
 	private void stop(double time) {
-		finish = true;
 		final TimeStamp start = new TimeStamp(time);
-		synth.scheduleCommand(start, new ScheduledCommand() {
+		chanels.getSynth().scheduleCommand(start, new ScheduledCommand() {
 			@Override
 			public void run() {
+				finish = true;
 				chanels.stopSample();
 			}
 		});
