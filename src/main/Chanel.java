@@ -63,7 +63,7 @@ public class Chanel {
 	
 	public void play(Sound sound) {
 		double time = chanels.getSynth().getCurrentTime();
-		play(sound, 0, 16, time);
+		playNote(sound, 0, 16, time);
 	}
 	
 	public void playSample(int sampleIndex) {
@@ -79,7 +79,7 @@ public class Chanel {
 		finish = false;
 
 		// Timer UI cursor
-		UICursor = -1;
+		UICursor = 0;
 	}
 	
 	public void update() {
@@ -87,20 +87,26 @@ public class Chanel {
 			double currentTime = chanels.getSynth().getCurrentTime();
 			if(currentTime > lastSoundTime) {
 				Sound sound = ChiptuneTracker.samples.get(sample).sounds[soundCursor];
-				if(start) {
-					play(sound, soundCursor, sampleSpeed, currentTime);
+				
+				if(start && sound != null) {
+					playNote(sound, soundCursor, sampleSpeed, currentTime);
 					lastSoundTime = currentTime;
 					start = false;
 				}
+				else if(start && sound == null) {
+					lastSoundTime = currentTime;
+					start = false;
+				}
+				// Note exist
 				else if(sound != null) {
 					lastSoundTime += sampleFrequency;
-					play(sound, soundCursor, sampleSpeed, lastSoundTime);
+					playNote(sound, soundCursor, sampleSpeed, lastSoundTime);
 				}
-				// FIXME : Problème pour la dernière note
-//				else {
-//					lastSoundTime += sampleFrequency;
-//					tickUICursor(lastSoundTime, soundCursor);
-//				}
+				// Silence
+				else {
+					lastSoundTime += sampleFrequency;
+					playSilence(soundCursor, lastSoundTime);
+				}
 				
 				if(soundCursor < Sample.SIZE) {
 					soundCursor++;
@@ -111,17 +117,17 @@ public class Chanel {
 				}
 				
 				if(soundCursor == Sample.SIZE) {
+					finish = true;
 					stop(lastSoundTime + sampleFrequency);
-					tickUICursor(lastSoundTime + sampleFrequency, soundCursor);
 				}
 			}
 		}
 	}
 	
-	private void play(final Sound sound, final int position, int speed, double time) {
-		final double frequency = Notes.getFrequency(sound.octave, sound.note);
+	private void playNote(final Sound sound, final int position, int speed, double time) {
 		// Cap the value to 0.25 (1 chanel on 4 play as same time)
 		final double volume = Math.min((double) sound.volume / (double) (VOLUME_MAX * Chanels.CHANELS), 0.25d);
+		final double frequency = Notes.getFrequency(sound.octave, sound.note);
 		double samplefrequency = 1 / ((double) speed / 2);
 		
 		final TimeStamp start = new TimeStamp(time);
@@ -139,15 +145,11 @@ public class Chanel {
 			@Override
 			public void run() {
 				voices[sound.instrument].noteOff(voices[sound.instrument].getSynthesizer().createTimeStamp());
-				// FIXME : Voir pour déplacer le lancement du pattern suivant
-				if(soundCursor == Sample.SIZE) {
-					chanels.nextPattern();
-				}
 			}
 		});
 	}
 	
-	private void tickUICursor(double time, final int position) {
+	private void playSilence(final int position, double time) {
 		final TimeStamp start = new TimeStamp(time);
 		chanels.getSynth().scheduleCommand(start, new ScheduledCommand() {
 			@Override
@@ -174,8 +176,7 @@ public class Chanel {
 		chanels.getSynth().scheduleCommand(start, new ScheduledCommand() {
 			@Override
 			public void run() {
-				finish = true;
-				chanels.stopSample();
+				chanels.next();
 			}
 		});
 	}

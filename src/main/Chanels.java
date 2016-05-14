@@ -87,7 +87,7 @@ public class Chanels {
 	public void playPattern(int patternIndex) {
 		currentPattern = patternIndex;
 		playPattern = true;
-		nextPattern();
+		next();
 	}
 	
 	public void stopPattern() {
@@ -105,7 +105,48 @@ public class Chanels {
 		return currentPattern;
 	}
 	
-	public void nextPattern() {
+	
+	
+	
+	
+	
+	
+	/**
+	 * ----------
+	 * Update
+	 * ---------- 
+	 */
+	
+	public void update() {
+		if(playSample) {
+			chanels[0].update();
+		}
+		if(playPattern) {
+			for(int i = 0; i < CHANELS; i++) {
+				chanels[i].update();
+			}
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * ----------
+	 * Next
+	 * ---------- 
+	 */
+	
+	public void next() {
+		if(playSample) {
+			chanels[0].stop();
+			playSample = false;
+		}
+		
 		if(playPattern) {
 			for(int i = 0; i < CHANELS; i++) {
 				chanels[i].stop();
@@ -136,31 +177,11 @@ public class Chanels {
 				currentPattern++;
 			}
 		}
-		else {
-			playSample = false;
-		}
 	}
+
 	
 	
 	
-	
-	
-	/**
-	 * ----------
-	 * Update
-	 * ---------- 
-	 */
-	
-	public void update() {
-		if(playSample) {
-			chanels[0].update();
-		}
-		if(playPattern) {
-			for(int i = 0; i < CHANELS; i++) {
-				chanels[i].update();
-			}
-		}
-	}
 	
 	
 	/**
