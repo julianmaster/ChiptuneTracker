@@ -135,10 +135,10 @@ public class PatternView extends View {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(sample1.isSelect()) {
-					ChiptuneTracker.patterns.get(patternCursor).sample1 = null;
+					ChiptuneTracker.data.patterns.get(patternCursor).sample1 = null;
 				}
 				else {
-					ChiptuneTracker.patterns.get(patternCursor).sample1 = 0;
+					ChiptuneTracker.data.patterns.get(patternCursor).sample1 = 0;
 				}
 				changeSampleButtons();
 			}
@@ -151,10 +151,10 @@ public class PatternView extends View {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(sample2.isSelect()) {
-					ChiptuneTracker.patterns.get(patternCursor).sample2 = null;
+					ChiptuneTracker.data.patterns.get(patternCursor).sample2 = null;
 				}
 				else {
-					ChiptuneTracker.patterns.get(patternCursor).sample2 = 0;
+					ChiptuneTracker.data.patterns.get(patternCursor).sample2 = 0;
 				}
 				changeSampleButtons();
 			}
@@ -167,10 +167,10 @@ public class PatternView extends View {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(sample3.isSelect()) {
-					ChiptuneTracker.patterns.get(patternCursor).sample3 = null;
+					ChiptuneTracker.data.patterns.get(patternCursor).sample3 = null;
 				}
 				else {
-					ChiptuneTracker.patterns.get(patternCursor).sample3 = 0;
+					ChiptuneTracker.data.patterns.get(patternCursor).sample3 = 0;
 				}
 				changeSampleButtons();
 			}
@@ -183,10 +183,10 @@ public class PatternView extends View {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(sample4.isSelect()) {
-					ChiptuneTracker.patterns.get(patternCursor).sample4 = null;
+					ChiptuneTracker.data.patterns.get(patternCursor).sample4 = null;
 				}
 				else {
-					ChiptuneTracker.patterns.get(patternCursor).sample4 = 0;
+					ChiptuneTracker.data.patterns.get(patternCursor).sample4 = 0;
 				}
 				changeSampleButtons();
 			}
@@ -200,7 +200,7 @@ public class PatternView extends View {
 		sample1Down.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Pattern pattern = ChiptuneTracker.patterns.get(patternCursor);
+				Pattern pattern = ChiptuneTracker.data.patterns.get(patternCursor);
 				if(pattern.sample1 != null) {
 					changeSample(1, pattern.sample1 - 1);
 				}
@@ -212,7 +212,7 @@ public class PatternView extends View {
 		sample2Down.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Pattern pattern = ChiptuneTracker.patterns.get(patternCursor);
+				Pattern pattern = ChiptuneTracker.data.patterns.get(patternCursor);
 				if(pattern.sample2 != null) {
 					changeSample(2, pattern.sample2 - 1);
 				}
@@ -224,7 +224,7 @@ public class PatternView extends View {
 		sample3Down.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Pattern pattern = ChiptuneTracker.patterns.get(patternCursor);
+				Pattern pattern = ChiptuneTracker.data.patterns.get(patternCursor);
 				if(pattern.sample3 != null) {
 					changeSample(3, pattern.sample3 - 1);
 				}
@@ -236,7 +236,7 @@ public class PatternView extends View {
 		sample4Down.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Pattern pattern = ChiptuneTracker.patterns.get(patternCursor);
+				Pattern pattern = ChiptuneTracker.data.patterns.get(patternCursor);
 				if(pattern.sample4 != null) {
 					changeSample(4, pattern.sample4 - 1);
 				}
@@ -250,7 +250,7 @@ public class PatternView extends View {
 		sample1Up.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Pattern pattern = ChiptuneTracker.patterns.get(patternCursor);
+				Pattern pattern = ChiptuneTracker.data.patterns.get(patternCursor);
 				if(pattern.sample1 != null) {
 					changeSample(1, pattern.sample1 + 1);
 					System.out.println(pattern.sample1 + 1);
@@ -263,7 +263,7 @@ public class PatternView extends View {
 		sample2Up.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Pattern pattern = ChiptuneTracker.patterns.get(patternCursor);
+				Pattern pattern = ChiptuneTracker.data.patterns.get(patternCursor);
 				if(pattern.sample2 != null) {
 					changeSample(2, pattern.sample2 + 1);
 				}
@@ -275,7 +275,7 @@ public class PatternView extends View {
 		sample3Up.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Pattern pattern = ChiptuneTracker.patterns.get(patternCursor);
+				Pattern pattern = ChiptuneTracker.data.patterns.get(patternCursor);
 				if(pattern.sample3 != null) {
 					changeSample(3, pattern.sample3 + 1);
 				}
@@ -287,7 +287,7 @@ public class PatternView extends View {
 		sample4Up.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Pattern pattern = ChiptuneTracker.patterns.get(patternCursor);
+				Pattern pattern = ChiptuneTracker.data.patterns.get(patternCursor);
 				if(pattern.sample4 != null) {
 					changeSample(4, pattern.sample4 + 1);
 				}
@@ -337,8 +337,8 @@ public class PatternView extends View {
 		}
 		
 		for(int i = 0; i <= 4 ; i++) {
-			if(ChiptuneTracker.patterns.size() < patternOffset + i) {
-				ChiptuneTracker.patterns.add(new Pattern());
+			if(ChiptuneTracker.data.patterns.size() < patternOffset + i) {
+				ChiptuneTracker.data.patterns.add(new Pattern());
 			}
 		}
 	}
@@ -354,7 +354,7 @@ public class PatternView extends View {
 		}
 		else {
 			pattern1.setSelect(false);
-			Pattern pattern = ChiptuneTracker.patterns.get(patternOffset);
+			Pattern pattern = ChiptuneTracker.data.patterns.get(patternOffset);
 			if(pattern.sample1 == null && pattern.sample2 == null && pattern.sample3 == null && pattern.sample4 == null) {
 				pattern1.setMouseDefaultColor(Color.LIGHT_GRAY);
 			}
@@ -368,7 +368,7 @@ public class PatternView extends View {
 		}
 		else {
 			pattern2.setSelect(false);
-			Pattern pattern = ChiptuneTracker.patterns.get(patternOffset + 1);
+			Pattern pattern = ChiptuneTracker.data.patterns.get(patternOffset + 1);
 			if(pattern.sample1 == null && pattern.sample2 == null && pattern.sample3 == null && pattern.sample4 == null) {
 				pattern2.setMouseDefaultColor(Color.LIGHT_GRAY);
 			}
@@ -382,6 +382,13 @@ public class PatternView extends View {
 		}
 		else {
 			pattern3.setSelect(false);
+			Pattern pattern = ChiptuneTracker.data.patterns.get(patternOffset + 2);
+			if(pattern.sample1 == null && pattern.sample2 == null && pattern.sample3 == null && pattern.sample4 == null) {
+				pattern3.setMouseDefaultColor(Color.LIGHT_GRAY);
+			}
+			else {
+				pattern3.setMouseDefaultColor(Color.WHITE);
+			}
 		}
 			
 		if(patternCursor == patternOffset + 3) {
@@ -389,11 +396,19 @@ public class PatternView extends View {
 		}
 		else {
 			pattern4.setSelect(false);
+			Pattern pattern = ChiptuneTracker.data.patterns.get(patternOffset + 3);
+			System.out.println(patternOffset + 3);
+			if(pattern.sample1 == null && pattern.sample2 == null && pattern.sample3 == null && pattern.sample4 == null) {
+				pattern4.setMouseDefaultColor(Color.LIGHT_GRAY);
+			}
+			else {
+				pattern4.setMouseDefaultColor(Color.WHITE);
+			}
 		}
 	}
 	
 	public void changeSampleButtons() {
-		Pattern pattern = ChiptuneTracker.patterns.get(patternCursor);
+		Pattern pattern = ChiptuneTracker.data.patterns.get(patternCursor);
 		
 		if(pattern.sample1 != null) {
 			sample1.setName(String.valueOf((char)254));
@@ -455,21 +470,21 @@ public class PatternView extends View {
 	public void changeSample(int samplePattern, int sample) {
 		if(sample >= 0 && sample < 100) {
 			if(samplePattern == 1) {
-				ChiptuneTracker.patterns.get(patternCursor).sample1 = sample;
+				ChiptuneTracker.data.patterns.get(patternCursor).sample1 = sample;
 			}
 			if(samplePattern == 2) {
-				ChiptuneTracker.patterns.get(patternCursor).sample2 = sample;
+				ChiptuneTracker.data.patterns.get(patternCursor).sample2 = sample;
 			}
 			if(samplePattern == 3) {
-				ChiptuneTracker.patterns.get(patternCursor).sample3 = sample;
+				ChiptuneTracker.data.patterns.get(patternCursor).sample3 = sample;
 			}
 			if(samplePattern == 4) {
-				ChiptuneTracker.patterns.get(patternCursor).sample4 = sample;
+				ChiptuneTracker.data.patterns.get(patternCursor).sample4 = sample;
 			}
 		}
 		
-		if(ChiptuneTracker.samples.size() < sample + 1) {
-			ChiptuneTracker.samples.add(new Sample());
+		if(ChiptuneTracker.data.samples.size() < sample + 1) {
+			ChiptuneTracker.data.samples.add(new Sample());
 		}
 	}
 	
@@ -495,29 +510,29 @@ public class PatternView extends View {
 		// Pattern
 		ChiptuneTracker.asciiPanel.writeString(1, 2, "PATTERN", Color.gray);
 		
-		Pattern pattern = ChiptuneTracker.patterns.get(patternCursor);
+		Pattern pattern = ChiptuneTracker.data.patterns.get(patternCursor);
 		
 		Sample sample1 = null;
 		Sample sample2 = null;
 		Sample sample3 = null;
 		Sample sample4 = null;
 		if(pattern.sample1 != null) {
-			sample1 = ChiptuneTracker.samples.get(pattern.sample1);
+			sample1 = ChiptuneTracker.data.samples.get(pattern.sample1);
 			ChiptuneTracker.asciiPanel.writeString(4, 4, String.format("%02d", pattern.sample1), Color.WHITE);
 		}
 		
 		if(pattern.sample2 != null) {
-			sample2 = ChiptuneTracker.samples.get(pattern.sample2);
+			sample2 = ChiptuneTracker.data.samples.get(pattern.sample2);
 			ChiptuneTracker.asciiPanel.writeString(11, 4, String.format("%02d", pattern.sample2), Color.WHITE);
 		}
 		
 		if(pattern.sample3 != null) {
-			sample3 = ChiptuneTracker.samples.get(pattern.sample3);
+			sample3 = ChiptuneTracker.data.samples.get(pattern.sample3);
 			ChiptuneTracker.asciiPanel.writeString(18, 4, String.format("%02d", pattern.sample3), Color.WHITE);
 		}
 		
 		if(pattern.sample4 != null) {
-			sample4 = ChiptuneTracker.samples.get(pattern.sample4);
+			sample4 = ChiptuneTracker.data.samples.get(pattern.sample4);
 			ChiptuneTracker.asciiPanel.writeString(25, 4, String.format("%02d", pattern.sample4), Color.WHITE);
 		}
 		

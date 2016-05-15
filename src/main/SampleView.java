@@ -81,7 +81,7 @@ public class SampleView extends View {
 		reduceButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Sample sample = ChiptuneTracker.samples.get(sampleCursor);
+				Sample sample = ChiptuneTracker.data.samples.get(sampleCursor);
 				if(sample.speed > 1) {
 					sample.speed--;
 				}
@@ -94,7 +94,7 @@ public class SampleView extends View {
 		addButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Sample sample = ChiptuneTracker.samples.get(sampleCursor);
+				Sample sample = ChiptuneTracker.data.samples.get(sampleCursor);
 				if(sample.speed < 32) {
 					sample.speed++;
 				}
@@ -104,14 +104,14 @@ public class SampleView extends View {
 	}
 	
 	public void createLoopButtons() {
-		Sample sample = ChiptuneTracker.samples.get(sampleCursor);
+		Sample sample = ChiptuneTracker.data.samples.get(sampleCursor);
 		
 		buttonLoopStartSample = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, String.format("%02d", sample.loopStart), ChiptuneTracker.WINDOW_WIDTH - 6, 2, Color.WHITE, Color.ORANGE, Color.BLACK);
 		buttonLoopStartSample.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		buttonLoopStartSample.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Sample sample = ChiptuneTracker.samples.get(sampleCursor);
+				Sample sample = ChiptuneTracker.data.samples.get(sampleCursor);
 				if(e.getButton() == MouseEvent.BUTTON1) {
 					if(sample.loopStart < sample.loopStop) {
 						sample.loopStart++;
@@ -132,7 +132,7 @@ public class SampleView extends View {
 		buttonLoopStopSample.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Sample sample = ChiptuneTracker.samples.get(sampleCursor);
+				Sample sample = ChiptuneTracker.data.samples.get(sampleCursor);
 				if(e.getButton() == MouseEvent.BUTTON1) {
 					if(sample.loopStop < Sample.SIZE) {
 						sample.loopStop++;
@@ -227,13 +227,15 @@ public class SampleView extends View {
 		if(ChiptuneTracker.initSampleView) {
 			ChiptuneTracker.initSampleView = false;
 			changeSample(0);
+			soundCursor = 0;
+			soundConfCursor = 0;
 		}
 		
 		buttonMenuView.setSelect(false);
 		buttonSampleView.setSelect(true);
 		buttonPatternView.setSelect(false);
 		
-		Sample sample = ChiptuneTracker.samples.get(sampleCursor);
+		Sample sample = ChiptuneTracker.data.samples.get(sampleCursor);
 		buttonLoopStartSample.setName(String.format("%02d", sample.loopStart));
 		buttonLoopStopSample.setName(String.format("%02d", sample.loopStop));
 		
@@ -358,7 +360,7 @@ public class SampleView extends View {
 	 */
 	
 	private void setSound(Note note) {
-		Sample sample = ChiptuneTracker.samples.get(sampleCursor);
+		Sample sample = ChiptuneTracker.data.samples.get(sampleCursor);
 		
 		if(volumeCursor != 0) {
 			Sound sound = sample.sounds[soundCursor];
@@ -386,7 +388,7 @@ public class SampleView extends View {
 	
 	private void setOctave(int octave) {
 		if(octave >= 1 && octave <= 4) {
-			Sample sample = ChiptuneTracker.samples.get(sampleCursor);
+			Sample sample = ChiptuneTracker.data.samples.get(sampleCursor);
 			Sound sound = sample.sounds[soundCursor];
 			if(sound != null) {
 				sound.octave = octave;
@@ -403,7 +405,7 @@ public class SampleView extends View {
 	
 	private void setVolume(int volume) {
 		if(volume >= 0 && volume <= 7) {
-			Sample sample = ChiptuneTracker.samples.get(sampleCursor);
+			Sample sample = ChiptuneTracker.data.samples.get(sampleCursor);
 			Sound sound = sample.sounds[soundCursor];
 			if(sound != null) {
 				if(volume == 0) {
@@ -424,7 +426,7 @@ public class SampleView extends View {
 	
 	private void setInstrument(int instrument) {
 		if(instrument >= 0 && instrument <= 7) {
-			Sample sample = ChiptuneTracker.samples.get(sampleCursor);
+			Sample sample = ChiptuneTracker.data.samples.get(sampleCursor);
 			Sound sound = sample.sounds[soundCursor];
 			if(sound != null) {
 				sound.instrument = instrument;
@@ -439,7 +441,7 @@ public class SampleView extends View {
 	}
 	
 	public void deleteSound() {
-		Sample sample = ChiptuneTracker.samples.get(sampleCursor);
+		Sample sample = ChiptuneTracker.data.samples.get(sampleCursor);
 		sample.sounds[soundCursor] = null;
 		
 		soundCursor++;
@@ -459,8 +461,8 @@ public class SampleView extends View {
 			sampleCursor = i;			
 		}
 		
-		if(ChiptuneTracker.samples.size() < i + 1) {
-			ChiptuneTracker.samples.add(new Sample());
+		if(ChiptuneTracker.data.samples.size() < i + 1) {
+			ChiptuneTracker.data.samples.add(new Sample());
 		}
 	}
 	
@@ -478,7 +480,7 @@ public class SampleView extends View {
 
 	@Override
 	public void paint() {
-		Sample sample = ChiptuneTracker.samples.get(sampleCursor);
+		Sample sample = ChiptuneTracker.data.samples.get(sampleCursor);
 		
 		// Sample
 		ChiptuneTracker.asciiPanel.writeString(3, 2, String.format("%02d", sampleCursor), Color.WHITE);

@@ -69,7 +69,7 @@ public class Chanel {
 	public void playSample(int sampleIndex) {
 		this.sample = sampleIndex;
 		
-		Sample samplePlay = ChiptuneTracker.samples.get(sample);
+		Sample samplePlay = ChiptuneTracker.data.samples.get(sample);
 		
 		lastSoundTime = chanels.getSynth().getCurrentTime();
 		sampleSpeed = samplePlay.speed;
@@ -86,7 +86,7 @@ public class Chanel {
 		if(!finish) {
 			double currentTime = chanels.getSynth().getCurrentTime();
 			if(currentTime > lastSoundTime) {
-				Sound sound = ChiptuneTracker.samples.get(sample).sounds[soundCursor];
+				Sound sound = ChiptuneTracker.data.samples.get(sample).sounds[soundCursor];
 				
 				if(start && sound != null) {
 					playNote(sound, soundCursor, sampleSpeed, currentTime);
@@ -112,8 +112,8 @@ public class Chanel {
 					soundCursor++;
 				}
 				
-				if(soundCursor == ChiptuneTracker.samples.get(sample).loopStop && soundCursor != ChiptuneTracker.samples.get(sample).loopStart) {
-					soundCursor = ChiptuneTracker.samples.get(sample).loopStart;
+				if(soundCursor == ChiptuneTracker.data.samples.get(sample).loopStop && soundCursor != ChiptuneTracker.data.samples.get(sample).loopStart) {
+					soundCursor = ChiptuneTracker.data.samples.get(sample).loopStart;
 				}
 				
 				if(soundCursor == Sample.SIZE) {

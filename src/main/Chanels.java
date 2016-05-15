@@ -152,7 +152,7 @@ public class Chanels {
 				chanels[i].stop();
 			}
 			
-			Pattern pattern = ChiptuneTracker.patterns.get(currentPattern);
+			Pattern pattern = ChiptuneTracker.data.patterns.get(currentPattern);
 			
 			boolean finish = true;
 			if(pattern.sample1 != null) {

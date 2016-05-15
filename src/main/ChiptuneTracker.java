@@ -24,12 +24,12 @@ public class ChiptuneTracker {
 	
 	public static CustomAsciiTerminal asciiTerminal;
 	public static AsciiPanel asciiPanel;
-	public static boolean change = true;
 	
-	public static boolean initSampleView = false;
-	public static boolean initPatternView = false;
-	public static LinkedList<Sample> samples = new LinkedList<>();
-	public static LinkedList<Pattern> patterns = new LinkedList<>();
+	public static boolean initSampleView = true;
+	public static boolean initPatternView = true;
+	
+	public static Data data = new Data();
+	public static boolean changeData = true;
 	public static Chanels chanels = new Chanels();
 	
 	private View currentView;

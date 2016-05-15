@@ -1,6 +1,8 @@
 package main;
 
-public class Sample {
+import java.io.Serializable;
+
+public class Sample implements Serializable {
 	public static final int SIZE = 32;
 	
 	public Sound[] sounds;

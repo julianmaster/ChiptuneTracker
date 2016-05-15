@@ -3,6 +3,7 @@ package main;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.util.LinkedList;
 
 import javax.swing.JFileChooser;
@@ -25,24 +26,26 @@ public class MenuView extends View {
 		newButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(ChiptuneTracker.change) {
+				if(ChiptuneTracker.changeData) {
 					int option = JOptionPane.showOptionDialog(ChiptuneTracker.asciiTerminal, "New file has been modified, save changes?", "Save changes?", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, null, null);
 					if(option == JOptionPane.YES_OPTION) {
 						int returnValue = fileChooser.showOpenDialog(ChiptuneTracker.asciiTerminal);
 						if(returnValue == JFileChooser.APPROVE_OPTION) {
+							File file = fileChooser.getSelectedFile();
 							
 						}
 						else {
 							return;
 						}
+						
 					}
-					else if(option == JOptionPane.CANCEL_OPTION) {
+					else if(option != JOptionPane.NO_OPTION) {
 						return;
 					}
 				}
 				
-				ChiptuneTracker.samples = new LinkedList<>();
-				ChiptuneTracker.patterns = new LinkedList<>();
+				ChiptuneTracker.data.samples = new LinkedList<>();
+				ChiptuneTracker.data.patterns = new LinkedList<>();
 				ChiptuneTracker.initSampleView = true;
 				ChiptuneTracker.initPatternView = true;
 			}

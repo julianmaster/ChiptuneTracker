@@ -1,6 +1,8 @@
 package main;
 
-public class Sound {
+import java.io.Serializable;
+
+public class Sound implements Serializable {
 	public Note note;
 	public Integer octave;
 	public Integer instrument;
