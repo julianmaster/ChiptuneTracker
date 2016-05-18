@@ -3,7 +3,19 @@ package main;
 import java.io.Serializable;
 import java.util.LinkedList;
 
+import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Root;
+
+@Root
 public class Data implements Serializable {
-	public static LinkedList<Sample> samples = new LinkedList<>();
-	public static LinkedList<Pattern> patterns = new LinkedList<>();
+	@ElementList
+	public LinkedList<Sample> samples;
+	
+	@ElementList
+	public LinkedList<Pattern> patterns;
+	
+	public Data() {
+		samples = new LinkedList<>();
+		patterns = new LinkedList<>();
+	}
 }

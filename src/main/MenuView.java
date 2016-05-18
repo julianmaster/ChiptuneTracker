@@ -9,6 +9,9 @@ import java.util.LinkedList;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+import org.simpleframework.xml.Serializer;
+import org.simpleframework.xml.core.Persister;
+
 import ui.AsciiTerminalButton;
 
 public class MenuView extends View {
@@ -32,7 +35,15 @@ public class MenuView extends View {
 						int returnValue = fileChooser.showOpenDialog(ChiptuneTracker.asciiTerminal);
 						if(returnValue == JFileChooser.APPROVE_OPTION) {
 							File file = fileChooser.getSelectedFile();
-							
+							if(file.canWrite()) {
+								Serializer serializer = new Persister();
+								File result = new File("example.xml");
+								try {
+									serializer.write(ChiptuneTracker.data, result);
+								} catch (Exception e1) {
+									e1.printStackTrace();
+								}
+							}
 						}
 						else {
 							return;
