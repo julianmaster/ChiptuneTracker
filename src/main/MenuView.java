@@ -16,8 +16,6 @@ import ui.AsciiTerminalButton;
 
 public class MenuView extends View {
 	
-	private final JFileChooser fileChooser = new JFileChooser();
-	
 	public MenuView(ChiptuneTracker chiptuneTracker) {
 		super(chiptuneTracker);
 		createMenuButtons();
@@ -29,36 +27,11 @@ public class MenuView extends View {
 		newButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(ChiptuneTracker.changeData) {
-					int option = JOptionPane.showOptionDialog(ChiptuneTracker.asciiTerminal, "New file has been modified, save changes?", "Save changes?", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, null, null);
-					if(option == JOptionPane.YES_OPTION) {
-						int returnValue = fileChooser.showOpenDialog(ChiptuneTracker.asciiTerminal);
-						if(returnValue == JFileChooser.APPROVE_OPTION) {
-							File file = fileChooser.getSelectedFile();
-							if(file.canWrite()) {
-								Serializer serializer = new Persister();
-								File result = new File("example.xml");
-								try {
-									serializer.write(ChiptuneTracker.data, result);
-								} catch (Exception e1) {
-									e1.printStackTrace();
-								}
-							}
-						}
-						else {
-							return;
-						}
-						
-					}
-					else if(option != JOptionPane.NO_OPTION) {
-						return;
-					}
+				try {
+					ChiptuneTracker.dataManager.newFile();
+				} catch (Exception exception) {
+					JOptionPane.showMessageDialog(ChiptuneTracker.asciiTerminal, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}
-				
-				ChiptuneTracker.data.samples = new LinkedList<>();
-				ChiptuneTracker.data.patterns = new LinkedList<>();
-				ChiptuneTracker.initSampleView = true;
-				ChiptuneTracker.initPatternView = true;
 			}
 		});
 		terminalButtons.add(newButton);
@@ -67,7 +40,11 @@ public class MenuView extends View {
 		openFileButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				int returnValue = fileChooser.showOpenDialog(ChiptuneTracker.asciiTerminal);
+				try {
+					ChiptuneTracker.dataManager.open();
+				} catch (Exception exception) {
+					JOptionPane.showMessageDialog(ChiptuneTracker.asciiTerminal, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		terminalButtons.add(openFileButton);
@@ -76,6 +53,11 @@ public class MenuView extends View {
 		saveButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				try {
+					ChiptuneTracker.dataManager.save();
+				} catch (Exception exception) {
+					JOptionPane.showMessageDialog(ChiptuneTracker.asciiTerminal, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		terminalButtons.add(saveButton);
@@ -84,6 +66,11 @@ public class MenuView extends View {
 		saveAsButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				try {
+					ChiptuneTracker.dataManager.saveAs();
+				} catch (Exception exception) {
+					JOptionPane.showMessageDialog(ChiptuneTracker.asciiTerminal, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		terminalButtons.add(saveAsButton);
@@ -92,6 +79,11 @@ public class MenuView extends View {
 		exitButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				try {
+					ChiptuneTracker.dataManager.exit();
+				} catch (Exception exception) {
+					JOptionPane.showMessageDialog(ChiptuneTracker.asciiTerminal, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		terminalButtons.add(exitButton);

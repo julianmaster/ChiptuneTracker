@@ -2,7 +2,6 @@ package main;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.util.LinkedList;
 
 import ui.AsciiPanel;
 import ui.CustomAsciiTerminal;
@@ -29,6 +28,7 @@ public class ChiptuneTracker {
 	public static boolean initPatternView = true;
 	
 	public static Data data = new Data();
+	public static DataManager dataManager;
 	public static boolean changeData = true;
 	public static Chanels chanels = new Chanels();
 	
@@ -42,6 +42,8 @@ public class ChiptuneTracker {
 		asciiPanel = asciiTerminal.getAsciiPanel();
 		asciiPanel.setDefaultCharacterBackgroundColor(Color.DARK_GRAY);
 		asciiPanel.setDefaultCharacterColor(Color.WHITE);
+		
+		dataManager = new DataManager(this);
 		
 		menuView = new MenuView(this);
 		sampleView = new SampleView(this);
