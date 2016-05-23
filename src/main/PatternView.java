@@ -253,7 +253,6 @@ public class PatternView extends View {
 				Pattern pattern = ChiptuneTracker.data.patterns.get(patternCursor);
 				if(pattern.sample1 != null) {
 					changeSample(1, pattern.sample1 + 1);
-					System.out.println(pattern.sample1 + 1);
 				}
 			}
 		});

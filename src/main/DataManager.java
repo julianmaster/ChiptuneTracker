@@ -53,7 +53,7 @@ public class DataManager {
 	public void open() throws Exception {
 		boolean continueOpen = true;
 		if(ChiptuneTracker.changeData) {
-			continueOpen = save();
+			continueOpen = newFile();
 		}
 		
 		if(continueOpen) {
@@ -63,6 +63,7 @@ public class DataManager {
 				if(file.canRead()) {
 					Serializer serializer = new Persister();
 					serializer.read(ChiptuneTracker.data, file);
+					currentFile = file.getAbsolutePath();
 				}
 				else {
 					throw new IOException("Unable to read the file !");
@@ -92,14 +93,16 @@ public class DataManager {
 		int returnValue = fileChooser.showSaveDialog(ChiptuneTracker.asciiTerminal);
 		if(returnValue == JFileChooser.APPROVE_OPTION) {
 			File file = fileChooser.getSelectedFile();
+			boolean fileExist = false;
 			if(file.exists()) {
+				fileExist = true;
 				int option = JOptionPane.showOptionDialog(ChiptuneTracker.asciiTerminal, file.getAbsolutePath()+" already exists. Do you want to replace it?", "Save As", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, null, null);
 				if(option == JOptionPane.NO_OPTION || option == JOptionPane.CANCEL_OPTION) {
 					return false;
 				}
 			}
 			
-			if(file.canWrite()) {
+			if(!fileExist || fileExist && file.canWrite()) {
 				Serializer serializer = new Persister();
 				serializer.write(ChiptuneTracker.data, file);
 				return true;
