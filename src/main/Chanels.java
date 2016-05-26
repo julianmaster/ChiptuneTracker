@@ -142,6 +142,7 @@ public class Chanels {
 	 */
 	
 	public void next() {
+		System.out.println("next");
 		if(playSample) {
 			chanels[0].stop();
 			playSample = false;

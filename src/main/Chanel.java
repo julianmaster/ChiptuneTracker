@@ -1,9 +1,7 @@
 package main;
 
-import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.unitgen.FunctionOscillator;
-import com.jsyn.unitgen.LineOut;
 import com.jsyn.unitgen.SawtoothOscillatorDPW;
 import com.jsyn.unitgen.SineOscillator;
 import com.jsyn.unitgen.SquareOscillatorBL;

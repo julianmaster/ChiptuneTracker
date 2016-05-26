@@ -1,11 +1,9 @@
 package main;
 
-import java.io.Serializable;
-
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.ElementArray;
 
-public class Sample implements Serializable {
+public class Sample {
 	public static final int SIZE = 32;
 	
 	@ElementArray

@@ -102,7 +102,7 @@ public class DataManager {
 				}
 			}
 			
-			if(!fileExist || fileExist && file.canWrite()) {
+			if(!fileExist || (fileExist && file.canWrite())) {
 				Serializer serializer = new Persister();
 				serializer.write(ChiptuneTracker.data, file);
 				return true;

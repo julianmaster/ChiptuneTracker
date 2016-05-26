@@ -1,11 +1,18 @@
 package main;
 
-import java.io.Serializable;
+import org.simpleframework.xml.Attribute;
 
-public class Sound implements Serializable {
+public class Sound {
+	@Attribute
 	public Note note;
+	
+	@Attribute
 	public Integer octave;
+	
+	@Attribute
 	public Integer instrument;
+	
+	@Attribute
 	public Integer volume;
 	
 	public Sound() {
