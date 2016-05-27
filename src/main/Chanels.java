@@ -52,7 +52,7 @@ public class Chanels {
 	
 	public void playSample(int sampleIndex) {
 		playSample = true;
-		chanels[0].playSample(sampleIndex);
+		chanels[0].playSample(-1, sampleIndex);
 	}
 	
 	public void stopSample() {
@@ -157,19 +157,19 @@ public class Chanels {
 			
 			boolean finish = true;
 			if(pattern.sample1 != null) {
-				chanels[0].playSample(pattern.sample1);
+				chanels[0].playSample(pattern.sample1, currentPattern + 1);
 				finish = false;
 			}
 			if(pattern.sample2 != null) {
-				chanels[1].playSample(pattern.sample2);
+				chanels[1].playSample(pattern.sample2, currentPattern + 1);
 				finish = false;
 			}
 			if(pattern.sample3 != null) {
-				chanels[2].playSample(pattern.sample3);
+				chanels[2].playSample(pattern.sample3, currentPattern + 1);
 				finish = false;
 			}
 			if(pattern.sample4 != null) {
-				chanels[3].playSample(pattern.sample4);
+				chanels[3].playSample(pattern.sample4, currentPattern + 1);
 				finish = false;
 			}
 			

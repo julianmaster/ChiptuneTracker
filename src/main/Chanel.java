@@ -21,6 +21,7 @@ public class Chanel {
 	private boolean start = false;
 	private boolean finish = false;
 	
+	private int pattern;
 	private int sample;
 	private int sampleSpeed;
 	private double sampleFrequency;
@@ -64,7 +65,8 @@ public class Chanel {
 		playNote(sound, 0, 16, time);
 	}
 	
-	public void playSample(int sampleIndex) {
+	public void playSample(int sampleIndex, int nextPatternIndex) {
+		this.pattern = nextPatternIndex;
 		this.sample = sampleIndex;
 		
 		Sample samplePlay = ChiptuneTracker.data.samples.get(sample);
@@ -174,7 +176,9 @@ public class Chanel {
 		chanels.getSynth().scheduleCommand(start, new ScheduledCommand() {
 			@Override
 			public void run() {
-				chanels.next();
+				if(pattern == chanels.getPattern()) {
+					chanels.next();
+				}
 			}
 		});
 	}
