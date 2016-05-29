@@ -49,8 +49,8 @@ public class SampleView extends View {
 		createOctaveButtons();
 		createVolumeButtons();
 		createOscillatorButtons();
-		changeSample(0);
 		createLoopButtons();
+		changeSample(0);
 	}
 	
 	public void createSampleButtons() {
@@ -104,9 +104,12 @@ public class SampleView extends View {
 	}
 	
 	public void createLoopButtons() {
-		Sample sample = ChiptuneTracker.data.samples.get(sampleCursor);
+		Sample sample = null;
+		if(!ChiptuneTracker.data.samples.isEmpty()) {
+			sample = ChiptuneTracker.data.samples.get(sampleCursor);
+		}
 		
-		buttonLoopStartSample = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, String.format("%02d", sample.loopStart), ChiptuneTracker.WINDOW_WIDTH - 6, 2, Color.WHITE, Color.ORANGE, Color.BLACK);
+		buttonLoopStartSample = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, String.format("%02d", sample != null ? sample.loopStart : 0), ChiptuneTracker.WINDOW_WIDTH - 6, 2, Color.WHITE, Color.ORANGE, Color.BLACK);
 		buttonLoopStartSample.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		buttonLoopStartSample.addMouseListener(new MouseAdapter() {
 			@Override
@@ -127,7 +130,7 @@ public class SampleView extends View {
 		});
 		terminalButtons.add(buttonLoopStartSample);
 		
-		buttonLoopStopSample = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, String.format("%02d", sample.loopStop), ChiptuneTracker.WINDOW_WIDTH - 3, 2, Color.WHITE, Color.ORANGE, Color.BLACK);
+		buttonLoopStopSample = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, String.format("%02d", sample != null ? sample.loopStop : 0), ChiptuneTracker.WINDOW_WIDTH - 3, 2, Color.WHITE, Color.ORANGE, Color.BLACK);
 		buttonLoopStopSample.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		buttonLoopStopSample.addMouseListener(new MouseAdapter() {
 			@Override
@@ -464,6 +467,9 @@ public class SampleView extends View {
 		if(ChiptuneTracker.data.samples.size() < i + 1) {
 			ChiptuneTracker.data.samples.add(new Sample());
 		}
+		
+		buttonLoopStartSample.setName(String.format("%02d", ChiptuneTracker.data.samples.get(sampleCursor).loopStart));
+		buttonLoopStopSample.setName(String.format("%02d", ChiptuneTracker.data.samples.get(sampleCursor).loopStop));
 	}
 	
 	public void changeOctave(String octave) {
@@ -544,7 +550,7 @@ public class SampleView extends View {
 			}
 			// The music is play
 			else {
-				int soundPlayCursor = ChiptuneTracker.chanels.getSampleCursor();
+				int soundPlayCursor = ChiptuneTracker.chanels.getSampleCursor(0);
 				
 				// Default color
 				Color backgroundColor = Color.BLACK;

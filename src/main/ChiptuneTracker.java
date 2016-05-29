@@ -2,6 +2,7 @@ package main;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.io.File;
 
 import ui.AsciiPanel;
 import ui.CustomAsciiTerminal;
@@ -29,7 +30,7 @@ public class ChiptuneTracker {
 	
 	public static Data data = new Data();
 	public static DataManager dataManager;
-	public static boolean changeData = true;
+	public static boolean changeData = false;
 	public static Chanels chanels = new Chanels();
 	
 	private View currentView;
@@ -44,6 +45,7 @@ public class ChiptuneTracker {
 		asciiPanel.setDefaultCharacterColor(Color.WHITE);
 		
 		dataManager = new DataManager(this);
+		dataManager.openFile(new File("./Legend of Zelda - Wind Waker - Outset Island.ct"));
 		
 		menuView = new MenuView(this);
 		sampleView = new SampleView(this);

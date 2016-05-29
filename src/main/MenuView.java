@@ -3,14 +3,8 @@ package main;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.util.LinkedList;
 
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-
-import org.simpleframework.xml.Serializer;
-import org.simpleframework.xml.core.Persister;
 
 import ui.AsciiTerminalButton;
 

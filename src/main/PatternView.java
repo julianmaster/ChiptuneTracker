@@ -396,7 +396,6 @@ public class PatternView extends View {
 		else {
 			pattern4.setSelect(false);
 			Pattern pattern = ChiptuneTracker.data.patterns.get(patternOffset + 3);
-			System.out.println(patternOffset + 3);
 			if(pattern.sample1 == null && pattern.sample2 == null && pattern.sample3 == null && pattern.sample4 == null) {
 				pattern4.setMouseDefaultColor(Color.LIGHT_GRAY);
 			}
@@ -502,6 +501,11 @@ public class PatternView extends View {
 			
 			ChiptuneTracker.asciiTerminal.setEvent(null);
 		}
+		if(ChiptuneTracker.chanels.isPlayPattern() && patternCursor != ChiptuneTracker.chanels.getPatternCursor()) {
+			patternCursor = ChiptuneTracker.chanels.getPatternCursor();
+			changePatternButtons();
+			changeSampleButtons();
+		}
 	}
 	
 	@Override
@@ -535,13 +539,30 @@ public class PatternView extends View {
 			ChiptuneTracker.asciiPanel.writeString(25, 4, String.format("%02d", pattern.sample4), Color.WHITE);
 		}
 		
-		paintSample(sample1, 1, 5);
-		paintSample(sample2, 8, 5);
-		paintSample(sample3, 15, 5);
-		paintSample(sample4, 22, 5);
+		boolean isPlayPattern = ChiptuneTracker.chanels.isPlayPattern();
+		paintSample(sample1, 1, 5, isPlayPattern, ChiptuneTracker.chanels.getSampleCursor(0));
+		paintSample(sample2, 8, 5, isPlayPattern, ChiptuneTracker.chanels.getSampleCursor(1));
+		paintSample(sample3, 15, 5, isPlayPattern, ChiptuneTracker.chanels.getSampleCursor(2));
+		paintSample(sample4, 22, 5, isPlayPattern, ChiptuneTracker.chanels.getSampleCursor(3));
 	}
 	
-	public void paintSample(Sample sample, int offsetX, int offsetY) {
+	public void paintSample(Sample sample, int offsetX, int offsetY, boolean isPlayPattern, int cursorPosition) {
+		int relativeCursorPosition = -1;
+		int soundOffset = 0;
+		if(isPlayPattern && sample != null) {
+			if(cursorPosition <= 5) {
+				relativeCursorPosition = cursorPosition;
+			}
+			else if(cursorPosition > 5 && cursorPosition <= 26) {
+				relativeCursorPosition = 5;
+			}
+			else {
+				relativeCursorPosition = cursorPosition - 26 + 5;
+			}
+			
+			soundOffset = Math.max(0, Math.min(cursorPosition - 5, 31 - 10));
+		}
+		
 		for(int i = 0; i < 11; i++) {
 			int x = offsetX;
 			int y = offsetY + i;
@@ -549,19 +570,27 @@ public class PatternView extends View {
 			Sound sound = null;
 			
 			if(sample != null) {
-				sound = sample.sounds[i];
+				sound = sample.sounds[i + soundOffset];
+			}
+			
+			// Default color
+			Color backgroundColor = Color.BLACK;
+			
+			// if this sound is play change the background color
+			if(isPlayPattern && i == relativeCursorPosition) {
+				backgroundColor = Color.YELLOW;
 			}
 			
 			if(sound != null) {
-				ChiptuneTracker.asciiPanel.writeString(x, y, sound.note.str, Color.WHITE, Color.BLACK);
-				ChiptuneTracker.asciiPanel.write(x+2, y, Character.forDigit(sound.octave, 10), Color.GREEN, Color.BLACK);
-				ChiptuneTracker.asciiPanel.write(x+3, y,  Character.forDigit(sound.instrument, 10), Color.MAGENTA, Color.BLACK);
-				ChiptuneTracker.asciiPanel.write(x+4, y,  Character.forDigit(sound.volume, 10), Color.CYAN, Color.BLACK);
-				ChiptuneTracker.asciiPanel.write(x+5, y, (char)239, Color.GRAY, Color.BLACK);
+				ChiptuneTracker.asciiPanel.writeString(x, y, sound.note.str, Color.WHITE, backgroundColor);
+				ChiptuneTracker.asciiPanel.write(x+2, y, Character.forDigit(sound.octave, 10), Color.GREEN, backgroundColor);
+				ChiptuneTracker.asciiPanel.write(x+3, y,  Character.forDigit(sound.instrument, 10), Color.MAGENTA, backgroundColor);
+				ChiptuneTracker.asciiPanel.write(x+4, y,  Character.forDigit(sound.volume, 10), Color.CYAN, backgroundColor);
+				ChiptuneTracker.asciiPanel.write(x+5, y, (char)239, Color.GRAY, backgroundColor);
 			}
 			else {
 				for(int j = x; j < x + 6; j++) {
-					ChiptuneTracker.asciiPanel.write(j, y, (char)239, Color.GRAY, Color.BLACK);
+					ChiptuneTracker.asciiPanel.write(j, y, (char)239, Color.GRAY, backgroundColor);
 				}
 			}
 		}

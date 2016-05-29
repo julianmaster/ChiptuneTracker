@@ -66,8 +66,8 @@ public class Chanel {
 	}
 	
 	public void playSample(int sampleIndex, int nextPatternIndex) {
-		this.pattern = nextPatternIndex;
 		this.sample = sampleIndex;
+		this.pattern = nextPatternIndex;
 		
 		Sample samplePlay = ChiptuneTracker.data.samples.get(sample);
 		
@@ -83,7 +83,7 @@ public class Chanel {
 	}
 	
 	public void update() {
-		if(!finish) {
+		if(!finish && sample != -1) {
 			double currentTime = chanels.getSynth().getCurrentTime();
 			if(currentTime > lastSoundTime) {
 				Sound sound = ChiptuneTracker.data.samples.get(sample).sounds[soundCursor];
@@ -176,11 +176,19 @@ public class Chanel {
 		chanels.getSynth().scheduleCommand(start, new ScheduledCommand() {
 			@Override
 			public void run() {
-				if(pattern == chanels.getPattern()) {
-					chanels.next();
+				synchronized (chanels) {
+					if(finish && (pattern == -1 || pattern == chanels.getNextPattern())) {
+						chanels.next();
+					}
 				}
 			}
 		});
+	}
+	
+	public void clear() {
+		pattern = -1;
+		sample = -1;
+		finish = false;
 	}
 	
 	public int getSoundCursor() {

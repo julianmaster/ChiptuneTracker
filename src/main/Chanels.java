@@ -52,7 +52,7 @@ public class Chanels {
 	
 	public void playSample(int sampleIndex) {
 		playSample = true;
-		chanels[0].playSample(-1, sampleIndex);
+		chanels[0].playSample(sampleIndex, -1);
 	}
 	
 	public void stopSample() {
@@ -64,8 +64,13 @@ public class Chanels {
 		chanels[0].getSample();
 	}
 	
-	public int getSampleCursor() {
-		return chanels[0].getSoundCursor();
+	public int getSampleCursor(int i) {
+		if(i >= 0 && i < 4) {
+			return chanels[i].getSoundCursor();
+		}
+		else {
+			return -1;
+		}
 	}
 	
 	public boolean isPlaySample() {
@@ -101,11 +106,13 @@ public class Chanels {
 		return playPattern;
 	}
 	
-	public int getPattern() {
-		return currentPattern;
+	public int getPatternCursor() {
+		return currentPattern - 1;
 	}
 	
-	
+	public int getNextPattern() {
+		return currentPattern;
+	}
 	
 	
 	
@@ -142,7 +149,6 @@ public class Chanels {
 	 */
 	
 	public void next() {
-		System.out.println("next");
 		if(playSample) {
 			chanels[0].stop();
 			playSample = false;
@@ -153,6 +159,15 @@ public class Chanels {
 				chanels[i].stop();
 			}
 			
+			chanels[0].clear();
+			chanels[1].clear();
+			chanels[2].clear();
+			chanels[3].clear();
+			
+			if(currentPattern >= ChiptuneTracker.data.patterns.size()) {
+				playPattern = false;
+				return;
+			}
 			Pattern pattern = ChiptuneTracker.data.patterns.get(currentPattern);
 			
 			boolean finish = true;

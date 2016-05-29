@@ -71,6 +71,16 @@ public class DataManager {
 			}
 		}
 	}
+	
+	public void openFile(File file) {
+		try {
+			Serializer serializer = new Persister();
+			serializer.read(ChiptuneTracker.data, file);
+			currentFile = file.getAbsolutePath();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	public boolean save() throws Exception {
 		if(currentFile != null) {
