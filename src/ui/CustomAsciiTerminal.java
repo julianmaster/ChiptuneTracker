@@ -24,9 +24,9 @@ public class CustomAsciiTerminal extends AsciiTerminal {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				try {
-					ChiptuneTracker.dataManager.exit();
+					ChiptuneTracker.getInstance().getDataManager().exit();
 				} catch (Exception exception) {
-					JOptionPane.showMessageDialog(ChiptuneTracker.asciiTerminal, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(ChiptuneTracker.getInstance().getAsciiTerminal(), exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});

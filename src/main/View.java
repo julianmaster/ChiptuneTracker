@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import ui.AsciiPanel;
 import ui.AsciiSelectableTerminalButton;
 import ui.AsciiTerminalButton;
 
@@ -30,45 +31,49 @@ public abstract class View {
 	}
 	
 	public void createSwitchViewButtons() {
-		buttonMenuView = new AsciiSelectableTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)255) + "Menu", 1, 0, Color.WHITE, DEEP_ORANGE, DEEP_ORANGE, INDIGO);
+		AsciiPanel asciiPanel = ChiptuneTracker.getInstance().getAsciiPanel();
+		
+		buttonMenuView = new AsciiSelectableTerminalButton(asciiPanel, String.valueOf((char)255) + "Menu", 1, 0, Color.WHITE, DEEP_ORANGE, DEEP_ORANGE, INDIGO);
 		buttonMenuView.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		buttonMenuView.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				chiptuneTracker.changeView(ChiptuneTracker.menuView);
+				chiptuneTracker.changeView(ChiptuneTracker.getInstance().getMenuView());
 			}
 		});
 		terminalButtons.add(buttonMenuView);
 		
-		buttonSampleView = new AsciiSelectableTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)13) + "Sample", 7, 0, Color.WHITE, DEEP_ORANGE, DEEP_ORANGE, INDIGO);
+		buttonSampleView = new AsciiSelectableTerminalButton(asciiPanel, String.valueOf((char)13) + "Sample", 7, 0, Color.WHITE, DEEP_ORANGE, DEEP_ORANGE, INDIGO);
 		buttonSampleView.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		buttonSampleView.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				chiptuneTracker.changeView(ChiptuneTracker.sampleView);
+				chiptuneTracker.changeView(ChiptuneTracker.getInstance().getSampleView());
 			}
 		});
 		terminalButtons.add(buttonSampleView);
 		
-		buttonPatternView = new AsciiSelectableTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)14) + "Pattern", 15, 0, Color.WHITE, DEEP_ORANGE, DEEP_ORANGE, INDIGO);
+		buttonPatternView = new AsciiSelectableTerminalButton(asciiPanel, String.valueOf((char)14) + "Pattern", 15, 0, Color.WHITE, DEEP_ORANGE, DEEP_ORANGE, INDIGO);
 		buttonPatternView.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		buttonPatternView.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				chiptuneTracker.changeView(ChiptuneTracker.patternView);
+				chiptuneTracker.changeView(ChiptuneTracker.getInstance().getPatternView());
 			}
 		});
 		terminalButtons.add(buttonPatternView);
 	}
 
 	public void init() {
+		AsciiPanel asciiPanel = ChiptuneTracker.getInstance().getAsciiPanel();
+		
 		for(int i = 0; i < ChiptuneTracker.WINDOW_WIDTH; i++) {
-			ChiptuneTracker.asciiPanel.write(i, 0, ' ', Color.WHITE, INDIGO);
-			ChiptuneTracker.asciiPanel.write(i, ChiptuneTracker.WINDOW_HEIGHT - 1, ' ', Color.WHITE, INDIGO);
+			asciiPanel.write(i, 0, ' ', Color.WHITE, INDIGO);
+			asciiPanel.write(i, ChiptuneTracker.WINDOW_HEIGHT - 1, ' ', Color.WHITE, INDIGO);
 		}
 		
 		for(AsciiTerminalButton terminalButton : terminalButtons) {
-			ChiptuneTracker.asciiPanel.add(terminalButton);
+			asciiPanel.add(terminalButton);
 		}
 	}
 	
@@ -77,8 +82,10 @@ public abstract class View {
 	public abstract void paint();
 	
 	public void quit() {
+		AsciiPanel asciiPanel = ChiptuneTracker.getInstance().getAsciiPanel();
+		
 		for(AsciiTerminalButton terminalButton : terminalButtons) {
-			ChiptuneTracker.asciiPanel.remove(terminalButton);
+			asciiPanel.remove(terminalButton);
 		}
 	}
 }

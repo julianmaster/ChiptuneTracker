@@ -164,11 +164,11 @@ public class Chanels {
 			chanels[2].clear();
 			chanels[3].clear();
 			
-			if(currentPattern >= ChiptuneTracker.data.patterns.size()) {
+			if(currentPattern >= ChiptuneTracker.getInstance().getData().patterns.size()) {
 				playPattern = false;
 				return;
 			}
-			Pattern pattern = ChiptuneTracker.data.patterns.get(currentPattern);
+			Pattern pattern = ChiptuneTracker.getInstance().getData().patterns.get(currentPattern);
 			
 			boolean finish = true;
 			if(pattern.sample1 != null) {

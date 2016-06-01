@@ -6,6 +6,8 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JOptionPane;
 
+import ui.AsciiPanel;
+import ui.AsciiTerminal;
 import ui.AsciiTerminalButton;
 
 public class MenuView extends View {
@@ -17,66 +19,70 @@ public class MenuView extends View {
 
 	public void createMenuButtons() {
 		int startY = 4;
-		AsciiTerminalButton newButton = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, "New", 5, startY, Color.MAGENTA, Color.ORANGE);
+		final AsciiTerminal asciiTerminal = ChiptuneTracker.getInstance().getAsciiTerminal();
+		final DataManager dataManager = ChiptuneTracker.getInstance().getDataManager();
+		AsciiPanel asciiPanel = ChiptuneTracker.getInstance().getAsciiPanel();
+		
+		AsciiTerminalButton newButton = new AsciiTerminalButton(asciiPanel, "New", 5, startY, Color.MAGENTA, Color.ORANGE);
 		newButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
-					ChiptuneTracker.dataManager.newFile();
+					dataManager.newFile();
 				} catch (Exception exception) {
-					JOptionPane.showMessageDialog(ChiptuneTracker.asciiTerminal, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(asciiTerminal, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
 		terminalButtons.add(newButton);
 		
-		AsciiTerminalButton openFileButton = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, "Open File...", 5, startY + 2, Color.MAGENTA, Color.ORANGE);
+		AsciiTerminalButton openFileButton = new AsciiTerminalButton(asciiPanel, "Open File...", 5, startY + 2, Color.MAGENTA, Color.ORANGE);
 		openFileButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
-					ChiptuneTracker.dataManager.open();
+					dataManager.open();
 				} catch (Exception exception) {
-					JOptionPane.showMessageDialog(ChiptuneTracker.asciiTerminal, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(asciiTerminal, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
 		terminalButtons.add(openFileButton);
 		
-		AsciiTerminalButton saveButton = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, "Save", 5, startY + 4, Color.MAGENTA, Color.ORANGE);
+		AsciiTerminalButton saveButton = new AsciiTerminalButton(asciiPanel, "Save", 5, startY + 4, Color.MAGENTA, Color.ORANGE);
 		saveButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
-					ChiptuneTracker.dataManager.save();
+					dataManager.save();
 				} catch (Exception exception) {
-					JOptionPane.showMessageDialog(ChiptuneTracker.asciiTerminal, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(asciiTerminal, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
 		terminalButtons.add(saveButton);
 		
-		AsciiTerminalButton saveAsButton = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, "Save as...", 5, startY + 6, Color.MAGENTA, Color.ORANGE);
+		AsciiTerminalButton saveAsButton = new AsciiTerminalButton(asciiPanel, "Save as...", 5, startY + 6, Color.MAGENTA, Color.ORANGE);
 		saveAsButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
-					ChiptuneTracker.dataManager.saveAs();
+					dataManager.saveAs();
 				} catch (Exception exception) {
-					JOptionPane.showMessageDialog(ChiptuneTracker.asciiTerminal, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(asciiTerminal, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
 		terminalButtons.add(saveAsButton);
 		
-		AsciiTerminalButton exitButton = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, "Exit", 5, startY + 8, Color.MAGENTA, Color.ORANGE);
+		AsciiTerminalButton exitButton = new AsciiTerminalButton(asciiPanel, "Exit", 5, startY + 8, Color.MAGENTA, Color.ORANGE);
 		exitButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
-					ChiptuneTracker.dataManager.exit();
+					dataManager.exit();
 				} catch (Exception exception) {
-					JOptionPane.showMessageDialog(ChiptuneTracker.asciiTerminal, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(asciiTerminal, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});

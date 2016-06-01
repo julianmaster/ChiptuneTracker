@@ -6,8 +6,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import ui.AsciiPanel;
 import ui.AsciiSelectableTerminalButton;
+import ui.AsciiTerminal;
 import ui.AsciiTerminalButton;
+import ui.CustomAsciiTerminal;
 
 public class PatternView extends View {
 
@@ -48,8 +51,10 @@ public class PatternView extends View {
 	}
 	
 	public void createPatternButtons() {
+		AsciiPanel asciiPanel = ChiptuneTracker.getInstance().getAsciiPanel();
+		
 		// Down button
-		AsciiTerminalButton buttonDownSample = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)17), 9, 2, Color.MAGENTA, Color.ORANGE);
+		AsciiTerminalButton buttonDownSample = new AsciiTerminalButton(asciiPanel, String.valueOf((char)17), 9, 2, Color.MAGENTA, Color.ORANGE);
 		buttonDownSample.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		buttonDownSample.addMouseListener(new MouseAdapter() {
 			@Override
@@ -62,7 +67,7 @@ public class PatternView extends View {
 		terminalButtons.add(buttonDownSample);
 		
 		// Up button
-		AsciiTerminalButton buttonUpSample = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)16), ChiptuneTracker.WINDOW_WIDTH - 6, 2, Color.MAGENTA, Color.ORANGE);
+		AsciiTerminalButton buttonUpSample = new AsciiTerminalButton(asciiPanel, String.valueOf((char)16), ChiptuneTracker.WINDOW_WIDTH - 6, 2, Color.MAGENTA, Color.ORANGE);
 		buttonUpSample.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		buttonUpSample.addMouseListener(new MouseAdapter() {
 			@Override
@@ -75,7 +80,7 @@ public class PatternView extends View {
 		terminalButtons.add(buttonUpSample);
 		
 		// pattern1
-		pattern1 = new AsciiSelectableTerminalButton(ChiptuneTracker.asciiPanel, String.format("%02d", patternCursor), 11, 2, Color.WHITE, Color.ORANGE, Color.ORANGE);
+		pattern1 = new AsciiSelectableTerminalButton(asciiPanel, String.format("%02d", patternCursor), 11, 2, Color.WHITE, Color.ORANGE, Color.ORANGE);
 		pattern1.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		pattern1.addMouseListener(new MouseAdapter() {
 			@Override
@@ -89,7 +94,7 @@ public class PatternView extends View {
 		terminalButtons.add(pattern1);
 		
 		// pattern2
-		pattern2 = new AsciiSelectableTerminalButton(ChiptuneTracker.asciiPanel, String.format("%02d", patternCursor + 1), 14, 2, Color.WHITE, Color.ORANGE, Color.ORANGE);
+		pattern2 = new AsciiSelectableTerminalButton(asciiPanel, String.format("%02d", patternCursor + 1), 14, 2, Color.WHITE, Color.ORANGE, Color.ORANGE);
 		pattern2.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		pattern2.addMouseListener(new MouseAdapter() {
 			@Override
@@ -102,7 +107,7 @@ public class PatternView extends View {
 		terminalButtons.add(pattern2);
 		
 		// pattern3
-		pattern3 = new AsciiSelectableTerminalButton(ChiptuneTracker.asciiPanel, String.format("%02d", patternCursor + 2), 17, 2, Color.WHITE, Color.ORANGE, Color.ORANGE);
+		pattern3 = new AsciiSelectableTerminalButton(asciiPanel, String.format("%02d", patternCursor + 2), 17, 2, Color.WHITE, Color.ORANGE, Color.ORANGE);
 		pattern3.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		pattern3.addMouseListener(new MouseAdapter() {
 			@Override
@@ -115,7 +120,7 @@ public class PatternView extends View {
 		terminalButtons.add(pattern3);
 		
 		// pattern4
-		pattern4 = new AsciiSelectableTerminalButton(ChiptuneTracker.asciiPanel, String.format("%02d", patternCursor + 3), 20, 2, Color.WHITE, Color.ORANGE, Color.ORANGE);
+		pattern4 = new AsciiSelectableTerminalButton(asciiPanel, String.format("%02d", patternCursor + 3), 20, 2, Color.WHITE, Color.ORANGE, Color.ORANGE);
 		pattern4.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		pattern4.addMouseListener(new MouseAdapter() {
 			@Override
@@ -129,64 +134,67 @@ public class PatternView extends View {
 	}
 	
 	public void createSampleButtons() {
-		sample1 = new AsciiSelectableTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)253), 1, 4, Color.WHITE, Color.YELLOW, Color.GREEN);
+		final Data data = ChiptuneTracker.getInstance().getData();
+		AsciiPanel asciiPanel = ChiptuneTracker.getInstance().getAsciiPanel();
+		
+		sample1 = new AsciiSelectableTerminalButton(asciiPanel, String.valueOf((char)253), 1, 4, Color.WHITE, Color.YELLOW, Color.GREEN);
 		sample1.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		sample1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(sample1.isSelect()) {
-					ChiptuneTracker.data.patterns.get(patternCursor).sample1 = null;
+					data.patterns.get(patternCursor).sample1 = null;
 				}
 				else {
-					ChiptuneTracker.data.patterns.get(patternCursor).sample1 = 0;
+					data.patterns.get(patternCursor).sample1 = 0;
 				}
 				changeSampleButtons();
 			}
 		});
 		terminalButtons.add(sample1);
 		
-		sample2 = new AsciiSelectableTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)253), 8, 4, Color.WHITE, Color.YELLOW, Color.GREEN);
+		sample2 = new AsciiSelectableTerminalButton(asciiPanel, String.valueOf((char)253), 8, 4, Color.WHITE, Color.YELLOW, Color.GREEN);
 		sample2.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		sample2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(sample2.isSelect()) {
-					ChiptuneTracker.data.patterns.get(patternCursor).sample2 = null;
+					data.patterns.get(patternCursor).sample2 = null;
 				}
 				else {
-					ChiptuneTracker.data.patterns.get(patternCursor).sample2 = 0;
+					data.patterns.get(patternCursor).sample2 = 0;
 				}
 				changeSampleButtons();
 			}
 		});
 		terminalButtons.add(sample2);
 		
-		sample3 = new AsciiSelectableTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)253), 15, 4, Color.WHITE, Color.YELLOW, Color.GREEN);
+		sample3 = new AsciiSelectableTerminalButton(asciiPanel, String.valueOf((char)253), 15, 4, Color.WHITE, Color.YELLOW, Color.GREEN);
 		sample3.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		sample3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(sample3.isSelect()) {
-					ChiptuneTracker.data.patterns.get(patternCursor).sample3 = null;
+					data.patterns.get(patternCursor).sample3 = null;
 				}
 				else {
-					ChiptuneTracker.data.patterns.get(patternCursor).sample3 = 0;
+					data.patterns.get(patternCursor).sample3 = 0;
 				}
 				changeSampleButtons();
 			}
 		});
 		terminalButtons.add(sample3);
 		
-		sample4 = new AsciiSelectableTerminalButton(ChiptuneTracker.asciiPanel, String.valueOf((char)253), 22, 4, Color.WHITE, Color.YELLOW, Color.GREEN);
+		sample4 = new AsciiSelectableTerminalButton(asciiPanel, String.valueOf((char)253), 22, 4, Color.WHITE, Color.YELLOW, Color.GREEN);
 		sample4.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		sample4.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(sample4.isSelect()) {
-					ChiptuneTracker.data.patterns.get(patternCursor).sample4 = null;
+					data.patterns.get(patternCursor).sample4 = null;
 				}
 				else {
-					ChiptuneTracker.data.patterns.get(patternCursor).sample4 = 0;
+					data.patterns.get(patternCursor).sample4 = 0;
 				}
 				changeSampleButtons();
 			}
@@ -195,48 +203,51 @@ public class PatternView extends View {
 	}
 	
 	public void createSampleDownButtons() {
-		sample1Down = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, "-", 3, 4, Color.MAGENTA, Color.ORANGE);
+		final Data data = ChiptuneTracker.getInstance().getData();
+		AsciiPanel asciiPanel = ChiptuneTracker.getInstance().getAsciiPanel();
+		
+		sample1Down = new AsciiTerminalButton(asciiPanel, "-", 3, 4, Color.MAGENTA, Color.ORANGE);
 		sample1Down.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		sample1Down.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Pattern pattern = ChiptuneTracker.data.patterns.get(patternCursor);
+				Pattern pattern = data.patterns.get(patternCursor);
 				if(pattern.sample1 != null) {
 					changeSample(1, pattern.sample1 - 1);
 				}
 			}
 		});
 		
-		sample2Down = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, "-", 10, 4, Color.MAGENTA, Color.ORANGE);
+		sample2Down = new AsciiTerminalButton(asciiPanel, "-", 10, 4, Color.MAGENTA, Color.ORANGE);
 		sample2Down.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		sample2Down.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Pattern pattern = ChiptuneTracker.data.patterns.get(patternCursor);
+				Pattern pattern = data.patterns.get(patternCursor);
 				if(pattern.sample2 != null) {
 					changeSample(2, pattern.sample2 - 1);
 				}
 			}
 		});
 		
-		sample3Down = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, "-", 17, 4, Color.MAGENTA, Color.ORANGE);
+		sample3Down = new AsciiTerminalButton(asciiPanel, "-", 17, 4, Color.MAGENTA, Color.ORANGE);
 		sample3Down.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		sample3Down.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Pattern pattern = ChiptuneTracker.data.patterns.get(patternCursor);
+				Pattern pattern = data.patterns.get(patternCursor);
 				if(pattern.sample3 != null) {
 					changeSample(3, pattern.sample3 - 1);
 				}
 			}
 		});
 		
-		sample4Down = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, "-", 24, 4, Color.MAGENTA, Color.ORANGE);
+		sample4Down = new AsciiTerminalButton(asciiPanel, "-", 24, 4, Color.MAGENTA, Color.ORANGE);
 		sample4Down.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		sample4Down.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Pattern pattern = ChiptuneTracker.data.patterns.get(patternCursor);
+				Pattern pattern = data.patterns.get(patternCursor);
 				if(pattern.sample4 != null) {
 					changeSample(4, pattern.sample4 - 1);
 				}
@@ -245,48 +256,51 @@ public class PatternView extends View {
 	}
 	
 	public void createSampleUpButtons() {
-		sample1Up = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, "+", 6, 4, Color.MAGENTA, Color.ORANGE);
+		final Data data = ChiptuneTracker.getInstance().getData();
+		AsciiPanel asciiPanel = ChiptuneTracker.getInstance().getAsciiPanel();
+		
+		sample1Up = new AsciiTerminalButton(asciiPanel, "+", 6, 4, Color.MAGENTA, Color.ORANGE);
 		sample1Up.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		sample1Up.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Pattern pattern = ChiptuneTracker.data.patterns.get(patternCursor);
+				Pattern pattern = data.patterns.get(patternCursor);
 				if(pattern.sample1 != null) {
 					changeSample(1, pattern.sample1 + 1);
 				}
 			}
 		});
 		
-		sample2Up = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, "+", 13, 4, Color.MAGENTA, Color.ORANGE);
+		sample2Up = new AsciiTerminalButton(asciiPanel, "+", 13, 4, Color.MAGENTA, Color.ORANGE);
 		sample2Up.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		sample2Up.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Pattern pattern = ChiptuneTracker.data.patterns.get(patternCursor);
+				Pattern pattern = data.patterns.get(patternCursor);
 				if(pattern.sample2 != null) {
 					changeSample(2, pattern.sample2 + 1);
 				}
 			}
 		});
 		
-		sample3Up = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, "+", 20, 4, Color.MAGENTA, Color.ORANGE);
+		sample3Up = new AsciiTerminalButton(asciiPanel, "+", 20, 4, Color.MAGENTA, Color.ORANGE);
 		sample3Up.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		sample3Up.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Pattern pattern = ChiptuneTracker.data.patterns.get(patternCursor);
+				Pattern pattern = data.patterns.get(patternCursor);
 				if(pattern.sample3 != null) {
 					changeSample(3, pattern.sample3 + 1);
 				}
 			}
 		});
 		
-		sample4Up = new AsciiTerminalButton(ChiptuneTracker.asciiPanel, "+", 27, 4, Color.MAGENTA, Color.ORANGE);
+		sample4Up = new AsciiTerminalButton(asciiPanel, "+", 27, 4, Color.MAGENTA, Color.ORANGE);
 		sample4Up.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		sample4Up.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Pattern pattern = ChiptuneTracker.data.patterns.get(patternCursor);
+				Pattern pattern = data.patterns.get(patternCursor);
 				if(pattern.sample4 != null) {
 					changeSample(4, pattern.sample4 + 1);
 				}
@@ -296,8 +310,8 @@ public class PatternView extends View {
 	
 	@Override
 	public void init() {
-		if(ChiptuneTracker.initPatternView) {
-			ChiptuneTracker.initPatternView = false;
+		if(ChiptuneTracker.getInstance().isInitPatternView()) {
+			ChiptuneTracker.getInstance().setInitPatternView(false);
 			patternCursor = 0;
 			patternOffset = 0;
 			changePatternOffset();
@@ -309,21 +323,22 @@ public class PatternView extends View {
 		buttonSampleView.setSelect(false);
 		buttonPatternView.setSelect(true);
 		super.init();
+		AsciiPanel asciiPanel = ChiptuneTracker.getInstance().getAsciiPanel();
 		if(sample1.isSelect()) {
-			ChiptuneTracker.asciiPanel.add(sample1Down);
-			ChiptuneTracker.asciiPanel.add(sample1Up);
+			asciiPanel.add(sample1Down);
+			asciiPanel.add(sample1Up);
 		}
 		if(sample2.isSelect()) {
-			ChiptuneTracker.asciiPanel.add(sample2Down);
-			ChiptuneTracker.asciiPanel.add(sample2Up);
+			asciiPanel.add(sample2Down);
+			asciiPanel.add(sample2Up);
 		}
 		if(sample3.isSelect()) {
-			ChiptuneTracker.asciiPanel.add(sample3Down);
-			ChiptuneTracker.asciiPanel.add(sample3Up);
+			asciiPanel.add(sample3Down);
+			asciiPanel.add(sample3Up);
 		}
 		if(sample4.isSelect()) {
-			ChiptuneTracker.asciiPanel.add(sample4Down);
-			ChiptuneTracker.asciiPanel.add(sample4Up);
+			asciiPanel.add(sample4Down);
+			asciiPanel.add(sample4Up);
 		}
 	}
 	
@@ -336,13 +351,14 @@ public class PatternView extends View {
 		}
 		
 		for(int i = 0; i <= 4 ; i++) {
-			if(ChiptuneTracker.data.patterns.size() < patternOffset + i) {
-				ChiptuneTracker.data.patterns.add(new Pattern());
+			if(ChiptuneTracker.getInstance().getData().patterns.size() < patternOffset + i) {
+				ChiptuneTracker.getInstance().getData().patterns.add(new Pattern());
 			}
 		}
 	}
 	
 	public void changePatternButtons() {
+		Data data = ChiptuneTracker.getInstance().getData();
 		pattern1.setName(String.format("%02d", patternOffset));
 		pattern2.setName(String.format("%02d", patternOffset + 1));
 		pattern3.setName(String.format("%02d", patternOffset + 2));
@@ -353,7 +369,7 @@ public class PatternView extends View {
 		}
 		else {
 			pattern1.setSelect(false);
-			Pattern pattern = ChiptuneTracker.data.patterns.get(patternOffset);
+			Pattern pattern = data.patterns.get(patternOffset);
 			if(pattern.sample1 == null && pattern.sample2 == null && pattern.sample3 == null && pattern.sample4 == null) {
 				pattern1.setMouseDefaultColor(Color.LIGHT_GRAY);
 			}
@@ -367,7 +383,7 @@ public class PatternView extends View {
 		}
 		else {
 			pattern2.setSelect(false);
-			Pattern pattern = ChiptuneTracker.data.patterns.get(patternOffset + 1);
+			Pattern pattern = data.patterns.get(patternOffset + 1);
 			if(pattern.sample1 == null && pattern.sample2 == null && pattern.sample3 == null && pattern.sample4 == null) {
 				pattern2.setMouseDefaultColor(Color.LIGHT_GRAY);
 			}
@@ -381,7 +397,7 @@ public class PatternView extends View {
 		}
 		else {
 			pattern3.setSelect(false);
-			Pattern pattern = ChiptuneTracker.data.patterns.get(patternOffset + 2);
+			Pattern pattern = data.patterns.get(patternOffset + 2);
 			if(pattern.sample1 == null && pattern.sample2 == null && pattern.sample3 == null && pattern.sample4 == null) {
 				pattern3.setMouseDefaultColor(Color.LIGHT_GRAY);
 			}
@@ -395,7 +411,7 @@ public class PatternView extends View {
 		}
 		else {
 			pattern4.setSelect(false);
-			Pattern pattern = ChiptuneTracker.data.patterns.get(patternOffset + 3);
+			Pattern pattern = data.patterns.get(patternOffset + 3);
 			if(pattern.sample1 == null && pattern.sample2 == null && pattern.sample3 == null && pattern.sample4 == null) {
 				pattern4.setMouseDefaultColor(Color.LIGHT_GRAY);
 			}
@@ -406,103 +422,107 @@ public class PatternView extends View {
 	}
 	
 	public void changeSampleButtons() {
-		Pattern pattern = ChiptuneTracker.data.patterns.get(patternCursor);
+		Pattern pattern = ChiptuneTracker.getInstance().getData().patterns.get(patternCursor);
+		AsciiPanel asciiPanel = ChiptuneTracker.getInstance().getAsciiPanel();
 		
 		if(pattern.sample1 != null) {
 			sample1.setName(String.valueOf((char)254));
 			sample1.setSelect(true);
-			ChiptuneTracker.asciiPanel.add(sample1Down);
-			ChiptuneTracker.asciiPanel.add(sample1Up);
+			asciiPanel.add(sample1Down);
+			asciiPanel.add(sample1Up);
 		}
 		else {
 			sample1.setName(String.valueOf((char)253));
 			sample1.setSelect(false);
-			ChiptuneTracker.asciiPanel.remove(sample1Down);
-			ChiptuneTracker.asciiPanel.remove(sample1Up);
-			ChiptuneTracker.asciiPanel.clear(3, 4, 4, 1);
+			asciiPanel.remove(sample1Down);
+			asciiPanel.remove(sample1Up);
+			asciiPanel.clear(3, 4, 4, 1);
 		}
 		
 		if(pattern.sample2 != null) {
 			sample2.setName(String.valueOf((char)254));
 			sample2.setSelect(true);
-			ChiptuneTracker.asciiPanel.add(sample2Down);
-			ChiptuneTracker.asciiPanel.add(sample2Up);
+			asciiPanel.add(sample2Down);
+			asciiPanel.add(sample2Up);
 		}
 		else {
 			sample2.setName(String.valueOf((char)253));
 			sample2.setSelect(false);
-			ChiptuneTracker.asciiPanel.remove(sample2Down);
-			ChiptuneTracker.asciiPanel.remove(sample2Up);
-			ChiptuneTracker.asciiPanel.clear(10, 4, 4, 1);
+			asciiPanel.remove(sample2Down);
+			asciiPanel.remove(sample2Up);
+			asciiPanel.clear(10, 4, 4, 1);
 		}
 		
 		if(pattern.sample3 != null) {
 			sample3.setName(String.valueOf((char)254));
 			sample3.setSelect(true);
-			ChiptuneTracker.asciiPanel.add(sample3Down);
-			ChiptuneTracker.asciiPanel.add(sample3Up);
+			asciiPanel.add(sample3Down);
+			asciiPanel.add(sample3Up);
 		}
 		else {
 			sample3.setName(String.valueOf((char)253));
 			sample3.setSelect(false);
-			ChiptuneTracker.asciiPanel.remove(sample3Down);
-			ChiptuneTracker.asciiPanel.remove(sample3Up);
-			ChiptuneTracker.asciiPanel.clear(17, 4, 4, 1);
+			asciiPanel.remove(sample3Down);
+			asciiPanel.remove(sample3Up);
+			asciiPanel.clear(17, 4, 4, 1);
 		}
 		
 		if(pattern.sample4 != null) {
 			sample4.setName(String.valueOf((char)254));
 			sample4.setSelect(true);
-			ChiptuneTracker.asciiPanel.add(sample4Down);
-			ChiptuneTracker.asciiPanel.add(sample4Up);
+			asciiPanel.add(sample4Down);
+			asciiPanel.add(sample4Up);
 		}
 		else {
 			sample4.setName(String.valueOf((char)253));
 			sample4.setSelect(false);
-			ChiptuneTracker.asciiPanel.remove(sample4Down);
-			ChiptuneTracker.asciiPanel.remove(sample4Up);
-			ChiptuneTracker.asciiPanel.clear(24, 4, 4, 1);
+			asciiPanel.remove(sample4Down);
+			asciiPanel.remove(sample4Up);
+			asciiPanel.clear(24, 4, 4, 1);
 		}
 	}
 	
 	public void changeSample(int samplePattern, int sample) {
+		Data data = ChiptuneTracker.getInstance().getData();
 		if(sample >= 0 && sample < 100) {
 			if(samplePattern == 1) {
-				ChiptuneTracker.data.patterns.get(patternCursor).sample1 = sample;
+				data.patterns.get(patternCursor).sample1 = sample;
 			}
 			if(samplePattern == 2) {
-				ChiptuneTracker.data.patterns.get(patternCursor).sample2 = sample;
+				data.patterns.get(patternCursor).sample2 = sample;
 			}
 			if(samplePattern == 3) {
-				ChiptuneTracker.data.patterns.get(patternCursor).sample3 = sample;
+				data.patterns.get(patternCursor).sample3 = sample;
 			}
 			if(samplePattern == 4) {
-				ChiptuneTracker.data.patterns.get(patternCursor).sample4 = sample;
+				data.patterns.get(patternCursor).sample4 = sample;
 			}
 		}
 		
-		if(ChiptuneTracker.data.samples.size() < sample + 1) {
-			ChiptuneTracker.data.samples.add(new Sample());
+		if(data.samples.size() < sample + 1) {
+			data.samples.add(new Sample());
 		}
 	}
 	
 	@Override
 	public void update(double delta) {
-		KeyEvent event = ChiptuneTracker.asciiTerminal.getEvent();
+		Chanels chanels = ChiptuneTracker.getInstance().getChanels();
+		CustomAsciiTerminal asciiTerminal = ChiptuneTracker.getInstance().getAsciiTerminal();
+		KeyEvent event = asciiTerminal.getEvent();
 		if(event != null) {
 			if(event.getKeyCode() == KeyEvent.VK_SPACE) {
-				if(!ChiptuneTracker.chanels.isPlaySample() && !ChiptuneTracker.chanels.isPlayPattern()) {
-					ChiptuneTracker.chanels.playPattern(patternCursor);
+				if(!chanels.isPlaySample() && !chanels.isPlayPattern()) {
+					chanels.playPattern(patternCursor);
 				}
 				else {
-					ChiptuneTracker.chanels.stopPattern();
+					chanels.stopPattern();
 				}
 			}
 			
-			ChiptuneTracker.asciiTerminal.setEvent(null);
+			asciiTerminal.setEvent(null);
 		}
-		if(ChiptuneTracker.chanels.isPlayPattern() && patternCursor != ChiptuneTracker.chanels.getPatternCursor()) {
-			patternCursor = ChiptuneTracker.chanels.getPatternCursor();
+		if(chanels.isPlayPattern() && patternCursor != chanels.getPatternCursor()) {
+			patternCursor = chanels.getPatternCursor();
 			changePatternButtons();
 			changeSampleButtons();
 		}
@@ -510,43 +530,46 @@ public class PatternView extends View {
 	
 	@Override
 	public void paint() {
+		Data data = ChiptuneTracker.getInstance().getData();
+		Chanels chanels = ChiptuneTracker.getInstance().getChanels();
+		AsciiPanel asciiPanel = ChiptuneTracker.getInstance().getAsciiPanel();
 		// Pattern
-		ChiptuneTracker.asciiPanel.writeString(1, 2, "PATTERN", Color.gray);
+		asciiPanel.writeString(1, 2, "PATTERN", Color.gray);
 		
-		Pattern pattern = ChiptuneTracker.data.patterns.get(patternCursor);
+		Pattern pattern =data.patterns.get(patternCursor);
 		
 		Sample sample1 = null;
 		Sample sample2 = null;
 		Sample sample3 = null;
 		Sample sample4 = null;
 		if(pattern.sample1 != null) {
-			sample1 = ChiptuneTracker.data.samples.get(pattern.sample1);
-			ChiptuneTracker.asciiPanel.writeString(4, 4, String.format("%02d", pattern.sample1), Color.WHITE);
+			sample1 = data.samples.get(pattern.sample1);
+			asciiPanel.writeString(4, 4, String.format("%02d", pattern.sample1), Color.WHITE);
 		}
 		
 		if(pattern.sample2 != null) {
-			sample2 = ChiptuneTracker.data.samples.get(pattern.sample2);
-			ChiptuneTracker.asciiPanel.writeString(11, 4, String.format("%02d", pattern.sample2), Color.WHITE);
+			sample2 = data.samples.get(pattern.sample2);
+			asciiPanel.writeString(11, 4, String.format("%02d", pattern.sample2), Color.WHITE);
 		}
 		
 		if(pattern.sample3 != null) {
-			sample3 = ChiptuneTracker.data.samples.get(pattern.sample3);
-			ChiptuneTracker.asciiPanel.writeString(18, 4, String.format("%02d", pattern.sample3), Color.WHITE);
+			sample3 = data.samples.get(pattern.sample3);
+			asciiPanel.writeString(18, 4, String.format("%02d", pattern.sample3), Color.WHITE);
 		}
 		
 		if(pattern.sample4 != null) {
-			sample4 = ChiptuneTracker.data.samples.get(pattern.sample4);
-			ChiptuneTracker.asciiPanel.writeString(25, 4, String.format("%02d", pattern.sample4), Color.WHITE);
+			sample4 = data.samples.get(pattern.sample4);
+			asciiPanel.writeString(25, 4, String.format("%02d", pattern.sample4), Color.WHITE);
 		}
 		
-		boolean isPlayPattern = ChiptuneTracker.chanels.isPlayPattern();
-		paintSample(sample1, 1, 5, isPlayPattern, ChiptuneTracker.chanels.getSampleCursor(0));
-		paintSample(sample2, 8, 5, isPlayPattern, ChiptuneTracker.chanels.getSampleCursor(1));
-		paintSample(sample3, 15, 5, isPlayPattern, ChiptuneTracker.chanels.getSampleCursor(2));
-		paintSample(sample4, 22, 5, isPlayPattern, ChiptuneTracker.chanels.getSampleCursor(3));
+		boolean isPlayPattern = chanels.isPlayPattern();
+		paintSample(sample1, 1, 5, isPlayPattern, chanels.getSampleCursor(0), asciiPanel);
+		paintSample(sample2, 8, 5, isPlayPattern, chanels.getSampleCursor(1), asciiPanel);
+		paintSample(sample3, 15, 5, isPlayPattern, chanels.getSampleCursor(2), asciiPanel);
+		paintSample(sample4, 22, 5, isPlayPattern, chanels.getSampleCursor(3), asciiPanel);
 	}
 	
-	public void paintSample(Sample sample, int offsetX, int offsetY, boolean isPlayPattern, int cursorPosition) {
+	public void paintSample(Sample sample, int offsetX, int offsetY, boolean isPlayPattern, int cursorPosition, AsciiPanel asciiPanel) {
 		int relativeCursorPosition = -1;
 		int soundOffset = 0;
 		if(isPlayPattern && sample != null) {
@@ -582,15 +605,15 @@ public class PatternView extends View {
 			}
 			
 			if(sound != null) {
-				ChiptuneTracker.asciiPanel.writeString(x, y, sound.note.str, Color.WHITE, backgroundColor);
-				ChiptuneTracker.asciiPanel.write(x+2, y, Character.forDigit(sound.octave, 10), Color.GREEN, backgroundColor);
-				ChiptuneTracker.asciiPanel.write(x+3, y,  Character.forDigit(sound.instrument, 10), Color.MAGENTA, backgroundColor);
-				ChiptuneTracker.asciiPanel.write(x+4, y,  Character.forDigit(sound.volume, 10), Color.CYAN, backgroundColor);
-				ChiptuneTracker.asciiPanel.write(x+5, y, (char)239, Color.GRAY, backgroundColor);
+				asciiPanel.writeString(x, y, sound.note.str, Color.WHITE, backgroundColor);
+				asciiPanel.write(x+2, y, Character.forDigit(sound.octave, 10), Color.GREEN, backgroundColor);
+				asciiPanel.write(x+3, y,  Character.forDigit(sound.instrument, 10), Color.MAGENTA, backgroundColor);
+				asciiPanel.write(x+4, y,  Character.forDigit(sound.volume, 10), Color.CYAN, backgroundColor);
+				asciiPanel.write(x+5, y, (char)239, Color.GRAY, backgroundColor);
 			}
 			else {
 				for(int j = x; j < x + 6; j++) {
-					ChiptuneTracker.asciiPanel.write(j, y, (char)239, Color.GRAY, backgroundColor);
+					asciiPanel.write(j, y, (char)239, Color.GRAY, backgroundColor);
 				}
 			}
 		}
@@ -599,21 +622,22 @@ public class PatternView extends View {
 	@Override
 	public void quit() {
 		super.quit();
+		AsciiPanel asciiPanel = ChiptuneTracker.getInstance().getAsciiPanel();
 		if(sample1.isSelect()) {
-			ChiptuneTracker.asciiPanel.remove(sample1Down);
-			ChiptuneTracker.asciiPanel.remove(sample1Up);
+			asciiPanel.remove(sample1Down);
+			asciiPanel.remove(sample1Up);
 		}
 		if(sample2.isSelect()) {
-			ChiptuneTracker.asciiPanel.remove(sample2Down);
-			ChiptuneTracker.asciiPanel.remove(sample2Up);
+			asciiPanel.remove(sample2Down);
+			asciiPanel.remove(sample2Up);
 		}
 		if(sample3.isSelect()) {
-			ChiptuneTracker.asciiPanel.remove(sample3Down);
-			ChiptuneTracker.asciiPanel.remove(sample3Up);
+			asciiPanel.remove(sample3Down);
+			asciiPanel.remove(sample3Up);
 		}
 		if(sample4.isSelect()) {
-			ChiptuneTracker.asciiPanel.remove(sample4Down);
-			ChiptuneTracker.asciiPanel.remove(sample4Up);
+			asciiPanel.remove(sample4Down);
+			asciiPanel.remove(sample4Up);
 		}
 	}
 }

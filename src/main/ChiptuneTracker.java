@@ -18,41 +18,40 @@ public class ChiptuneTracker {
 	public static final String TILESET_FILE = "src/assets/wanderlust.png";
 	public static final int CHARACTER_WIDTH = 12;
 	public static final int CHARACTER_HEIGHT = 12;
-	
 	public static final int TARGET_FPS = 60;
 	public static final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;
 	
-	public static CustomAsciiTerminal asciiTerminal;
-	public static AsciiPanel asciiPanel;
+	private static ChiptuneTracker instance = new ChiptuneTracker();
 	
-	public static boolean initSampleView = true;
-	public static boolean initPatternView = true;
+	private CustomAsciiTerminal asciiTerminal;
+	private AsciiPanel asciiPanel;
 	
-	public static Data data = new Data();
-	public static DataManager dataManager;
-	public static boolean changeData = false;
-	public static Chanels chanels = new Chanels();
+	private boolean initSampleView = true;
+	private boolean initPatternView = true;
+	
+	private Data data = new Data();
+	private DataManager dataManager;
+	private boolean changeData = false;
+	private Chanels chanels = new Chanels();
 	
 	private View currentView;
-	public static MenuView menuView;
-	public static SampleView sampleView;
-	public static PatternView patternView;
+	private MenuView menuView;
+	private SampleView sampleView;
+	private PatternView patternView;
 	
-	public ChiptuneTracker() {
+	private ChiptuneTracker() {
 		asciiTerminal = new CustomAsciiTerminal(TITLE, new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT), TILESET_FILE, CHARACTER_WIDTH, CHARACTER_HEIGHT);
 		asciiPanel = asciiTerminal.getAsciiPanel();
 		asciiPanel.setDefaultCharacterBackgroundColor(Color.DARK_GRAY);
 		asciiPanel.setDefaultCharacterColor(Color.WHITE);
-		
-		dataManager = new DataManager(this);
-		dataManager.openFile(new File("./Legend of Zelda - Wind Waker - Outset Island.ct"));
-		
+		dataManager = new DataManager();
+	}
+	
+	public void init() {
 		menuView = new MenuView(this);
 		sampleView = new SampleView(this);
 		patternView = new PatternView(this);
 		changeView(sampleView);
-		
-		run();
 	}
 	
 	public void run() {
@@ -70,7 +69,7 @@ public class ChiptuneTracker {
 			
 			// Paint
 			currentView.paint();
-			ChiptuneTracker.asciiTerminal.repaint();
+			asciiTerminal.repaint();
 			
 			try {
 				long value = (lastLoopTime - System.nanoTime() + ChiptuneTracker.OPTIMAL_TIME) / 1000000;
@@ -90,12 +89,78 @@ public class ChiptuneTracker {
 			currentView.quit();
 		}
 		currentView = nextView;
-		ChiptuneTracker.asciiPanel.clear();
+		asciiPanel.clear();
 		currentView.init();
 	}
-
-	public static void main(String[] args) {
-		new ChiptuneTracker();
+	
+	public static ChiptuneTracker getInstance() {
+		return instance;
+	}
+	
+	public CustomAsciiTerminal getAsciiTerminal() {
+		return asciiTerminal;
+	}
+	
+	public AsciiPanel getAsciiPanel() {
+		return asciiPanel;
 	}
 
+	public boolean isInitPatternView() {
+		return initPatternView;
+	}
+	
+	public boolean isInitSampleView() {
+		return initSampleView;
+	}
+	
+	public void setInitPatternView(boolean initPatternView) {
+		this.initPatternView = initPatternView;
+	}
+	
+	public void setInitSampleView(boolean initSampleView) {
+		this.initSampleView = initSampleView;
+	}
+	
+	public Data getData() {
+		return data;
+	}
+	
+	public void setData(Data data) {
+		this.data = data;
+	}
+	
+	public DataManager getDataManager() {
+		return dataManager;
+	}
+	
+	public boolean isChangeData() {
+		return changeData;
+	}
+	
+	public void setChangeData(boolean changeData) {
+		this.changeData = changeData;
+	}
+	
+	public Chanels getChanels() {
+		return chanels;
+	}
+	
+	public MenuView getMenuView() {
+		return menuView;
+	}
+	
+	public SampleView getSampleView() {
+		return sampleView;
+	}
+	
+	public PatternView getPatternView() {
+		return patternView;
+	}
+	
+	public static void main(String[] args) {
+		ChiptuneTracker chiptuneTracker = ChiptuneTracker.getInstance();
+		chiptuneTracker.init();
+		chiptuneTracker.getDataManager().openFile(new File("./Legend of Zelda - Wind Waker - Outset Island.ct"));
+		chiptuneTracker.run();
+	}
 }
