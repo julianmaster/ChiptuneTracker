@@ -8,12 +8,15 @@ import java.awt.event.MouseEvent;
 
 import ui.AsciiPanel;
 import ui.AsciiSelectableTerminalButton;
-import ui.AsciiTerminal;
 import ui.AsciiTerminalButton;
 import ui.CustomAsciiTerminal;
 
 public class PatternView extends View {
 
+	private int sampleCursor = 0;
+	private int soundCursor = 0;
+	private int soundConfCursor = 0;
+	
 	// pattern buttons
 	private AsciiSelectableTerminalButton pattern1;
 	private AsciiSelectableTerminalButton pattern2;
@@ -508,8 +511,55 @@ public class PatternView extends View {
 	public void update(double delta) {
 		Chanels chanels = ChiptuneTracker.getInstance().getChanels();
 		CustomAsciiTerminal asciiTerminal = ChiptuneTracker.getInstance().getAsciiTerminal();
+		Pattern pattern = ChiptuneTracker.getInstance().getData().patterns.get(patternCursor);
+		
 		KeyEvent event = asciiTerminal.getEvent();
 		if(event != null) {
+			//TODO
+			
+			if(event.getKeyCode() == KeyEvent.VK_LEFT) {
+				if(soundConfCursor > 0) {
+					soundConfCursor--;
+				}
+				else if(sampleCursor > 0) {
+					soundConfCursor = 4;
+					int nextSelectSample = 0;
+					for(int i = 0; i <= sampleCursor; i++) {
+						if(pattern.getList().get(i) != null) {
+							nextSelectSample = i;
+						}
+					}
+					sampleCursor = nextSelectSample;
+				}
+			}
+			else if(event.getKeyCode() == KeyEvent.VK_RIGHT) {
+				if(soundConfCursor < 4) {
+					soundConfCursor++;
+				}
+				else if(soundCursor < 3) {
+					soundConfCursor = 0;
+					int nextSelectSample = 3;
+					for(int i = 3; i >= sampleCursor; i--) {
+						if(pattern.getList().get(i) != null) {
+							nextSelectSample = i;
+						}
+					}
+					sampleCursor = nextSelectSample;
+				}
+			}
+			else if(event.getKeyCode() == KeyEvent.VK_UP) {
+				soundCursor--;
+				if(soundCursor < 0) {
+					soundCursor = Sample.SIZE - 1;
+				}
+			}
+			else if(event.getKeyCode() == KeyEvent.VK_DOWN) {
+				soundCursor++;
+				if(soundCursor > Sample.SIZE - 1) {
+					soundCursor = 0;
+				}
+			}
+			
 			if(event.getKeyCode() == KeyEvent.VK_SPACE) {
 				if(!chanels.isPlaySample() && !chanels.isPlayPattern()) {
 					chanels.playPattern(patternCursor);
@@ -521,6 +571,7 @@ public class PatternView extends View {
 			
 			asciiTerminal.setEvent(null);
 		}
+		
 		if(chanels.isPlayPattern() && patternCursor != chanels.getPatternCursor()) {
 			patternCursor = chanels.getPatternCursor();
 			changePatternButtons();
@@ -584,6 +635,19 @@ public class PatternView extends View {
 			}
 			
 			soundOffset = Math.max(0, Math.min(cursorPosition - 5, 31 - 10));
+		}
+		else {
+			if(soundCursor <= 5) {
+				relativeCursorPosition = sampleCursor;
+			}
+			else if(soundCursor > 5 && soundCursor <= 26) {
+				relativeCursorPosition = 5;
+			}
+			else {
+				relativeCursorPosition = soundCursor - 26 + 5;
+			}
+			
+			soundOffset = Math.max(0, Math.min(soundCursor - 5, 31 - 10));
 		}
 		
 		for(int i = 0; i < 11; i++) {
