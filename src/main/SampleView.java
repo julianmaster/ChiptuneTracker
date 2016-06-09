@@ -537,12 +537,17 @@ public class SampleView extends View {
 			
 			Sound sound = sample.sounds[i];
 			
+//			if(!ChiptuneTracker.getInstance().getChanels().isPlaySample() && i != soundCursor && sound != null) {
+//				
+//			}
+//			else if()
+				
 			// The music isn't play
 			if(!ChiptuneTracker.getInstance().getChanels().isPlaySample()) {
 				if(i != soundCursor) {
 					if(sound != null) {
 						asciiPanel.writeString(x, y, sound.note.str, Color.WHITE, Color.BLACK);
-						asciiPanel.write(x+2, y, Character.forDigit(sound.octave, 10), Color.GREEN, Color.BLACK);
+						asciiPanel.writeString(x+2, y, String.valueOf(sound.octave), Color.GREEN, Color.BLACK);
 						asciiPanel.write(x+3, y,  Character.forDigit(sound.instrument, 10), Color.MAGENTA, Color.BLACK);
 						asciiPanel.write(x+4, y,  Character.forDigit(sound.volume, 10), Color.CYAN, Color.BLACK);
 						asciiPanel.write(x+5, y, (char)239, Color.GRAY, Color.BLACK);
@@ -604,6 +609,19 @@ public class SampleView extends View {
 		else {
 			asciiPanel.writeString(x, y, s, color, Color.BLUE);
 		}
+	}
+	
+	private void printSound(AsciiPanel asciiPanel, int x, int y,
+			String note, Color noteColor, Color noteBackColor,
+			String octave, Color octaveColor, Color octaveBackColor,
+			String instrument, Color instrumentColor, Color instrumentBackColor,
+			String volume, Color volumeColor, Color volumeBackColor,
+			String effect, Color effectColor, Color effectBackColor) {
+		asciiPanel.writeString(x, y, note, noteColor, noteBackColor);
+		asciiPanel.writeString(x+2, y, octave, octaveColor, octaveBackColor);
+		asciiPanel.writeString(x+3, y, instrument, instrumentColor, instrumentBackColor);
+		asciiPanel.writeString(x+4, y, volume, volumeColor, volumeBackColor);
+		asciiPanel.writeString(x+5, y, effect, effectColor, effectBackColor);
 	}
 
 	@Override
