@@ -15,6 +15,7 @@ public abstract class View {
 	
 	public static final Color INDIGO = new Color(61, 81, 181);
 	public static final Color DEEP_ORANGE = new Color(255, 120, 8);
+	public static final String DOT = String.valueOf((char)239);
 	
 	private final ChiptuneTracker chiptuneTracker;
 	

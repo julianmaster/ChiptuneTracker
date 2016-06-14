@@ -80,7 +80,6 @@ public class SampleView extends View {
 	}
 	
 	public void createSpeedButtons() {
-		final Data data = ChiptuneTracker.getInstance().getData();
 		AsciiPanel asciiPanel = ChiptuneTracker.getInstance().getAsciiPanel();
 		
 		AsciiTerminalButton reduceButton = new AsciiTerminalButton(asciiPanel, "-", 12, 2, Color.MAGENTA, Color.ORANGE);
@@ -88,7 +87,7 @@ public class SampleView extends View {
 		reduceButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Sample sample = data.samples.get(sampleCursor);
+				Sample sample = ChiptuneTracker.getInstance().getData().samples.get(sampleCursor);
 				if(sample.speed > 1) {
 					sample.speed--;
 				}
@@ -101,7 +100,7 @@ public class SampleView extends View {
 		addButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Sample sample = data.samples.get(sampleCursor);
+				Sample sample = ChiptuneTracker.getInstance().getData().samples.get(sampleCursor);
 				if(sample.speed < 32) {
 					sample.speed++;
 				}
@@ -111,12 +110,11 @@ public class SampleView extends View {
 	}
 	
 	public void createLoopButtons() {
-		final Data data = ChiptuneTracker.getInstance().getData();
 		AsciiPanel asciiPanel = ChiptuneTracker.getInstance().getAsciiPanel();
 		
 		Sample sample = null;
-		if(!data.samples.isEmpty()) {
-			sample = data.samples.get(sampleCursor);
+		if(!ChiptuneTracker.getInstance().getData().samples.isEmpty()) {
+			sample = ChiptuneTracker.getInstance().getData().samples.get(sampleCursor);
 		}
 		
 		buttonLoopStartSample = new AsciiTerminalButton(asciiPanel, String.format("%02d", sample != null ? sample.loopStart : 0), ChiptuneTracker.WINDOW_WIDTH - 6, 2, Color.WHITE, Color.ORANGE, Color.BLACK);
@@ -124,7 +122,7 @@ public class SampleView extends View {
 		buttonLoopStartSample.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Sample sample = data.samples.get(sampleCursor);
+				Sample sample = ChiptuneTracker.getInstance().getData().samples.get(sampleCursor);
 				if(e.getButton() == MouseEvent.BUTTON1) {
 					if(sample.loopStart < sample.loopStop) {
 						sample.loopStart++;
@@ -145,7 +143,7 @@ public class SampleView extends View {
 		buttonLoopStopSample.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Sample sample = data.samples.get(sampleCursor);
+				Sample sample = ChiptuneTracker.getInstance().getData().samples.get(sampleCursor);
 				if(e.getButton() == MouseEvent.BUTTON1) {
 					if(sample.loopStop < Sample.SIZE) {
 						sample.loopStop++;
@@ -537,61 +535,39 @@ public class SampleView extends View {
 			
 			Sound sound = sample.sounds[i];
 			
-//			if(!ChiptuneTracker.getInstance().getChanels().isPlaySample() && i != soundCursor && sound != null) {
-//				
-//			}
-//			else if()
-				
-			// The music isn't play
-			if(!ChiptuneTracker.getInstance().getChanels().isPlaySample()) {
-				if(i != soundCursor) {
-					if(sound != null) {
-						asciiPanel.writeString(x, y, sound.note.str, Color.WHITE, Color.BLACK);
-						asciiPanel.writeString(x+2, y, String.valueOf(sound.octave), Color.GREEN, Color.BLACK);
-						asciiPanel.write(x+3, y,  Character.forDigit(sound.instrument, 10), Color.MAGENTA, Color.BLACK);
-						asciiPanel.write(x+4, y,  Character.forDigit(sound.volume, 10), Color.CYAN, Color.BLACK);
-						asciiPanel.write(x+5, y, (char)239, Color.GRAY, Color.BLACK);
-					}
-					else {
-						for(int j = x; j < x + 6; j++) {
-							asciiPanel.write(j, y, (char)239, Color.GRAY, Color.BLACK);
-						}
-					}
+			if(!ChiptuneTracker.getInstance().getChanels().isPlaySample() && i == soundCursor) {
+				if(sound != null) {
+					printSound(asciiPanel, x, y,
+							sound.note.str, 				Color.WHITE, 	soundConfCursor == 0 ? Color.YELLOW : Color.BLUE,
+							sound.octave.toString(), 		Color.GREEN, 	soundConfCursor == 1 ? Color.YELLOW : Color.BLUE,
+							sound.instrument.toString(), 	Color.MAGENTA, 	soundConfCursor == 2 ? Color.YELLOW : Color.BLUE,
+							sound.volume.toString(), 		Color.CYAN, 	soundConfCursor == 3 ? Color.YELLOW : Color.BLUE,
+							DOT, 							Color.GRAY, 	soundConfCursor == 4 ? Color.YELLOW : Color.BLUE);
 				}
 				else {
-					if(sound != null) {
-						printSelect(0, x, y, sound.note.str, Color.WHITE, asciiPanel);
-						printSelect(1, x+2, y, String.valueOf(sound.octave), Color.LIGHT_GRAY, asciiPanel);
-						printSelect(2, x+3, y, String.valueOf(sound.instrument), Color.MAGENTA, asciiPanel);
-						printSelect(3, x+4, y, String.valueOf(sound.volume), Color.CYAN, asciiPanel);
-						printSelect(4, x+5, y, String.valueOf((char)239), Color.GRAY, asciiPanel);
-					}
-					else {
-						printSelect(0, x, y, new String(new char[]{(char)239,(char)239}), Color.GRAY, asciiPanel);
-						for(int j = 1; j < 5; j++) {
-							printSelect(j, x+j+1, y, String.valueOf((char)239), Color.GRAY, asciiPanel);
-						}
-					}
+					printSound(asciiPanel, x, y,
+							DOT + DOT, 	Color.GRAY, 	soundConfCursor == 0 ? Color.YELLOW : Color.BLUE,
+							DOT, 		Color.GRAY, 	soundConfCursor == 1 ? Color.YELLOW : Color.BLUE,
+							DOT, 		Color.GRAY, 	soundConfCursor == 2 ? Color.YELLOW : Color.BLUE,
+							DOT, 		Color.GRAY, 	soundConfCursor == 3 ? Color.YELLOW : Color.BLUE,
+							DOT, 		Color.GRAY, 	soundConfCursor == 4 ? Color.YELLOW : Color.BLUE);
 				}
 			}
-			// The music is play
 			else {
-				int soundPlayCursor = ChiptuneTracker.getInstance().getChanels().getSampleCursor(0);
-				
-				// Default color
 				Color backgroundColor = Color.BLACK;
 				
-				// if this sound is play change the background color
-				if(i == soundPlayCursor) {
+				int soundPlayCursor = ChiptuneTracker.getInstance().getChanels().getSampleCursor(0);
+				if(ChiptuneTracker.getInstance().getChanels().isPlaySample() && i == soundPlayCursor) {
 					backgroundColor = Color.YELLOW;
 				}
 				
 				if(sound != null) {
-					asciiPanel.writeString(x, y, sound.note.str, Color.WHITE, backgroundColor);
-					asciiPanel.write(x+2, y, Character.forDigit(sound.octave, 10), Color.GREEN, backgroundColor);
-					asciiPanel.write(x+3, y,  Character.forDigit(sound.instrument, 10), Color.MAGENTA, backgroundColor);
-					asciiPanel.write(x+4, y,  Character.forDigit(sound.volume, 10), Color.CYAN, backgroundColor);
-					asciiPanel.write(x+5, y, (char)239, Color.GRAY, backgroundColor);
+					printSound(asciiPanel, x, y,
+							sound.note.str, 				Color.WHITE, 	backgroundColor,
+							sound.octave.toString(), 		Color.GREEN, 	backgroundColor,
+							sound.instrument.toString(), 	Color.MAGENTA, 	backgroundColor,
+							sound.volume.toString(), 		Color.CYAN, 	backgroundColor,
+							DOT, 							Color.GRAY, 	backgroundColor);
 				}
 				else {
 					for(int j = x; j < x + 6; j++) {
@@ -599,15 +575,6 @@ public class SampleView extends View {
 					}
 				}
 			}
-		}
-	}
-	
-	private void printSelect(int position, int x, int y, String s, Color color, AsciiPanel asciiPanel) {
-		if(soundConfCursor == position) {
-			asciiPanel.writeString(x, y, s, color, Color.YELLOW);
-		}
-		else {
-			asciiPanel.writeString(x, y, s, color, Color.BLUE);
 		}
 	}
 	
