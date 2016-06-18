@@ -360,6 +360,8 @@ public class SampleView extends View {
 			else if(event.getKeyCode() == KeyEvent.VK_DELETE) {
 				deleteSound();
 			}
+			
+			// Play sample
 			else if(event.getKeyCode() == KeyEvent.VK_SPACE) {
 				if(!chanels.isPlaySample() && !chanels.isPlayPattern()) {
 					chanels.playSample(sampleCursor);
@@ -502,6 +504,12 @@ public class SampleView extends View {
 		instrumentCursor = Integer.valueOf(instrument.charAt(0) - 224);
 	}
 
+	/*
+	 * ----------------
+	 * Paint
+	 * ----------------
+	 */
+	
 	@Override
 	public void paint() {
 		AsciiPanel asciiPanel = ChiptuneTracker.getInstance().getAsciiPanel();
@@ -594,5 +602,17 @@ public class SampleView extends View {
 	@Override
 	public void quit() {
 		super.quit();
+	}
+	
+	public int getVolumeCursor() {
+		return volumeCursor;
+	}
+	
+	public int getOctaveCursor() {
+		return octaveCursor;
+	}
+	
+	public int getInstrumentCursor() {
+		return instrumentCursor;
 	}
 }
