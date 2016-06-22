@@ -777,11 +777,21 @@ public class PatternView extends View {
 	
 	public void paintSample(int index, Sample sample, int offsetX, int offsetY, AsciiPanel asciiPanel) {
 		int soundOffset = 0;
+		int cursorPosition = -1;
 		
 		if(ChiptuneTracker.getInstance().getChanels().isPlayPattern() && sample != null) {
-			int cursorPosition = ChiptuneTracker.getInstance().getChanels().getSampleCursor(index);
+			int sampleCursorPosition = ChiptuneTracker.getInstance().getChanels().getSampleCursor(index);
 			
-			soundOffset = Math.max(0, Math.min(cursorPosition - 5, 31 - 10));
+			soundOffset = Math.max(0, Math.min(sampleCursorPosition - 5, 31 - 10));
+			if(sampleCursorPosition < 5) {
+				cursorPosition = sampleCursorPosition;
+			}
+			else if(sampleCursorPosition >= 5 && sampleCursorPosition < 26) {
+				cursorPosition = 5;
+			}
+			else {
+				cursorPosition = sampleCursorPosition - 21;
+			}
 		}
 		else {
 			soundOffset = Math.max(0, Math.min(soundCursor - 5, 31 - 10));
@@ -819,8 +829,8 @@ public class PatternView extends View {
 			else {
 				Color backgroundColor = Color.BLACK;
 				
-				int soundPlayCursor = ChiptuneTracker.getInstance().getChanels().getSampleCursor(0);
-				if(ChiptuneTracker.getInstance().getChanels().isPlaySample() && i == soundPlayCursor) {
+				int soundPlayCursor = ChiptuneTracker.getInstance().getChanels().getSampleCursor(index);
+				if(ChiptuneTracker.getInstance().getChanels().isPlayPattern() && i == cursorPosition) {
 					backgroundColor = Color.YELLOW;
 				}
 				
