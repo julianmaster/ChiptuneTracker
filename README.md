@@ -1,5 +1,5 @@
-<img src="src/assets/icon.png" align="right" />
-# ![ChiptuneTracker Logo](https://github.com/julianmaster/ChiptuneTracker/blob/master/readme-media/logo.png) ChiptuneTracker
+<img src="readme-media/logo-high.png" align="right" />
+# ![ChiptuneTracker Logo](readme-media/logo.png) ChiptuneTracker
 
 > ChiptuneTracker is a tiny a chiptune tracker where you can create song or sound effects.
 
