@@ -16,6 +16,7 @@ public class ChiptuneTracker {
 	public static final int WINDOW_WIDTH = 29;
 	public static final int WINDOW_HEIGHT = 18;
 	public static final String TILESET_FILE = "src/assets/wanderlust.png";
+	public static final String ICON_FILE = "assets/icon.png";
 	public static final int CHARACTER_WIDTH = 12;
 	public static final int CHARACTER_HEIGHT = 12;
 	public static final int TARGET_FPS = 60;
@@ -40,7 +41,7 @@ public class ChiptuneTracker {
 	private PatternView patternView;
 	
 	private ChiptuneTracker() {
-		asciiTerminal = new CustomAsciiTerminal(TITLE, new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT), TILESET_FILE, CHARACTER_WIDTH, CHARACTER_HEIGHT);
+		asciiTerminal = new CustomAsciiTerminal(TITLE, new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT), TILESET_FILE, CHARACTER_WIDTH, CHARACTER_HEIGHT, ICON_FILE);
 		asciiPanel = asciiTerminal.getAsciiPanel();
 		asciiPanel.setDefaultCharacterBackgroundColor(Color.DARK_GRAY);
 		asciiPanel.setDefaultCharacterColor(Color.WHITE);
