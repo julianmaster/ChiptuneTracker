@@ -5,6 +5,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -21,7 +22,7 @@ public class CustomAsciiTerminal extends AsciiTerminal {
 		super(title, dimension, tilesetFile, characterWidth, characterHeight);
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		try {
-			this.setIconImage(ImageIO.read(this.getClass().getResource(frameIconPath)));
+			this.setIconImage(ImageIO.read(new File(frameIconPath)));
 		}
 		catch (IOException e) {
 			e.printStackTrace();

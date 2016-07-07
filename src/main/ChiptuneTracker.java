@@ -16,7 +16,7 @@ public class ChiptuneTracker {
 	public static final int WINDOW_WIDTH = 29;
 	public static final int WINDOW_HEIGHT = 18;
 	public static final String TILESET_FILE = "src/assets/wanderlust.png";
-	public static final String ICON_FILE = "assets/icon.png";
+	public static final String ICON_FILE = "src/assets/icon.png";
 	public static final int CHARACTER_WIDTH = 12;
 	public static final int CHARACTER_HEIGHT = 12;
 	public static final int TARGET_FPS = 60;
