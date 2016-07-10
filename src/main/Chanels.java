@@ -6,7 +6,7 @@ import com.jsyn.unitgen.LineOut;
 
 public class Chanels {
 	public final static int CHANELS = 4;
-	public Chanel[] chanels;
+	private Chanel[] chanels;
 	private Synthesizer synth;
 	private LineOut lineOut;
 	

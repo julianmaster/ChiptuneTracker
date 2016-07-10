@@ -1,14 +1,17 @@
 package main;
 
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
 import ui.AsciiPanel;
 import ui.AsciiTerminal;
 import ui.AsciiTerminalButton;
+import ui.CustomAsciiTerminal;
 
 public class MenuView extends View {
 	
@@ -99,6 +102,21 @@ public class MenuView extends View {
 	
 	@Override
 	public void update(double delta) {
+		CustomAsciiTerminal asciiTerminal = ChiptuneTracker.getInstance().getAsciiTerminal();
+		KeyEvent event = asciiTerminal.getEvent();
+		
+		if(event != null) {
+			if(event.getKeyCode() == KeyEvent.VK_SPACE) {
+				FileRecorder fileRecorder = new FileRecorder();
+				try {
+					fileRecorder.savePattern("test.wav");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			asciiTerminal.setEvent(null);
+		}
 	}
 
 	@Override

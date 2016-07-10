@@ -77,8 +77,7 @@ public class DataManager {
 			ChiptuneTracker.getInstance().setData(data);
 			currentFile = file.getAbsolutePath();
 		} catch (Exception e) {
-//			JOptionPane.showMessageDialog(ChiptuneTracker.getInstance().getAsciiTerminal(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(ChiptuneTracker.getInstance().getAsciiTerminal(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
