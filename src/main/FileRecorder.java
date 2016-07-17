@@ -43,7 +43,7 @@ public class FileRecorder {
 	 * ---------- 
 	 */
 	
-	public void savePattern(String filename) throws IOException {
+	public void savePattern(String filename) throws IOException, InterruptedException {
 		File waveFile = new File(filename);
 		if(waveFile.canWrite() || !waveFile.exists()) {
 			recorder = new WaveRecorder(getSynth(), waveFile);
@@ -57,7 +57,13 @@ public class FileRecorder {
 			
 			currentPattern = 0;
 			savePattern = true;
-			update();
+			double startSoundTime = synth.getCurrentTime();
+			double endSoundTime = update(startSoundTime);
+			
+			synth.sleepUntil(endSoundTime);
+			
+			recorder.stop();
+			recorder.close();
 			
 			synth.stop();
 		}
@@ -77,16 +83,26 @@ public class FileRecorder {
 	 * ---------- 
 	 */
 	
-	public void update() {
+	public double update(double startSoundTime) {
+		double soundTime = startSoundTime;
+		
+		for(int i = 0; i < CHANELS; i++) {
+			next(soundTime);
+		}
+		
 		while(savePattern) {
 			for(int i = 0; i < CHANELS; i++) {
 				boolean change = chanels[i].update();
 				if(change) {
-					next();
+					System.out.println("Chanel: "+i);
+					soundTime = chanels[i].getLastSoundTime();
+					next(soundTime);
 					i = 0;
 				}
 			}
 		}
+		
+		return soundTime;
 	}
 	
 	
@@ -101,7 +117,7 @@ public class FileRecorder {
 	 * ---------- 
 	 */
 	
-	public void next() {
+	public void next(double startSoundTime) {
 		for(int i = 0; i < CHANELS; i++) {
 			chanels[i].stop();
 		}
@@ -114,23 +130,24 @@ public class FileRecorder {
 			savePattern = false;
 			return;
 		}
-		Pattern pattern = ChiptuneTracker.getInstance().getData().patterns.get(currentPattern);
 		
+		Pattern pattern = ChiptuneTracker.getInstance().getData().patterns.get(currentPattern);
+		System.out.println(currentPattern+" - "+startSoundTime);
 		boolean finish = true;
 		if(pattern.sample1 != null) {
-			chanels[0].playSample(pattern.sample1, currentPattern + 1);
+			chanels[0].playSample(pattern.sample1, startSoundTime);
 			finish = false;
 		}
 		if(pattern.sample2 != null) {
-			chanels[1].playSample(pattern.sample2, currentPattern + 1);
+			chanels[1].playSample(pattern.sample2, startSoundTime);
 			finish = false;
 		}
 		if(pattern.sample3 != null) {
-			chanels[2].playSample(pattern.sample3, currentPattern + 1);
+			chanels[2].playSample(pattern.sample3, startSoundTime);
 			finish = false;
 		}
 		if(pattern.sample4 != null) {
-			chanels[3].playSample(pattern.sample4, currentPattern + 1);
+			chanels[3].playSample(pattern.sample4, startSoundTime);
 			finish = false;
 		}
 		
@@ -213,12 +230,12 @@ public class FileRecorder {
 			voices[position] = circuit;
 		}
 		
-		public void playSample(int sampleIndex, int nextPatternIndex) {
+		public void playSample(int sampleIndex, double startSoundTime) {
 			this.sample = sampleIndex;
 			
 			Sample samplePlay = ChiptuneTracker.getInstance().getData().samples.get(sample);
 			
-			lastSoundTime = 0;
+			lastSoundTime = startSoundTime;
 			sampleSpeed = samplePlay.speed;
 			sampleFrequency = 1 / ((double)samplePlay.speed / 2);
 			soundCursor = 0;
@@ -263,7 +280,6 @@ public class FileRecorder {
 				
 				if(soundCursor == Sample.SIZE) {
 					finish = true;
-//					stop(lastSoundTime + sampleFrequency);
 				}
 			}
 			return false;
@@ -295,19 +311,9 @@ public class FileRecorder {
 			}
 		}
 		
-//		private void stop(double time) {
-//			final TimeStamp start = new TimeStamp(time);
-//			chanels.getSynth().scheduleCommand(start, new ScheduledCommand() {
-//				@Override
-//				public void run() {
-//					synchronized (chanels) {
-//						if(finish && (pattern == -1 || pattern == chanels.getNextPattern())) {
-//							chanels.next();
-//						}
-//					}
-//				}
-//			});
-//		}
+		public double getLastSoundTime() {
+			return lastSoundTime;
+		}
 		
 		public void clear() {
 			sample = -1;

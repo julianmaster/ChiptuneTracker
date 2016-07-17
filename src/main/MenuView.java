@@ -110,7 +110,7 @@ public class MenuView extends View {
 				FileRecorder fileRecorder = new FileRecorder();
 				try {
 					fileRecorder.savePattern("test.wav");
-				} catch (IOException e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
