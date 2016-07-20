@@ -25,6 +25,7 @@ public class FileRecorder {
 	
 	public FileRecorder() {
 		synth = JSyn.createSynthesizer();
+		synth.setRealTime(false);
 		
 		chanels = new ChanelRecorder[CHANELS];
 		
@@ -86,9 +87,7 @@ public class FileRecorder {
 	public double update(double startSoundTime) {
 		double soundTime = startSoundTime;
 		
-		for(int i = 0; i < CHANELS; i++) {
-			next(soundTime);
-		}
+		next(soundTime);
 		
 		while(savePattern) {
 			for(int i = 0; i < CHANELS; i++) {
