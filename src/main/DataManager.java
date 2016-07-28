@@ -6,6 +6,8 @@ import java.util.LinkedList;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
@@ -125,6 +127,47 @@ public class DataManager {
 		}
 	}
 	
+	
+	
+	public boolean export(MenuView menuView) throws Exception {
+		fileChooser.setFileFilter(new FileNameExtensionFilter("WAV files", "wav"));
+		fileChooser.setAcceptAllFileFilterUsed(false);
+
+		int returnValue = fileChooser.showSaveDialog(ChiptuneTracker.getInstance().getAsciiTerminal());
+		fileChooser.resetChoosableFileFilters();
+		
+		if(returnValue == JFileChooser.APPROVE_OPTION) {
+			File file = fileChooser.getSelectedFile();
+			
+			if (!getExtension(file.getName()).equalsIgnoreCase("wav")) {
+			    file = new File(file.getParentFile(), getBaseName(file.getName())+".wav"); // remove the extension (if any) and replace it with ".wav"
+			}
+			
+			boolean fileExist = false;
+			if(file.exists()) {
+				fileExist = true;
+				int option = JOptionPane.showOptionDialog(ChiptuneTracker.getInstance().getAsciiTerminal(), file.getAbsolutePath()+" already exists. Do you want to replace it?", "Export", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, null, null);
+				if(option == JOptionPane.NO_OPTION || option == JOptionPane.CANCEL_OPTION) {
+					return false;
+				}
+			}
+			
+			if(!fileExist || (fileExist && file.canWrite())) {
+				menuView.toogleExportMessage();
+				FileRecorder fileRecorder = new FileRecorder();
+				fileRecorder.savePattern(file.getAbsolutePath());
+				menuView.toogleExportMessage();
+				return true;
+			}
+			else {
+				throw new IOException("Unable to write in the file !");
+			}
+		}
+		else {
+			return false;
+		}
+	}
+	
 	public void exit() throws Exception {
 		boolean continueExit = true;
 		if(ChiptuneTracker.getInstance().isChangeData()) {
@@ -133,5 +176,83 @@ public class DataManager {
 		if(continueExit) {
 			System.exit(0);
 		}
+	}
+	
+	
+	
+	
+	
+	
+	/**
+	 * Utils methods
+	 */
+	
+	
+	
+	private Integer indexOfLastSeparator(String filename) {
+	    if (filename == null) {
+	        return null;
+	    }
+	    Integer lastUnixPos = filename.lastIndexOf('/');
+	    Integer lastWindowsPos = filename.lastIndexOf('\\');
+	    return Math.max(lastUnixPos, lastWindowsPos);
+	}
+	
+	private Integer indexOfExtension(String filename) {
+		if (filename == null) {
+			return null;
+		}
+		final int extensionPos = filename.lastIndexOf('.');
+		final int lastSeparator = indexOfLastSeparator(filename);
+		return lastSeparator > extensionPos ? null : extensionPos;
+	}
+	
+	private String getExtension(String filename) {
+		if (filename == null) {
+			return null;
+		}
+		Integer index = indexOfExtension(filename);
+		if (index == null) {
+			return "";
+		} else {
+			return filename.substring(index + 1);
+		}
+    }
+	
+	private void failIfNullBytePresent(String path) {
+		int len = path.length();
+		for (int i = 0; i < len; i++) {
+			if (path.charAt(i) == 0) {
+				throw new IllegalArgumentException("Null byte present in file/path name. There are no " +
+						"known legitimate use cases for such data, but several injection attacks may use it");
+			}
+		}
+	}
+	
+	private String getName(String filename) {
+		if (filename == null) {
+			return null;
+		}
+		failIfNullBytePresent(filename);
+		int index = indexOfLastSeparator(filename);
+		return filename.substring(index + 1);
+	}
+	
+	private String removeExtension(String filename) {
+		if (filename == null) {
+			return null;
+		}
+		failIfNullBytePresent(filename);
+		
+		Integer index = indexOfExtension(filename);
+		if (index == null) {
+			return filename;
+		} else {
+			return filename.substring(0, index);
+		}
+	}
+	
+	public String getBaseName(String filename) {
+	   return removeExtension(getName(filename));
 	}
 }

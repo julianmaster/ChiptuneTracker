@@ -93,7 +93,6 @@ public class FileRecorder {
 			for(int i = 0; i < CHANELS; i++) {
 				boolean change = chanels[i].update();
 				if(change) {
-					System.out.println("Chanel: "+i);
 					soundTime = chanels[i].getLastSoundTime();
 					next(soundTime);
 					i = 0;
@@ -131,7 +130,6 @@ public class FileRecorder {
 		}
 		
 		Pattern pattern = ChiptuneTracker.getInstance().getData().patterns.get(currentPattern);
-		System.out.println(currentPattern+" - "+startSoundTime);
 		boolean finish = true;
 		if(pattern.sample1 != null) {
 			chanels[0].playSample(pattern.sample1, startSoundTime);

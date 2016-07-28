@@ -15,13 +15,15 @@ import ui.CustomAsciiTerminal;
 
 public class MenuView extends View {
 	
+	private boolean exportMessage = false;
+	
 	public MenuView(ChiptuneTracker chiptuneTracker) {
 		super(chiptuneTracker);
 		createMenuButtons();
 	}
 
 	public void createMenuButtons() {
-		int startY = 4;
+		int startY = 3;
 		final AsciiTerminal asciiTerminal = ChiptuneTracker.getInstance().getAsciiTerminal();
 		final DataManager dataManager = ChiptuneTracker.getInstance().getDataManager();
 		AsciiPanel asciiPanel = ChiptuneTracker.getInstance().getAsciiPanel();
@@ -78,7 +80,20 @@ public class MenuView extends View {
 		});
 		terminalButtons.add(saveAsButton);
 		
-		AsciiTerminalButton exitButton = new AsciiTerminalButton(asciiPanel, "Exit", 5, startY + 8, Color.MAGENTA, Color.ORANGE);
+		AsciiTerminalButton exportButton = new AsciiTerminalButton(asciiPanel, "Export", 5, startY + 8, Color.MAGENTA, Color.ORANGE);
+		exportButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try {
+					dataManager.export(ChiptuneTracker.getInstance().getMenuView());
+				} catch(Exception exception) {
+					JOptionPane.showMessageDialog(asciiTerminal, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		terminalButtons.add(exportButton);
+		
+		AsciiTerminalButton exitButton = new AsciiTerminalButton(asciiPanel, "Exit", 5, startY + 10, Color.MAGENTA, Color.ORANGE);
 		exitButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -102,25 +117,20 @@ public class MenuView extends View {
 	
 	@Override
 	public void update(double delta) {
-		CustomAsciiTerminal asciiTerminal = ChiptuneTracker.getInstance().getAsciiTerminal();
-		KeyEvent event = asciiTerminal.getEvent();
-		
-		if(event != null) {
-			if(event.getKeyCode() == KeyEvent.VK_SPACE) {
-				FileRecorder fileRecorder = new FileRecorder();
-				try {
-					fileRecorder.savePattern("test.wav");
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			
-			asciiTerminal.setEvent(null);
-		}
+	}
+	
+	public void toogleExportMessage() {
+		exportMessage = !exportMessage;
+		ChiptuneTracker.getInstance().getAsciiTerminal().repaint();
 	}
 
 	@Override
 	public void paint() {
+		AsciiPanel asciiPanel = ChiptuneTracker.getInstance().getAsciiPanel();
+		
+		if(exportMessage) {
+			asciiPanel.writeString(1, ChiptuneTracker.WINDOW_HEIGHT - 1, "Export the project", Color.WHITE, INDIGO);
+		}
 	}
 	
 	@Override

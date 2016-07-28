@@ -30,17 +30,17 @@ public class OscillatorCircuit extends CustomCircuit {
 	@Override
 	public void usePreset(int presetIndex) {
 		switch (presetIndex) {
-		case 0:
-			ampEnv.attack.set(0.01);
-			ampEnv.sustain.set(1.0);
-			ampEnv.release.set(0.01);
-			break;
-
-		default:
-			ampEnv.attack.set(0.01);
-			ampEnv.sustain.set(1.0);
-			ampEnv.release.set(0.01);
-			break;
+			case 0:
+				ampEnv.attack.set(0.01);
+				ampEnv.sustain.set(1.0);
+				ampEnv.release.set(0.01);
+				break;
+	
+			default:
+				ampEnv.attack.set(0.01);
+				ampEnv.sustain.set(1.0);
+				ampEnv.release.set(0.01);
+				break;
 		}
 		
 //		ampEnv.attack.set(0.1);
