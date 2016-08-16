@@ -1,21 +1,19 @@
 package main;
 
 import java.awt.Color;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
 import ui.AsciiPanel;
 import ui.AsciiTerminal;
 import ui.AsciiTerminalButton;
-import ui.CustomAsciiTerminal;
 
 public class MenuView extends View {
 	
 	private boolean exportMessage = false;
+	private boolean runExport = false;
 	
 	public MenuView(ChiptuneTracker chiptuneTracker) {
 		super(chiptuneTracker);
@@ -85,7 +83,7 @@ public class MenuView extends View {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
-					dataManager.export(ChiptuneTracker.getInstance().getMenuView());
+					dataManager.initExport(ChiptuneTracker.getInstance().getMenuView());
 				} catch(Exception exception) {
 					JOptionPane.showMessageDialog(asciiTerminal, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}
@@ -119,8 +117,9 @@ public class MenuView extends View {
 	public void update(double delta) {
 	}
 	
-	public void toogleExportMessage() {
-		exportMessage = !exportMessage;
+	public void showExportMessage() {
+		exportMessage = true;
+		System.out.println("coucou - "+exportMessage);
 		ChiptuneTracker.getInstance().getAsciiTerminal().repaint();
 	}
 
@@ -128,7 +127,21 @@ public class MenuView extends View {
 	public void paint() {
 		AsciiPanel asciiPanel = ChiptuneTracker.getInstance().getAsciiPanel();
 		
+		if(runExport) {
+			runExport = false;
+			try {
+				ChiptuneTracker.getInstance().getDataManager().runExport();
+			} catch (Exception exception) {
+				JOptionPane.showMessageDialog(ChiptuneTracker.getInstance().getAsciiTerminal(), exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			for(int i = 0; i < ChiptuneTracker.WINDOW_WIDTH; i++) {
+				asciiPanel.write(i, ChiptuneTracker.WINDOW_HEIGHT - 1, ' ', Color.WHITE, INDIGO);
+			}
+		}
+		
 		if(exportMessage) {
+			runExport = true;
+			exportMessage = false;
 			asciiPanel.writeString(1, ChiptuneTracker.WINDOW_HEIGHT - 1, "Export the project", Color.WHITE, INDIGO);
 		}
 	}

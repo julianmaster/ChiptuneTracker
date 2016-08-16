@@ -518,7 +518,7 @@ public class PatternView extends View {
 				}
 				else if(sampleCursor > 0) {
 					int nextSelectSample = sampleCursor;
-					for(int i = sampleCursor - 1; i > 0; i--) {
+					for(int i = sampleCursor - 1; i >= 0; i--) {
 						if(pattern.getList().get(i) != null) {
 							nextSelectSample = i;
 							break;
@@ -743,7 +743,7 @@ public class PatternView extends View {
 		// Pattern
 		asciiPanel.writeString(1, 2, "PATTERN", Color.gray);
 		
-		Pattern pattern =data.patterns.get(patternCursor);
+		Pattern pattern = data.patterns.get(patternCursor);
 		
 		Sample sample1 = null;
 		Sample sample2 = null;
@@ -808,6 +808,7 @@ public class PatternView extends View {
 				sound = sample.sounds[i + soundOffset];
 			}
 			
+			// Don't play music
 			if(!ChiptuneTracker.getInstance().getChanels().isPlayPattern() && index == sampleCursor && i + soundOffset == soundCursor) {
 				if(sound != null) {
 					printSound(asciiPanel, x, y,
@@ -826,6 +827,7 @@ public class PatternView extends View {
 							DOT, 		Color.GRAY, 	soundConfCursor == 4 ? Color.YELLOW : Color.BLUE);
 				}
 			}
+			//Play music
 			else {
 				Color backgroundColor = Color.BLACK;
 				

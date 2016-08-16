@@ -6,7 +6,6 @@ import java.util.LinkedList;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.simpleframework.xml.Serializer;
@@ -16,6 +15,7 @@ public class DataManager {
 	
 	private String currentFile = null;
 	private final JFileChooser fileChooser = new JFileChooser();
+	private String fileToExport;
 	
 	public boolean newFile() throws Exception {
 		if(ChiptuneTracker.getInstance().isChangeData()) {
@@ -129,7 +129,7 @@ public class DataManager {
 	
 	
 	
-	public boolean export(MenuView menuView) throws Exception {
+	public boolean initExport(MenuView menuView) throws Exception {
 		fileChooser.setFileFilter(new FileNameExtensionFilter("WAV files", "wav"));
 		fileChooser.setAcceptAllFileFilterUsed(false);
 
@@ -153,10 +153,8 @@ public class DataManager {
 			}
 			
 			if(!fileExist || (fileExist && file.canWrite())) {
-				menuView.toogleExportMessage();
-				FileRecorder fileRecorder = new FileRecorder();
-				fileRecorder.savePattern(file.getAbsolutePath());
-				menuView.toogleExportMessage();
+				menuView.showExportMessage();
+				fileToExport = file.getAbsolutePath();
 				return true;
 			}
 			else {
@@ -166,6 +164,11 @@ public class DataManager {
 		else {
 			return false;
 		}
+	}
+	
+	public void runExport() throws Exception {
+		FileRecorder fileRecorder = new FileRecorder();
+		fileRecorder.savePattern(fileToExport);
 	}
 	
 	public void exit() throws Exception {
