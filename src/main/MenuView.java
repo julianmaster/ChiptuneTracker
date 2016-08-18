@@ -119,7 +119,6 @@ public class MenuView extends View {
 	
 	public void showExportMessage() {
 		exportMessage = true;
-		System.out.println("coucou - "+exportMessage);
 		ChiptuneTracker.getInstance().getAsciiTerminal().repaint();
 	}
 

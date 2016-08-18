@@ -5,7 +5,8 @@
 
 ## Todo list
 
-- [ ] Export to audio format
+- [x] Export to audio format
+- [ ] Finish the modification saving system
 - [ ] Change the Speed system
 - [ ] Remove the auto open file test
 - [ ] Add Effects system

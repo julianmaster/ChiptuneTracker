@@ -87,9 +87,7 @@ public class FileRecorder {
 	public double update(double startSoundTime) {
 		double soundTime = startSoundTime;
 		
-		next(soundTime);
-		
-		while(savePattern) {
+		do {
 			for(int i = 0; i < CHANELS; i++) {
 				boolean change = chanels[i].update();
 				if(change) {
@@ -98,7 +96,7 @@ public class FileRecorder {
 					i = 0;
 				}
 			}
-		}
+		} while(savePattern);
 		
 		return soundTime;
 	}
