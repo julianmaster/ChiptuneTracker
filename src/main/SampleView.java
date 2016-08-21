@@ -382,6 +382,7 @@ public class SampleView extends View {
 	 */
 	
 	private void setSound(Note note) {
+		ChiptuneTracker.getInstance().setChangeData(true);
 		Sample sample = ChiptuneTracker.getInstance().getData().samples.get(sampleCursor);
 		
 		if(volumeCursor != 0) {
@@ -409,6 +410,7 @@ public class SampleView extends View {
 	}
 	
 	private void setOctave(int octave) {
+		ChiptuneTracker.getInstance().setChangeData(true);
 		if(octave >= 1 && octave <= 4) {
 			Sample sample = ChiptuneTracker.getInstance().getData().samples.get(sampleCursor);
 			Sound sound = sample.sounds[soundCursor];
@@ -426,6 +428,7 @@ public class SampleView extends View {
 	}
 	
 	private void setVolume(int volume) {
+		ChiptuneTracker.getInstance().setChangeData(true);
 		if(volume >= 0 && volume <= 7) {
 			Sample sample = ChiptuneTracker.getInstance().getData().samples.get(sampleCursor);
 			Sound sound = sample.sounds[soundCursor];
@@ -447,6 +450,7 @@ public class SampleView extends View {
 	}
 	
 	private void setInstrument(int instrument) {
+		ChiptuneTracker.getInstance().setChangeData(true);
 		if(instrument >= 0 && instrument <= 7) {
 			Sample sample = ChiptuneTracker.getInstance().getData().samples.get(sampleCursor);
 			Sound sound = sample.sounds[soundCursor];
@@ -463,6 +467,7 @@ public class SampleView extends View {
 	}
 	
 	public void deleteSound() {
+		ChiptuneTracker.getInstance().setChangeData(true);
 		Sample sample = ChiptuneTracker.getInstance().getData().samples.get(sampleCursor);
 		sample.sounds[soundCursor] = null;
 		

@@ -44,6 +44,7 @@ public class DataManager {
 		ChiptuneTracker.getInstance().changeView(ChiptuneTracker.getInstance().getMenuView());
 		ChiptuneTracker.getInstance().getData().samples = new LinkedList<>();
 		ChiptuneTracker.getInstance().getData().patterns = new LinkedList<>();
+		ChiptuneTracker.getInstance().setChangeData(false);
 		return true;
 	}
 	
@@ -63,6 +64,7 @@ public class DataManager {
 					serializer.read(data, file);
 					ChiptuneTracker.getInstance().setData(data);
 					currentFile = file.getAbsolutePath();
+					ChiptuneTracker.getInstance().setChangeData(false);
 				}
 				else {
 					throw new IOException("Unable to read the file !");
@@ -89,6 +91,7 @@ public class DataManager {
 			if(file.canWrite()) {
 				Serializer serializer = new Persister();
 				serializer.write(ChiptuneTracker.getInstance().getData(), file);
+				ChiptuneTracker.getInstance().setChangeData(false);
 				return true;
 			}
 			else {
@@ -116,6 +119,7 @@ public class DataManager {
 			if(!fileExist || (fileExist && file.canWrite())) {
 				Serializer serializer = new Persister();
 				serializer.write(ChiptuneTracker.getInstance().getData(), file);
+				ChiptuneTracker.getInstance().setChangeData(false);
 				return true;
 			}
 			else {
