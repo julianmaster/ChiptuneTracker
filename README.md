@@ -6,8 +6,9 @@
 ## Todo list
 
 - [x] Export to audio format
-- [ ] Finish the modification saving system
+- [x] Finish the modification saving system
 - [ ] Change the Speed system
+- [ ] Change to qwerty keyboard mapping
 - [ ] Remove the auto open file test
 - [ ] Add Effects system
 - [ ] Write the "How to use"
