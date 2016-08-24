@@ -22,7 +22,7 @@ public class CustomAsciiTerminal extends AsciiTerminal {
 		super(title, dimension, tilesetFile, characterWidth, characterHeight);
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		try {
-			this.setIconImage(ImageIO.read(new File(frameIconPath)));
+			this.setIconImage(ImageIO.read(getClass().getResource(frameIconPath)));
 		}
 		catch (IOException e) {
 			e.printStackTrace();

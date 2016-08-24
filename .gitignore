@@ -66,4 +66,5 @@ $RECYCLE.BIN/
 .classpath
 .settings
 bin
+release
 *.wav

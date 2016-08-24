@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.net.URISyntaxException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
@@ -21,8 +22,8 @@ public class ChiptuneTracker {
 	public static final String TITLE = "ChiptuneTracker";
 	public static final int WINDOW_WIDTH = 29;
 	public static final int WINDOW_HEIGHT = 18;
-	public static final String TILESET_FILE = "src/assets/wanderlust.png";
-	public static final String ICON_FILE = "src/assets/icon.png";
+	public static final String TILESET_FILE = "/assets/wanderlust.png";
+	public static final String ICON_FILE = "/assets/icon.png";
 	public static final int CHARACTER_WIDTH = 12;
 	public static final int CHARACTER_HEIGHT = 12;
 	public static final int TARGET_FPS = 60;
@@ -195,7 +196,7 @@ public class ChiptuneTracker {
 	public static void main(String[] args) {
 		ChiptuneTracker chiptuneTracker = ChiptuneTracker.getInstance();
 		chiptuneTracker.init();
-		chiptuneTracker.getDataManager().openFile(new File("./Legend of Zelda - Wind Waker - Outset Island.ct"));
+//		chiptuneTracker.getDataManager().openFile(new File("./Legend of Zelda - Wind Waker - Outset Island.ct"));
 		chiptuneTracker.run();
 	}
 }
