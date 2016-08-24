@@ -2,7 +2,13 @@ package main;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
+
+import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 
 import ui.AsciiPanel;
 import ui.CustomAsciiTerminal;
@@ -63,6 +69,34 @@ public class ChiptuneTracker {
 			double updateLength = now - lastLoopTime;
 			lastLoopTime = now;
 			double delta = updateLength / ChiptuneTracker.OPTIMAL_TIME;
+			
+			// Screenshot
+			KeyEvent event = asciiTerminal.getEvent();
+			if(event != null) {
+				if(event.getKeyCode() == KeyEvent.VK_F12) {
+					try {
+						BufferedImage image = new BufferedImage(WINDOW_WIDTH * CHARACTER_WIDTH, WINDOW_HEIGHT * CHARACTER_HEIGHT, BufferedImage.TYPE_INT_RGB);
+						Graphics2D graphics = image.createGraphics();
+						asciiPanel.paint(graphics);
+						
+						boolean save = false;
+						int i = 0;
+						do {
+							File file = new File("screenshot-" + i + ".png");
+							if(!file.exists()) {
+								ImageIO.write(image, "PNG", file);
+								save = true;
+							}
+							i++;
+						} while(!save);
+					} catch (Exception e) {
+						JOptionPane.showMessageDialog(ChiptuneTracker.getInstance().getAsciiTerminal(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					}
+					finally {
+						asciiTerminal.setEvent(null);
+					}
+				}
+			}
 			
 			// Update
 			currentView.update(delta);

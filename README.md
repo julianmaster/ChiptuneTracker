@@ -3,10 +3,25 @@
 
 > ChiptuneTracker is a tiny a chiptune tracker where you can create song or sound effects.
 
+## Screenshots
+
+### Menu view
+
+![Maze example](readme-media/screenshot-menu-view.png)
+
+### Sample view
+
+![Maze example](readme-media/screenshot-sample-view.png)
+
+### Pattern view
+
+![Maze example](readme-media/screenshot-pattern-view.png)
+
 ## Todo list
 
 - [x] Export to audio format
 - [x] Finish the modification saving system
+- [x] Adding the screenshot system
 - [ ] Change the Speed system
 - [ ] Change to qwerty keyboard mapping
 - [ ] Remove the auto open file test
