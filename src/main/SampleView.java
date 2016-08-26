@@ -307,13 +307,13 @@ public class SampleView extends View {
 			}
 			
 			// Write note
-			else if(event.getKeyCode() == KeyEvent.VK_A) {
+			else if(event.getKeyCode() == KeyEvent.VK_Q) {
 				setSound(Note.C);
 			}
 			else if(event.getKeyCode() == KeyEvent.VK_2) {
 				setSound(Note.C_D);
 			}
-			else if(event.getKeyCode() == KeyEvent.VK_Z) {
+			else if(event.getKeyCode() == KeyEvent.VK_W) {
 				setSound(Note.D);
 			}
 			else if(event.getKeyCode() == KeyEvent.VK_3) {

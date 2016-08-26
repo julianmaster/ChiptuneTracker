@@ -148,7 +148,7 @@ public class PatternView extends View {
 					ChiptuneTracker.getInstance().getData().patterns.get(patternCursor).sample1 = null;
 				}
 				else {
-					ChiptuneTracker.getInstance().getData().patterns.get(patternCursor).sample1 = 0;
+					changeSample(1, 0);
 				}
 				changeSampleButtons();
 			}
@@ -164,7 +164,7 @@ public class PatternView extends View {
 					ChiptuneTracker.getInstance().getData().patterns.get(patternCursor).sample2 = null;
 				}
 				else {
-					ChiptuneTracker.getInstance().getData().patterns.get(patternCursor).sample2 = 0;
+					changeSample(2, 0);
 				}
 				changeSampleButtons();
 			}
@@ -180,7 +180,7 @@ public class PatternView extends View {
 					ChiptuneTracker.getInstance().getData().patterns.get(patternCursor).sample3 = null;
 				}
 				else {
-					ChiptuneTracker.getInstance().getData().patterns.get(patternCursor).sample3 = 0;
+					changeSample(3, 0);
 				}
 				changeSampleButtons();
 			}
@@ -196,7 +196,7 @@ public class PatternView extends View {
 					ChiptuneTracker.getInstance().getData().patterns.get(patternCursor).sample4 = null;
 				}
 				else {
-					ChiptuneTracker.getInstance().getData().patterns.get(patternCursor).sample4 = 0;
+					changeSample(4, 0);
 				}
 				changeSampleButtons();
 			}
@@ -564,13 +564,13 @@ public class PatternView extends View {
 			}
 			
 			// Write note
-			else if(event.getKeyCode() == KeyEvent.VK_A && pattern.getList().get(sampleCursor) != null) {
+			else if(event.getKeyCode() == KeyEvent.VK_Q && pattern.getList().get(sampleCursor) != null) {
 				setSound(Note.C);
 			}
 			else if(event.getKeyCode() == KeyEvent.VK_2 && pattern.getList().get(sampleCursor) != null) {
 				setSound(Note.C_D);
 			}
-			else if(event.getKeyCode() == KeyEvent.VK_Z && pattern.getList().get(sampleCursor) != null) {
+			else if(event.getKeyCode() == KeyEvent.VK_W && pattern.getList().get(sampleCursor) != null) {
 				setSound(Note.D);
 			}
 			else if(event.getKeyCode() == KeyEvent.VK_3 && pattern.getList().get(sampleCursor) != null) {

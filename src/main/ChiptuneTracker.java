@@ -14,10 +14,6 @@ import javax.swing.JOptionPane;
 import ui.AsciiPanel;
 import ui.CustomAsciiTerminal;
 
-// A regarder :
-//  * Music Components in Java
-//  * jMusic
-
 public class ChiptuneTracker {
 	public static final String TITLE = "ChiptuneTracker";
 	public static final int WINDOW_WIDTH = 29;
@@ -196,7 +192,6 @@ public class ChiptuneTracker {
 	public static void main(String[] args) {
 		ChiptuneTracker chiptuneTracker = ChiptuneTracker.getInstance();
 		chiptuneTracker.init();
-//		chiptuneTracker.getDataManager().openFile(new File("./Legend of Zelda - Wind Waker - Outset Island.ct"));
 		chiptuneTracker.run();
 	}
 }

@@ -22,8 +22,7 @@
 - [x] Export to audio format
 - [x] Finish the modification saving system
 - [x] Adding the screenshot system
-- [ ] Change the Speed system
-- [ ] Change to qwerty keyboard mapping
-- [ ] Remove the auto open file test
+- [x] Change to qwerty keyboard mapping
+- [x] Remove the auto open file test
 - [ ] Add Effects system
 - [ ] Write the "How to use"
