@@ -24,6 +24,8 @@ public class ChiptuneTracker {
 	public static final int CHARACTER_HEIGHT = 12;
 	public static final int TARGET_FPS = 60;
 	public static final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;
+	public static final int SCALE = 3;
+	public static final boolean CUSTOM_WINDOW = true;
 	
 	private static ChiptuneTracker instance = new ChiptuneTracker();
 	
@@ -44,7 +46,7 @@ public class ChiptuneTracker {
 	private PatternView patternView;
 	
 	private ChiptuneTracker() {
-		asciiTerminal = new CustomAsciiTerminal(TITLE, new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT), TILESET_FILE, CHARACTER_WIDTH, CHARACTER_HEIGHT, ICON_FILE);
+		asciiTerminal = new CustomAsciiTerminal(TITLE, new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT), TILESET_FILE, CHARACTER_WIDTH, CHARACTER_HEIGHT, SCALE, ICON_FILE, CUSTOM_WINDOW);
 		asciiPanel = asciiTerminal.getAsciiPanel();
 		asciiPanel.setDefaultCharacterBackgroundColor(Color.DARK_GRAY);
 		asciiPanel.setDefaultCharacterColor(Color.WHITE);
