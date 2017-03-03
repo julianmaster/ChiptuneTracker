@@ -520,6 +520,11 @@ public class SampleView extends View {
 		AsciiPanel asciiPanel = ChiptuneTracker.getInstance().getAsciiPanel();
 		Sample sample = ChiptuneTracker.getInstance().getData().samples.get(sampleCursor);
 		
+		for(int i = 0; i < ChiptuneTracker.WINDOW_WIDTH; i++) {
+			asciiPanel.write(i, 0, ' ', Color.WHITE, INDIGO);
+			asciiPanel.write(i, ChiptuneTracker.WINDOW_HEIGHT - 1, ' ', Color.WHITE, INDIGO);
+		}
+		
 		// Sample
 		asciiPanel.writeString(3, 2, String.format("%02d", sampleCursor), Color.WHITE);
 		

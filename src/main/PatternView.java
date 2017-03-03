@@ -745,6 +745,12 @@ public class PatternView extends View {
 		Data data = ChiptuneTracker.getInstance().getData();
 		Chanels chanels = ChiptuneTracker.getInstance().getChanels();
 		AsciiPanel asciiPanel = ChiptuneTracker.getInstance().getAsciiPanel();
+		
+		for(int i = 0; i < ChiptuneTracker.WINDOW_WIDTH; i++) {
+			asciiPanel.write(i, 0, ' ', Color.WHITE, INDIGO);
+			asciiPanel.write(i, ChiptuneTracker.WINDOW_HEIGHT - 1, ' ', Color.WHITE, INDIGO);
+		}
+		
 		// Pattern
 		asciiPanel.writeString(1, 2, "PATTERN", Color.gray);
 		

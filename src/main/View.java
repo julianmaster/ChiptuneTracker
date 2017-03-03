@@ -68,11 +68,6 @@ public abstract class View {
 	public void init() {
 		AsciiPanel asciiPanel = ChiptuneTracker.getInstance().getAsciiPanel();
 		
-		for(int i = 0; i < ChiptuneTracker.WINDOW_WIDTH; i++) {
-			asciiPanel.write(i, 0, ' ', Color.WHITE, INDIGO);
-			asciiPanel.write(i, ChiptuneTracker.WINDOW_HEIGHT - 1, ' ', Color.WHITE, INDIGO);
-		}
-		
 		for(AsciiTerminalButton terminalButton : terminalButtons) {
 			asciiPanel.add(terminalButton);
 		}

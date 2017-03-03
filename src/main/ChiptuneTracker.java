@@ -74,7 +74,7 @@ public class ChiptuneTracker {
 			if(event != null) {
 				if(event.getKeyCode() == KeyEvent.VK_F12) {
 					try {
-						BufferedImage image = new BufferedImage(WINDOW_WIDTH * CHARACTER_WIDTH, WINDOW_HEIGHT * CHARACTER_HEIGHT, BufferedImage.TYPE_INT_RGB);
+						BufferedImage image = new BufferedImage(WINDOW_WIDTH * CHARACTER_WIDTH * SCALE, WINDOW_HEIGHT * CHARACTER_HEIGHT * SCALE, BufferedImage.TYPE_INT_RGB);
 						Graphics2D graphics = image.createGraphics();
 						asciiPanel.paint(graphics);
 						
@@ -102,6 +102,7 @@ public class ChiptuneTracker {
 			chanels.update();
 			
 			// Paint
+			asciiPanel.clear();
 			currentView.paint();
 			asciiTerminal.repaint();
 			
