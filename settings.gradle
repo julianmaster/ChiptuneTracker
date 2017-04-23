@@ -1,0 +1,2 @@
+include 'desktop', 'core', 'AsciiTerminal'
+project(':AsciiTerminal').projectDir = new File(settingsDir, '../AsciiTerminal/core')
