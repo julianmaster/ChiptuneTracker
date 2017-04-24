@@ -1,8 +1,7 @@
 package com.chiptunetracker.core;
 
-import ui.AsciiPanel;
-import ui.AsciiTerminal;
-import ui.AsciiTerminalButton;
+import com.asciiterminal.ui.AsciiTerminal;
+import com.asciiterminal.ui.AsciiTerminalButton;
 
 import javax.swing.*;
 import java.awt.*;
