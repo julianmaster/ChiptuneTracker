@@ -3,6 +3,8 @@ package com.chiptunetracker.core;
 import com.asciiterminal.ui.AsciiSelectableTerminalButton;
 import com.asciiterminal.ui.AsciiTerminal;
 import com.asciiterminal.ui.AsciiTerminalButton;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -50,8 +52,6 @@ public class PatternView extends View {
 	}
 	
 	public void createPatternButtons() {
-		AsciiTerminal asciiTerminal = ChiptuneTracker.getInstance().getAsciiTerminal();
-		
 		// Down button
 		AsciiTerminalButton buttonDownSample = new AsciiTerminalButton(asciiTerminal, String.valueOf((char)17), 9, 2, Color.MAGENTA, Color.ORANGE);
 		buttonDownSample.addListener(new ClickListener() {
@@ -127,14 +127,12 @@ public class PatternView extends View {
 	}
 	
 	public void createSampleButtons() {
-		AsciiTerminal asciiTerminal = ChiptuneTracker.getInstance().getAsciiTerminal();
-		
 		sample1 = new AsciiSelectableTerminalButton(asciiTerminal, String.valueOf((char)253), 1, 4, Color.WHITE, Color.YELLOW, Color.GREEN);
 		sample1.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if(sample1.isSelected()) {
-					ChiptuneTracker.getInstance().getData().patterns.get(patternCursor).sample1 = null;
+					chiptuneTracker.getData().patterns.get(patternCursor).sample1 = null;
 				}
 				else {
 					changeSample(1, 0);
@@ -149,7 +147,7 @@ public class PatternView extends View {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if(sample2.isSelected()) {
-					ChiptuneTracker.getInstance().getData().patterns.get(patternCursor).sample2 = null;
+					chiptuneTracker.getData().patterns.get(patternCursor).sample2 = null;
 				}
 				else {
 					changeSample(2, 0);
@@ -164,7 +162,7 @@ public class PatternView extends View {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if(sample3.isSelected()) {
-					ChiptuneTracker.getInstance().getData().patterns.get(patternCursor).sample3 = null;
+					chiptuneTracker.getData().patterns.get(patternCursor).sample3 = null;
 				}
 				else {
 					changeSample(3, 0);
@@ -179,7 +177,7 @@ public class PatternView extends View {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if(sample4.isSelected()) {
-					ChiptuneTracker.getInstance().getData().patterns.get(patternCursor).sample4 = null;
+					chiptuneTracker.getData().patterns.get(patternCursor).sample4 = null;
 				}
 				else {
 					changeSample(4, 0);
@@ -191,13 +189,11 @@ public class PatternView extends View {
 	}
 	
 	public void createSampleDownButtons() {
-		AsciiTerminal asciiTerminal = ChiptuneTracker.getInstance().getAsciiTerminal();
-		
 		sample1Down = new AsciiTerminalButton(asciiTerminal, "-", 3, 4, Color.MAGENTA, Color.ORANGE);
 		sample1Down.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Pattern pattern = ChiptuneTracker.getInstance().getData().patterns.get(patternCursor);
+				Pattern pattern = chiptuneTracker.getData().patterns.get(patternCursor);
 				if(pattern.sample1 != null) {
 					changeSample(1, pattern.sample1 - 1);
 				}
@@ -208,7 +204,7 @@ public class PatternView extends View {
 		sample2Down.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Pattern pattern = ChiptuneTracker.getInstance().getData().patterns.get(patternCursor);
+				Pattern pattern = chiptuneTracker.getData().patterns.get(patternCursor);
 				if(pattern.sample2 != null) {
 					changeSample(2, pattern.sample2 - 1);
 				}
@@ -219,7 +215,7 @@ public class PatternView extends View {
 		sample3Down.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Pattern pattern = ChiptuneTracker.getInstance().getData().patterns.get(patternCursor);
+				Pattern pattern = chiptuneTracker.getData().patterns.get(patternCursor);
 				if(pattern.sample3 != null) {
 					changeSample(3, pattern.sample3 - 1);
 				}
@@ -230,7 +226,7 @@ public class PatternView extends View {
 		sample4Down.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Pattern pattern = ChiptuneTracker.getInstance().getData().patterns.get(patternCursor);
+				Pattern pattern = chiptuneTracker.getData().patterns.get(patternCursor);
 				if(pattern.sample4 != null) {
 					changeSample(4, pattern.sample4 - 1);
 				}
@@ -239,13 +235,13 @@ public class PatternView extends View {
 	}
 	
 	public void createSampleUpButtons() {
-		AsciiTerminal asciiTerminal = ChiptuneTracker.getInstance().getAsciiTerminal();
+		AsciiTerminal asciiTerminal = chiptuneTracker.getAsciiTerminal();
 		
 		sample1Up = new AsciiTerminalButton(asciiTerminal, "+", 6, 4, Color.MAGENTA, Color.ORANGE);
 		sample1Up.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Pattern pattern = ChiptuneTracker.getInstance().getData().patterns.get(patternCursor);
+				Pattern pattern = chiptuneTracker.getData().patterns.get(patternCursor);
 				if(pattern.sample1 != null) {
 					changeSample(1, pattern.sample1 + 1);
 				}
@@ -256,7 +252,7 @@ public class PatternView extends View {
 		sample2Up.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Pattern pattern = ChiptuneTracker.getInstance().getData().patterns.get(patternCursor);
+				Pattern pattern = chiptuneTracker.getData().patterns.get(patternCursor);
 				if(pattern.sample2 != null) {
 					changeSample(2, pattern.sample2 + 1);
 				}
@@ -267,7 +263,7 @@ public class PatternView extends View {
 		sample3Up.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Pattern pattern = ChiptuneTracker.getInstance().getData().patterns.get(patternCursor);
+				Pattern pattern = chiptuneTracker.getData().patterns.get(patternCursor);
 				if(pattern.sample3 != null) {
 					changeSample(3, pattern.sample3 + 1);
 				}
@@ -278,7 +274,7 @@ public class PatternView extends View {
 		sample4Up.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Pattern pattern = ChiptuneTracker.getInstance().getData().patterns.get(patternCursor);
+				Pattern pattern = chiptuneTracker.getData().patterns.get(patternCursor);
 				if(pattern.sample4 != null) {
 					changeSample(4, pattern.sample4 + 1);
 				}
@@ -288,8 +284,8 @@ public class PatternView extends View {
 	
 	@Override
 	public void init() {
-		if(ChiptuneTracker.getInstance().isInitPatternView()) {
-			ChiptuneTracker.getInstance().setInitPatternView(false);
+		if(chiptuneTracker.isInitPatternView()) {
+			chiptuneTracker.setInitPatternView(false);
 			patternCursor = 0;
 			patternOffset = 0;
 			changePatternOffset();
@@ -301,7 +297,7 @@ public class PatternView extends View {
 		buttonSampleView.setSelected(false);
 		buttonPatternView.setSelected(true);
 		super.init();
-		AsciiTerminal asciiTerminal = ChiptuneTracker.getInstance().getAsciiTerminal();
+		AsciiTerminal asciiTerminal = chiptuneTracker.getAsciiTerminal();
 		if(sample1.isSelected()) {
 			asciiTerminal.addActor(sample1Down);
 			asciiTerminal.addActor(sample1Up);
@@ -329,14 +325,14 @@ public class PatternView extends View {
 		}
 		
 		for(int i = 0; i <= 4 ; i++) {
-			if(ChiptuneTracker.getInstance().getData().patterns.size() < patternOffset + i) {
-				ChiptuneTracker.getInstance().getData().patterns.add(new Pattern());
+			if(chiptuneTracker.getData().patterns.size() < patternOffset + i) {
+				chiptuneTracker.getData().patterns.add(new Pattern());
 			}
 		}
 	}
 	
 	public void changePatternButtons() {
-		Data data = ChiptuneTracker.getInstance().getData();
+		Data data = chiptuneTracker.getData();
 		pattern1.setName(String.format("%02d", patternOffset));
 		pattern2.setName(String.format("%02d", patternOffset + 1));
 		pattern3.setName(String.format("%02d", patternOffset + 2));
@@ -400,9 +396,8 @@ public class PatternView extends View {
 	}
 	
 	public void changeSampleButtons() {
-		Pattern pattern = ChiptuneTracker.getInstance().getData().patterns.get(patternCursor);
-		AsciiTerminal asciiTerminal = ChiptuneTracker.getInstance().getAsciiTerminal();
-		
+		Pattern pattern = chiptuneTracker.getData().patterns.get(patternCursor);
+
 		if(pattern.sample1 != null) {
 			sample1.setName(String.valueOf((char)254));
 			sample1.setSelected(true);
@@ -414,7 +409,7 @@ public class PatternView extends View {
 			sample1.setSelected(false);
 			sample1Down.remove();
 			sample1Up.remove();
-			asciiTerminal.clear(3, 4, 4, 1);
+//			asciiTerminal.clear(3, 4, 4, 1);
 		}
 		
 		if(pattern.sample2 != null) {
@@ -428,7 +423,7 @@ public class PatternView extends View {
 			sample2.setSelected(false);
 			sample2Down.remove();
 			sample2Up.remove();
-			asciiTerminal.clear(10, 4, 4, 1);
+//			asciiTerminal.clear(10, 4, 4, 1);
 		}
 		
 		if(pattern.sample3 != null) {
@@ -442,7 +437,7 @@ public class PatternView extends View {
 			sample3.setSelected(false);
 			sample3Down.remove();
 			sample3Up.remove();
-			asciiTerminal.clear(17, 4, 4, 1);
+//			asciiTerminal.clear(17, 4, 4, 1);
 		}
 		
 		if(pattern.sample4 != null) {
@@ -456,12 +451,12 @@ public class PatternView extends View {
 			sample4.setSelected(false);
 			sample4Down.remove();
 			sample4Up.remove();
-			asciiTerminal.clear(24, 4, 4, 1);
+//			asciiTerminal.clear(24, 4, 4, 1);
 		}
 	}
 	
 	public void changeSample(int samplePattern, int sample) {
-		Data data = ChiptuneTracker.getInstance().getData();
+		Data data = chiptuneTracker.getData();
 		if(sample >= 0 && sample < 100) {
 			if(samplePattern == 1) {
 				data.patterns.get(patternCursor).sample1 = sample;
@@ -484,131 +479,141 @@ public class PatternView extends View {
 	
 	@Override
 	public void update(double delta) {
-		Chanels chanels = ChiptuneTracker.getInstance().getChanels();
-		CustomAsciiTerminal asciiTerminal = ChiptuneTracker.getInstance().getAsciiTerminal();
-		Pattern pattern = ChiptuneTracker.getInstance().getData().patterns.get(patternCursor);
+		Chanels chanels = chiptuneTracker.getChanels();
+		Pattern pattern = chiptuneTracker.getData().patterns.get(patternCursor);
 		
-		KeyEvent event = asciiTerminal.getEvent();
-		if(event != null) {
-			if(event.getKeyCode() == KeyEvent.VK_LEFT) {
-				if(soundConfCursor > 0) {
-					soundConfCursor--;
-				}
-				else if(sampleCursor > 0) {
-					int nextSelectSample = sampleCursor;
-					for(int i = sampleCursor - 1; i >= 0; i--) {
-						if(pattern.getList().get(i) != null) {
-							nextSelectSample = i;
-							break;
-						}
-					}
-					
-					if(nextSelectSample != sampleCursor) {
-						sampleCursor = nextSelectSample;
-						soundConfCursor = 4;
+		if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
+			if(soundConfCursor > 0) {
+				soundConfCursor--;
+			}
+			else if(sampleCursor > 0) {
+				int nextSelectSample = sampleCursor;
+				for(int i = sampleCursor - 1; i >= 0; i--) {
+					if(pattern.getList().get(i) != null) {
+						nextSelectSample = i;
+						break;
 					}
 				}
-			}
-			else if(event.getKeyCode() == KeyEvent.VK_RIGHT) {
-				if(soundConfCursor < 4) {
-					soundConfCursor++;
-				}
-				else if(sampleCursor < 3) {
-					
-					int nextSelectSample = sampleCursor;
-					for(int i = sampleCursor + 1; i < 4; i++) {
-						if(pattern.getList().get(i) != null) {
-							nextSelectSample = i;
-							break;
-						}
-					}
-					if(nextSelectSample != sampleCursor) {
-						sampleCursor = nextSelectSample;
-						soundConfCursor = 0;
-					}
+
+				if(nextSelectSample != sampleCursor) {
+					sampleCursor = nextSelectSample;
+					soundConfCursor = 4;
 				}
 			}
-			else if(event.getKeyCode() == KeyEvent.VK_UP) {
-				soundCursor--;
-				if(soundCursor < 0) {
-					soundCursor = Sample.SIZE - 1;
-				}
-			}
-			else if(event.getKeyCode() == KeyEvent.VK_DOWN) {
-				soundCursor++;
-				if(soundCursor > Sample.SIZE - 1) {
-					soundCursor = 0;
-				}
-			}
-			
-			// Write note
-			else if(event.getKeyCode() == KeyEvent.VK_Q && pattern.getList().get(sampleCursor) != null) {
-				setSound(Note.C);
-			}
-			else if(event.getKeyCode() == KeyEvent.VK_2 && pattern.getList().get(sampleCursor) != null) {
-				setSound(Note.C_D);
-			}
-			else if(event.getKeyCode() == KeyEvent.VK_W && pattern.getList().get(sampleCursor) != null) {
-				setSound(Note.D);
-			}
-			else if(event.getKeyCode() == KeyEvent.VK_3 && pattern.getList().get(sampleCursor) != null) {
-				setSound(Note.D_D);
-			}
-			else if(event.getKeyCode() == KeyEvent.VK_E && pattern.getList().get(sampleCursor) != null) {
-				setSound(Note.E);
-			}
-			else if(event.getKeyCode() == KeyEvent.VK_R && pattern.getList().get(sampleCursor) != null) {
-				setSound(Note.F);
-			}
-			else if(event.getKeyCode() == KeyEvent.VK_5 && pattern.getList().get(sampleCursor) != null) {
-				setSound(Note.F_D);
-			}
-			else if(event.getKeyCode() == KeyEvent.VK_T && pattern.getList().get(sampleCursor) != null) {
-				setSound(Note.G);
-			}
-			else if(event.getKeyCode() == KeyEvent.VK_6 && pattern.getList().get(sampleCursor) != null) {
-				setSound(Note.G_D);
-			}
-			else if(event.getKeyCode() == KeyEvent.VK_Y && pattern.getList().get(sampleCursor) != null) {
-				setSound(Note.A);
-			}
-			else if(event.getKeyCode() == KeyEvent.VK_7 && pattern.getList().get(sampleCursor) != null) {
-				setSound(Note.A_D);
-			}
-			else if(event.getKeyCode() == KeyEvent.VK_U && pattern.getList().get(sampleCursor) != null) {
-				setSound(Note.B);
-			}
-			else if(event.getKeyCode() >= KeyEvent.VK_NUMPAD0 && event.getKeyCode() <= KeyEvent.VK_NUMPAD9 && pattern.getList().get(sampleCursor) != null) {
-				// Octave
-				if(soundConfCursor == 1) {
-					setOctave(event.getKeyCode() - 96);
-				}
-				// Instrument
-				else if(soundConfCursor == 2) {
-					setInstrument(event.getKeyCode() - 96);
-				}
-				// Volume
-				else if(soundConfCursor == 3) {
-					setVolume(event.getKeyCode() - 96);
-				}
-			}
-			else if(event.getKeyCode() == KeyEvent.VK_DELETE && pattern.getList().get(sampleCursor) != null) {
-				deleteSound();
-			}
-			
-			// Play pattern
-			else if(event.getKeyCode() == KeyEvent.VK_SPACE) {
-				if(!chanels.isPlaySample() && !chanels.isPlayPattern()) {
-					chanels.playPattern(patternCursor);
-				}
-				else {
-					chanels.stopPattern();
-				}
-			}
-			
-			asciiTerminal.setEvent(null);
 		}
-		
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
+			if(soundConfCursor < 4) {
+				soundConfCursor++;
+			}
+			else if(sampleCursor < 3) {
+
+				int nextSelectSample = sampleCursor;
+				for(int i = sampleCursor + 1; i < 4; i++) {
+					if(pattern.getList().get(i) != null) {
+						nextSelectSample = i;
+						break;
+					}
+				}
+				if(nextSelectSample != sampleCursor) {
+					sampleCursor = nextSelectSample;
+					soundConfCursor = 0;
+				}
+			}
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+			soundCursor--;
+			if(soundCursor < 0) {
+				soundCursor = Sample.SIZE - 1;
+			}
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
+			soundCursor++;
+			if(soundCursor > Sample.SIZE - 1) {
+				soundCursor = 0;
+			}
+		}
+
+		// Write note
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.Q) && pattern.getList().get(sampleCursor) != null) {
+			setSound(Note.C);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_2) && pattern.getList().get(sampleCursor) != null) {
+			setSound(Note.C_D);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.W) && pattern.getList().get(sampleCursor) != null) {
+			setSound(Note.D);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_3) && pattern.getList().get(sampleCursor) != null) {
+			setSound(Note.D_D);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.E) && pattern.getList().get(sampleCursor) != null) {
+			setSound(Note.E);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.R) && pattern.getList().get(sampleCursor) != null) {
+			setSound(Note.F);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_5) && pattern.getList().get(sampleCursor) != null) {
+			setSound(Note.F_D);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.T) && pattern.getList().get(sampleCursor) != null) {
+			setSound(Note.G);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_6) && pattern.getList().get(sampleCursor) != null) {
+			setSound(Note.G_D);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.Y) && pattern.getList().get(sampleCursor) != null) {
+			setSound(Note.A);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_7) && pattern.getList().get(sampleCursor) != null) {
+			setSound(Note.A_D);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.U) && pattern.getList().get(sampleCursor) != null) {
+			setSound(Note.B);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_0) && pattern.getList().get(sampleCursor) != null) {
+			setNumberParameter(0);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_1) && pattern.getList().get(sampleCursor) != null) {
+			setNumberParameter(1);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_2) && pattern.getList().get(sampleCursor) != null) {
+			setNumberParameter(2);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_3) && pattern.getList().get(sampleCursor) != null) {
+			setNumberParameter(3);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_4) && pattern.getList().get(sampleCursor) != null) {
+			setNumberParameter(4);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_5) && pattern.getList().get(sampleCursor) != null) {
+			setNumberParameter(5);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_6) && pattern.getList().get(sampleCursor) != null) {
+			setNumberParameter(6);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_7) && pattern.getList().get(sampleCursor) != null) {
+			setNumberParameter(7);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_8) && pattern.getList().get(sampleCursor) != null) {
+			setNumberParameter(8);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_9) && pattern.getList().get(sampleCursor) != null) {
+			setNumberParameter(9);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.DEL) && pattern.getList().get(sampleCursor) != null) {
+			deleteSound();
+		}
+
+		// Play pattern
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+			if(!chanels.isPlaySample() && !chanels.isPlayPattern()) {
+				chanels.playPattern(patternCursor);
+			}
+			else {
+				chanels.stopPattern();
+			}
+		}
+
 		if(chanels.isPlayPattern() && patternCursor != chanels.getPatternCursor()) {
 			patternCursor = chanels.getPatternCursor();
 			changePatternButtons();
@@ -621,12 +626,27 @@ public class PatternView extends View {
 	 * Key actions
 	 * -----------------
 	 */
+
+	private void setNumberParameter(int value) {
+		// Octave
+		if(soundConfCursor == 1) {
+			setOctave(value);
+		}
+		// Instrument
+		else if(soundConfCursor == 2) {
+			setInstrument(value);
+		}
+		// Volume
+		else if(soundConfCursor == 3) {
+			setVolume(value);
+		}
+	}
 	
 	private void setSound(Note note) {
-		ChiptuneTracker.getInstance().setChangeData(true);
-		Sample sample = ChiptuneTracker.getInstance().getData().samples.get(sampleCursor);
+		chiptuneTracker.setChangeData(true);
+		Sample sample = chiptuneTracker.getData().samples.get(sampleCursor);
 		
-		if(ChiptuneTracker.getInstance().getSampleView().getVolumeCursor() != 0) {
+		if(chiptuneTracker.getSampleView().getVolumeCursor() != 0) {
 			Sound sound = sample.sounds[soundCursor];
 			if(sound == null) {
 				sound = new Sound();
@@ -634,11 +654,11 @@ public class PatternView extends View {
 			}
 			
 			sound.note = note;
-			sound.octave = ChiptuneTracker.getInstance().getSampleView().getOctaveCursor();
-			sound.instrument = ChiptuneTracker.getInstance().getSampleView().getInstrumentCursor();
-			sound.volume = ChiptuneTracker.getInstance().getSampleView().getVolumeCursor();
+			sound.octave = chiptuneTracker.getSampleView().getOctaveCursor();
+			sound.instrument = chiptuneTracker.getSampleView().getInstrumentCursor();
+			sound.volume = chiptuneTracker.getSampleView().getVolumeCursor();
 			
-			ChiptuneTracker.getInstance().getChanels().playSound(sound);
+			chiptuneTracker.getChanels().playSound(sound);
 		}
 		else {
 			sample.sounds[soundCursor] = null;
@@ -651,9 +671,9 @@ public class PatternView extends View {
 	}
 	
 	private void setOctave(int octave) {
-		ChiptuneTracker.getInstance().setChangeData(true);
+		chiptuneTracker.setChangeData(true);
 		if(octave >= 1 && octave <= 4) {
-			Sample sample = ChiptuneTracker.getInstance().getData().samples.get(sampleCursor);
+			Sample sample = chiptuneTracker.getData().samples.get(sampleCursor);
 			Sound sound = sample.sounds[soundCursor];
 			if(sound != null) {
 				sound.octave = octave;
@@ -663,15 +683,15 @@ public class PatternView extends View {
 					soundCursor = 0;
 				}
 				
-				ChiptuneTracker.getInstance().getChanels().playSound(sound);
+				chiptuneTracker.getChanels().playSound(sound);
 			}
 		}
 	}
 	
 	private void setVolume(int volume) {
-		ChiptuneTracker.getInstance().setChangeData(true);
+		chiptuneTracker.setChangeData(true);
 		if(volume >= 0 && volume <= 7) {
-			Sample sample = ChiptuneTracker.getInstance().getData().samples.get(sampleCursor);
+			Sample sample = chiptuneTracker.getData().samples.get(sampleCursor);
 			Sound sound = sample.sounds[soundCursor];
 			if(sound != null) {
 				if(volume == 0) {
@@ -685,15 +705,15 @@ public class PatternView extends View {
 				if(soundCursor > Sample.SIZE - 1) {
 					soundCursor = 0;
 				}
-				ChiptuneTracker.getInstance().getChanels().playSound(sound);
+				chiptuneTracker.getChanels().playSound(sound);
 			}
 		}
 	}
 	
 	private void setInstrument(int instrument) {
-		ChiptuneTracker.getInstance().setChangeData(true);
+		chiptuneTracker.setChangeData(true);
 		if(instrument >= 0 && instrument <= 7) {
-			Sample sample = ChiptuneTracker.getInstance().getData().samples.get(sampleCursor);
+			Sample sample = chiptuneTracker.getData().samples.get(sampleCursor);
 			Sound sound = sample.sounds[soundCursor];
 			if(sound != null) {
 				sound.instrument = instrument;
@@ -702,14 +722,14 @@ public class PatternView extends View {
 				if(soundCursor > Sample.SIZE - 1) {
 					soundCursor = 0;
 				}
-				ChiptuneTracker.getInstance().getChanels().playSound(sound);
+				chiptuneTracker.getChanels().playSound(sound);
 			}
 		}
 	}
 	
 	public void deleteSound() {
-		ChiptuneTracker.getInstance().setChangeData(true);
-		Sample sample = ChiptuneTracker.getInstance().getData().samples.get(sampleCursor);
+		chiptuneTracker.setChangeData(true);
+		Sample sample = chiptuneTracker.getData().samples.get(sampleCursor);
 		sample.sounds[soundCursor] = null;
 		
 		soundCursor++;
@@ -720,9 +740,9 @@ public class PatternView extends View {
 	
 	@Override
 	public void paint() {
-		Data data = ChiptuneTracker.getInstance().getData();
-		Chanels chanels = ChiptuneTracker.getInstance().getChanels();
-		AsciiTerminal asciiTerminal = ChiptuneTracker.getInstance().getAsciiTerminal();
+		Data data = chiptuneTracker.getData();
+		Chanels chanels = chiptuneTracker.getChanels();
+		AsciiTerminal asciiTerminal = chiptuneTracker.getAsciiTerminal();
 		
 		for(int i = 0; i < ChiptuneTracker.WINDOW_WIDTH; i++) {
 			asciiTerminal.write(i, 0, ' ', Color.WHITE, INDIGO);
@@ -768,8 +788,8 @@ public class PatternView extends View {
 		int soundOffset = 0;
 		int cursorPosition = -1;
 		
-		if(ChiptuneTracker.getInstance().getChanels().isPlayPattern() && sample != null) {
-			int sampleCursorPosition = ChiptuneTracker.getInstance().getChanels().getSampleCursor(index);
+		if(chiptuneTracker.getChanels().isPlayPattern() && sample != null) {
+			int sampleCursorPosition = chiptuneTracker.getChanels().getSampleCursor(index);
 			
 			soundOffset = Math.max(0, Math.min(sampleCursorPosition - 5, 31 - 10));
 			if(sampleCursorPosition < 5) {
@@ -798,7 +818,7 @@ public class PatternView extends View {
 			}
 			
 			// Don't play music
-			if(!ChiptuneTracker.getInstance().getChanels().isPlayPattern() && index == sampleCursor && i + soundOffset == soundCursor) {
+			if(!chiptuneTracker.getChanels().isPlayPattern() && index == sampleCursor && i + soundOffset == soundCursor) {
 				if(sound != null) {
 					printSound(asciiTerminal, x, y,
 							sound.note.str, 				Color.WHITE, 	soundConfCursor == 0 ? Color.YELLOW : Color.BLUE,
@@ -820,8 +840,8 @@ public class PatternView extends View {
 			else {
 				Color backgroundColor = Color.BLACK;
 				
-				int soundPlayCursor = ChiptuneTracker.getInstance().getChanels().getSampleCursor(index);
-				if(ChiptuneTracker.getInstance().getChanels().isPlayPattern() && i == cursorPosition) {
+				int soundPlayCursor = chiptuneTracker.getChanels().getSampleCursor(index);
+				if(chiptuneTracker.getChanels().isPlayPattern() && i == cursorPosition) {
 					backgroundColor = Color.YELLOW;
 				}
 				
@@ -858,22 +878,21 @@ public class PatternView extends View {
 	@Override
 	public void quit() {
 		super.quit();
-		AsciiTerminal asciiTerminal = ChiptuneTracker.getInstance().getAsciiTerminal();
 		if(sample1.isSelected()) {
-			asciiTerminal.remove(sample1Down);
-			asciiTerminal.remove(sample1Up);
+			sample1Down.remove();
+			sample1Up.remove();
 		}
 		if(sample2.isSelected()) {
-			asciiTerminal.remove(sample2Down);
-			asciiTerminal.remove(sample2Up);
+			sample2Down.remove();
+			sample2Up.remove();
 		}
 		if(sample3.isSelected()) {
-			asciiTerminal.remove(sample3Down);
-			asciiTerminal.remove(sample3Up);
+			sample3Down.remove();
+			sample3Up.remove();
 		}
 		if(sample4.isSelected()) {
-			asciiTerminal.remove(sample4Down);
-			asciiTerminal.remove(sample4Up);
+			sample4Down.remove();
+			sample4Up.remove();
 		}
 	}
 }

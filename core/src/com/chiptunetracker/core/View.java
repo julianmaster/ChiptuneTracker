@@ -12,11 +12,12 @@ import java.util.List;
 
 public abstract class View {
 	
-	public static final Color INDIGO = new Color(61f, 81f, 181f, 0f);
-	public static final Color DEEP_ORANGE = new Color(255f, 120f, 8f, 0f);
+	public static final Color INDIGO = new Color(0x3D51B5FF);
+	public static final Color DEEP_ORANGE = new Color(0xFF7808FF);
 	public static final String DOT = String.valueOf((char)239);
 	
-	private final ChiptuneTracker chiptuneTracker;
+	protected final ChiptuneTracker chiptuneTracker;
+	protected final AsciiTerminal asciiTerminal;
 	
 	protected List<AsciiTerminalButton> terminalButtons = new ArrayList<>();
 	
@@ -27,43 +28,40 @@ public abstract class View {
 	
 	public View(ChiptuneTracker chiptuneTracker) {
 		this.chiptuneTracker = chiptuneTracker;
+		this.asciiTerminal = chiptuneTracker.getAsciiTerminal();
 		createSwitchViewButtons();
 	}
 	
 	public void createSwitchViewButtons() {
-		AsciiTerminal asciiTerminal = ChiptuneTracker.getInstance().getAsciiTerminal();
-
-		buttonMenuView = new AsciiSelectableTerminalButton(asciiTerminal, String.valueOf((char)255) + "Menu", 1, 0, Color.WHITE, DEEP_ORANGE, DEEP_ORANGE, INDIGO);
+		buttonMenuView = new AsciiSelectableTerminalButton(asciiTerminal, String.valueOf((char)255) + "Menu", 1, 0, Color.WHITE, DEEP_ORANGE, DEEP_ORANGE, DEEP_ORANGE, INDIGO);
 		buttonMenuView.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				chiptuneTracker.changeView(ChiptuneTracker.getInstance().getMenuView());
+				chiptuneTracker.changeView(chiptuneTracker.getMenuView());
 			}
 		});
 		terminalButtons.add(buttonMenuView);
 		
-		buttonSampleView = new AsciiSelectableTerminalButton(asciiTerminal, String.valueOf((char)13) + "Sample", 7, 0, Color.WHITE, DEEP_ORANGE, DEEP_ORANGE, INDIGO);
+		buttonSampleView = new AsciiSelectableTerminalButton(asciiTerminal, String.valueOf((char)13) + "Sample", 7, 0, Color.WHITE, DEEP_ORANGE, DEEP_ORANGE, DEEP_ORANGE, INDIGO);
 		buttonSampleView.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				chiptuneTracker.changeView(ChiptuneTracker.getInstance().getSampleView());
+				chiptuneTracker.changeView(chiptuneTracker.getSampleView());
 			}
 		});
 		terminalButtons.add(buttonSampleView);
 		
-		buttonPatternView = new AsciiSelectableTerminalButton(asciiTerminal, String.valueOf((char)14) + "Pattern", 15, 0, Color.WHITE, DEEP_ORANGE, DEEP_ORANGE, INDIGO);
+		buttonPatternView = new AsciiSelectableTerminalButton(asciiTerminal, String.valueOf((char)14) + "Pattern", 15, 0, Color.WHITE, DEEP_ORANGE, DEEP_ORANGE, DEEP_ORANGE, INDIGO);
 		buttonPatternView.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				chiptuneTracker.changeView(ChiptuneTracker.getInstance().getPatternView());
+				chiptuneTracker.changeView(chiptuneTracker.getPatternView());
 			}
 		});
 		terminalButtons.add(buttonPatternView);
 	}
 
 	public void init() {
-		AsciiTerminal asciiTerminal = ChiptuneTracker.getInstance().getAsciiTerminal();
-		
 		for(AsciiTerminalButton terminalButton : terminalButtons) {
 			asciiTerminal.addActor(terminalButton);
 		}

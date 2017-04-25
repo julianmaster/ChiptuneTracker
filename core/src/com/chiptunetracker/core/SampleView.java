@@ -55,9 +55,9 @@ public class SampleView extends View {
 	}
 	
 	private void createSampleButtons() {
-		AsciiTerminal asciiTerminal = ChiptuneTracker.getInstance().getAsciiTerminal();
+		AsciiTerminal asciiTerminal = chiptuneTracker.getAsciiTerminal();
 		
-		AsciiTerminalButton buttonDownSample = new AsciiTerminalButton(asciiTerminal, String.valueOf((char)17), 1, 2, Color.MAGENTA, Color.ORANGE);
+		AsciiTerminalButton buttonDownSample = new AsciiTerminalButton(asciiTerminal, String.valueOf((char)17), 1, 2, Color.MAGENTA, Color.ORANGE, Color.ORANGE, asciiTerminal.getDefaultCharacterBackgroundColor());
 		buttonDownSample.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -66,7 +66,7 @@ public class SampleView extends View {
 		});
 		terminalButtons.add(buttonDownSample);
 		
-		AsciiTerminalButton buttonUpSample = new AsciiTerminalButton(asciiTerminal, String.valueOf((char)16), 6, 2, Color.MAGENTA, Color.ORANGE);
+		AsciiTerminalButton buttonUpSample = new AsciiTerminalButton(asciiTerminal, String.valueOf((char)16), 6, 2, Color.MAGENTA, Color.ORANGE, Color.ORANGE, asciiTerminal.getDefaultCharacterBackgroundColor());
 		buttonUpSample.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -77,13 +77,13 @@ public class SampleView extends View {
 	}
 
 	private void createSpeedButtons() {
-		AsciiTerminal asciiTerminal = ChiptuneTracker.getInstance().getAsciiTerminal();
+		AsciiTerminal asciiTerminal = chiptuneTracker.getAsciiTerminal();
 		
-		AsciiTerminalButton reduceButton = new AsciiTerminalButton(asciiTerminal, "-", 12, 2, Color.MAGENTA, Color.ORANGE);
+		AsciiTerminalButton reduceButton = new AsciiTerminalButton(asciiTerminal, "-", 12, 2, Color.MAGENTA, Color.ORANGE, Color.ORANGE, asciiTerminal.getDefaultCharacterBackgroundColor());
 		reduceButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Sample sample = ChiptuneTracker.getInstance().getData().samples.get(sampleCursor);
+				Sample sample = chiptuneTracker.getData().samples.get(sampleCursor);
 				if(sample.speed > 1) {
 					sample.speed--;
 				}
@@ -91,11 +91,11 @@ public class SampleView extends View {
 		});
 		terminalButtons.add(reduceButton);
 		
-		AsciiTerminalButton addButton = new AsciiTerminalButton(asciiTerminal, "+", 15, 2, Color.MAGENTA, Color.ORANGE);
+		AsciiTerminalButton addButton = new AsciiTerminalButton(asciiTerminal, "+", 15, 2, Color.MAGENTA, Color.ORANGE, Color.ORANGE, asciiTerminal.getDefaultCharacterBackgroundColor());
 		addButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Sample sample = ChiptuneTracker.getInstance().getData().samples.get(sampleCursor);
+				Sample sample = chiptuneTracker.getData().samples.get(sampleCursor);
 				if(sample.speed < 32) {
 					sample.speed++;
 				}
@@ -105,18 +105,18 @@ public class SampleView extends View {
 	}
 
 	private void createLoopButtons() {
-		AsciiTerminal asciiTerminal = ChiptuneTracker.getInstance().getAsciiTerminal();
+		AsciiTerminal asciiTerminal = chiptuneTracker.getAsciiTerminal();
 		
 		Sample sample = null;
-		if(!ChiptuneTracker.getInstance().getData().samples.isEmpty()) {
-			sample = ChiptuneTracker.getInstance().getData().samples.get(sampleCursor);
+		if(!chiptuneTracker.getData().samples.isEmpty()) {
+			sample = chiptuneTracker.getData().samples.get(sampleCursor);
 		}
 		
-		buttonLoopStartSample = new AsciiTerminalButton(asciiTerminal, String.format("%02d", sample != null ? sample.loopStart : 0), ChiptuneTracker.WINDOW_WIDTH - 6, 2, Color.WHITE, Color.ORANGE, Color.BLACK);
+		buttonLoopStartSample = new AsciiTerminalButton(asciiTerminal, String.format("%02d", sample != null ? sample.loopStart : 0), ChiptuneTracker.WINDOW_WIDTH - 6, 2, Color.WHITE, Color.ORANGE, Color.ORANGE, Color.BLACK);
 		buttonLoopStartSample.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Sample sample = ChiptuneTracker.getInstance().getData().samples.get(sampleCursor);
+				Sample sample = chiptuneTracker.getData().samples.get(sampleCursor);
 				if(event.getButton() == Input.Buttons.LEFT) {
 					if(sample.loopStart < sample.loopStop) {
 						sample.loopStart++;
@@ -132,11 +132,11 @@ public class SampleView extends View {
 		});
 		terminalButtons.add(buttonLoopStartSample);
 		
-		buttonLoopStopSample = new AsciiTerminalButton(asciiTerminal, String.format("%02d", sample != null ? sample.loopStop : 0), ChiptuneTracker.WINDOW_WIDTH - 3, 2, Color.WHITE, Color.ORANGE, Color.BLACK);
+		buttonLoopStopSample = new AsciiTerminalButton(asciiTerminal, String.format("%02d", sample != null ? sample.loopStop : 0), ChiptuneTracker.WINDOW_WIDTH - 3, 2, Color.WHITE, Color.ORANGE, Color.ORANGE, Color.BLACK);
 		buttonLoopStopSample.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Sample sample = ChiptuneTracker.getInstance().getData().samples.get(sampleCursor);
+				Sample sample = chiptuneTracker.getData().samples.get(sampleCursor);
 				if(event.getButton() == Input.Buttons.LEFT) {
 					if(sample.loopStop < Sample.SIZE) {
 						sample.loopStop++;
@@ -155,10 +155,10 @@ public class SampleView extends View {
 	}
 
 	private void createOctaveButtons() {
-		AsciiTerminal asciiTerminal = ChiptuneTracker.getInstance().getAsciiTerminal();
+		AsciiTerminal asciiTerminal = chiptuneTracker.getAsciiTerminal();
 		
 		for(int i = 1; i <= 4; i++) {
-			AsciiSelectableTerminalButton button = new AsciiSelectableTerminalButton(asciiTerminal, String.valueOf(i), 4 + i, 4, Color.LIGHT_GRAY, Color.WHITE, Color.GREEN);
+			AsciiSelectableTerminalButton button = new AsciiSelectableTerminalButton(asciiTerminal, String.valueOf(i), 4 + i, 4, Color.LIGHT_GRAY, Color.WHITE, Color.WHITE, Color.GREEN, asciiTerminal.getDefaultCharacterBackgroundColor());
 			button.addListener(new ClickListener() {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
@@ -166,7 +166,7 @@ public class SampleView extends View {
 					AsciiSelectableTerminalButton button = (AsciiSelectableTerminalButton)event.getTarget();
 					button.setSelected(true);
 					currentOctaveButton = button;
-					changeOctave(button.getName());
+					changeOctave(button.getLabel());
 				}
 			});
 			
@@ -180,10 +180,10 @@ public class SampleView extends View {
 	}
 
 	private void createVolumeButtons() {
-		AsciiTerminal asciiTerminal = ChiptuneTracker.getInstance().getAsciiTerminal();
+		AsciiTerminal asciiTerminal = chiptuneTracker.getAsciiTerminal();
 		
 		for(int i = 0; i <= 7; i++) {
-			AsciiSelectableTerminalButton button = new AsciiSelectableTerminalButton(asciiTerminal, String.valueOf(i), 5 + i, 6, Color.LIGHT_GRAY, Color.WHITE, Color.CYAN);
+			AsciiSelectableTerminalButton button = new AsciiSelectableTerminalButton(asciiTerminal, String.valueOf(i), 5 + i, 6, Color.LIGHT_GRAY, Color.WHITE, Color.WHITE, Color.CYAN, asciiTerminal.getDefaultCharacterBackgroundColor());
 			button.addListener(new ClickListener() {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
@@ -191,7 +191,7 @@ public class SampleView extends View {
 					AsciiSelectableTerminalButton button = (AsciiSelectableTerminalButton)event.getTarget();
 					button.setSelected(true);
 					currentVolumeButton = button;
-					changeVolume(button.getName());
+					changeVolume(button.getLabel());
 				}
 			});
 			
@@ -205,10 +205,10 @@ public class SampleView extends View {
 	}
 
 	private void createOscillatorButtons() {
-		AsciiTerminal asciiTerminal = ChiptuneTracker.getInstance().getAsciiTerminal();
+		AsciiTerminal asciiTerminal = chiptuneTracker.getAsciiTerminal();
 		
 		for(int i = 0; i <= 7; i++) {
-			AsciiSelectableTerminalButton button = new AsciiSelectableTerminalButton(asciiTerminal, String.valueOf((char)(224 + i)), ChiptuneTracker.WINDOW_WIDTH - 8 - 1 + i, 4, Color.LIGHT_GRAY, Color.WHITE, Color.MAGENTA);
+			AsciiSelectableTerminalButton button = new AsciiSelectableTerminalButton(asciiTerminal, String.valueOf((char)(224 + i)), ChiptuneTracker.WINDOW_WIDTH - 8 - 1 + i, 4, Color.LIGHT_GRAY, Color.WHITE, Color.WHITE, Color.MAGENTA, asciiTerminal.getDefaultCharacterBackgroundColor());
 			button.addListener(new ClickListener() {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
@@ -216,7 +216,7 @@ public class SampleView extends View {
 					AsciiSelectableTerminalButton button = (AsciiSelectableTerminalButton)event.getTarget();
 					button.setSelected(true);
 					currentInstrumentButton = button;
-					changeInstrument(button.getName());
+					changeInstrument(button.getLabel());
 				}
 			});
 			
@@ -231,8 +231,8 @@ public class SampleView extends View {
 	
 	@Override
 	public void init() {
-		if(ChiptuneTracker.getInstance().isInitSampleView()) {
-			ChiptuneTracker.getInstance().setInitSampleView(false);
+		if(chiptuneTracker.isInitSampleView()) {
+			chiptuneTracker.setInitSampleView(false);
 			changeSample(0);
 			soundCursor = 0;
 			soundConfCursor = 0;
@@ -242,7 +242,7 @@ public class SampleView extends View {
 		buttonSampleView.setSelected(true);
 		buttonPatternView.setSelected(false);
 		
-		Sample sample = ChiptuneTracker.getInstance().getData().samples.get(sampleCursor);
+		Sample sample = chiptuneTracker.getData().samples.get(sampleCursor);
 		buttonLoopStartSample.setName(String.format("%02d", sample.loopStart));
 		buttonLoopStopSample.setName(String.format("%02d", sample.loopStop));
 		
@@ -251,18 +251,18 @@ public class SampleView extends View {
 
 	@Override
 	public void update(double delta) {
-		Chanels chanels = ChiptuneTracker.getInstance().getChanels();
+		Chanels chanels = chiptuneTracker.getChanels();
 
 		// Change sample
-		if(Gdx.input.isKeyPressed(Input.Keys.PLUS)) {
+		if(Gdx.input.isKeyJustPressed(Input.Keys.PLUS)) {
 			changeSample(sampleCursor + 1);
 		}
-		else if(Gdx.input.isKeyPressed(Input.Keys.MINUS)) {
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.MINUS)) {
 			changeSample(sampleCursor - 1);
 		}
 
 		// Change position cursor
-		else if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
 			if(soundConfCursor > 0) {
 				soundConfCursor--;
 			}
@@ -271,7 +271,7 @@ public class SampleView extends View {
 				soundCursor = soundCursor - 8;
 			}
 		}
-		else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
 			if(soundConfCursor < 4) {
 				soundConfCursor++;
 			}
@@ -280,13 +280,13 @@ public class SampleView extends View {
 				soundCursor = soundCursor + 8;
 			}
 		}
-		else if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
 			soundCursor--;
 			if(soundCursor < 0) {
 				soundCursor = Sample.SIZE - 1;
 			}
 		}
-		else if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
 			soundCursor++;
 			if(soundCursor > Sample.SIZE - 1) {
 				soundCursor = 0;
@@ -294,78 +294,78 @@ public class SampleView extends View {
 		}
 
 		// Write note
-		else if(Gdx.input.isKeyPressed(Input.Keys.Q)) {
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
 			setSound(Note.C);
 		}
-		else if(Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
 			setSound(Note.C_D);
 		}
-		else if(Gdx.input.isKeyPressed(Input.Keys.W)) {
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.W)) {
 			setSound(Note.D);
 		}
-		else if(Gdx.input.isKeyPressed(Input.Keys.NUM_3)) {
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)) {
 			setSound(Note.D_D);
 		}
-		else if(Gdx.input.isKeyPressed(Input.Keys.E)) {
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.E)) {
 			setSound(Note.E);
 		}
-		else if(Gdx.input.isKeyPressed(Input.Keys.R)) {
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.R)) {
 			setSound(Note.F);
 		}
-		else if(Gdx.input.isKeyPressed(Input.Keys.NUM_5)) {
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_5)) {
 			setSound(Note.F_D);
 		}
-		else if(Gdx.input.isKeyPressed(Input.Keys.T)) {
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.T)) {
 			setSound(Note.G);
 		}
-		else if(Gdx.input.isKeyPressed(Input.Keys.NUM_6)) {
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_6)) {
 			setSound(Note.G_D);
 		}
-		else if(Gdx.input.isKeyPressed(Input.Keys.Y)) {
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.Y)) {
 			setSound(Note.A);
 		}
-		else if(Gdx.input.isKeyPressed(Input.Keys.NUM_7)) {
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_7)) {
 			setSound(Note.A_D);
 		}
-		else if(Gdx.input.isKeyPressed(Input.Keys.U)) {
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.U)) {
 			setSound(Note.B);
 		}
-		else if(Gdx.input.isKeyPressed(Input.Keys.NUMPAD_0)) {
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_0)) {
 			setNumberParameter(0);
 		}
-		else if(Gdx.input.isKeyPressed(Input.Keys.NUMPAD_1)) {
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_1)) {
 			setNumberParameter(1);
 		}
-		else if(Gdx.input.isKeyPressed(Input.Keys.NUMPAD_2)) {
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_2)) {
 			setNumberParameter(2);
 		}
-		else if(Gdx.input.isKeyPressed(Input.Keys.NUMPAD_3)) {
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_3)) {
 			setNumberParameter(3);
 		}
-		else if(Gdx.input.isKeyPressed(Input.Keys.NUMPAD_4)) {
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_4)) {
 			setNumberParameter(4);
 		}
-		else if(Gdx.input.isKeyPressed(Input.Keys.NUMPAD_5)) {
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_5)) {
 			setNumberParameter(5);
 		}
-		else if(Gdx.input.isKeyPressed(Input.Keys.NUMPAD_6)) {
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_6)) {
 			setNumberParameter(6);
 		}
-		else if(Gdx.input.isKeyPressed(Input.Keys.NUMPAD_7)) {
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_7)) {
 			setNumberParameter(7);
 		}
-		else if(Gdx.input.isKeyPressed(Input.Keys.NUMPAD_8)) {
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_8)) {
 			setNumberParameter(8);
 		}
-		else if(Gdx.input.isKeyPressed(Input.Keys.NUMPAD_9)) {
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_9)) {
 			setNumberParameter(9);
 		}
-		else if(Gdx.input.isKeyPressed(Input.Keys.DEL)) {
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.DEL)) {
 			deleteSound();
 		}
 
 		// Play sample
-		else if(Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
 			if(!chanels.isPlaySample() && !chanels.isPlayPattern()) {
 				chanels.playSample(sampleCursor);
 			}
@@ -397,8 +397,8 @@ public class SampleView extends View {
 	}
 	
 	private void setSound(Note note) {
-		ChiptuneTracker.getInstance().setChangeData(true);
-		Sample sample = ChiptuneTracker.getInstance().getData().samples.get(sampleCursor);
+		chiptuneTracker.setChangeData(true);
+		Sample sample = chiptuneTracker.getData().samples.get(sampleCursor);
 		
 		if(volumeCursor != 0) {
 			Sound sound = sample.sounds[soundCursor];
@@ -412,7 +412,7 @@ public class SampleView extends View {
 			sound.instrument = instrumentCursor;
 			sound.volume = volumeCursor;
 			
-			ChiptuneTracker.getInstance().getChanels().playSound(sound);
+			chiptuneTracker.getChanels().playSound(sound);
 		}
 		else {
 			sample.sounds[soundCursor] = null;
@@ -425,9 +425,9 @@ public class SampleView extends View {
 	}
 	
 	private void setOctave(int octave) {
-		ChiptuneTracker.getInstance().setChangeData(true);
+		chiptuneTracker.setChangeData(true);
 		if(octave >= 1 && octave <= 4) {
-			Sample sample = ChiptuneTracker.getInstance().getData().samples.get(sampleCursor);
+			Sample sample = chiptuneTracker.getData().samples.get(sampleCursor);
 			Sound sound = sample.sounds[soundCursor];
 			if(sound != null) {
 				sound.octave = octave;
@@ -437,15 +437,15 @@ public class SampleView extends View {
 					soundCursor = 0;
 				}
 				
-				ChiptuneTracker.getInstance().getChanels().playSound(sound);
+				chiptuneTracker.getChanels().playSound(sound);
 			}
 		}
 	}
 	
 	private void setVolume(int volume) {
-		ChiptuneTracker.getInstance().setChangeData(true);
+		chiptuneTracker.setChangeData(true);
 		if(volume >= 0 && volume <= 7) {
-			Sample sample = ChiptuneTracker.getInstance().getData().samples.get(sampleCursor);
+			Sample sample = chiptuneTracker.getData().samples.get(sampleCursor);
 			Sound sound = sample.sounds[soundCursor];
 			if(sound != null) {
 				if(volume == 0) {
@@ -459,15 +459,15 @@ public class SampleView extends View {
 				if(soundCursor > Sample.SIZE - 1) {
 					soundCursor = 0;
 				}
-				ChiptuneTracker.getInstance().getChanels().playSound(sound);
+				chiptuneTracker.getChanels().playSound(sound);
 			}
 		}
 	}
 	
 	private void setInstrument(int instrument) {
-		ChiptuneTracker.getInstance().setChangeData(true);
+		chiptuneTracker.setChangeData(true);
 		if(instrument >= 0 && instrument <= 7) {
-			Sample sample = ChiptuneTracker.getInstance().getData().samples.get(sampleCursor);
+			Sample sample = chiptuneTracker.getData().samples.get(sampleCursor);
 			Sound sound = sample.sounds[soundCursor];
 			if(sound != null) {
 				sound.instrument = instrument;
@@ -476,14 +476,14 @@ public class SampleView extends View {
 				if(soundCursor > Sample.SIZE - 1) {
 					soundCursor = 0;
 				}
-				ChiptuneTracker.getInstance().getChanels().playSound(sound);
+				chiptuneTracker.getChanels().playSound(sound);
 			}
 		}
 	}
 
 	private void deleteSound() {
-		ChiptuneTracker.getInstance().setChangeData(true);
-		Sample sample = ChiptuneTracker.getInstance().getData().samples.get(sampleCursor);
+		chiptuneTracker.setChangeData(true);
+		Sample sample = chiptuneTracker.getData().samples.get(sampleCursor);
 		sample.sounds[soundCursor] = null;
 		
 		soundCursor++;
@@ -499,7 +499,7 @@ public class SampleView extends View {
 	 */
 
 	private void changeSample(int i) {
-		Data data = ChiptuneTracker.getInstance().getData();
+		Data data = chiptuneTracker.getData();
 		if(i >= 0 && i < 100) {
 			sampleCursor = i;			
 		}
@@ -532,8 +532,8 @@ public class SampleView extends View {
 	
 	@Override
 	public void paint() {
-		AsciiTerminal asciiTerminal = ChiptuneTracker.getInstance().getAsciiTerminal();
-		Sample sample = ChiptuneTracker.getInstance().getData().samples.get(sampleCursor);
+		AsciiTerminal asciiTerminal = chiptuneTracker.getAsciiTerminal();
+		Sample sample = chiptuneTracker.getData().samples.get(sampleCursor);
 		
 		for(int i = 0; i < ChiptuneTracker.WINDOW_WIDTH; i++) {
 			asciiTerminal.write(i, 0, ' ', Color.WHITE, INDIGO);
@@ -568,7 +568,7 @@ public class SampleView extends View {
 			
 			Sound sound = sample.sounds[i];
 			
-			if(!ChiptuneTracker.getInstance().getChanels().isPlaySample() && i == soundCursor) {
+			if(!chiptuneTracker.getChanels().isPlaySample() && i == soundCursor) {
 				if(sound != null) {
 					printSound(asciiTerminal, x, y,
 							sound.note.str, 				Color.WHITE, 	soundConfCursor == 0 ? Color.YELLOW : Color.BLUE,
@@ -589,8 +589,8 @@ public class SampleView extends View {
 			else {
 				Color backgroundColor = Color.BLACK;
 				
-				int soundPlayCursor = ChiptuneTracker.getInstance().getChanels().getSampleCursor(0);
-				if(ChiptuneTracker.getInstance().getChanels().isPlaySample() && i == soundPlayCursor) {
+				int soundPlayCursor = chiptuneTracker.getChanels().getSampleCursor(0);
+				if(chiptuneTracker.getChanels().isPlaySample() && i == soundPlayCursor) {
 					backgroundColor = Color.YELLOW;
 				}
 				

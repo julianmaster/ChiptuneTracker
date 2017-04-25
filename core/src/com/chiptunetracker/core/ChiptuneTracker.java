@@ -13,7 +13,7 @@ public class ChiptuneTracker extends Game {
 	public static final String ICON_FILE = "icon.png";
 	public static final int CHARACTER_WIDTH = 12;
 	public static final int CHARACTER_HEIGHT = 12;
-	public static final int SCALE = 3;
+	public static final int SCALE = 2;
 
 	private static ChiptuneTracker instance = new ChiptuneTracker();
 
@@ -46,6 +46,8 @@ public class ChiptuneTracker extends Game {
 		sampleView = new SampleView(this);
 		patternView = new PatternView(this);
 		changeView(sampleView);
+
+		super.setScreen(asciiTerminal);
 	}
 
 	@Override
@@ -63,7 +65,6 @@ public class ChiptuneTracker extends Game {
 			currentView.quit();
 		}
 		currentView = nextView;
-		asciiTerminal.clear();
 		currentView.init();
 	}
 	

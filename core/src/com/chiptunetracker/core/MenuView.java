@@ -1,12 +1,11 @@
 package com.chiptunetracker.core;
 
-import com.asciiterminal.ui.AsciiTerminal;
 import com.asciiterminal.ui.AsciiTerminalButton;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class MenuView extends View {
 	
@@ -20,83 +19,81 @@ public class MenuView extends View {
 
 	public void createMenuButtons() {
 		int startY = 3;
-		final AsciiTerminal asciiTerminal = ChiptuneTracker.getInstance().getAsciiTerminal();
-		final DataManager dataManager = ChiptuneTracker.getInstance().getDataManager();
-		AsciiPanel asciiPanel = ChiptuneTracker.getInstance().getAsciiPanel();
-		
-		AsciiTerminalButton newButton = new AsciiTerminalButton(asciiPanel, "New", 5, startY, Color.MAGENTA, Color.ORANGE);
-		newButton.addMouseListener(new MouseAdapter() {
+		final DataManager dataManager = chiptuneTracker.getDataManager();
+
+		AsciiTerminalButton newButton = new AsciiTerminalButton(asciiTerminal, "New", 5, startY, Color.MAGENTA, Color.ORANGE);
+		newButton.addListener(new ClickListener() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void clicked(InputEvent event, float x, float y) {
 				try {
 					dataManager.newFile();
 				} catch (Exception exception) {
-					JOptionPane.showMessageDialog(asciiTerminal, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
 		terminalButtons.add(newButton);
 		
-		AsciiTerminalButton openFileButton = new AsciiTerminalButton(asciiPanel, "Open File...", 5, startY + 2, Color.MAGENTA, Color.ORANGE);
-		openFileButton.addMouseListener(new MouseAdapter() {
+		AsciiTerminalButton openFileButton = new AsciiTerminalButton(asciiTerminal, "Open File...", 5, startY + 2, Color.MAGENTA, Color.ORANGE);
+		openFileButton.addListener(new ClickListener() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void clicked(InputEvent event, float x, float y) {
 				try {
 					dataManager.open();
 				} catch (Exception exception) {
-					JOptionPane.showMessageDialog(asciiTerminal, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
 		terminalButtons.add(openFileButton);
 		
-		AsciiTerminalButton saveButton = new AsciiTerminalButton(asciiPanel, "Save", 5, startY + 4, Color.MAGENTA, Color.ORANGE);
-		saveButton.addMouseListener(new MouseAdapter() {
+		AsciiTerminalButton saveButton = new AsciiTerminalButton(asciiTerminal, "Save", 5, startY + 4, Color.MAGENTA, Color.ORANGE);
+		saveButton.addListener(new ClickListener() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void clicked(InputEvent event, float x, float y) {
 				try {
 					dataManager.save();
 				} catch (Exception exception) {
-					JOptionPane.showMessageDialog(asciiTerminal, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
 		terminalButtons.add(saveButton);
 		
-		AsciiTerminalButton saveAsButton = new AsciiTerminalButton(asciiPanel, "Save as...", 5, startY + 6, Color.MAGENTA, Color.ORANGE);
-		saveAsButton.addMouseListener(new MouseAdapter() {
+		AsciiTerminalButton saveAsButton = new AsciiTerminalButton(asciiTerminal, "Save as...", 5, startY + 6, Color.MAGENTA, Color.ORANGE);
+		saveAsButton.addListener(new ClickListener() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void clicked(InputEvent event, float x, float y) {
 				try {
 					dataManager.saveAs();
 				} catch (Exception exception) {
-					JOptionPane.showMessageDialog(asciiTerminal, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
 		terminalButtons.add(saveAsButton);
 		
-		AsciiTerminalButton exportButton = new AsciiTerminalButton(asciiPanel, "Export", 5, startY + 8, Color.MAGENTA, Color.ORANGE);
-		exportButton.addMouseListener(new MouseAdapter() {
+		AsciiTerminalButton exportButton = new AsciiTerminalButton(asciiTerminal, "Export", 5, startY + 8, Color.MAGENTA, Color.ORANGE);
+		exportButton.addListener(new ClickListener() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void clicked(InputEvent event, float x, float y) {
 				try {
-					dataManager.initExport(ChiptuneTracker.getInstance().getMenuView());
+					dataManager.initExport(chiptuneTracker.getMenuView());
 				} catch(Exception exception) {
-					JOptionPane.showMessageDialog(asciiTerminal, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
 		terminalButtons.add(exportButton);
 		
-		AsciiTerminalButton exitButton = new AsciiTerminalButton(asciiPanel, "Exit", 5, startY + 10, Color.MAGENTA, Color.ORANGE);
-		exitButton.addMouseListener(new MouseAdapter() {
+		AsciiTerminalButton exitButton = new AsciiTerminalButton(asciiTerminal, "Exit", 5, startY + 10, Color.MAGENTA, Color.ORANGE);
+		exitButton.addListener(new ClickListener() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void clicked(InputEvent event, float x, float y) {
 				try {
 					dataManager.exit();
 				} catch (Exception exception) {
-					JOptionPane.showMessageDialog(asciiTerminal, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -105,9 +102,9 @@ public class MenuView extends View {
 	
 	@Override
 	public void init() {
-		buttonMenuView.setSelect(true);
-		buttonSampleView.setSelect(false);
-		buttonPatternView.setSelect(false);
+		buttonMenuView.setSelected(true);
+		buttonSampleView.setSelected(false);
+		buttonPatternView.setSelected(false);
 		super.init();
 	}
 	
@@ -117,34 +114,31 @@ public class MenuView extends View {
 	
 	public void showExportMessage() {
 		exportMessage = true;
-		ChiptuneTracker.getInstance().getAsciiTerminal().repaint();
 	}
 
 	@Override
 	public void paint() {
-		AsciiPanel asciiPanel = ChiptuneTracker.getInstance().getAsciiPanel();
-		
 		for(int i = 0; i < ChiptuneTracker.WINDOW_WIDTH; i++) {
-			asciiPanel.write(i, 0, ' ', Color.WHITE, INDIGO);
-			asciiPanel.write(i, ChiptuneTracker.WINDOW_HEIGHT - 1, ' ', Color.WHITE, INDIGO);
+			asciiTerminal.write(i, 0, ' ', Color.WHITE, INDIGO);
+			asciiTerminal.write(i, ChiptuneTracker.WINDOW_HEIGHT - 1, ' ', Color.WHITE, INDIGO);
 		}
 		
 		if(runExport) {
 			runExport = false;
 			try {
-				ChiptuneTracker.getInstance().getDataManager().runExport();
+				chiptuneTracker.getDataManager().runExport();
 			} catch (Exception exception) {
-				JOptionPane.showMessageDialog(ChiptuneTracker.getInstance().getAsciiTerminal(), exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			}
 			for(int i = 0; i < ChiptuneTracker.WINDOW_WIDTH; i++) {
-				asciiPanel.write(i, ChiptuneTracker.WINDOW_HEIGHT - 1, ' ', Color.WHITE, INDIGO);
+				asciiTerminal.write(i, ChiptuneTracker.WINDOW_HEIGHT - 1, ' ', Color.WHITE, INDIGO);
 			}
 		}
 		
 		if(exportMessage) {
 			runExport = true;
 			exportMessage = false;
-			asciiPanel.writeString(1, ChiptuneTracker.WINDOW_HEIGHT - 1, "Export the project", Color.WHITE, INDIGO);
+			asciiTerminal.writeString(1, ChiptuneTracker.WINDOW_HEIGHT - 1, "Export the project", Color.WHITE, INDIGO);
 		}
 	}
 	
