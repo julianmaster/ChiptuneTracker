@@ -21,7 +21,7 @@ public class MenuView extends View {
 		int startY = 3;
 		final DataManager dataManager = chiptuneTracker.getDataManager();
 
-		AsciiTerminalButton newButton = new AsciiTerminalButton(asciiTerminal, "New", 5, startY, Color.MAGENTA, Color.ORANGE);
+		AsciiTerminalButton newButton = new AsciiTerminalButton(asciiTerminal, "New", 5, startY, Color.MAGENTA, Color.ORANGE, Color.ORANGE, asciiTerminal.getDefaultCharacterBackgroundColor());
 		newButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -34,7 +34,7 @@ public class MenuView extends View {
 		});
 		terminalButtons.add(newButton);
 		
-		AsciiTerminalButton openFileButton = new AsciiTerminalButton(asciiTerminal, "Open File...", 5, startY + 2, Color.MAGENTA, Color.ORANGE);
+		AsciiTerminalButton openFileButton = new AsciiTerminalButton(asciiTerminal, "Open File...", 5, startY + 2, Color.MAGENTA, Color.ORANGE, Color.ORANGE, asciiTerminal.getDefaultCharacterBackgroundColor());
 		openFileButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -47,53 +47,53 @@ public class MenuView extends View {
 		});
 		terminalButtons.add(openFileButton);
 		
-		AsciiTerminalButton saveButton = new AsciiTerminalButton(asciiTerminal, "Save", 5, startY + 4, Color.MAGENTA, Color.ORANGE);
+		AsciiTerminalButton saveButton = new AsciiTerminalButton(asciiTerminal, "Save", 5, startY + 4, Color.MAGENTA, Color.ORANGE, Color.ORANGE, asciiTerminal.getDefaultCharacterBackgroundColor());
 		saveButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				try {
 					dataManager.save();
-				} catch (Exception exception) {
-					JOptionPane.showMessageDialog(null, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
 		terminalButtons.add(saveButton);
 		
-		AsciiTerminalButton saveAsButton = new AsciiTerminalButton(asciiTerminal, "Save as...", 5, startY + 6, Color.MAGENTA, Color.ORANGE);
+		AsciiTerminalButton saveAsButton = new AsciiTerminalButton(asciiTerminal, "Save as...", 5, startY + 6, Color.MAGENTA, Color.ORANGE, Color.ORANGE, asciiTerminal.getDefaultCharacterBackgroundColor());
 		saveAsButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				try {
 					dataManager.saveAs();
-				} catch (Exception exception) {
-					JOptionPane.showMessageDialog(null, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
 		terminalButtons.add(saveAsButton);
 		
-		AsciiTerminalButton exportButton = new AsciiTerminalButton(asciiTerminal, "Export", 5, startY + 8, Color.MAGENTA, Color.ORANGE);
+		AsciiTerminalButton exportButton = new AsciiTerminalButton(asciiTerminal, "Export", 5, startY + 8, Color.MAGENTA, Color.ORANGE, Color.ORANGE, asciiTerminal.getDefaultCharacterBackgroundColor());
 		exportButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				try {
 					dataManager.initExport(chiptuneTracker.getMenuView());
-				} catch(Exception exception) {
-					JOptionPane.showMessageDialog(null, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				} catch(Exception e) {
+					JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
 		terminalButtons.add(exportButton);
 		
-		AsciiTerminalButton exitButton = new AsciiTerminalButton(asciiTerminal, "Exit", 5, startY + 10, Color.MAGENTA, Color.ORANGE);
+		AsciiTerminalButton exitButton = new AsciiTerminalButton(asciiTerminal, "Exit", 5, startY + 10, Color.MAGENTA, Color.ORANGE, Color.ORANGE, asciiTerminal.getDefaultCharacterBackgroundColor());
 		exitButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				try {
 					dataManager.exit();
-				} catch (Exception exception) {
-					JOptionPane.showMessageDialog(null, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});

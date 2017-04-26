@@ -5,6 +5,8 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 
+import javax.swing.*;
+
 public class ChiptuneTracker extends Game {
 	public static final String TITLE = "ChiptuneTracker";
 	public static final int WINDOW_WIDTH = 29;
@@ -33,6 +35,9 @@ public class ChiptuneTracker extends Game {
 	private PatternView patternView;
 
 	private int event;
+
+	private ChiptuneTracker() {
+	}
 
 	@Override
 	public void create () {
@@ -70,6 +75,14 @@ public class ChiptuneTracker extends Game {
 	
 	@Override
 	public void dispose () {
+		try {
+			dataManager.exit();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	public void exit() {
 		super.dispose();
 		asciiTerminal.dispose();
 	}

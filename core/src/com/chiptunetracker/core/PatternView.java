@@ -53,7 +53,7 @@ public class PatternView extends View {
 	
 	public void createPatternButtons() {
 		// Down button
-		AsciiTerminalButton buttonDownSample = new AsciiTerminalButton(asciiTerminal, String.valueOf((char)17), 9, 2, Color.MAGENTA, Color.ORANGE);
+		AsciiTerminalButton buttonDownSample = new AsciiTerminalButton(asciiTerminal, String.valueOf((char)17), 9, 2, Color.MAGENTA, Color.ORANGE, Color.ORANGE, asciiTerminal.getDefaultCharacterBackgroundColor());
 		buttonDownSample.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -65,7 +65,7 @@ public class PatternView extends View {
 		terminalButtons.add(buttonDownSample);
 		
 		// Up button
-		AsciiTerminalButton buttonUpSample = new AsciiTerminalButton(asciiTerminal, String.valueOf((char)16), ChiptuneTracker.WINDOW_WIDTH - 6, 2, Color.MAGENTA, Color.ORANGE);
+		AsciiTerminalButton buttonUpSample = new AsciiTerminalButton(asciiTerminal, String.valueOf((char)16), ChiptuneTracker.WINDOW_WIDTH - 6, 2, Color.MAGENTA, Color.ORANGE, Color.ORANGE, asciiTerminal.getDefaultCharacterBackgroundColor());
 		buttonUpSample.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -77,7 +77,7 @@ public class PatternView extends View {
 		terminalButtons.add(buttonUpSample);
 		
 		// pattern1
-		pattern1 = new AsciiSelectableTerminalButton(asciiTerminal, String.format("%02d", patternCursor), 11, 2, Color.WHITE, Color.ORANGE, Color.ORANGE);
+		pattern1 = new AsciiSelectableTerminalButton(asciiTerminal, String.format("%02d", patternCursor), 11, 2, Color.WHITE, Color.ORANGE, Color.ORANGE, Color.ORANGE, asciiTerminal.getDefaultCharacterBackgroundColor());
 		pattern1.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -90,7 +90,7 @@ public class PatternView extends View {
 		terminalButtons.add(pattern1);
 		
 		// pattern2
-		pattern2 = new AsciiSelectableTerminalButton(asciiTerminal, String.format("%02d", patternCursor + 1), 14, 2, Color.WHITE, Color.ORANGE, Color.ORANGE);
+		pattern2 = new AsciiSelectableTerminalButton(asciiTerminal, String.format("%02d", patternCursor + 1), 14, 2, Color.WHITE, Color.ORANGE, Color.ORANGE, Color.ORANGE, asciiTerminal.getDefaultCharacterBackgroundColor());
 		pattern2.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -102,7 +102,7 @@ public class PatternView extends View {
 		terminalButtons.add(pattern2);
 		
 		// pattern3
-		pattern3 = new AsciiSelectableTerminalButton(asciiTerminal, String.format("%02d", patternCursor + 2), 17, 2, Color.WHITE, Color.ORANGE, Color.ORANGE);
+		pattern3 = new AsciiSelectableTerminalButton(asciiTerminal, String.format("%02d", patternCursor + 2), 17, 2, Color.WHITE, Color.ORANGE, Color.ORANGE, Color.ORANGE, asciiTerminal.getDefaultCharacterBackgroundColor());
 		pattern3.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -114,7 +114,7 @@ public class PatternView extends View {
 		terminalButtons.add(pattern3);
 		
 		// pattern4
-		pattern4 = new AsciiSelectableTerminalButton(asciiTerminal, String.format("%02d", patternCursor + 3), 20, 2, Color.WHITE, Color.ORANGE, Color.ORANGE);
+		pattern4 = new AsciiSelectableTerminalButton(asciiTerminal, String.format("%02d", patternCursor + 3), 20, 2, Color.WHITE, Color.ORANGE, Color.ORANGE, Color.ORANGE, asciiTerminal.getDefaultCharacterBackgroundColor());
 		pattern4.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -127,60 +127,60 @@ public class PatternView extends View {
 	}
 	
 	public void createSampleButtons() {
-		sample1 = new AsciiSelectableTerminalButton(asciiTerminal, String.valueOf((char)253), 1, 4, Color.WHITE, Color.YELLOW, Color.GREEN);
+		sample1 = new AsciiSelectableTerminalButton(asciiTerminal, String.valueOf((char)253), 1, 4, Color.WHITE, Color.YELLOW, Color.YELLOW, Color.GREEN, asciiTerminal.getDefaultCharacterBackgroundColor());
 		sample1.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if(sample1.isSelected()) {
-					chiptuneTracker.getData().patterns.get(patternCursor).sample1 = null;
+					changeSample(1, 0);
 				}
 				else {
-					changeSample(1, 0);
+					chiptuneTracker.getData().patterns.get(patternCursor).sample1 = null;
 				}
 				changeSampleButtons();
 			}
 		});
 		terminalButtons.add(sample1);
 		
-		sample2 = new AsciiSelectableTerminalButton(asciiTerminal, String.valueOf((char)253), 8, 4, Color.WHITE, Color.YELLOW, Color.GREEN);
+		sample2 = new AsciiSelectableTerminalButton(asciiTerminal, String.valueOf((char)253), 8, 4, Color.WHITE, Color.YELLOW, Color.YELLOW, Color.GREEN, asciiTerminal.getDefaultCharacterBackgroundColor());
 		sample2.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if(sample2.isSelected()) {
-					chiptuneTracker.getData().patterns.get(patternCursor).sample2 = null;
+					changeSample(2, 0);
 				}
 				else {
-					changeSample(2, 0);
+					chiptuneTracker.getData().patterns.get(patternCursor).sample2 = null;
 				}
 				changeSampleButtons();
 			}
 		});
 		terminalButtons.add(sample2);
 		
-		sample3 = new AsciiSelectableTerminalButton(asciiTerminal, String.valueOf((char)253), 15, 4, Color.WHITE, Color.YELLOW, Color.GREEN);
+		sample3 = new AsciiSelectableTerminalButton(asciiTerminal, String.valueOf((char)253), 15, 4, Color.WHITE, Color.YELLOW, Color.YELLOW, Color.GREEN, asciiTerminal.getDefaultCharacterBackgroundColor());
 		sample3.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if(sample3.isSelected()) {
-					chiptuneTracker.getData().patterns.get(patternCursor).sample3 = null;
+					changeSample(3, 0);
 				}
 				else {
-					changeSample(3, 0);
+					chiptuneTracker.getData().patterns.get(patternCursor).sample3 = null;
 				}
 				changeSampleButtons();
 			}
 		});
 		terminalButtons.add(sample3);
 		
-		sample4 = new AsciiSelectableTerminalButton(asciiTerminal, String.valueOf((char)253), 22, 4, Color.WHITE, Color.YELLOW, Color.GREEN);
+		sample4 = new AsciiSelectableTerminalButton(asciiTerminal, String.valueOf((char)253), 22, 4, Color.WHITE, Color.YELLOW, Color.YELLOW, Color.GREEN, asciiTerminal.getDefaultCharacterBackgroundColor());
 		sample4.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if(sample4.isSelected()) {
-					chiptuneTracker.getData().patterns.get(patternCursor).sample4 = null;
+					changeSample(4, 0);
 				}
 				else {
-					changeSample(4, 0);
+					chiptuneTracker.getData().patterns.get(patternCursor).sample4 = null;
 				}
 				changeSampleButtons();
 			}
@@ -189,7 +189,7 @@ public class PatternView extends View {
 	}
 	
 	public void createSampleDownButtons() {
-		sample1Down = new AsciiTerminalButton(asciiTerminal, "-", 3, 4, Color.MAGENTA, Color.ORANGE);
+		sample1Down = new AsciiTerminalButton(asciiTerminal, "-", 3, 4, Color.MAGENTA, Color.ORANGE, Color.ORANGE, asciiTerminal.getDefaultCharacterBackgroundColor());
 		sample1Down.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -200,7 +200,7 @@ public class PatternView extends View {
 			}
 		});
 		
-		sample2Down = new AsciiTerminalButton(asciiTerminal, "-", 10, 4, Color.MAGENTA, Color.ORANGE);
+		sample2Down = new AsciiTerminalButton(asciiTerminal, "-", 10, 4, Color.MAGENTA, Color.ORANGE, Color.ORANGE, asciiTerminal.getDefaultCharacterBackgroundColor());
 		sample2Down.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -211,7 +211,7 @@ public class PatternView extends View {
 			}
 		});
 		
-		sample3Down = new AsciiTerminalButton(asciiTerminal, "-", 17, 4, Color.MAGENTA, Color.ORANGE);
+		sample3Down = new AsciiTerminalButton(asciiTerminal, "-", 17, 4, Color.MAGENTA, Color.ORANGE, Color.ORANGE, asciiTerminal.getDefaultCharacterBackgroundColor());
 		sample3Down.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -222,7 +222,7 @@ public class PatternView extends View {
 			}
 		});
 		
-		sample4Down = new AsciiTerminalButton(asciiTerminal, "-", 24, 4, Color.MAGENTA, Color.ORANGE);
+		sample4Down = new AsciiTerminalButton(asciiTerminal, "-", 24, 4, Color.MAGENTA, Color.ORANGE, Color.ORANGE, asciiTerminal.getDefaultCharacterBackgroundColor());
 		sample4Down.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -237,7 +237,7 @@ public class PatternView extends View {
 	public void createSampleUpButtons() {
 		AsciiTerminal asciiTerminal = chiptuneTracker.getAsciiTerminal();
 		
-		sample1Up = new AsciiTerminalButton(asciiTerminal, "+", 6, 4, Color.MAGENTA, Color.ORANGE);
+		sample1Up = new AsciiTerminalButton(asciiTerminal, "+", 6, 4, Color.MAGENTA, Color.ORANGE, Color.ORANGE, asciiTerminal.getDefaultCharacterBackgroundColor());
 		sample1Up.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -248,7 +248,7 @@ public class PatternView extends View {
 			}
 		});
 		
-		sample2Up = new AsciiTerminalButton(asciiTerminal, "+", 13, 4, Color.MAGENTA, Color.ORANGE);
+		sample2Up = new AsciiTerminalButton(asciiTerminal, "+", 13, 4, Color.MAGENTA, Color.ORANGE, Color.ORANGE, asciiTerminal.getDefaultCharacterBackgroundColor());
 		sample2Up.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -259,7 +259,7 @@ public class PatternView extends View {
 			}
 		});
 		
-		sample3Up = new AsciiTerminalButton(asciiTerminal, "+", 20, 4, Color.MAGENTA, Color.ORANGE);
+		sample3Up = new AsciiTerminalButton(asciiTerminal, "+", 20, 4, Color.MAGENTA, Color.ORANGE, Color.ORANGE, asciiTerminal.getDefaultCharacterBackgroundColor());
 		sample3Up.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -270,7 +270,7 @@ public class PatternView extends View {
 			}
 		});
 		
-		sample4Up = new AsciiTerminalButton(asciiTerminal, "+", 27, 4, Color.MAGENTA, Color.ORANGE);
+		sample4Up = new AsciiTerminalButton(asciiTerminal, "+", 27, 4, Color.MAGENTA, Color.ORANGE, Color.ORANGE, asciiTerminal.getDefaultCharacterBackgroundColor());
 		sample4Up.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -292,7 +292,21 @@ public class PatternView extends View {
 			changePatternButtons();
 			changeSampleButtons();
 		}
-		
+
+		Pattern pattern = chiptuneTracker.getData().patterns.get(patternCursor);
+		if(pattern.sample1 != null) {
+			sample1.setSelected(true);
+		}
+		if(pattern.sample2 != null) {
+			sample2.setSelected(true);
+		}
+		if(pattern.sample3 != null) {
+			sample3.setSelected(true);
+		}
+		if(pattern.sample4 != null) {
+			sample4.setSelected(true);
+		}
+
 		buttonMenuView.setSelected(false);
 		buttonSampleView.setSelected(false);
 		buttonPatternView.setSelected(true);
@@ -396,66 +410,56 @@ public class PatternView extends View {
 	}
 	
 	public void changeSampleButtons() {
+		chiptuneTracker.setChangeData(true);
 		Pattern pattern = chiptuneTracker.getData().patterns.get(patternCursor);
 
 		if(pattern.sample1 != null) {
-			sample1.setName(String.valueOf((char)254));
-			sample1.setSelected(true);
+			sample1.setLabel(String.valueOf((char)254));
 			asciiTerminal.addActor(sample1Down);
 			asciiTerminal.addActor(sample1Up);
 		}
 		else {
-			sample1.setName(String.valueOf((char)253));
-			sample1.setSelected(false);
+			sample1.setLabel(String.valueOf((char)253));
 			sample1Down.remove();
 			sample1Up.remove();
-//			asciiTerminal.clear(3, 4, 4, 1);
 		}
 		
 		if(pattern.sample2 != null) {
-			sample2.setName(String.valueOf((char)254));
-			sample2.setSelected(true);
+			sample2.setLabel(String.valueOf((char)254));
 			asciiTerminal.addActor(sample2Down);
 			asciiTerminal.addActor(sample2Up);
 		}
 		else {
-			sample2.setName(String.valueOf((char)253));
-			sample2.setSelected(false);
+			sample2.setLabel(String.valueOf((char)253));
 			sample2Down.remove();
 			sample2Up.remove();
-//			asciiTerminal.clear(10, 4, 4, 1);
 		}
 		
 		if(pattern.sample3 != null) {
-			sample3.setName(String.valueOf((char)254));
-			sample3.setSelected(true);
+			sample3.setLabel(String.valueOf((char)254));
 			asciiTerminal.addActor(sample3Down);
 			asciiTerminal.addActor(sample3Up);
 		}
 		else {
-			sample3.setName(String.valueOf((char)253));
-			sample3.setSelected(false);
+			sample3.setLabel(String.valueOf((char)253));
 			sample3Down.remove();
 			sample3Up.remove();
-//			asciiTerminal.clear(17, 4, 4, 1);
 		}
 		
 		if(pattern.sample4 != null) {
-			sample4.setName(String.valueOf((char)254));
-			sample4.setSelected(true);
+			sample4.setLabel(String.valueOf((char)254));
 			asciiTerminal.addActor(sample4Down);
 			asciiTerminal.addActor(sample4Up);
 		}
 		else {
-			sample4.setName(String.valueOf((char)253));
-			sample4.setSelected(false);
+			sample4.setLabel(String.valueOf((char)253));
 			sample4Down.remove();
 			sample4Up.remove();
-//			asciiTerminal.clear(24, 4, 4, 1);
 		}
 	}
 	
 	public void changeSample(int samplePattern, int sample) {
+		chiptuneTracker.setChangeData(true);
 		Data data = chiptuneTracker.getData();
 		if(sample >= 0 && sample < 100) {
 			if(samplePattern == 1) {

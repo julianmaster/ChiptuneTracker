@@ -19,7 +19,7 @@ public class DataManager {
 	
 	public boolean newFile() throws Exception {
 		if(ChiptuneTracker.getInstance().isChangeData()) {
-			int option = JOptionPane.NO_OPTION;
+			int option;
 			if(currentFile == null) {
 				option = JOptionPane.showOptionDialog(null, "New file has been modified. Save changes?", "Save Resource", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, null, null);
 			}
@@ -65,6 +65,8 @@ public class DataManager {
 					ChiptuneTracker.getInstance().setData(data);
 					currentFile = file.getAbsolutePath();
 					ChiptuneTracker.getInstance().setChangeData(false);
+					ChiptuneTracker.getInstance().setInitSampleView(true);
+					ChiptuneTracker.getInstance().setInitPatternView(true);
 				}
 				else {
 					throw new IOException("Unable to read the file !");
@@ -73,18 +75,6 @@ public class DataManager {
 		}
 	}
 	
-	public void openFile(File file) {
-		try {
-			Serializer serializer = new Persister();
-			Data data = new Data();
-			serializer.read(data, file);
-			ChiptuneTracker.getInstance().setData(data);
-			currentFile = file.getAbsolutePath();
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-		}
-	}
-
 	public boolean save() throws Exception {
 		if(currentFile != null) {
 			File file = new File(currentFile);
@@ -181,7 +171,7 @@ public class DataManager {
 			continueExit = newFile();
 		}
 		if(continueExit) {
-			System.exit(0);
+			ChiptuneTracker.getInstance().exit();
 		}
 	}
 	
