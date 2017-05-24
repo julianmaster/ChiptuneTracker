@@ -1,4 +1,5 @@
 <img src="readme-media/logo-high.png" align="right" />
+
 # ![ChiptuneTracker Logo](readme-media/logo.png) ChiptuneTracker
 
 > ChiptuneTracker is a tiny chiptune tracker where you can create song and sound effects with simple oscillator's instruments.
