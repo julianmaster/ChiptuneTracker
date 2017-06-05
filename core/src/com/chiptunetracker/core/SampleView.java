@@ -11,6 +11,10 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.chiptunetracker.model.Data;
+import com.chiptunetracker.model.Note;
+import com.chiptunetracker.model.Sample;
+import com.chiptunetracker.model.Sound;
 
 public class SampleView extends View {
 	
@@ -394,6 +398,10 @@ public class SampleView extends View {
 		else if(soundConfCursor == 3) {
 			setVolume(value);
 		}
+		// Effect
+		else if(soundConfCursor == 4) {
+			setEffect(value);
+		}
 	}
 	
 	private void setSound(Note note) {
@@ -472,6 +480,23 @@ public class SampleView extends View {
 			if(sound != null) {
 				sound.instrument = instrument;
 				
+				soundCursor++;
+				if(soundCursor > Sample.SIZE - 1) {
+					soundCursor = 0;
+				}
+				chiptuneTracker.getChanels().playSound(sound);
+			}
+		}
+	}
+
+	private void setEffect(int effect) {
+		chiptuneTracker.setChangeData(true);
+		if(effect >= 0 && effect <= 7) {
+			Sample sample = chiptuneTracker.getData().samples.get(sampleCursor);
+			Sound sound = sample.sounds[soundCursor];
+			if(sound != null) {
+				sound.effect = effect;
+
 				soundCursor++;
 				if(soundCursor > Sample.SIZE - 1) {
 					soundCursor = 0;
@@ -575,7 +600,7 @@ public class SampleView extends View {
 							sound.octave.toString(), 		Color.GREEN, 	soundConfCursor == 1 ? Color.YELLOW : Color.BLUE,
 							sound.instrument.toString(), 	Color.MAGENTA, 	soundConfCursor == 2 ? Color.YELLOW : Color.BLUE,
 							sound.volume.toString(), 		Color.CYAN, 	soundConfCursor == 3 ? Color.YELLOW : Color.BLUE,
-							DOT, 							Color.GRAY, 	soundConfCursor == 4 ? Color.YELLOW : Color.BLUE);
+							sound.effect != null ? sound.effect.toString() : DOT, 							Color.GRAY, 	soundConfCursor == 4 ? Color.YELLOW : Color.BLUE);
 				}
 				else {
 					printSound(asciiTerminal, x, y,
@@ -600,7 +625,7 @@ public class SampleView extends View {
 							sound.octave.toString(), 		Color.GREEN, 	backgroundColor,
 							sound.instrument.toString(), 	Color.MAGENTA, 	backgroundColor,
 							sound.volume.toString(), 		Color.CYAN, 	backgroundColor,
-							DOT, 							Color.GRAY, 	backgroundColor);
+							sound.effect != null ? sound.effect.toString() : DOT, 							Color.GRAY, 	backgroundColor);
 				}
 				else {
 					for(int j = x; j < x + 6; j++) {

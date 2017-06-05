@@ -4,6 +4,7 @@ import com.asciiterminal.ui.AsciiTerminal;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.chiptunetracker.model.Data;
 
 import javax.swing.*;
 
@@ -34,8 +35,6 @@ public class ChiptuneTracker extends Game {
 	private SampleView sampleView;
 	private PatternView patternView;
 
-	private int event;
-
 	private ChiptuneTracker() {
 	}
 
@@ -44,6 +43,8 @@ public class ChiptuneTracker extends Game {
 		asciiTerminal = new AsciiTerminal(TITLE, WINDOW_WIDTH, WINDOW_HEIGHT, TILESET_FILE, CHARACTER_WIDTH, CHARACTER_HEIGHT, SCALE);
 		asciiTerminal.setDefaultCharacterBackgroundColor(Color.DARK_GRAY);
 		asciiTerminal.setDefaultCharacterColor(Color.WHITE);
+
+//		com.chiptunetracker.player.Chanel c = new com.chiptunetracker.player.Chanel();
 
 		dataManager = new DataManager();
 

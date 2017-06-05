@@ -3,6 +3,10 @@ package com.chiptunetracker.core;
 import java.io.File;
 import java.io.IOException;
 
+import com.chiptunetracker.model.Notes;
+import com.chiptunetracker.model.Pattern;
+import com.chiptunetracker.model.Sample;
+import com.chiptunetracker.model.Sound;
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.unitgen.FunctionOscillator;

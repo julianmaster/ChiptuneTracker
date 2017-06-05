@@ -1,5 +1,7 @@
 package com.chiptunetracker.core;
 
+import com.chiptunetracker.model.Pattern;
+import com.chiptunetracker.model.Sound;
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.unitgen.LineOut;

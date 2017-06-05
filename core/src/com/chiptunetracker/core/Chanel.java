@@ -1,5 +1,8 @@
 package com.chiptunetracker.core;
 
+import com.chiptunetracker.model.Notes;
+import com.chiptunetracker.model.Sample;
+import com.chiptunetracker.model.Sound;
 import com.jsyn.Synthesizer;
 import com.jsyn.unitgen.FunctionOscillator;
 import com.jsyn.unitgen.SawtoothOscillatorDPW;
@@ -136,6 +139,7 @@ public class Chanel {
 		getSynthesizer(sound.instrument).scheduleCommand(start, new ScheduledCommand() {
 			@Override
 			public void run() {
+				voices[sound.instrument].usePreset(sound.effect != null ? sound.effect : 0);
 				voices[sound.instrument].noteOn(frequency, volume, voices[sound.instrument].getSynthesizer().createTimeStamp());
 				UICursor = position;
 			}
