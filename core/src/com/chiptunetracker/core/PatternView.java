@@ -416,44 +416,52 @@ public class PatternView extends View {
 
 		if(pattern.sample1 != null) {
 			sample1.setLabel(String.valueOf((char)254));
+			sample1.setSelected(true);
 			asciiTerminal.addActor(sample1Down);
 			asciiTerminal.addActor(sample1Up);
 		}
 		else {
 			sample1.setLabel(String.valueOf((char)253));
+			sample1.setSelected(false);
 			sample1Down.remove();
 			sample1Up.remove();
 		}
 		
 		if(pattern.sample2 != null) {
 			sample2.setLabel(String.valueOf((char)254));
+			sample2.setSelected(true);
 			asciiTerminal.addActor(sample2Down);
 			asciiTerminal.addActor(sample2Up);
 		}
 		else {
 			sample2.setLabel(String.valueOf((char)253));
+			sample2.setSelected(false);
 			sample2Down.remove();
 			sample2Up.remove();
 		}
 		
 		if(pattern.sample3 != null) {
 			sample3.setLabel(String.valueOf((char)254));
+			sample3.setSelected(true);
 			asciiTerminal.addActor(sample3Down);
 			asciiTerminal.addActor(sample3Up);
 		}
 		else {
 			sample3.setLabel(String.valueOf((char)253));
+			sample3.setSelected(false);
 			sample3Down.remove();
 			sample3Up.remove();
 		}
 		
 		if(pattern.sample4 != null) {
 			sample4.setLabel(String.valueOf((char)254));
+			sample4.setSelected(true);
 			asciiTerminal.addActor(sample4Down);
 			asciiTerminal.addActor(sample4Up);
 		}
 		else {
 			sample4.setLabel(String.valueOf((char)253));
+			sample4.setSelected(false);
 			sample4Down.remove();
 			sample4Up.remove();
 		}
