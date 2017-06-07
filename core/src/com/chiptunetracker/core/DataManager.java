@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.chiptunetracker.model.Data;
+import com.chiptunetracker.view.MenuView;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 

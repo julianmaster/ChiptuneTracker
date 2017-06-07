@@ -1,9 +1,11 @@
-package com.chiptunetracker.core;
+package com.chiptunetracker.view;
 
 import com.asciiterminal.ui.AsciiTerminalButton;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.chiptunetracker.core.ChiptuneTracker;
+import com.chiptunetracker.core.DataManager;
 
 import javax.swing.*;
 

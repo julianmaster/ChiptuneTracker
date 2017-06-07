@@ -1,4 +1,4 @@
-package com.chiptunetracker.core;
+package com.chiptunetracker.view;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +11,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.chiptunetracker.core.Chanels;
+import com.chiptunetracker.core.ChiptuneTracker;
 import com.chiptunetracker.model.Data;
 import com.chiptunetracker.model.Note;
 import com.chiptunetracker.model.Sample;
@@ -170,7 +172,7 @@ public class SampleView extends View {
 					AsciiSelectableTerminalButton button = (AsciiSelectableTerminalButton)event.getTarget();
 					button.setSelected(true);
 					currentOctaveButton = button;
-					changeOctave(button.getLabel());
+					changeOctave(button.getName());
 				}
 			});
 			
@@ -195,7 +197,7 @@ public class SampleView extends View {
 					AsciiSelectableTerminalButton button = (AsciiSelectableTerminalButton)event.getTarget();
 					button.setSelected(true);
 					currentVolumeButton = button;
-					changeVolume(button.getLabel());
+					changeVolume(button.getName());
 				}
 			});
 			
@@ -220,7 +222,7 @@ public class SampleView extends View {
 					AsciiSelectableTerminalButton button = (AsciiSelectableTerminalButton)event.getTarget();
 					button.setSelected(true);
 					currentInstrumentButton = button;
-					changeInstrument(button.getLabel());
+					changeInstrument(button.getName());
 				}
 			});
 			

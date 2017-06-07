@@ -1,4 +1,4 @@
-package com.chiptunetracker.core;
+package com.chiptunetracker.view;
 
 import com.asciiterminal.ui.AsciiSelectableTerminalButton;
 import com.asciiterminal.ui.AsciiTerminal;
@@ -8,6 +8,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.chiptunetracker.core.Chanels;
+import com.chiptunetracker.core.ChiptuneTracker;
 import com.chiptunetracker.model.*;
 
 public class PatternView extends View {
@@ -52,7 +54,7 @@ public class PatternView extends View {
 		changePatternOffset();
 	}
 	
-	public void createPatternButtons() {
+	private void createPatternButtons() {
 		// Down button
 		AsciiTerminalButton buttonDownSample = new AsciiTerminalButton(asciiTerminal, String.valueOf((char)17), 9, 2, Color.MAGENTA, Color.ORANGE, Color.ORANGE, asciiTerminal.getDefaultCharacterBackgroundColor());
 		buttonDownSample.addListener(new ClickListener() {
@@ -127,7 +129,7 @@ public class PatternView extends View {
 		terminalButtons.add(pattern4);
 	}
 	
-	public void createSampleButtons() {
+	private void createSampleButtons() {
 		sample1 = new AsciiSelectableTerminalButton(asciiTerminal, String.valueOf((char)253), 1, 4, Color.WHITE, Color.YELLOW, Color.YELLOW, Color.GREEN, asciiTerminal.getDefaultCharacterBackgroundColor());
 		sample1.addListener(new ClickListener() {
 			@Override
@@ -188,8 +190,8 @@ public class PatternView extends View {
 		});
 		terminalButtons.add(sample4);
 	}
-	
-	public void createSampleDownButtons() {
+
+	private void createSampleDownButtons() {
 		sample1Down = new AsciiTerminalButton(asciiTerminal, "-", 3, 4, Color.MAGENTA, Color.ORANGE, Color.ORANGE, asciiTerminal.getDefaultCharacterBackgroundColor());
 		sample1Down.addListener(new ClickListener() {
 			@Override
@@ -234,8 +236,8 @@ public class PatternView extends View {
 			}
 		});
 	}
-	
-	public void createSampleUpButtons() {
+
+	private void createSampleUpButtons() {
 		AsciiTerminal asciiTerminal = chiptuneTracker.getAsciiTerminal();
 		
 		sample1Up = new AsciiTerminalButton(asciiTerminal, "+", 6, 4, Color.MAGENTA, Color.ORANGE, Color.ORANGE, asciiTerminal.getDefaultCharacterBackgroundColor());
@@ -330,8 +332,8 @@ public class PatternView extends View {
 			asciiTerminal.addActor(sample4Up);
 		}
 	}
-	
-	public void changePatternOffset() {
+
+	private void changePatternOffset() {
 		if(patternOffset < 0) {
 			patternOffset = 0;
 		}
@@ -345,8 +347,8 @@ public class PatternView extends View {
 			}
 		}
 	}
-	
-	public void changePatternButtons() {
+
+	private void changePatternButtons() {
 		Data data = chiptuneTracker.getData();
 		pattern1.setName(String.format("%02d", patternOffset));
 		pattern2.setName(String.format("%02d", patternOffset + 1));
@@ -409,65 +411,64 @@ public class PatternView extends View {
 			}
 		}
 	}
-	
-	public void changeSampleButtons() {
-		chiptuneTracker.setChangeData(true);
+
+	private void changeSampleButtons() {
 		Pattern pattern = chiptuneTracker.getData().patterns.get(patternCursor);
 
 		if(pattern.sample1 != null) {
-			sample1.setLabel(String.valueOf((char)254));
+			sample1.setName(String.valueOf((char)254));
 			sample1.setSelected(true);
 			asciiTerminal.addActor(sample1Down);
 			asciiTerminal.addActor(sample1Up);
 		}
 		else {
-			sample1.setLabel(String.valueOf((char)253));
+			sample1.setName(String.valueOf((char)253));
 			sample1.setSelected(false);
 			sample1Down.remove();
 			sample1Up.remove();
 		}
 		
 		if(pattern.sample2 != null) {
-			sample2.setLabel(String.valueOf((char)254));
+			sample2.setName(String.valueOf((char)254));
 			sample2.setSelected(true);
 			asciiTerminal.addActor(sample2Down);
 			asciiTerminal.addActor(sample2Up);
 		}
 		else {
-			sample2.setLabel(String.valueOf((char)253));
+			sample2.setName(String.valueOf((char)253));
 			sample2.setSelected(false);
 			sample2Down.remove();
 			sample2Up.remove();
 		}
 		
 		if(pattern.sample3 != null) {
-			sample3.setLabel(String.valueOf((char)254));
+			sample3.setName(String.valueOf((char)254));
 			sample3.setSelected(true);
 			asciiTerminal.addActor(sample3Down);
 			asciiTerminal.addActor(sample3Up);
 		}
 		else {
-			sample3.setLabel(String.valueOf((char)253));
+			sample3.setName(String.valueOf((char)253));
 			sample3.setSelected(false);
 			sample3Down.remove();
 			sample3Up.remove();
 		}
 		
 		if(pattern.sample4 != null) {
-			sample4.setLabel(String.valueOf((char)254));
+			sample4.setName(String.valueOf((char)254));
 			sample4.setSelected(true);
 			asciiTerminal.addActor(sample4Down);
 			asciiTerminal.addActor(sample4Up);
 		}
 		else {
-			sample4.setLabel(String.valueOf((char)253));
+			sample4.setName(String.valueOf((char)253));
 			sample4.setSelected(false);
 			sample4Down.remove();
 			sample4Up.remove();
 		}
 	}
-	
-	public void changeSample(int samplePattern, int sample) {
+
+	private void changeSample(int samplePattern, int sample) {
 		chiptuneTracker.setChangeData(true);
 		Data data = chiptuneTracker.getData();
 		if(sample >= 0 && sample < 100) {
@@ -739,8 +740,8 @@ public class PatternView extends View {
 			}
 		}
 	}
-	
-	public void deleteSound() {
+
+	private void deleteSound() {
 		chiptuneTracker.setChangeData(true);
 		Sample sample = chiptuneTracker.getData().samples.get(sampleCursor);
 		sample.sounds[soundCursor] = null;
@@ -754,7 +755,6 @@ public class PatternView extends View {
 	@Override
 	public void paint() {
 		Data data = chiptuneTracker.getData();
-		Chanels chanels = chiptuneTracker.getChanels();
 		AsciiTerminal asciiTerminal = chiptuneTracker.getAsciiTerminal();
 		
 		for(int i = 0; i < ChiptuneTracker.WINDOW_WIDTH; i++) {
@@ -796,8 +796,8 @@ public class PatternView extends View {
 		paintSample(2, sample3, 15, 5, asciiTerminal);
 		paintSample(3, sample4, 22, 5, asciiTerminal);
 	}
-	
-	public void paintSample(int index, Sample sample, int offsetX, int offsetY, AsciiTerminal asciiTerminal) {
+
+	private void paintSample(int index, Sample sample, int offsetX, int offsetY, AsciiTerminal asciiTerminal) {
 		int soundOffset = 0;
 		int cursorPosition = -1;
 		
@@ -853,7 +853,6 @@ public class PatternView extends View {
 			else {
 				Color backgroundColor = Color.BLACK;
 				
-				int soundPlayCursor = chiptuneTracker.getChanels().getSampleCursor(index);
 				if(chiptuneTracker.getChanels().isPlayPattern() && i == cursorPosition) {
 					backgroundColor = Color.YELLOW;
 				}

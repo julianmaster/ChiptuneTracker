@@ -5,6 +5,10 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.chiptunetracker.model.Data;
+import com.chiptunetracker.view.MenuView;
+import com.chiptunetracker.view.PatternView;
+import com.chiptunetracker.view.SampleView;
+import com.chiptunetracker.view.View;
 
 import javax.swing.*;
 
