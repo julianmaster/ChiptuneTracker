@@ -6,14 +6,14 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.chiptunetracker.core.ChiptuneTracker;
 import com.chiptunetracker.core.DataManager;
+import com.kotcrab.vis.ui.util.dialog.Dialogs;
 
 import javax.swing.*;
 
 public class MenuView extends View {
 	
-	private boolean exportMessage = false;
 	private boolean runExport = false;
-	
+
 	public MenuView(ChiptuneTracker chiptuneTracker) {
 		super(chiptuneTracker);
 		createMenuButtons();
@@ -27,27 +27,19 @@ public class MenuView extends View {
 		newButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				try {
-					dataManager.newFile();
-				} catch (Exception exception) {
-					JOptionPane.showMessageDialog(null, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-				}
+				dataManager.newFile();
 			}
 		});
-		terminalButtons.add(newButton);
+		getListActor().add(newButton);
 		
 		AsciiTerminalButton openFileButton = new AsciiTerminalButton(asciiTerminal, "Open File...", 5, startY + 2, Color.MAGENTA, Color.ORANGE, Color.ORANGE, asciiTerminal.getDefaultCharacterBackgroundColor());
 		openFileButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				try {
-					dataManager.open();
-				} catch (Exception exception) {
-					JOptionPane.showMessageDialog(null, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-				}
+				dataManager.open();
 			}
 		});
-		terminalButtons.add(openFileButton);
+		getListActor().add(openFileButton);
 		
 		AsciiTerminalButton saveButton = new AsciiTerminalButton(asciiTerminal, "Save", 5, startY + 4, Color.MAGENTA, Color.ORANGE, Color.ORANGE, asciiTerminal.getDefaultCharacterBackgroundColor());
 		saveButton.addListener(new ClickListener() {
@@ -56,37 +48,29 @@ public class MenuView extends View {
 				try {
 					dataManager.save();
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					Dialogs.showErrorDialog(chiptuneTracker.getAsciiTerminal().getStage(), e.getMessage());
 				}
 			}
 		});
-		terminalButtons.add(saveButton);
+		getListActor().add(saveButton);
 		
 		AsciiTerminalButton saveAsButton = new AsciiTerminalButton(asciiTerminal, "Save as...", 5, startY + 6, Color.MAGENTA, Color.ORANGE, Color.ORANGE, asciiTerminal.getDefaultCharacterBackgroundColor());
 		saveAsButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				try {
-					dataManager.saveAs();
-				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-				}
+				dataManager.saveAs();
 			}
 		});
-		terminalButtons.add(saveAsButton);
+		getListActor().add(saveAsButton);
 		
 		AsciiTerminalButton exportButton = new AsciiTerminalButton(asciiTerminal, "Export", 5, startY + 8, Color.MAGENTA, Color.ORANGE, Color.ORANGE, asciiTerminal.getDefaultCharacterBackgroundColor());
 		exportButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				try {
-					dataManager.initExport(chiptuneTracker.getMenuView());
-				} catch(Exception e) {
-					JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-				}
+				dataManager.initExport(chiptuneTracker.getMenuView());
 			}
 		});
-		terminalButtons.add(exportButton);
+		getListActor().add(exportButton);
 		
 		AsciiTerminalButton exitButton = new AsciiTerminalButton(asciiTerminal, "Exit", 5, startY + 10, Color.MAGENTA, Color.ORANGE, Color.ORANGE, asciiTerminal.getDefaultCharacterBackgroundColor());
 		exitButton.addListener(new ClickListener() {
@@ -95,58 +79,36 @@ public class MenuView extends View {
 				try {
 					dataManager.exit();
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					Dialogs.showErrorDialog(chiptuneTracker.getAsciiTerminal().getStage(), e.getMessage());
 				}
 			}
 		});
-		terminalButtons.add(exitButton);
+		getListActor().add(exitButton);
 	}
 	
 	@Override
-	public void init() {
+	public void show() {
+		super.show();
 		buttonMenuView.setSelected(true);
 		buttonSampleView.setSelected(false);
 		buttonPatternView.setSelected(false);
-		super.init();
 	}
 	
-	@Override
-	public void update(double delta) {
-	}
-	
-	public void showExportMessage() {
-		exportMessage = true;
+	public void runExport() {
+		runExport = true;
 	}
 
 	@Override
-	public void paint() {
-		for(int i = 0; i < ChiptuneTracker.WINDOW_WIDTH; i++) {
-			asciiTerminal.write(i, 0, ' ', Color.WHITE, INDIGO);
-			asciiTerminal.write(i, ChiptuneTracker.WINDOW_HEIGHT - 1, ' ', Color.WHITE, INDIGO);
-		}
-		
+	public void render(float delta) {
+		super.render(delta);
+
 		if(runExport) {
 			runExport = false;
 			try {
 				chiptuneTracker.getDataManager().runExport();
-			} catch (Exception exception) {
-				JOptionPane.showMessageDialog(null, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-			}
-			for(int i = 0; i < ChiptuneTracker.WINDOW_WIDTH; i++) {
-				asciiTerminal.write(i, ChiptuneTracker.WINDOW_HEIGHT - 1, ' ', Color.WHITE, INDIGO);
+			} catch (Exception e) {
+				Dialogs.showErrorDialog(chiptuneTracker.getAsciiTerminal().getStage(), e.getMessage());
 			}
 		}
-		
-		if(exportMessage) {
-			runExport = true;
-			exportMessage = false;
-			asciiTerminal.writeString(1, ChiptuneTracker.WINDOW_HEIGHT - 1, "Export the project", Color.WHITE, INDIGO);
-		}
 	}
-	
-	@Override
-	public void quit() {
-		super.quit();
-	}
-
 }

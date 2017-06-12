@@ -8,72 +8,119 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Array;
 import com.chiptunetracker.model.Data;
 import com.chiptunetracker.view.MenuView;
+import com.kotcrab.vis.ui.util.dialog.Dialogs;
+import com.kotcrab.vis.ui.util.dialog.InputDialogAdapter;
+import com.kotcrab.vis.ui.util.dialog.OptionDialogAdapter;
+import com.kotcrab.vis.ui.widget.file.FileChooser;
+import com.kotcrab.vis.ui.widget.file.FileChooserAdapter;
+import com.kotcrab.vis.ui.widget.file.FileTypeFilter;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
 public class DataManager {
 	
 	private String currentFile = null;
-	private final JFileChooser fileChooser = new JFileChooser();
+	private final FileChooser fileChooser = new FileChooser(FileChooser.Mode.OPEN);;
 	private String fileToExport;
-	
-	public boolean newFile() throws Exception {
+
+	private boolean continueNewFile = true;
+	private boolean continueSaveAs = true;
+	private boolean continueExport = true;
+
+	public boolean newFile() {
+		continueNewFile = true;
+
 		if(ChiptuneTracker.getInstance().isChangeData()) {
-			int option;
+			String text;
 			if(currentFile == null) {
-				option = JOptionPane.showOptionDialog(null, "New file has been modified. Save changes?", "Save Resource", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, null, null);
+				text = "New file has been modified. Save changes?";
 			}
 			else {
-				option = JOptionPane.showOptionDialog(null, currentFile+" has been modified. Save changes?", "Save Resource", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, null, null);
+				text = currentFile+" has been modified. Save changes?";
 			}
-			
-			if(option == JOptionPane.YES_OPTION) {
-				if(!save()) {
-					return false;
+
+			Dialogs.showOptionDialog(ChiptuneTracker.getInstance().getAsciiTerminal().getStage(), "Save Resource", text, Dialogs.OptionDialogType.YES_NO_CANCEL, new OptionDialogAdapter() {
+				@Override
+				public void yes() {
+					try {
+						if(!save()) {
+							continueNewFile = false;
+						}
+					} catch (Exception e) {
+						Dialogs.showErrorDialog(ChiptuneTracker.getInstance().getAsciiTerminal().getStage(), e.getMessage());
+					}
 				}
-			}
-			else if(option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION) {
-				return false;
+
+				@Override
+				public void no() {
+					continueNewFile = false;
+				}
+
+				@Override
+				public void cancel() {
+					continueNewFile = false;
+				}
+			});
+
+			if(!continueNewFile) {
+				return continueNewFile;
 			}
 		}
 		
 		currentFile = null;
-		ChiptuneTracker.getInstance().setChangeData(false);
 		ChiptuneTracker.getInstance().setInitSampleView(true);
 		ChiptuneTracker.getInstance().setInitPatternView(true);
-		ChiptuneTracker.getInstance().changeView(ChiptuneTracker.getInstance().getMenuView());
+		ChiptuneTracker.getInstance().setScreen(ChiptuneTracker.getInstance().getMenuView());
 		ChiptuneTracker.getInstance().getData().samples = new LinkedList<>();
 		ChiptuneTracker.getInstance().getData().patterns = new LinkedList<>();
 		ChiptuneTracker.getInstance().setChangeData(false);
-		return true;
+
+		return continueNewFile;
 	}
 	
-	public void open() throws Exception {
+	public void open() {
 		boolean continueOpen = true;
 		if(ChiptuneTracker.getInstance().isChangeData()) {
 			continueOpen = newFile();
 		}
 		
 		if(continueOpen) {
-			int returnValue = fileChooser.showOpenDialog(null);
-			if(returnValue == JFileChooser.APPROVE_OPTION) {
-				File file = fileChooser.getSelectedFile();
-				if(file.canRead()) {
-					Serializer serializer = new Persister();
-					Data data = new Data();
-					serializer.read(data, file);
-					ChiptuneTracker.getInstance().setData(data);
-					currentFile = file.getAbsolutePath();
-					ChiptuneTracker.getInstance().setChangeData(false);
-					ChiptuneTracker.getInstance().setInitSampleView(true);
-					ChiptuneTracker.getInstance().setInitPatternView(true);
+			fileChooser.setMode(FileChooser.Mode.OPEN);
+			fileChooser.setSize(ChiptuneTracker.getInstance().getAsciiTerminal().getFullWidth(), ChiptuneTracker.getInstance().getAsciiTerminal().getFullHeight());
+			fileChooser.setListener(new FileChooserAdapter() {
+				@Override
+				public void selected (Array<FileHandle> files) {
+					File file = files.first().file();
+					if(file.canRead()) {
+						Serializer serializer = new Persister();
+						Data data = new Data();
+
+						try {
+							serializer.read(data, file);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
+						ChiptuneTracker.getInstance().setData(data);
+						currentFile = file.getAbsolutePath();
+						ChiptuneTracker.getInstance().setChangeData(false);
+						ChiptuneTracker.getInstance().setInitSampleView(true);
+						ChiptuneTracker.getInstance().setInitPatternView(true);
+					}
+					else {
+						Dialogs.showErrorDialog(ChiptuneTracker.getInstance().getAsciiTerminal().getStage(), "Unable to read the file !");
+					}
 				}
-				else {
-					throw new IOException("Unable to read the file !");
-				}
-			}
+			});
+
+			ChiptuneTracker.getInstance().getAsciiTerminal().addActor(fileChooser.fadeIn());
 		}
 	}
 	
@@ -95,71 +142,84 @@ public class DataManager {
 		}
 	}
 	
-	public boolean saveAs() throws Exception {
-		int returnValue = fileChooser.showSaveDialog(null);
-		if(returnValue == JFileChooser.APPROVE_OPTION) {
-			File file = fileChooser.getSelectedFile();
-			boolean fileExist = false;
-			if(file.exists()) {
-				fileExist = true;
-				int option = JOptionPane.showOptionDialog(null, file.getAbsolutePath()+" already exists. Do you want to replace it?", "Save As", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, null, null);
-				if(option == JOptionPane.NO_OPTION || option == JOptionPane.CANCEL_OPTION) {
-					return false;
+	public boolean saveAs() {
+		continueSaveAs = true;
+
+		fileChooser.setMode(FileChooser.Mode.SAVE);
+		fileChooser.setSize(ChiptuneTracker.getInstance().getAsciiTerminal().getFullWidth(), ChiptuneTracker.getInstance().getAsciiTerminal().getFullHeight());
+		fileChooser.setListener(new FileChooserAdapter() {
+			@Override
+			public void selected(Array<FileHandle> files) {
+				File file = files.first().file();
+				if(!file.exists() || file.canWrite()) {
+					Serializer serializer = new Persister();
+					try {
+						serializer.write(ChiptuneTracker.getInstance().getData(), file);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					currentFile = file.getAbsolutePath();
+					ChiptuneTracker.getInstance().setChangeData(false);
+					continueSaveAs = true;
+				}
+				else {
+					Dialogs.showErrorDialog(ChiptuneTracker.getInstance().getAsciiTerminal().getStage(), "Unable to write in the file !");
+					continueSaveAs = false;
 				}
 			}
-			
-			if(!fileExist || (fileExist && file.canWrite())) {
-				Serializer serializer = new Persister();
-				serializer.write(ChiptuneTracker.getInstance().getData(), file);
-				ChiptuneTracker.getInstance().setChangeData(false);
-				return true;
+
+			@Override
+			public void canceled() {
+				continueSaveAs = false;
 			}
-			else {
-				throw new IOException("Unable to write in the file !");
-			}
-		}
-		else {
-			return false;
-		}
+		});
+
+		ChiptuneTracker.getInstance().getAsciiTerminal().addActor(fileChooser.fadeIn());
+
+		return continueSaveAs;
 	}
 	
 	
 	
-	public boolean initExport(MenuView menuView) throws Exception {
-		fileChooser.setFileFilter(new FileNameExtensionFilter("WAV files", "wav"));
-		fileChooser.setAcceptAllFileFilterUsed(false);
+	public boolean initExport(MenuView menuView) {
+		continueExport = true;
 
-		int returnValue = fileChooser.showSaveDialog(null);
-		fileChooser.resetChoosableFileFilters();
-		
-		if(returnValue == JFileChooser.APPROVE_OPTION) {
-			File file = fileChooser.getSelectedFile();
-			
-			if (!getExtension(file.getName()).equalsIgnoreCase("wav")) {
-			    file = new File(file.getParentFile(), getBaseName(file.getName())+".wav"); // remove the extension (if any) and replace it with ".wav"
-			}
-			
-			boolean fileExist = false;
-			if(file.exists()) {
-				fileExist = true;
-				int option = JOptionPane.showOptionDialog(null, file.getAbsolutePath()+" already exists. Do you want to replace it?", "Export", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, null, null);
-				if(option == JOptionPane.NO_OPTION || option == JOptionPane.CANCEL_OPTION) {
-					return false;
+		FileTypeFilter typeFilter = new FileTypeFilter(false); //allow "All Types" mode where all files are shown
+		typeFilter.addRule("Audio files (*.wav)", "wav");
+		fileChooser.setFileTypeFilter(typeFilter);
+
+		fileChooser.setMode(FileChooser.Mode.SAVE);
+		fileChooser.setSize(ChiptuneTracker.getInstance().getAsciiTerminal().getFullWidth(), ChiptuneTracker.getInstance().getAsciiTerminal().getFullHeight());
+
+		fileChooser.setListener(new FileChooserAdapter() {
+			@Override
+			public void selected(Array<FileHandle> files) {
+				File file = files.first().file();
+
+				if (!getExtension(file.getName()).equalsIgnoreCase("wav")) {
+					file = new File(file.getParentFile(), getBaseName(file.getName())+".wav"); // remove the extension (if any) and replace it with ".wav"
+				}
+
+				if(!file.exists() || file.canWrite()) {
+					menuView.runExport();
+					fileToExport = file.getAbsolutePath();
+					continueExport = true;
+				}
+				else {
+					Dialogs.showErrorDialog(ChiptuneTracker.getInstance().getAsciiTerminal().getStage(), "Unable to write in the file !");
+					continueExport = false;
 				}
 			}
-			
-			if(!fileExist || (fileExist && file.canWrite())) {
-				menuView.showExportMessage();
-				fileToExport = file.getAbsolutePath();
-				return true;
+
+			@Override
+			public void canceled() {
+				continueExport = false;
 			}
-			else {
-				throw new IOException("Unable to write in the file !");
-			}
-		}
-		else {
-			return false;
-		}
+		});
+
+		ChiptuneTracker.getInstance().getAsciiTerminal().addActor(fileChooser.fadeIn());
+
+		return continueExport;
 	}
 	
 	public void runExport() throws Exception {
@@ -167,21 +227,19 @@ public class DataManager {
 		fileRecorder.savePattern(fileToExport);
 	}
 	
-	public void exit() throws Exception {
+	public boolean exit() {
 		boolean continueExit = true;
 		if(ChiptuneTracker.getInstance().isChangeData()) {
 			continueExit = newFile();
 		}
-		if(continueExit) {
-			ChiptuneTracker.getInstance().exit();
-		}
+		return continueExit;
 	}
 	
 	
 	
 	
 	
-	
+
 	/**
 	 * Utils methods
 	 */

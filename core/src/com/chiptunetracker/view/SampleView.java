@@ -70,7 +70,7 @@ public class SampleView extends View {
 				changeSample(sampleCursor - 1);
 			}
 		});
-		terminalButtons.add(buttonDownSample);
+		getListActor().add(buttonDownSample);
 		
 		AsciiTerminalButton buttonUpSample = new AsciiTerminalButton(asciiTerminal, String.valueOf((char)16), 6, 2, Color.MAGENTA, Color.ORANGE, Color.ORANGE, asciiTerminal.getDefaultCharacterBackgroundColor());
 		buttonUpSample.addListener(new ClickListener() {
@@ -79,7 +79,7 @@ public class SampleView extends View {
 				changeSample(sampleCursor + 1);
 			}
 		});
-		terminalButtons.add(buttonUpSample);
+		getListActor().add(buttonUpSample);
 	}
 
 	private void createSpeedButtons() {
@@ -95,7 +95,7 @@ public class SampleView extends View {
 				}
 			}
 		});
-		terminalButtons.add(reduceButton);
+		getListActor().add(reduceButton);
 		
 		AsciiTerminalButton addButton = new AsciiTerminalButton(asciiTerminal, "+", 15, 2, Color.MAGENTA, Color.ORANGE, Color.ORANGE, asciiTerminal.getDefaultCharacterBackgroundColor());
 		addButton.addListener(new ClickListener() {
@@ -107,7 +107,7 @@ public class SampleView extends View {
 				}
 			}
 		});
-		terminalButtons.add(addButton);
+		getListActor().add(addButton);
 	}
 
 	private void createLoopButtons() {
@@ -136,7 +136,7 @@ public class SampleView extends View {
 				buttonLoopStartSample.setName(String.format("%02d", sample.loopStart));
 			}
 		});
-		terminalButtons.add(buttonLoopStartSample);
+		getListActor().add(buttonLoopStartSample);
 		
 		buttonLoopStopSample = new AsciiTerminalButton(asciiTerminal, String.format("%02d", sample != null ? sample.loopStop : 0), ChiptuneTracker.WINDOW_WIDTH - 3, 2, Color.WHITE, Color.ORANGE, Color.ORANGE, Color.BLACK);
 		buttonLoopStopSample.addListener(new ClickListener() {
@@ -156,7 +156,7 @@ public class SampleView extends View {
 				buttonLoopStopSample.setName(String.format("%02d", sample.loopStop));
 			}
 		});
-		terminalButtons.add(buttonLoopStopSample);
+		getListActor().add(buttonLoopStopSample);
 		
 	}
 
@@ -182,7 +182,7 @@ public class SampleView extends View {
 				currentOctaveButton.setSelected(true);
 			}
 		}
-		terminalButtons.addAll(octaveButtons);
+		getListActor().addAll(octaveButtons);
 	}
 
 	private void createVolumeButtons() {
@@ -207,7 +207,7 @@ public class SampleView extends View {
 				currentVolumeButton.setSelected(true);
 			}
 		}
-		terminalButtons.addAll(volumeButtons);
+		getListActor().addAll(volumeButtons);
 	}
 
 	private void createOscillatorButtons() {
@@ -232,11 +232,13 @@ public class SampleView extends View {
 				currentInstrumentButton.setSelected(true);
 			}
 		}
-		terminalButtons.addAll(instrumentButtons);
+		getListActor().addAll(instrumentButtons);
 	}
 	
 	@Override
-	public void init() {
+	public void show() {
+		super.show();
+
 		if(chiptuneTracker.isInitSampleView()) {
 			chiptuneTracker.setInitSampleView(false);
 			changeSample(0);
@@ -251,136 +253,8 @@ public class SampleView extends View {
 		Sample sample = chiptuneTracker.getData().samples.get(sampleCursor);
 		buttonLoopStartSample.setName(String.format("%02d", sample.loopStart));
 		buttonLoopStopSample.setName(String.format("%02d", sample.loopStop));
-		
-		super.init();
 	}
 
-	@Override
-	public void update(double delta) {
-		Chanels chanels = chiptuneTracker.getChanels();
-
-		// Change sample
-		if(Gdx.input.isKeyJustPressed(Input.Keys.PLUS)) {
-			changeSample(sampleCursor + 1);
-		}
-		else if(Gdx.input.isKeyJustPressed(Input.Keys.MINUS)) {
-			changeSample(sampleCursor - 1);
-		}
-
-		// Change position cursor
-		else if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
-			if(soundConfCursor > 0) {
-				soundConfCursor--;
-			}
-			else if(soundCursor / 8 > 0) {
-				soundConfCursor = 4;
-				soundCursor = soundCursor - 8;
-			}
-		}
-		else if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
-			if(soundConfCursor < 4) {
-				soundConfCursor++;
-			}
-			else if(soundCursor / 8 < 3) {
-				soundConfCursor = 0;
-				soundCursor = soundCursor + 8;
-			}
-		}
-		else if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-			soundCursor--;
-			if(soundCursor < 0) {
-				soundCursor = Sample.SIZE - 1;
-			}
-		}
-		else if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
-			soundCursor++;
-			if(soundCursor > Sample.SIZE - 1) {
-				soundCursor = 0;
-			}
-		}
-
-		// Write note
-		else if(Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
-			setSound(Note.C);
-		}
-		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
-			setSound(Note.C_D);
-		}
-		else if(Gdx.input.isKeyJustPressed(Input.Keys.W)) {
-			setSound(Note.D);
-		}
-		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)) {
-			setSound(Note.D_D);
-		}
-		else if(Gdx.input.isKeyJustPressed(Input.Keys.E)) {
-			setSound(Note.E);
-		}
-		else if(Gdx.input.isKeyJustPressed(Input.Keys.R)) {
-			setSound(Note.F);
-		}
-		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_5)) {
-			setSound(Note.F_D);
-		}
-		else if(Gdx.input.isKeyJustPressed(Input.Keys.T)) {
-			setSound(Note.G);
-		}
-		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_6)) {
-			setSound(Note.G_D);
-		}
-		else if(Gdx.input.isKeyJustPressed(Input.Keys.Y)) {
-			setSound(Note.A);
-		}
-		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_7)) {
-			setSound(Note.A_D);
-		}
-		else if(Gdx.input.isKeyJustPressed(Input.Keys.U)) {
-			setSound(Note.B);
-		}
-		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_0)) {
-			setNumberParameter(0);
-		}
-		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_1)) {
-			setNumberParameter(1);
-		}
-		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_2)) {
-			setNumberParameter(2);
-		}
-		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_3)) {
-			setNumberParameter(3);
-		}
-		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_4)) {
-			setNumberParameter(4);
-		}
-		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_5)) {
-			setNumberParameter(5);
-		}
-		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_6)) {
-			setNumberParameter(6);
-		}
-		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_7)) {
-			setNumberParameter(7);
-		}
-		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_8)) {
-			setNumberParameter(8);
-		}
-		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_9)) {
-			setNumberParameter(9);
-		}
-		else if(Gdx.input.isKeyJustPressed(Input.Keys.DEL)) {
-			deleteSound();
-		}
-
-		// Play sample
-		else if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-			if(!chanels.isPlaySample() && !chanels.isPlayPattern()) {
-				chanels.playSample(sampleCursor);
-			}
-			else {
-				chanels.stopSample();
-			}
-		}
-	}
-	
 	/*
 	 * -----------------
 	 * Key actions
@@ -551,21 +425,11 @@ public class SampleView extends View {
 		instrumentCursor = instrument.charAt(0) - 224;
 	}
 
-	/*
-	 * ----------------
-	 * Paint
-	 * ----------------
-	 */
-	
 	@Override
-	public void paint() {
+	public void render(float delta) {
+		super.render(delta);
 		AsciiTerminal asciiTerminal = chiptuneTracker.getAsciiTerminal();
 		Sample sample = chiptuneTracker.getData().samples.get(sampleCursor);
-		
-		for(int i = 0; i < ChiptuneTracker.WINDOW_WIDTH; i++) {
-			asciiTerminal.write(i, 0, ' ', Color.WHITE, INDIGO);
-			asciiTerminal.write(i, ChiptuneTracker.WINDOW_HEIGHT - 1, ' ', Color.WHITE, INDIGO);
-		}
 		
 		// Sample
 		asciiTerminal.writeString(3, 2, String.format("%02d", sampleCursor), Color.WHITE);
@@ -636,6 +500,137 @@ public class SampleView extends View {
 				}
 			}
 		}
+
+
+
+		/*
+		 * ----------------
+		 * Update
+		 * ----------------
+		 */
+
+		Chanels chanels = chiptuneTracker.getChanels();
+
+		// Change sample
+		if(Gdx.input.isKeyJustPressed(Input.Keys.PLUS)) {
+			changeSample(sampleCursor + 1);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.MINUS)) {
+			changeSample(sampleCursor - 1);
+		}
+
+		// Change position cursor
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
+			if(soundConfCursor > 0) {
+				soundConfCursor--;
+			}
+			else if(soundCursor / 8 > 0) {
+				soundConfCursor = 4;
+				soundCursor = soundCursor - 8;
+			}
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
+			if(soundConfCursor < 4) {
+				soundConfCursor++;
+			}
+			else if(soundCursor / 8 < 3) {
+				soundConfCursor = 0;
+				soundCursor = soundCursor + 8;
+			}
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+			soundCursor--;
+			if(soundCursor < 0) {
+				soundCursor = Sample.SIZE - 1;
+			}
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
+			soundCursor++;
+			if(soundCursor > Sample.SIZE - 1) {
+				soundCursor = 0;
+			}
+		}
+
+		// Write note
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
+			setSound(Note.C);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
+			setSound(Note.C_D);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.W)) {
+			setSound(Note.D);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)) {
+			setSound(Note.D_D);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.E)) {
+			setSound(Note.E);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.R)) {
+			setSound(Note.F);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_5)) {
+			setSound(Note.F_D);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.T)) {
+			setSound(Note.G);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_6)) {
+			setSound(Note.G_D);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.Y)) {
+			setSound(Note.A);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_7)) {
+			setSound(Note.A_D);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.U)) {
+			setSound(Note.B);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_0)) {
+			setNumberParameter(0);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_1)) {
+			setNumberParameter(1);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_2)) {
+			setNumberParameter(2);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_3)) {
+			setNumberParameter(3);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_4)) {
+			setNumberParameter(4);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_5)) {
+			setNumberParameter(5);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_6)) {
+			setNumberParameter(6);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_7)) {
+			setNumberParameter(7);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_8)) {
+			setNumberParameter(8);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_9)) {
+			setNumberParameter(9);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.DEL)) {
+			deleteSound();
+		}
+
+		// Play sample
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+			if(!chanels.isPlaySample() && !chanels.isPlayPattern()) {
+				chanels.playSample(sampleCursor);
+			}
+			else {
+				chanels.stopSample();
+			}
+		}
 	}
 	
 	private void printSound(AsciiTerminal asciiTerminal, int x, int y,
@@ -651,11 +646,6 @@ public class SampleView extends View {
 		asciiTerminal.writeString(x+5, y, effect, effectColor, effectBackColor);
 	}
 
-	@Override
-	public void quit() {
-		super.quit();
-	}
-	
 	public int getVolumeCursor() {
 		return volumeCursor;
 	}

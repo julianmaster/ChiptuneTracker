@@ -9,6 +9,8 @@ import com.chiptunetracker.view.MenuView;
 import com.chiptunetracker.view.PatternView;
 import com.chiptunetracker.view.SampleView;
 import com.chiptunetracker.view.View;
+import com.kotcrab.vis.ui.VisUI;
+import com.kotcrab.vis.ui.util.dialog.Dialogs;
 
 import javax.swing.*;
 
@@ -20,7 +22,7 @@ public class ChiptuneTracker extends Game {
 	public static final String ICON_FILE = "icon.png";
 	public static final int CHARACTER_WIDTH = 12;
 	public static final int CHARACTER_HEIGHT = 12;
-	public static final int SCALE = 2;
+	public static final int SCALE = 3;
 
 	private static ChiptuneTracker instance = new ChiptuneTracker();
 
@@ -34,7 +36,6 @@ public class ChiptuneTracker extends Game {
 	private boolean changeData = false;
 	private Chanels chanels = new Chanels();
 
-	private View currentView;
 	private MenuView menuView;
 	private SampleView sampleView;
 	private PatternView patternView;
@@ -48,6 +49,8 @@ public class ChiptuneTracker extends Game {
 		asciiTerminal.setDefaultCharacterBackgroundColor(Color.DARK_GRAY);
 		asciiTerminal.setDefaultCharacterColor(Color.WHITE);
 
+		VisUI.load();
+
 //		com.chiptunetracker.player.Chanel c = new com.chiptunetracker.player.Chanel();
 
 		dataManager = new DataManager();
@@ -55,41 +58,44 @@ public class ChiptuneTracker extends Game {
 		menuView = new MenuView(this);
 		sampleView = new SampleView(this);
 		patternView = new PatternView(this);
-		changeView(sampleView);
 
-		super.setScreen(asciiTerminal);
+		setScreen(sampleView);
 	}
 
 	@Override
 	public void render () {
-		currentView.update(Gdx.graphics.getDeltaTime());
+		// Sounds update
 		chanels.update();
 
+		// Render
+		asciiTerminal.render(Gdx.graphics.getDeltaTime());
+
+		// Clear
 		asciiTerminal.clear();
-		currentView.paint();
+
+		// Update
 		super.render();
 	}
 
-	public void changeView(View nextView) {
-		if(currentView != null) {
-			currentView.quit();
-		}
-		currentView = nextView;
-		currentView.init();
+	@Override
+	public void resize(int width, int height) {
+		super.resize(width, height);
+		asciiTerminal.resize(width, height);
 	}
-	
+
 	@Override
 	public void dispose () {
+		if(!dataManager.exit()) {
+			return;
+		}
+		super.dispose();
+		asciiTerminal.dispose();
 		try {
 			dataManager.exit();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			Dialogs.showErrorDialog(asciiTerminal.getStage(), e.getMessage());
 		}
-	}
-
-	public void exit() {
-		super.dispose();
-		asciiTerminal.dispose();
+		VisUI.dispose();
 	}
 
 	public static ChiptuneTracker getInstance() {
