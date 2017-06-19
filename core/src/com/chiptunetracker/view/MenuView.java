@@ -31,7 +31,7 @@ public class MenuView extends View {
 			}
 		});
 		getListActor().add(newButton);
-		
+
 		AsciiTerminalButton openFileButton = new AsciiTerminalButton(asciiTerminal, "Open File...", 5, startY + 2, Color.MAGENTA, Color.ORANGE, Color.ORANGE, asciiTerminal.getDefaultCharacterBackgroundColor());
 		openFileButton.addListener(new ClickListener() {
 			@Override
@@ -62,12 +62,12 @@ public class MenuView extends View {
 			}
 		});
 		getListActor().add(saveAsButton);
-		
+
 		AsciiTerminalButton exportButton = new AsciiTerminalButton(asciiTerminal, "Export", 5, startY + 8, Color.MAGENTA, Color.ORANGE, Color.ORANGE, asciiTerminal.getDefaultCharacterBackgroundColor());
 		exportButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				dataManager.initExport(chiptuneTracker.getMenuView());
+//				dataManager.initExport(chiptuneTracker.getMenuView());
 			}
 		});
 		getListActor().add(exportButton);
@@ -105,7 +105,7 @@ public class MenuView extends View {
 		if(runExport) {
 			runExport = false;
 			try {
-				chiptuneTracker.getDataManager().runExport();
+//				chiptuneTracker.getDataManager().runExport();
 			} catch (Exception e) {
 				Dialogs.showErrorDialog(chiptuneTracker.getAsciiTerminal().getStage(), e.getMessage());
 			}

@@ -22,7 +22,7 @@ public class ChiptuneTracker extends Game {
 	public static final String ICON_FILE = "icon.png";
 	public static final int CHARACTER_WIDTH = 12;
 	public static final int CHARACTER_HEIGHT = 12;
-	public static final int SCALE = 3;
+	public static final int SCALE = 2;
 
 	private static ChiptuneTracker instance = new ChiptuneTracker();
 
@@ -31,6 +31,7 @@ public class ChiptuneTracker extends Game {
 	private boolean initSampleView = true;
 	private boolean initPatternView = true;
 
+	private String currentFile = null;
 	private Data data = new Data();
 	private DataManager dataManager;
 	private boolean changeData = false;
@@ -85,10 +86,14 @@ public class ChiptuneTracker extends Game {
 
 	@Override
 	public void dispose () {
-		if(!dataManager.exit()) {
-			return;
-		}
+
+	}
+
+	public void exit() {
 		super.dispose();
+		menuView.dispose();
+		sampleView.dispose();
+		patternView.dispose();
 		asciiTerminal.dispose();
 		try {
 			dataManager.exit();
@@ -97,6 +102,7 @@ public class ChiptuneTracker extends Game {
 		}
 		VisUI.dispose();
 	}
+
 
 	public static ChiptuneTracker getInstance() {
 		return instance;
