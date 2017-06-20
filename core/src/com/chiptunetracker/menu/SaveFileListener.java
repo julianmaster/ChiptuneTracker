@@ -33,6 +33,9 @@ public class SaveFileListener implements FileChooserListener {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            if(currentFile == null) {
+                currentFile = new StringBuilder();
+            }
             currentFile.setLength(0);
             currentFile.append(file.getAbsolutePath());
             ChiptuneTracker.getInstance().setChangeData(false);

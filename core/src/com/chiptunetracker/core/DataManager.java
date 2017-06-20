@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import com.chiptunetracker.menu.NewFileListener;
+import com.chiptunetracker.menu.OpenFileListener;
 import com.chiptunetracker.menu.SaveFileListener;
 import com.chiptunetracker.model.Data;
 import com.chiptunetracker.view.MenuView;
@@ -35,85 +36,15 @@ public class DataManager {
 	
 	private StringBuilder currentFile = null;
 	private final FileChooser fileChooser = new FileChooser(FileChooser.Mode.OPEN);
-	private String fileToExport;
 
 	public void newFile() {
-		if(ChiptuneTracker.getInstance().isChangeData()) {
-			String text;
-			if(currentFile == null) {
-				text = "New file has been modified. Save changes?";
-			}
-			else {
-				text = currentFile+" has been modified. Save changes?";
-			}
-
-			Dialogs.showOptionDialog(ChiptuneTracker.getInstance().getAsciiTerminal().getStage(), "Save Resource", text, Dialogs.OptionDialogType.YES_NO_CANCEL, new NewFileListener(fileChooser, currentFile));
-
-			((View) ChiptuneTracker.getInstance().getScreen()).setListActorTouchables(Touchable.disabled);
-		}
+		new NewFileListener(fileChooser, currentFile);
 	}
 	
 	public void open() {
-		if(ChiptuneTracker.getInstance().isChangeData()) {
-			String text;
-			if(currentFile == null) {
-				text = "New file has been modified. Save changes?";
-			}
-			else {
-				text = currentFile+" has been modified. Save changes?";
-			}
-
-			Dialogs.showOptionDialog(ChiptuneTracker.getInstance().getAsciiTerminal().getStage(), "Save Resource", text, Dialogs.OptionDialogType.YES_NO_CANCEL, new NewFileListener(fileChooser, currentFile) {
-				@Override
-				public void additionalYesActions() {
-					openAction();
-				}
-
-				@Override
-				public void additionalNoActions() {
-					additionalYesActions();
-				}
-			});
-
-			((View) ChiptuneTracker.getInstance().getScreen()).setListActorTouchables(Touchable.disabled);
-		}
-		else {
-			openAction();
-		}
+		new OpenFileListener(fileChooser, currentFile);
 	}
 
-	public void openAction() {
-		fileChooser.setMode(FileChooser.Mode.OPEN);
-		fileChooser.setSize(ChiptuneTracker.getInstance().getAsciiTerminal().getFullWidth(), ChiptuneTracker.getInstance().getAsciiTerminal().getFullHeight());
-		fileChooser.setListener(new FileChooserAdapter() {
-			@Override
-			public void selected (Array<FileHandle> files) {
-				File file = files.first().file();
-				if(file.canRead()) {
-					Serializer serializer = new Persister();
-					Data data = new Data();
-
-					try {
-						serializer.read(data, file);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-
-					ChiptuneTracker.getInstance().setData(data);
-					currentFile.setLength(0);
-					currentFile.append(file.getAbsolutePath());
-					ChiptuneTracker.getInstance().setChangeData(false);
-					ChiptuneTracker.getInstance().setInitSampleView(true);
-					ChiptuneTracker.getInstance().setInitPatternView(true);
-				}
-				else {
-					Dialogs.showErrorDialog(ChiptuneTracker.getInstance().getAsciiTerminal().getStage(), "Unable to read the file !");
-				}
-			}
-		});
-		ChiptuneTracker.getInstance().getAsciiTerminal().addActor(fileChooser.fadeIn());
-	}
-	
 	public void save() throws Exception {
 		if(currentFile != null) {
 			File file = new File(currentFile.toString());
@@ -187,26 +118,6 @@ public class DataManager {
 //		FileRecorder fileRecorder = new FileRecorder();
 //		fileRecorder.savePattern(fileToExport);
 //	}
-	
-	public void exit() {
-
-	}
-	
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -218,8 +129,7 @@ public class DataManager {
 	/**
 	 * Utils methods
 	 */
-	
-	
+
 	
 	private Integer indexOfLastSeparator(String filename) {
 	    if (filename == null) {

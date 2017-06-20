@@ -86,23 +86,13 @@ public class ChiptuneTracker extends Game {
 
 	@Override
 	public void dispose () {
-
-	}
-
-	public void exit() {
 		super.dispose();
 		menuView.dispose();
 		sampleView.dispose();
 		patternView.dispose();
 		asciiTerminal.dispose();
-		try {
-			dataManager.exit();
-		} catch (Exception e) {
-			Dialogs.showErrorDialog(asciiTerminal.getStage(), e.getMessage());
-		}
 		VisUI.dispose();
 	}
-
 
 	public static ChiptuneTracker getInstance() {
 		return instance;

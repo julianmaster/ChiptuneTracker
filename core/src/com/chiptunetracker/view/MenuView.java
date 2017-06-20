@@ -1,6 +1,7 @@
 package com.chiptunetracker.view;
 
 import com.asciiterminal.ui.AsciiTerminalButton;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -76,11 +77,7 @@ public class MenuView extends View {
 		exitButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				try {
-					dataManager.exit();
-				} catch (Exception e) {
-					Dialogs.showErrorDialog(chiptuneTracker.getAsciiTerminal().getStage(), e.getMessage());
-				}
+				Gdx.app.exit();
 			}
 		});
 		getListActor().add(exitButton);

@@ -24,6 +24,24 @@ public class NewFileListener implements OptionDialogListener {
     public NewFileListener(FileChooser fileChooser, StringBuilder currentFile) {
         this.fileChooser = fileChooser;
         this.currentFile = currentFile;
+
+        if(ChiptuneTracker.getInstance().isChangeData()) {
+            String text;
+            if(currentFile == null) {
+                text = "New file has been modified. Save changes?";
+            }
+            else {
+                text = currentFile+" has been modified. Save changes?";
+            }
+
+            Dialogs.showOptionDialog(ChiptuneTracker.getInstance().getAsciiTerminal().getStage(), "Save Resource", text, Dialogs.OptionDialogType.YES_NO_CANCEL, this);
+
+            ((View) ChiptuneTracker.getInstance().getScreen()).setListActorTouchables(Touchable.disabled);
+        }
+        else {
+            clearAction();
+            additionalYesActions();
+        }
     }
 
     @Override
@@ -76,6 +94,7 @@ public class NewFileListener implements OptionDialogListener {
 
     @Override
     public void no() {
+        clearAction();
         additionalNoActions();
         ((View) ChiptuneTracker.getInstance().getScreen()).setListActorTouchables(Touchable.enabled);
     }

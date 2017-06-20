@@ -13,6 +13,15 @@ public class DesktopLauncher {
 			public void exit() {
 				new ExitListener(ChiptuneTracker.getInstance().getDataManager().getFileChooser(), ChiptuneTracker.getInstance().getDataManager().getCurrentFile()) {
 					@Override
+					public void additionalYesActions() {
+						endRun();
+					}
+
+					@Override
+					public void additionalNoActions() {
+						endRun();
+					}
+
 					public void endRun() {
 						postRunnable(new Runnable() {
 							@Override
@@ -21,7 +30,7 @@ public class DesktopLauncher {
 							}
 						});
 					}
-				}.run();
+				};
 			}
 		};
 	}
