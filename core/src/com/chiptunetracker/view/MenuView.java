@@ -13,8 +13,6 @@ import javax.swing.*;
 
 public class MenuView extends View {
 	
-	private boolean runExport = false;
-
 	public MenuView(ChiptuneTracker chiptuneTracker) {
 		super(chiptuneTracker);
 		createMenuButtons();
@@ -68,7 +66,7 @@ public class MenuView extends View {
 		exportButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-//				dataManager.initExport(chiptuneTracker.getMenuView());
+				dataManager.initExport(chiptuneTracker.getMenuView());
 			}
 		});
 		getListActor().add(exportButton);
@@ -91,21 +89,8 @@ public class MenuView extends View {
 		buttonPatternView.setSelected(false);
 	}
 	
-	public void runExport() {
-		runExport = true;
-	}
-
 	@Override
 	public void render(float delta) {
 		super.render(delta);
-
-		if(runExport) {
-			runExport = false;
-			try {
-//				chiptuneTracker.getDataManager().runExport();
-			} catch (Exception e) {
-				Dialogs.showErrorDialog(chiptuneTracker.getAsciiTerminal().getStage(), e.getMessage());
-			}
-		}
 	}
 }

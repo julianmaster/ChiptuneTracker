@@ -73,52 +73,46 @@ public class DataManager {
 	
 	
 	
-//	public boolean initExport(MenuView menuView) {
-//		continueExport = true;
-//
-//		FileTypeFilter typeFilter = new FileTypeFilter(false); //allow "All Types" mode where all files are shown
-//		typeFilter.addRule("Audio files (*.wav)", "wav");
-//		fileChooser.setFileTypeFilter(typeFilter);
-//
-//		fileChooser.setMode(FileChooser.Mode.SAVE);
-//		fileChooser.setSize(ChiptuneTracker.getInstance().getAsciiTerminal().getFullWidth(), ChiptuneTracker.getInstance().getAsciiTerminal().getFullHeight());
-//
-//		fileChooser.setListener(new FileChooserAdapter() {
-//			@Override
-//			public void selected(Array<FileHandle> files) {
-//				File file = files.first().file();
-//
-//				if (!getExtension(file.getName()).equalsIgnoreCase("wav")) {
-//					file = new File(file.getParentFile(), getBaseName(file.getName())+".wav"); // remove the extension (if any) and replace it with ".wav"
-//				}
-//
-//				if(!file.exists() || file.canWrite()) {
-//					menuView.runExport();
-//					fileToExport = file.getAbsolutePath();
-//					continueExport = true;
-//				}
-//				else {
-//					Dialogs.showErrorDialog(ChiptuneTracker.getInstance().getAsciiTerminal().getStage(), "Unable to write in the file !");
-//					continueExport = false;
-//				}
-//			}
-//
-//			@Override
-//			public void canceled() {
-//				continueExport = false;
-//			}
-//		});
-//
-//		ChiptuneTracker.getInstance().getAsciiTerminal().addActor(fileChooser.fadeIn());
-//
-//		return continueExport;
-//	}
-	
-//	public void runExport() throws Exception {
-//		FileRecorder fileRecorder = new FileRecorder();
-//		fileRecorder.savePattern(fileToExport);
-//	}
+	public void initExport(MenuView menuView) {
+		FileTypeFilter typeFilter = new FileTypeFilter(false); //allow "All Types" mode where all files are shown
+		typeFilter.addRule("Audio files (*.wav)", "wav");
+		fileChooser.setFileTypeFilter(typeFilter);
 
+		fileChooser.setMode(FileChooser.Mode.SAVE);
+		fileChooser.setSize(ChiptuneTracker.getInstance().getAsciiTerminal().getFullWidth(), ChiptuneTracker.getInstance().getAsciiTerminal().getFullHeight());
+
+		fileChooser.setListener(new FileChooserAdapter() {
+			@Override
+			public void selected(Array<FileHandle> files) {
+				File file = files.first().file();
+
+				if (!getExtension(file.getName()).equalsIgnoreCase("wav")) {
+					file = new File(file.getParentFile(), getBaseName(file.getName())+".wav"); // remove the extension (if any) and replace it with ".wav"
+				}
+
+				if(!file.exists() || file.canWrite()) {
+					String fileToExport = file.getAbsolutePath();
+
+					FileRecorder fileRecorder = new FileRecorder();
+					try {
+						fileRecorder.savePattern(fileToExport);
+					} catch (Exception e) {
+						Dialogs.showErrorDialog(ChiptuneTracker.getInstance().getAsciiTerminal().getStage(), e.getMessage());
+					}
+				}
+				else {
+					Dialogs.showErrorDialog(ChiptuneTracker.getInstance().getAsciiTerminal().getStage(), "Unable to write in the file !");
+				}
+			}
+
+			@Override
+			public void canceled() {
+			}
+		});
+
+		ChiptuneTracker.getInstance().getAsciiTerminal().addActor(fileChooser.fadeIn());
+	}
+	
 
 
 

@@ -4,6 +4,7 @@ import com.asciiterminal.ui.AsciiTerminal;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.chiptunetracker.model.Data;
 import com.chiptunetracker.view.MenuView;
 import com.chiptunetracker.view.PatternView;
@@ -31,7 +32,6 @@ public class ChiptuneTracker extends Game {
 	private boolean initSampleView = true;
 	private boolean initPatternView = true;
 
-	private String currentFile = null;
 	private Data data = new Data();
 	private DataManager dataManager;
 	private boolean changeData = false;
