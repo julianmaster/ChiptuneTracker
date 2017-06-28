@@ -786,8 +786,16 @@ public class PatternView extends View {
 			}
 		}
 
-		if(chanels.isPlayPattern() && patternCursor != chanels.getPatternCursor()) {
-			patternCursor = chanels.getPatternCursor();
+		if(chanels.isPlayPattern()) {
+			if(patternCursor != chanels.getPatternCursor()) {
+				patternCursor = chanels.getPatternCursor();
+			}
+			if(patternCursor < patternOffset) {
+				patternOffset = patternCursor;
+			}
+			if(patternCursor > patternOffset + 3) {
+				patternOffset = patternCursor - 3;
+			}
 			changePatternButtons();
 			changeSampleButtons();
 		}
