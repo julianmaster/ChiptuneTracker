@@ -27,9 +27,9 @@ public class WhiteNoiseCircuit extends CustomCircuit {
 	public UnitOutputPort getOutput() {
 		return ampEnv.getOutput();
 	}
-	
+
 	@Override
-	public void usePreset(int presetIndex) {
+	public void usePreset(int presetIndex, double duration, TimeStamp timeStamp) {
 		switch (presetIndex) {
 			case 0:
 				ampEnv.attack.set(0.01);
@@ -44,7 +44,7 @@ public class WhiteNoiseCircuit extends CustomCircuit {
 				break;
 		}
 	}
-	
+
 	@Override
 	public void noteOn(double frequency, double amplitude, TimeStamp timeStamp) {
 		gen.amplitude.set(amplitude, timeStamp);
