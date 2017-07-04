@@ -1,27 +1,26 @@
 package com.chiptunetracker.core;
 
 import com.jsyn.ports.UnitOutputPort;
-import com.jsyn.unitgen.EnvelopeAttackDecay;
-import com.jsyn.unitgen.EnvelopeDAHDSR;
-import com.jsyn.unitgen.LinearRamp;
-import com.jsyn.unitgen.UnitOscillator;
+import com.jsyn.unitgen.*;
 import com.softsynth.shared.time.TimeStamp;
 
 public class OscillatorCircuit extends CustomCircuit {
 	private UnitOscillator osc;
-//	private EnvelopeDAHDSR ampEnv;
-	private EnvelopeAttackDecay ampEnv;
+	private EnvelopeDAHDSR ampEnv;
+	private ContinuousRamp ramp;
 
 	public OscillatorCircuit(UnitOscillator osc) {
 		this.osc = osc;
 		
 		add(osc);
-//		add(ampEnv = new EnvelopeDAHDSR());
-		add(ampEnv = new EnvelopeAttackDecay());
+		add(ampEnv = new EnvelopeDAHDSR());
 
 		osc.output.connect(ampEnv.amplitude);
 
 		ampEnv.setupAutoDisable(this);
+		ampEnv.attack.set(0.01d);
+		ampEnv.sustain.set(1.0d);
+		ampEnv.release.set(0.01d);
 
 		usePreset(0);
 	}
@@ -33,59 +32,12 @@ public class OscillatorCircuit extends CustomCircuit {
 
 	@Override
 	public void usePreset(int presetIndex, double duration, TimeStamp timeStamp) {
-//		switch (presetIndex) {
-//			case 0:
-//				ampEnv.attack.set(0.01d, timeStamp);
-//				ampEnv.hold.set(0.0d, timeStamp);
-//				ampEnv.decay.set(0.2d, timeStamp);
-//				ampEnv.sustain.set(1.0d, timeStamp);
-//				ampEnv.release.set(0.01d, timeStamp);
-//				break;
-//
-//			case 4:
-//				ampEnv.attack.set(duration - 2 * 0.01d, timeStamp);
-//				ampEnv.hold.set(0.0d, timeStamp);
-//				ampEnv.decay.set(0.01d, timeStamp);
-//				ampEnv.sustain.set(1.0d, timeStamp);
-//				ampEnv.release.set(0.01d, timeStamp);
-//				break;
-//
-//			case 5:
-//				ampEnv.attack.set(0.01d, timeStamp);
-//				ampEnv.hold.set(0.0d, timeStamp);
-//				ampEnv.decay.set(duration*1/3 - 0.01d, timeStamp);
-//				ampEnv.sustain.set(0.1d, timeStamp);
-//				ampEnv.release.set(duration*2/3 - 0.01d, timeStamp);
-//				break;
-//
-//			default:
-//				ampEnv.attack.set(0.01d, timeStamp);
-//				ampEnv.hold.set(0.0d, timeStamp);
-//				ampEnv.decay.set(0.2d, timeStamp);
-//				ampEnv.sustain.set(1.0d, timeStamp);
-//				ampEnv.release.set(0.01d, timeStamp);
-//				break;
-//		}
-
 		switch (presetIndex) {
 			case 0:
-				ampEnv.attack.set(0.05d, timeStamp);
-				ampEnv.decay.set(duration - 0.05d, timeStamp);
-				break;
 
-			case 4:
-				ampEnv.attack.set(duration - 0.05d, timeStamp);
-				ampEnv.decay.set(0.05d, timeStamp);
-				break;
-
-			case 5:
-				ampEnv.attack.set(0.05d, timeStamp);
-				ampEnv.decay.set(duration - 0.05d, timeStamp);
 				break;
 
 			default:
-				ampEnv.attack.set(0.05d, timeStamp);
-				ampEnv.decay.set(duration - 0.05d, timeStamp);
 				break;
 		}
 	}
