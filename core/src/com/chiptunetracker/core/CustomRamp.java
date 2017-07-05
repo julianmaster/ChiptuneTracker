@@ -9,56 +9,62 @@ import com.jsyn.unitgen.UnitFilter;
  */
 public class CustomRamp extends UnitFilter {
 
-    public UnitVariablePort current;
+    private final double maxAmplitude;
 
+    public UnitInputPort amplitude;
     public UnitInputPort time;
     public UnitInputPort valueReach;
+    private double a = 0.0d;
+    private double b = 1.0d;
     private int framesLeft;
 
-    public CustomRamp() {
-        addPort(time = new UnitInputPort(1, "Time", 1.0));
-        addPort(valueReach = new UnitInputPort(1, "Value Reach", 1.0));
-        addPort(current = new UnitVariablePort("Current"));
+    public CustomRamp(double maxAmplitude) {
+        this.maxAmplitude = maxAmplitude;
+        addPort(time = new UnitInputPort(1, "Time", 0.0d));
+        addPort(valueReach = new UnitInputPort(1, "Value Reach", 1.0d));
+        addPort(amplitude = new UnitInputPort(1, "Amplitude", 1.0d));
     }
 
     @Override
     public void generate(int start, int limit) {
-        double[] outputs = output.getValues();
         double[] inputs = input.getValues();
-        double currentTime = time.getValues()[0];
-        double currentValue = current.getValue();
-        double inputValue = currentValue;
+        double[] outputs = output.getValues();
+        double currentTime = time.getValue();
+        double currentValue = amplitude.getValue();
 
+        double inputValue;
         for (int i = start; i < limit; i++) {
             inputValue = inputs[i];
-            double x;
-            if (inputValue != current.getValue()) {
-                x = framesLeft;
-                // Calculate coefficients.
-//                double currentSlope = x * ((3 * a * x) + (2 * b));
+//            double x;
+            double delta = 0d;
+            if (valueReach.getValue() != amplitude.getValue()) {
 
-                framesLeft = (int) (getSynthesisEngine().getFrameRate() * currentTime);
-                if (framesLeft < 1) {
-                    framesLeft = 1;
-                }
-                x = framesLeft;
+                delta = (double)getSynthesisEngine().getFrameRate() * getSynthesisEngine().getFramePeriod();
+                System.out.println(delta);
+                time.set(time.getValue() - delta);
+//                framesLeft = (int) (getSynthesisEngine().getFrameRate() * currentTime);
+//                if (framesLeft < 1) {
+//                    framesLeft = 1;
+//                }
+//                x = framesLeft;
+
                 // Calculate coefficients.
-//                d = inputValue;
-//                double xsq = x * x;
-//                b = ((3 * currentValue) - (currentSlope * x) - (3 * d)) / xsq;
-//                a = (currentSlope - (2 * b * x)) / (3 * xsq);
-//                previousInput = inputValue;
+                a = (valueReach.get() - amplitude.get()) / (time.get());
+                b = valueReach.get() - a * time.get();
             }
 
-            if (framesLeft > 0) {
-                x = --framesLeft;
-                // Cubic polynomial. c==0
-//                currentValue = (x * (x * ((x * a) + b))) + d;
-            }
+//            if (framesLeft > 0) {
+//                x = --framesLeft;
+//                currentValue = a*x + b;
 
-            outputs[i] = currentValue;
+//                currentValue = a*delta + b;
+                amplitude.set(a*delta + b);
+//            }
+
+            outputs[i] = amplitude.getValue() * maxAmplitude;
         }
 
-        current.setValue(currentValue);
+        System.out.println(amplitude.getValue());
+//        amplitude.set(currentValue);
     }
 }

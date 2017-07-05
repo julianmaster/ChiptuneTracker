@@ -7,14 +7,16 @@ import com.softsynth.shared.time.TimeStamp;
 public class OscillatorCircuit extends CustomCircuit {
 	private UnitOscillator osc;
 	private EnvelopeDAHDSR ampEnv;
-	private ContinuousRamp ramp;
+	private CustomRamp ramp;
 
 	public OscillatorCircuit(UnitOscillator osc) {
 		this.osc = osc;
 		
 		add(osc);
 		add(ampEnv = new EnvelopeDAHDSR());
+		add(ramp = new CustomRamp(1.0d/(double)Chanels.CHANELS));
 
+		osc.amplitude.connect(ramp.output);
 		osc.output.connect(ampEnv.amplitude);
 
 		ampEnv.setupAutoDisable(this);
@@ -34,7 +36,18 @@ public class OscillatorCircuit extends CustomCircuit {
 	public void usePreset(int presetIndex, double duration, TimeStamp timeStamp) {
 		switch (presetIndex) {
 			case 0:
+				break;
 
+			case 4:
+				double reachAmplitude = ramp.amplitude.get();
+				ramp.amplitude.set(0);
+				ramp.valueReach.set(reachAmplitude);
+				ramp.time.set(duration);
+				break;
+
+			case 5:
+				ramp.valueReach.set(0);
+				ramp.time.set(duration);
 				break;
 
 			default:
@@ -45,7 +58,8 @@ public class OscillatorCircuit extends CustomCircuit {
 	@Override
 	public void noteOn(double frequency, double amplitude, TimeStamp timeStamp) {
 		osc.frequency.set(frequency, timeStamp);
-		osc.amplitude.set(amplitude, timeStamp);
+		ramp.amplitude.set(amplitude, timeStamp);
+//		osc.amplitude.set(amplitude, timeStamp);
 		
 		ampEnv.input.on(timeStamp);
 	}
