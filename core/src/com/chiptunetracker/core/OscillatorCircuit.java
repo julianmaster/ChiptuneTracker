@@ -14,7 +14,7 @@ public class OscillatorCircuit extends CustomCircuit {
 		
 		add(osc);
 		add(ampEnv = new EnvelopeDAHDSR());
-		add(ramp = new CustomRamp(1.0d/(double)Chanels.CHANELS));
+		add(ramp = new CustomRamp());
 
 		osc.amplitude.connect(ramp.output);
 		osc.output.connect(ampEnv.amplitude);
@@ -38,16 +38,31 @@ public class OscillatorCircuit extends CustomCircuit {
 			case 0:
 				break;
 
+			case 1:
+				break;
+
+			case 2:
+				break;
+
+			case 3:
+				break;
+
 			case 4:
 				double reachAmplitude = ramp.amplitude.get();
-				ramp.amplitude.set(0);
+				ramp.amplitude.set(0.0d);
 				ramp.valueReach.set(reachAmplitude);
 				ramp.time.set(duration);
 				break;
 
 			case 5:
-				ramp.valueReach.set(0);
+				ramp.valueReach.set(0.0d);
 				ramp.time.set(duration);
+				break;
+
+			case 6:
+				break;
+
+			case 7:
 				break;
 
 			default:

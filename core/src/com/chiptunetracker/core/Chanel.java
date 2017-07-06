@@ -140,8 +140,8 @@ public class Chanel {
 			@Override
 			public void run() {
 //				voices[sound.instrument].usePreset(sound.effect != null ? sound.effect : 0);
-				voices[sound.instrument].usePreset(sound.effect != null ? sound.effect : 0, samplefrequency, voices[sound.instrument].getSynthesizer().createTimeStamp());
 				voices[sound.instrument].noteOn(frequency, volume, voices[sound.instrument].getSynthesizer().createTimeStamp());
+				voices[sound.instrument].usePreset(sound.effect != null ? sound.effect : 0, samplefrequency, voices[sound.instrument].getSynthesizer().createTimeStamp());
 				UICursor = position;
 			}
 		});
