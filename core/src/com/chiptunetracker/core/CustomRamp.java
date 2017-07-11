@@ -28,14 +28,15 @@ public class CustomRamp extends UnitFilter {
         for (int i = start; i < limit; i++) {
             if (valueReach.getValue() != amplitude.getValue()) {
                 double delta = getSynthesisEngine().getFramePeriod();
-                time.set(time.getValue() - delta);
 
                 // Calculate coefficients.
-                a = -((valueReach.get() - amplitude.get()) / (time.get()));
-                b = valueReach.get() - a * time.get();
+                a = -(valueReach.get() - amplitude.get()) / time.get();
+                b = valueReach.get();
+
+                time.set(time.getValue() - delta);
             }
 
-            amplitude.set(b);
+            amplitude.set(a*time.get() + b);
 
             System.out.println(amplitude.getValue());
 
