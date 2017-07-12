@@ -48,15 +48,17 @@ public class OscillatorCircuit extends CustomCircuit {
 				break;
 
 			case 4:
-				double reachAmplitude = ramp.amplitude.get();
-				ramp.amplitude.set(0.0d);
-				ramp.valueReach.set(reachAmplitude);
-				ramp.time.set(duration);
+				double reachAmplitude = ramp.endValue.get();
+				ramp.startValue.set(0.0d, timeStamp);
+				ramp.endValue.set(reachAmplitude, timeStamp);
+				ramp.duration.set(duration, timeStamp);
+				ramp.time.set(duration, timeStamp);
 				break;
 
 			case 5:
-				ramp.valueReach.set(0.0d);
-				ramp.time.set(duration);
+				ramp.endValue.set(0.0d);
+				ramp.duration.set(duration, timeStamp);
+				ramp.time.set(duration, timeStamp);
 				break;
 
 			case 6:
@@ -73,9 +75,9 @@ public class OscillatorCircuit extends CustomCircuit {
 	@Override
 	public void noteOn(double frequency, double amplitude, TimeStamp timeStamp) {
 		osc.frequency.set(frequency, timeStamp);
-		ramp.amplitude.set(amplitude, timeStamp);
-//		osc.amplitude.set(amplitude, timeStamp);
-		
+		ramp.startValue.set(amplitude, timeStamp);
+		ramp.endValue.set(amplitude, timeStamp);
+
 		ampEnv.input.on(timeStamp);
 	}
 	

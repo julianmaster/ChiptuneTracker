@@ -9,16 +9,18 @@ import com.jsyn.unitgen.UnitFilter;
  */
 public class CustomRamp extends UnitFilter {
 
-    public UnitInputPort amplitude;
+    public UnitInputPort startValue;
+    public UnitInputPort endValue;
+    public UnitInputPort duration;
     public UnitInputPort time;
-    public UnitInputPort valueReach;
-    private double a = 0.0d;
-    private double b = 0.25d;
+    private Double a = 0.0d;
+    private Double b = 0.25d;
 
     public CustomRamp() {
+        addPort(startValue = new UnitInputPort(1, "Start", 0.25d));
+        addPort(endValue = new UnitInputPort(1, "End", 0.25d));
+        duration = new UnitInputPort(1, "Duration", 1.0d);
         addPort(time = new UnitInputPort(1, "Time", 0.0d));
-        addPort(valueReach = new UnitInputPort(1, "Value Reach", 0.25d));
-        addPort(amplitude = new UnitInputPort(1, "Amplitude", 0.25d));
     }
 
     @Override
@@ -26,21 +28,15 @@ public class CustomRamp extends UnitFilter {
         double[] outputs = output.getValues();
 
         for (int i = start; i < limit; i++) {
-            if (valueReach.getValue() != amplitude.getValue()) {
-                double delta = getSynthesisEngine().getFramePeriod();
+            a = -(endValue.get() - startValue.get()) / duration.get();
+            b = endValue.get();
 
-                // Calculate coefficients.
-                a = -(valueReach.get() - amplitude.get()) / time.get();
-                b = valueReach.get();
+            double delta = getSynthesisEngine().getFramePeriod();
+            time.set(time.getValue() - delta);
 
-                time.set(time.getValue() - delta);
-            }
+            System.out.println(a*time.get() + b);
 
-            amplitude.set(a*time.get() + b);
-
-            System.out.println(amplitude.getValue());
-
-            outputs[i] = amplitude.getValue();
+            outputs[i] = a*time.get() + b;
         }
     }
 }
