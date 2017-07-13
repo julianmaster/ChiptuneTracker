@@ -9,12 +9,19 @@ import com.jsyn.unitgen.UnitFilter;
  */
 public class CustomRamp extends UnitFilter {
 
+    public static final int COUNT_PERIOD_GROUP = 2;
+
     public UnitInputPort startValue;
     public UnitInputPort endValue;
     public UnitInputPort duration;
     public UnitInputPort time;
-    private Double a = 0.0d;
-    private Double b = 0.25d;
+
+    public boolean isStart = false;
+    private int count = 2;
+
+    private double a = 0.0d;
+    private double b = 0.25d;
+    private double currentValue = b;
 
     public CustomRamp() {
         addPort(startValue = new UnitInputPort(1, "Start", 0.25d));
@@ -27,16 +34,37 @@ public class CustomRamp extends UnitFilter {
     public void generate(int start, int limit) {
         double[] outputs = output.getValues();
 
-        for (int i = start; i < limit; i++) {
-            a = -(endValue.get() - startValue.get()) / duration.get();
-            b = endValue.get();
+        if(isStart) {
+            isStart = false;
+            count = COUNT_PERIOD_GROUP;
+        }
 
-            double delta = getSynthesisEngine().getFramePeriod();
-            time.set(time.getValue() - delta);
+        if(count > 0) {
+            count--;
+//            System.out.println("bad");
+//            System.out.println(currentValue);
+            double part = ((startValue.get() - currentValue) / ((double)limit - (double)start)) / COUNT_PERIOD_GROUP;
 
-            System.out.println(a*time.get() + b);
+            for (int i = start; i < limit; i++) {
+                currentValue = currentValue + part;
+                outputs[i] = currentValue;
+            }
+        }
+        else {
+//            System.out.println("good");
+//            System.out.println(currentValue);
 
-            outputs[i] = a*time.get() + b;
+            for (int i = start; i < limit; i++) {
+                a = -(endValue.get() - startValue.get()) / duration.get();
+                b = endValue.get();
+
+                double delta = getSynthesisEngine().getFramePeriod();
+                time.set(time.get() - delta);
+
+                currentValue = a*time.get() + b;
+
+                outputs[i] = currentValue;
+            }
         }
     }
 }

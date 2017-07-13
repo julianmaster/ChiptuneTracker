@@ -17,8 +17,11 @@ public class WhiteNoiseCircuit extends CustomCircuit {
 		
 		gen.output.connect(ampEnv.amplitude);
 		
-//		gen.amplitude.set(0);
 		ampEnv.setupAutoDisable(this);
+
+		ampEnv.attack.set(0.01);
+		ampEnv.sustain.set(1.0);
+		ampEnv.release.set(0.01);
 		
 		usePreset(0);
 	}
@@ -29,18 +32,9 @@ public class WhiteNoiseCircuit extends CustomCircuit {
 	}
 
 	@Override
-	public void usePreset(int presetIndex, double duration, TimeStamp timeStamp) {
+	public void usePreset(int presetIndex, double frequency, double amplitude, double duration, TimeStamp timeStamp) {
 		switch (presetIndex) {
 			case 0:
-				ampEnv.attack.set(0.01);
-				ampEnv.sustain.set(1.0);
-				ampEnv.release.set(0.01);
-				break;
-
-			default:
-				ampEnv.attack.set(0.01);
-				ampEnv.sustain.set(1.0);
-				ampEnv.release.set(0.01);
 				break;
 		}
 	}
