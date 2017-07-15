@@ -52,8 +52,6 @@ public class ChiptuneTracker extends Game {
 
 		VisUI.load();
 
-//		com.chiptunetracker.player.Chanel c = new com.chiptunetracker.player.Chanel();
-
 		dataManager = new DataManager();
 
 		menuView = new MenuView(this);

@@ -6,104 +6,104 @@
             <sound/>
             <sound/>
             <sound/>
-            <sound note="C_D" octave="1" instrument="7" volume="5"/>
-            <sound note="C_D" octave="1" instrument="7" volume="5"/>
-            <sound note="C_D" octave="2" instrument="7" volume="5"/>
-            <sound note="C_D" octave="2" instrument="7" volume="5"/>
+            <sound note="C_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="C_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="C_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="C_D" octave="2" instrument="7" volume="5" effect="0"/>
             <sound/>
             <sound/>
-            <sound note="G_D" octave="1" instrument="7" volume="5"/>
-            <sound note="G_D" octave="1" instrument="7" volume="5"/>
-            <sound note="C_D" octave="1" instrument="7" volume="5"/>
-            <sound note="C_D" octave="1" instrument="7" volume="5"/>
-            <sound note="C_D" octave="2" instrument="7" volume="5"/>
-            <sound note="C_D" octave="2" instrument="7" volume="5"/>
+            <sound note="G_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="G_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="C_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="C_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="C_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="C_D" octave="2" instrument="7" volume="5" effect="0"/>
             <sound/>
             <sound/>
-            <sound note="G_D" octave="1" instrument="7" volume="5"/>
-            <sound note="G_D" octave="1" instrument="7" volume="5"/>
-            <sound note="C_D" octave="1" instrument="7" volume="5"/>
-            <sound note="C_D" octave="1" instrument="7" volume="5"/>
-            <sound note="C_D" octave="2" instrument="7" volume="5"/>
-            <sound note="C_D" octave="2" instrument="7" volume="5"/>
+            <sound note="G_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="G_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="C_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="C_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="C_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="C_D" octave="2" instrument="7" volume="5" effect="0"/>
             <sound/>
             <sound/>
-            <sound note="G_D" octave="1" instrument="7" volume="5"/>
-            <sound note="G_D" octave="1" instrument="7" volume="5"/>
-            <sound note="C_D" octave="1" instrument="7" volume="5"/>
-            <sound note="C_D" octave="1" instrument="7" volume="5"/>
-            <sound note="C_D" octave="2" instrument="7" volume="5"/>
-            <sound note="C_D" octave="2" instrument="7" volume="5"/>
+            <sound note="G_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="G_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="C_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="C_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="C_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="C_D" octave="2" instrument="7" volume="5" effect="0"/>
          </sounds>
       </sample>
       <sample speed="16" loopStart="0" loopStop="0">
          <sounds length="32">
             <sound/>
             <sound/>
-            <sound note="G_D" octave="1" instrument="7" volume="5"/>
-            <sound note="G_D" octave="1" instrument="7" volume="5"/>
-            <sound note="C_D" octave="1" instrument="7" volume="5"/>
-            <sound note="C_D" octave="1" instrument="7" volume="5"/>
-            <sound note="C_D" octave="2" instrument="7" volume="5"/>
-            <sound note="C_D" octave="2" instrument="7" volume="5"/>
+            <sound note="G_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="G_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="C_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="C_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="C_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="C_D" octave="2" instrument="7" volume="5" effect="0"/>
             <sound/>
             <sound/>
-            <sound note="G_D" octave="1" instrument="7" volume="5"/>
-            <sound note="G_D" octave="1" instrument="7" volume="5"/>
-            <sound note="F" octave="1" instrument="7" volume="5"/>
-            <sound note="F" octave="1" instrument="7" volume="5"/>
-            <sound note="F" octave="2" instrument="7" volume="5"/>
-            <sound note="F" octave="2" instrument="7" volume="5"/>
+            <sound note="G_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="G_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="F" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="F" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="F" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="F" octave="2" instrument="7" volume="5" effect="0"/>
             <sound/>
             <sound/>
-            <sound note="F" octave="1" instrument="7" volume="5"/>
-            <sound note="F" octave="1" instrument="7" volume="5"/>
-            <sound note="F_D" octave="1" instrument="7" volume="5"/>
-            <sound note="F_D" octave="1" instrument="7" volume="5"/>
-            <sound note="F_D" octave="2" instrument="7" volume="5"/>
-            <sound note="F_D" octave="2" instrument="7" volume="5"/>
+            <sound note="F" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="F" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="F_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="F_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="F_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="F_D" octave="2" instrument="7" volume="5" effect="0"/>
             <sound/>
             <sound/>
-            <sound note="F_D" octave="1" instrument="7" volume="5"/>
-            <sound note="F_D" octave="1" instrument="7" volume="5"/>
-            <sound note="G_D" octave="1" instrument="7" volume="5"/>
-            <sound note="G_D" octave="1" instrument="7" volume="5"/>
-            <sound note="G_D" octave="2" instrument="7" volume="5"/>
-            <sound note="G_D" octave="2" instrument="7" volume="5"/>
+            <sound note="F_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="F_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="G_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="G_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="7" volume="5" effect="0"/>
          </sounds>
       </sample>
       <sample speed="16" loopStart="0" loopStop="0">
          <sounds length="32">
             <sound/>
             <sound/>
-            <sound note="G_D" octave="3" instrument="0" volume="7"/>
-            <sound note="G_D" octave="3" instrument="0" volume="7"/>
-            <sound note="F" octave="3" instrument="0" volume="7"/>
-            <sound note="F" octave="3" instrument="0" volume="7"/>
+            <sound note="G_D" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="G_D" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="F" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="F" octave="3" instrument="0" volume="7" effect="0"/>
             <sound/>
             <sound/>
             <sound/>
             <sound/>
-            <sound note="D_D" octave="3" instrument="0" volume="7"/>
-            <sound note="D_D" octave="3" instrument="0" volume="7"/>
-            <sound note="F" octave="3" instrument="0" volume="4"/>
-            <sound note="F" octave="3" instrument="0" volume="4"/>
+            <sound note="D_D" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="D_D" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="F" octave="3" instrument="0" volume="4" effect="0"/>
+            <sound note="F" octave="3" instrument="0" volume="4" effect="0"/>
             <sound/>
             <sound/>
             <sound/>
             <sound/>
-            <sound note="G_D" octave="3" instrument="0" volume="7"/>
-            <sound note="G_D" octave="3" instrument="0" volume="7"/>
-            <sound note="F" octave="3" instrument="0" volume="7"/>
-            <sound note="F" octave="3" instrument="0" volume="7"/>
+            <sound note="G_D" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="G_D" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="F" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="F" octave="3" instrument="0" volume="7" effect="0"/>
             <sound/>
             <sound/>
             <sound/>
             <sound/>
-            <sound note="D_D" octave="3" instrument="0" volume="7"/>
-            <sound note="D_D" octave="3" instrument="0" volume="7"/>
-            <sound note="F" octave="3" instrument="0" volume="7"/>
-            <sound note="F" octave="3" instrument="0" volume="7"/>
+            <sound note="D_D" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="D_D" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="F" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="F" octave="3" instrument="0" volume="7" effect="0"/>
             <sound/>
             <sound/>
          </sounds>
@@ -116,31 +116,31 @@
             <sound/>
             <sound/>
             <sound/>
-            <sound note="F" octave="2" instrument="1" volume="3"/>
+            <sound note="F" octave="2" instrument="1" volume="3" effect="0"/>
             <sound/>
-            <sound note="F" octave="2" instrument="1" volume="3"/>
-            <sound/>
-            <sound/>
-            <sound/>
-            <sound/>
-            <sound/>
-            <sound note="G_D" octave="2" instrument="1" volume="3"/>
-            <sound/>
-            <sound note="G_D" octave="2" instrument="1" volume="3"/>
+            <sound note="F" octave="2" instrument="1" volume="3" effect="0"/>
             <sound/>
             <sound/>
             <sound/>
             <sound/>
             <sound/>
-            <sound note="A_D" octave="2" instrument="1" volume="3"/>
+            <sound note="G_D" octave="2" instrument="1" volume="3" effect="0"/>
             <sound/>
-            <sound note="A_D" octave="2" instrument="1" volume="3"/>
-            <sound/>
-            <sound/>
+            <sound note="G_D" octave="2" instrument="1" volume="3" effect="0"/>
             <sound/>
             <sound/>
             <sound/>
-            <sound note="C" octave="3" instrument="1" volume="5"/>
+            <sound/>
+            <sound/>
+            <sound note="A_D" octave="2" instrument="1" volume="3" effect="0"/>
+            <sound/>
+            <sound note="A_D" octave="2" instrument="1" volume="3" effect="0"/>
+            <sound/>
+            <sound/>
+            <sound/>
+            <sound/>
+            <sound/>
+            <sound note="C" octave="3" instrument="1" volume="5" effect="0"/>
             <sound/>
          </sounds>
       </sample>
@@ -152,17 +152,17 @@
             <sound/>
             <sound/>
             <sound/>
-            <sound note="C" octave="2" instrument="6" volume="2"/>
+            <sound note="C" octave="2" instrument="6" volume="2" effect="0"/>
             <sound/>
-            <sound note="C" octave="2" instrument="6" volume="2"/>
-            <sound/>
-            <sound/>
+            <sound note="C" octave="2" instrument="6" volume="2" effect="0"/>
             <sound/>
             <sound/>
             <sound/>
-            <sound note="C" octave="2" instrument="6" volume="2"/>
             <sound/>
-            <sound note="C" octave="2" instrument="6" volume="2"/>
+            <sound/>
+            <sound note="C" octave="2" instrument="6" volume="2" effect="0"/>
+            <sound/>
+            <sound note="C" octave="2" instrument="6" volume="2" effect="0"/>
             <sound/>
             <sound/>
             <sound/>
@@ -184,358 +184,142 @@
          <sounds length="32">
             <sound/>
             <sound/>
-            <sound note="G_D" octave="3" instrument="0" volume="5"/>
-            <sound note="G_D" octave="3" instrument="0" volume="5"/>
-            <sound note="C" octave="4" instrument="0" volume="5"/>
-            <sound note="C" octave="4" instrument="0" volume="5"/>
-            <sound note="C" octave="4" instrument="0" volume="5"/>
-            <sound note="C" octave="4" instrument="0" volume="5"/>
-            <sound note="C" octave="4" instrument="0" volume="5"/>
-            <sound note="C" octave="4" instrument="0" volume="5"/>
-            <sound note="A_D" octave="3" instrument="0" volume="5"/>
-            <sound note="A_D" octave="3" instrument="0" volume="5"/>
-            <sound note="G_D" octave="3" instrument="0" volume="5"/>
-            <sound note="G_D" octave="3" instrument="0" volume="5"/>
-            <sound note="G_D" octave="3" instrument="0" volume="5"/>
-            <sound note="G_D" octave="3" instrument="0" volume="5"/>
-            <sound note="G_D" octave="3" instrument="0" volume="5"/>
-            <sound note="G_D" octave="3" instrument="0" volume="5"/>
-            <sound note="F_D" octave="3" instrument="0" volume="5"/>
-            <sound note="F_D" octave="3" instrument="0" volume="5"/>
-            <sound note="F" octave="3" instrument="0" volume="5"/>
-            <sound note="F" octave="3" instrument="0" volume="5"/>
-            <sound note="F" octave="3" instrument="0" volume="5"/>
-            <sound note="F" octave="3" instrument="0" volume="5"/>
-            <sound note="F" octave="3" instrument="0" volume="5"/>
-            <sound note="F" octave="3" instrument="0" volume="5"/>
-            <sound note="C_D" octave="3" instrument="0" volume="5"/>
-            <sound note="C_D" octave="3" instrument="0" volume="5"/>
-            <sound note="D_D" octave="3" instrument="0" volume="5"/>
-            <sound note="D_D" octave="3" instrument="0" volume="5"/>
-            <sound note="D_D" octave="3" instrument="0" volume="5"/>
-            <sound note="D_D" octave="3" instrument="0" volume="5"/>
+            <sound note="G_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="C" octave="4" instrument="0" volume="5" effect="0"/>
+            <sound note="C" octave="4" instrument="0" volume="5" effect="0"/>
+            <sound note="C" octave="4" instrument="0" volume="5" effect="0"/>
+            <sound note="C" octave="4" instrument="0" volume="5" effect="0"/>
+            <sound note="C" octave="4" instrument="0" volume="5" effect="0"/>
+            <sound note="C" octave="4" instrument="0" volume="5" effect="0"/>
+            <sound note="A_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="A_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="F_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="F_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="F" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="F" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="F" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="F" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="F" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="F" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="C_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="C_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="D_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="D_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="D_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="D_D" octave="3" instrument="0" volume="5" effect="0"/>
          </sounds>
       </sample>
       <sample speed="16" loopStart="0" loopStop="0">
          <sounds length="32">
             <sound/>
             <sound/>
-            <sound note="F_D" octave="1" instrument="7" volume="5"/>
-            <sound note="F_D" octave="1" instrument="7" volume="5"/>
-            <sound note="F" octave="1" instrument="7" volume="5"/>
-            <sound note="F" octave="1" instrument="7" volume="5"/>
-            <sound note="F" octave="2" instrument="7" volume="5"/>
-            <sound note="F" octave="2" instrument="7" volume="5"/>
+            <sound note="F_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="F_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="F" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="F" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="F" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="F" octave="2" instrument="7" volume="5" effect="0"/>
             <sound/>
             <sound/>
-            <sound note="C_D" octave="2" instrument="7" volume="5"/>
-            <sound note="C_D" octave="2" instrument="7" volume="5"/>
-            <sound note="A_D" octave="1" instrument="7" volume="5"/>
-            <sound note="A_D" octave="1" instrument="7" volume="5"/>
-            <sound note="A_D" octave="2" instrument="7" volume="5"/>
-            <sound note="A_D" octave="2" instrument="7" volume="5"/>
+            <sound note="C_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="C_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="A_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="A_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="A_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="A_D" octave="2" instrument="7" volume="5" effect="0"/>
             <sound/>
             <sound/>
-            <sound note="A_D" octave="1" instrument="7" volume="5"/>
-            <sound note="A_D" octave="1" instrument="7" volume="5"/>
-            <sound note="D_D" octave="1" instrument="7" volume="5"/>
-            <sound note="D_D" octave="1" instrument="7" volume="5"/>
-            <sound note="D_D" octave="2" instrument="7" volume="5"/>
-            <sound note="D_D" octave="2" instrument="7" volume="5"/>
+            <sound note="A_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="A_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="D_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="D_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="D_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="D_D" octave="2" instrument="7" volume="5" effect="0"/>
             <sound/>
             <sound/>
-            <sound note="D_D" octave="1" instrument="7" volume="5"/>
-            <sound note="D_D" octave="1" instrument="7" volume="5"/>
-            <sound note="G_D" octave="1" instrument="7" volume="5"/>
-            <sound note="G_D" octave="1" instrument="7" volume="5"/>
-            <sound note="G_D" octave="2" instrument="7" volume="5"/>
-            <sound note="G_D" octave="2" instrument="7" volume="5"/>
+            <sound note="D_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="D_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="G_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="G_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="7" volume="5" effect="0"/>
          </sounds>
       </sample>
       <sample speed="16" loopStart="0" loopStop="0">
          <sounds length="32">
-            <sound note="C" octave="3" instrument="1" volume="5"/>
+            <sound note="C" octave="3" instrument="1" volume="5" effect="0"/>
             <sound/>
             <sound/>
             <sound/>
             <sound/>
             <sound/>
-            <sound note="G_D" octave="2" instrument="1" volume="3"/>
+            <sound note="G_D" octave="2" instrument="1" volume="3" effect="0"/>
             <sound/>
-            <sound note="G_D" octave="2" instrument="1" volume="3"/>
-            <sound/>
-            <sound/>
-            <sound/>
-            <sound/>
-            <sound/>
-            <sound note="F" octave="2" instrument="1" volume="3"/>
-            <sound/>
-            <sound note="F" octave="2" instrument="1" volume="3"/>
+            <sound note="G_D" octave="2" instrument="1" volume="3" effect="0"/>
             <sound/>
             <sound/>
             <sound/>
             <sound/>
             <sound/>
-            <sound note="F_D" octave="2" instrument="1" volume="3"/>
+            <sound note="F" octave="2" instrument="1" volume="3" effect="0"/>
             <sound/>
-            <sound note="F_D" octave="2" instrument="1" volume="3"/>
-            <sound/>
-            <sound note="F_D" octave="2" instrument="1" volume="1"/>
-            <sound/>
-            <sound note="F" octave="2" instrument="1" volume="1"/>
-            <sound note="F" octave="2" instrument="1" volume="1"/>
-            <sound note="F" octave="2" instrument="1" volume="1"/>
-            <sound note="F" octave="2" instrument="1" volume="1"/>
-         </sounds>
-      </sample>
-      <sample speed="16" loopStart="0" loopStop="0">
-         <sounds length="32">
-            <sound/>
-            <sound/>
-            <sound note="G_D" octave="4" instrument="0" volume="7"/>
-            <sound note="G_D" octave="4" instrument="0" volume="7"/>
-            <sound note="F" octave="4" instrument="0" volume="7"/>
-            <sound note="F" octave="4" instrument="0" volume="7"/>
+            <sound note="F" octave="2" instrument="1" volume="3" effect="0"/>
             <sound/>
             <sound/>
             <sound/>
             <sound/>
-            <sound note="D_D" octave="4" instrument="0" volume="7"/>
-            <sound note="D_D" octave="4" instrument="0" volume="7"/>
-            <sound note="F" octave="4" instrument="0" volume="7"/>
-            <sound note="F" octave="4" instrument="0" volume="7"/>
             <sound/>
+            <sound note="F_D" octave="2" instrument="1" volume="3" effect="0"/>
             <sound/>
+            <sound note="F_D" octave="2" instrument="1" volume="3" effect="0"/>
             <sound/>
+            <sound note="F_D" octave="2" instrument="1" volume="1" effect="0"/>
             <sound/>
-            <sound note="G_D" octave="4" instrument="0" volume="7"/>
-            <sound note="G_D" octave="4" instrument="0" volume="7"/>
-            <sound note="F" octave="4" instrument="0" volume="7"/>
-            <sound note="F" octave="4" instrument="0" volume="7"/>
-            <sound/>
-            <sound/>
-            <sound/>
-            <sound/>
-            <sound note="D_D" octave="4" instrument="0" volume="7"/>
-            <sound note="D_D" octave="4" instrument="0" volume="7"/>
-            <sound note="F" octave="4" instrument="0" volume="7"/>
-            <sound note="F" octave="4" instrument="0" volume="7"/>
-            <sound/>
-            <sound/>
+            <sound note="F" octave="2" instrument="1" volume="1" effect="0"/>
+            <sound note="F" octave="2" instrument="1" volume="1" effect="0"/>
+            <sound note="F" octave="2" instrument="1" volume="1" effect="0"/>
+            <sound note="F" octave="2" instrument="1" volume="1" effect="0"/>
          </sounds>
       </sample>
       <sample speed="16" loopStart="0" loopStop="0">
          <sounds length="32">
             <sound/>
             <sound/>
-            <sound note="G_D" octave="3" instrument="0" volume="5"/>
-            <sound note="G_D" octave="3" instrument="0" volume="5"/>
-            <sound note="C" octave="4" instrument="0" volume="4"/>
-            <sound note="C" octave="4" instrument="0" volume="4"/>
-            <sound note="C" octave="4" instrument="0" volume="4"/>
-            <sound note="C" octave="4" instrument="0" volume="4"/>
-            <sound note="C" octave="4" instrument="0" volume="4"/>
-            <sound note="C" octave="4" instrument="0" volume="4"/>
-            <sound note="A_D" octave="3" instrument="0" volume="4"/>
-            <sound note="A_D" octave="3" instrument="0" volume="4"/>
-            <sound note="C_D" octave="4" instrument="0" volume="3"/>
-            <sound note="C_D" octave="4" instrument="0" volume="3"/>
-            <sound note="C_D" octave="4" instrument="0" volume="3"/>
-            <sound note="C_D" octave="4" instrument="0" volume="3"/>
-            <sound note="C_D" octave="4" instrument="0" volume="3"/>
-            <sound note="C_D" octave="4" instrument="0" volume="3"/>
-            <sound note="C_D" octave="4" instrument="0" volume="3"/>
-            <sound note="C_D" octave="4" instrument="0" volume="3"/>
-            <sound note="G_D" octave="3" instrument="0" volume="3"/>
-            <sound note="G_D" octave="3" instrument="0" volume="3"/>
-            <sound note="G_D" octave="3" instrument="0" volume="3"/>
-            <sound note="G_D" octave="3" instrument="0" volume="3"/>
-            <sound note="G_D" octave="3" instrument="0" volume="3"/>
-            <sound note="G_D" octave="3" instrument="0" volume="3"/>
-            <sound note="G_D" octave="3" instrument="0" volume="3"/>
-            <sound note="G_D" octave="3" instrument="0" volume="3"/>
-            <sound note="G_D" octave="3" instrument="0" volume="3"/>
-            <sound note="G_D" octave="3" instrument="0" volume="3"/>
-            <sound note="G_D" octave="3" instrument="0" volume="3"/>
-            <sound note="G_D" octave="3" instrument="0" volume="3"/>
-         </sounds>
-      </sample>
-      <sample speed="16" loopStart="0" loopStop="0">
-         <sounds length="32">
+            <sound note="G_D" octave="4" instrument="0" volume="7" effect="0"/>
+            <sound note="G_D" octave="4" instrument="0" volume="7" effect="0"/>
+            <sound note="F" octave="4" instrument="0" volume="7" effect="0"/>
+            <sound note="F" octave="4" instrument="0" volume="7" effect="0"/>
             <sound/>
             <sound/>
             <sound/>
             <sound/>
-            <sound note="C" octave="3" instrument="1" volume="3"/>
-            <sound note="C" octave="3" instrument="1" volume="3"/>
-            <sound note="C" octave="3" instrument="1" volume="3"/>
-            <sound note="C" octave="3" instrument="1" volume="3"/>
-            <sound note="C" octave="3" instrument="1" volume="3"/>
-            <sound note="C" octave="3" instrument="1" volume="3"/>
-            <sound note="A_D" octave="2" instrument="1" volume="3"/>
-            <sound note="A_D" octave="2" instrument="1" volume="3"/>
-            <sound note="C_D" octave="3" instrument="1" volume="3"/>
-            <sound note="C_D" octave="3" instrument="1" volume="3"/>
-            <sound note="C_D" octave="3" instrument="1" volume="3"/>
-            <sound note="C_D" octave="3" instrument="1" volume="3"/>
-            <sound note="C_D" octave="3" instrument="1" volume="3"/>
-            <sound note="C_D" octave="3" instrument="1" volume="3"/>
-            <sound note="C_D" octave="3" instrument="1" volume="3"/>
-            <sound note="F_D" octave="3" instrument="0" volume="2"/>
-            <sound note="G_D" octave="2" instrument="1" volume="3"/>
-            <sound note="G_D" octave="2" instrument="1" volume="3"/>
-            <sound note="G_D" octave="2" instrument="1" volume="3"/>
-            <sound note="G_D" octave="2" instrument="1" volume="3"/>
-            <sound note="G_D" octave="2" instrument="1" volume="3"/>
-            <sound note="G_D" octave="2" instrument="1" volume="3"/>
-            <sound note="G_D" octave="2" instrument="1" volume="3"/>
-            <sound note="A_D" octave="3" instrument="0" volume="2"/>
-            <sound note="G_D" octave="2" instrument="1" volume="3"/>
-            <sound note="G_D" octave="2" instrument="1" volume="3"/>
-            <sound note="G_D" octave="2" instrument="1" volume="3"/>
-            <sound note="G_D" octave="2" instrument="1" volume="3"/>
-         </sounds>
-      </sample>
-      <sample speed="16" loopStart="0" loopStop="0">
-         <sounds length="32">
-            <sound note="A_D" octave="2" instrument="1" volume="3"/>
-            <sound note="A_D" octave="2" instrument="1" volume="3"/>
+            <sound note="D_D" octave="4" instrument="0" volume="7" effect="0"/>
+            <sound note="D_D" octave="4" instrument="0" volume="7" effect="0"/>
+            <sound note="F" octave="4" instrument="0" volume="7" effect="0"/>
+            <sound note="F" octave="4" instrument="0" volume="7" effect="0"/>
             <sound/>
             <sound/>
             <sound/>
             <sound/>
+            <sound note="G_D" octave="4" instrument="0" volume="7" effect="0"/>
+            <sound note="G_D" octave="4" instrument="0" volume="7" effect="0"/>
+            <sound note="F" octave="4" instrument="0" volume="7" effect="0"/>
+            <sound note="F" octave="4" instrument="0" volume="7" effect="0"/>
             <sound/>
             <sound/>
             <sound/>
             <sound/>
-            <sound/>
-            <sound/>
-            <sound note="G_D" octave="3" instrument="1" volume="2"/>
-            <sound/>
-            <sound note="G_D" octave="3" instrument="1" volume="2"/>
-            <sound/>
-            <sound note="G_D" octave="3" instrument="1" volume="2"/>
-            <sound note="G_D" octave="3" instrument="7" volume="2"/>
-            <sound note="G_D" octave="3" instrument="1" volume="2"/>
-            <sound note="D_D" octave="4" instrument="7" volume="2"/>
-            <sound note="G_D" octave="3" instrument="1" volume="2"/>
-            <sound note="F" octave="4" instrument="7" volume="2"/>
-            <sound note="C_D" octave="4" instrument="7" volume="2"/>
-            <sound note="C_D" octave="4" instrument="7" volume="2"/>
-            <sound note="G_D" octave="3" instrument="7" volume="2"/>
-            <sound note="G_D" octave="3" instrument="7" volume="2"/>
-            <sound note="F" octave="3" instrument="7" volume="2"/>
-            <sound note="F" octave="3" instrument="7" volume="2"/>
-            <sound note="C_D" octave="3" instrument="7" volume="2"/>
-            <sound note="C_D" octave="3" instrument="7" volume="2"/>
-            <sound/>
-            <sound/>
-         </sounds>
-      </sample>
-      <sample speed="16" loopStart="0" loopStop="0">
-         <sounds length="32">
-            <sound note="F_D" octave="3" instrument="0" volume="5"/>
-            <sound note="F_D" octave="3" instrument="0" volume="5"/>
-            <sound/>
-            <sound/>
-            <sound note="C_D" octave="3" instrument="0" volume="5"/>
-            <sound note="C_D" octave="3" instrument="0" volume="5"/>
-            <sound note="C_D" octave="3" instrument="0" volume="5"/>
-            <sound note="C_D" octave="3" instrument="0" volume="5"/>
-            <sound note="C_D" octave="3" instrument="0" volume="5"/>
-            <sound note="C_D" octave="3" instrument="0" volume="5"/>
-            <sound note="C_D" octave="3" instrument="0" volume="5"/>
-            <sound note="C_D" octave="3" instrument="0" volume="5"/>
-            <sound note="A_D" octave="2" instrument="0" volume="5"/>
-            <sound note="A_D" octave="2" instrument="0" volume="5"/>
-            <sound note="A_D" octave="2" instrument="0" volume="5"/>
-            <sound note="A_D" octave="2" instrument="0" volume="5"/>
-            <sound note="A_D" octave="2" instrument="0" volume="5"/>
-            <sound note="A_D" octave="2" instrument="0" volume="5"/>
-            <sound note="D_D" octave="3" instrument="0" volume="5"/>
-            <sound note="D_D" octave="3" instrument="0" volume="5"/>
-            <sound note="C_D" octave="3" instrument="0" volume="5"/>
-            <sound note="C_D" octave="3" instrument="0" volume="5"/>
-            <sound note="C_D" octave="3" instrument="0" volume="5"/>
-            <sound note="C_D" octave="3" instrument="0" volume="5"/>
-            <sound note="C_D" octave="3" instrument="0" volume="5"/>
-            <sound note="C_D" octave="3" instrument="0" volume="5"/>
-            <sound note="C_D" octave="3" instrument="0" volume="5"/>
-            <sound note="C_D" octave="3" instrument="0" volume="5"/>
-            <sound note="G_D" octave="2" instrument="0" volume="5"/>
-            <sound note="G_D" octave="2" instrument="0" volume="5"/>
-            <sound note="G_D" octave="2" instrument="0" volume="5"/>
-            <sound note="G_D" octave="2" instrument="0" volume="5"/>
-         </sounds>
-      </sample>
-      <sample speed="16" loopStart="0" loopStop="0">
-         <sounds length="32">
-            <sound/>
-            <sound/>
-            <sound note="G_D" octave="1" instrument="7" volume="5"/>
-            <sound note="G_D" octave="1" instrument="7" volume="5"/>
-            <sound note="F_D" octave="1" instrument="7" volume="5"/>
-            <sound note="F_D" octave="1" instrument="7" volume="5"/>
-            <sound note="F_D" octave="2" instrument="7" volume="5"/>
-            <sound note="F_D" octave="2" instrument="7" volume="5"/>
-            <sound/>
-            <sound/>
-            <sound note="C_D" octave="2" instrument="7" volume="5"/>
-            <sound note="C_D" octave="2" instrument="7" volume="5"/>
-            <sound note="F_D" octave="1" instrument="7" volume="5"/>
-            <sound note="F_D" octave="1" instrument="7" volume="5"/>
-            <sound note="F_D" octave="2" instrument="7" volume="5"/>
-            <sound note="F_D" octave="2" instrument="7" volume="5"/>
-            <sound/>
-            <sound/>
-            <sound note="G_D" octave="1" instrument="7" volume="5"/>
-            <sound note="G_D" octave="1" instrument="7" volume="5"/>
-            <sound note="C_D" octave="1" instrument="7" volume="5"/>
-            <sound note="C_D" octave="1" instrument="7" volume="5"/>
-            <sound note="C_D" octave="2" instrument="7" volume="5"/>
-            <sound note="C_D" octave="2" instrument="7" volume="5"/>
-            <sound/>
-            <sound/>
-            <sound note="G_D" octave="1" instrument="7" volume="5"/>
-            <sound note="G_D" octave="1" instrument="7" volume="5"/>
-            <sound note="C_D" octave="1" instrument="7" volume="5"/>
-            <sound note="C_D" octave="1" instrument="7" volume="5"/>
-            <sound note="C_D" octave="2" instrument="7" volume="5"/>
-            <sound note="C_D" octave="2" instrument="7" volume="5"/>
-         </sounds>
-      </sample>
-      <sample speed="16" loopStart="0" loopStop="0">
-         <sounds length="32">
-            <sound note="G_D" octave="2" instrument="0" volume="5"/>
-            <sound note="G_D" octave="2" instrument="0" volume="5"/>
-            <sound/>
-            <sound note="A_D" octave="2" instrument="0" volume="5"/>
-            <sound note="G_D" octave="2" instrument="0" volume="5"/>
-            <sound note="G_D" octave="2" instrument="0" volume="5"/>
-            <sound note="G_D" octave="2" instrument="0" volume="5"/>
-            <sound note="G_D" octave="2" instrument="0" volume="5"/>
-            <sound note="G_D" octave="2" instrument="0" volume="5"/>
-            <sound note="G_D" octave="2" instrument="0" volume="5"/>
-            <sound note="G_D" octave="2" instrument="0" volume="5"/>
-            <sound note="G_D" octave="2" instrument="0" volume="5"/>
-            <sound note="G_D" octave="2" instrument="0" volume="5"/>
-            <sound note="G_D" octave="2" instrument="0" volume="5"/>
-            <sound note="G_D" octave="2" instrument="0" volume="5"/>
-            <sound note="G_D" octave="2" instrument="0" volume="5"/>
-            <sound note="G_D" octave="2" instrument="0" volume="5"/>
-            <sound note="G_D" octave="2" instrument="0" volume="5"/>
-            <sound note="G_D" octave="2" instrument="0" volume="5"/>
-            <sound note="G_D" octave="2" instrument="0" volume="5"/>
-            <sound note="G_D" octave="2" instrument="0" volume="5"/>
-            <sound note="G_D" octave="2" instrument="0" volume="5"/>
-            <sound note="G_D" octave="2" instrument="0" volume="5"/>
-            <sound note="G_D" octave="2" instrument="0" volume="5"/>
-            <sound note="G_D" octave="2" instrument="0" volume="5"/>
-            <sound note="G_D" octave="2" instrument="0" volume="5"/>
-            <sound note="G_D" octave="2" instrument="0" volume="5"/>
-            <sound note="G_D" octave="2" instrument="0" volume="5"/>
-            <sound/>
-            <sound/>
+            <sound note="D_D" octave="4" instrument="0" volume="7" effect="0"/>
+            <sound note="D_D" octave="4" instrument="0" volume="7" effect="0"/>
+            <sound note="F" octave="4" instrument="0" volume="7" effect="0"/>
+            <sound note="F" octave="4" instrument="0" volume="7" effect="0"/>
             <sound/>
             <sound/>
          </sounds>
@@ -544,36 +328,36 @@
          <sounds length="32">
             <sound/>
             <sound/>
-            <sound note="G_D" octave="1" instrument="7" volume="5"/>
-            <sound note="G_D" octave="1" instrument="7" volume="5"/>
-            <sound note="F" octave="1" instrument="7" volume="5"/>
-            <sound note="F" octave="1" instrument="7" volume="5"/>
-            <sound note="F" octave="2" instrument="7" volume="5"/>
-            <sound note="F" octave="2" instrument="7" volume="5"/>
-            <sound/>
-            <sound/>
-            <sound note="G_D" octave="1" instrument="7" volume="5"/>
-            <sound note="G_D" octave="1" instrument="7" volume="5"/>
-            <sound note="F" octave="1" instrument="7" volume="5"/>
-            <sound note="F" octave="1" instrument="7" volume="5"/>
-            <sound note="F" octave="2" instrument="7" volume="5"/>
-            <sound note="F" octave="2" instrument="7" volume="5"/>
-            <sound/>
-            <sound/>
-            <sound note="G_D" octave="1" instrument="7" volume="5"/>
-            <sound note="G_D" octave="1" instrument="7" volume="5"/>
-            <sound note="C_D" octave="1" instrument="7" volume="5"/>
-            <sound note="C_D" octave="1" instrument="7" volume="5"/>
-            <sound note="C_D" octave="2" instrument="7" volume="5"/>
-            <sound note="C_D" octave="2" instrument="7" volume="5"/>
-            <sound/>
-            <sound/>
-            <sound note="G_D" octave="1" instrument="7" volume="5"/>
-            <sound note="G_D" octave="1" instrument="7" volume="5"/>
-            <sound note="F" octave="1" instrument="7" volume="5"/>
-            <sound note="F" octave="1" instrument="7" volume="5"/>
-            <sound note="F" octave="2" instrument="7" volume="5"/>
-            <sound note="F" octave="2" instrument="7" volume="5"/>
+            <sound note="G_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="C" octave="4" instrument="0" volume="4" effect="0"/>
+            <sound note="C" octave="4" instrument="0" volume="4" effect="0"/>
+            <sound note="C" octave="4" instrument="0" volume="4" effect="0"/>
+            <sound note="C" octave="4" instrument="0" volume="4" effect="0"/>
+            <sound note="C" octave="4" instrument="0" volume="4" effect="0"/>
+            <sound note="C" octave="4" instrument="0" volume="4" effect="0"/>
+            <sound note="A_D" octave="3" instrument="0" volume="4" effect="0"/>
+            <sound note="A_D" octave="3" instrument="0" volume="4" effect="0"/>
+            <sound note="C_D" octave="4" instrument="0" volume="3" effect="0"/>
+            <sound note="C_D" octave="4" instrument="0" volume="3" effect="0"/>
+            <sound note="C_D" octave="4" instrument="0" volume="3" effect="0"/>
+            <sound note="C_D" octave="4" instrument="0" volume="3" effect="0"/>
+            <sound note="C_D" octave="4" instrument="0" volume="3" effect="0"/>
+            <sound note="C_D" octave="4" instrument="0" volume="3" effect="0"/>
+            <sound note="C_D" octave="4" instrument="0" volume="3" effect="0"/>
+            <sound note="C_D" octave="4" instrument="0" volume="3" effect="0"/>
+            <sound note="G_D" octave="3" instrument="0" volume="3" effect="0"/>
+            <sound note="G_D" octave="3" instrument="0" volume="3" effect="0"/>
+            <sound note="G_D" octave="3" instrument="0" volume="3" effect="0"/>
+            <sound note="G_D" octave="3" instrument="0" volume="3" effect="0"/>
+            <sound note="G_D" octave="3" instrument="0" volume="3" effect="0"/>
+            <sound note="G_D" octave="3" instrument="0" volume="3" effect="0"/>
+            <sound note="G_D" octave="3" instrument="0" volume="3" effect="0"/>
+            <sound note="G_D" octave="3" instrument="0" volume="3" effect="0"/>
+            <sound note="G_D" octave="3" instrument="0" volume="3" effect="0"/>
+            <sound note="G_D" octave="3" instrument="0" volume="3" effect="0"/>
+            <sound note="G_D" octave="3" instrument="0" volume="3" effect="0"/>
+            <sound note="G_D" octave="3" instrument="0" volume="3" effect="0"/>
          </sounds>
       </sample>
       <sample speed="16" loopStart="0" loopStop="0">
@@ -582,6 +366,40 @@
             <sound/>
             <sound/>
             <sound/>
+            <sound note="C" octave="3" instrument="1" volume="3" effect="0"/>
+            <sound note="C" octave="3" instrument="1" volume="3" effect="0"/>
+            <sound note="C" octave="3" instrument="1" volume="3" effect="0"/>
+            <sound note="C" octave="3" instrument="1" volume="3" effect="0"/>
+            <sound note="C" octave="3" instrument="1" volume="3" effect="0"/>
+            <sound note="C" octave="3" instrument="1" volume="3" effect="0"/>
+            <sound note="A_D" octave="2" instrument="1" volume="3" effect="0"/>
+            <sound note="A_D" octave="2" instrument="1" volume="3" effect="0"/>
+            <sound note="C_D" octave="3" instrument="1" volume="3" effect="0"/>
+            <sound note="C_D" octave="3" instrument="1" volume="3" effect="0"/>
+            <sound note="C_D" octave="3" instrument="1" volume="3" effect="0"/>
+            <sound note="C_D" octave="3" instrument="1" volume="3" effect="0"/>
+            <sound note="C_D" octave="3" instrument="1" volume="3" effect="0"/>
+            <sound note="C_D" octave="3" instrument="1" volume="3" effect="0"/>
+            <sound note="C_D" octave="3" instrument="1" volume="3" effect="0"/>
+            <sound note="F_D" octave="3" instrument="0" volume="2" effect="0"/>
+            <sound note="G_D" octave="2" instrument="1" volume="3" effect="0"/>
+            <sound note="G_D" octave="2" instrument="1" volume="3" effect="0"/>
+            <sound note="G_D" octave="2" instrument="1" volume="3" effect="0"/>
+            <sound note="G_D" octave="2" instrument="1" volume="3" effect="0"/>
+            <sound note="G_D" octave="2" instrument="1" volume="3" effect="0"/>
+            <sound note="G_D" octave="2" instrument="1" volume="3" effect="0"/>
+            <sound note="G_D" octave="2" instrument="1" volume="3" effect="0"/>
+            <sound note="A_D" octave="3" instrument="0" volume="2" effect="0"/>
+            <sound note="G_D" octave="2" instrument="1" volume="3" effect="0"/>
+            <sound note="G_D" octave="2" instrument="1" volume="3" effect="0"/>
+            <sound note="G_D" octave="2" instrument="1" volume="3" effect="0"/>
+            <sound note="G_D" octave="2" instrument="1" volume="3" effect="0"/>
+         </sounds>
+      </sample>
+      <sample speed="16" loopStart="0" loopStop="0">
+         <sounds length="32">
+            <sound note="A_D" octave="2" instrument="1" volume="3" effect="0"/>
+            <sound note="A_D" octave="2" instrument="1" volume="3" effect="0"/>
             <sound/>
             <sound/>
             <sound/>
@@ -590,22 +408,132 @@
             <sound/>
             <sound/>
             <sound/>
-            <sound note="G_D" octave="3" instrument="1" volume="2"/>
             <sound/>
-            <sound note="G_D" octave="3" instrument="1" volume="2"/>
-            <sound note="C_D" octave="3" instrument="7" volume="2"/>
-            <sound note="G_D" octave="3" instrument="1" volume="2"/>
-            <sound note="G_D" octave="3" instrument="7" volume="2"/>
-            <sound note="G_D" octave="3" instrument="1" volume="2"/>
-            <sound note="D_D" octave="4" instrument="7" volume="2"/>
-            <sound note="G_D" octave="3" instrument="1" volume="2"/>
-            <sound note="F" octave="4" instrument="7" volume="2"/>
-            <sound note="C" octave="4" instrument="7" volume="2"/>
-            <sound note="C" octave="4" instrument="7" volume="2"/>
-            <sound note="G_D" octave="3" instrument="7" volume="2"/>
-            <sound note="G_D" octave="3" instrument="7" volume="2"/>
-            <sound note="F" octave="3" instrument="7" volume="2"/>
-            <sound note="F" octave="3" instrument="7" volume="2"/>
+            <sound/>
+            <sound note="G_D" octave="3" instrument="1" volume="2" effect="0"/>
+            <sound/>
+            <sound note="G_D" octave="3" instrument="1" volume="2" effect="0"/>
+            <sound/>
+            <sound note="G_D" octave="3" instrument="1" volume="2" effect="0"/>
+            <sound note="G_D" octave="3" instrument="7" volume="2" effect="0"/>
+            <sound note="G_D" octave="3" instrument="1" volume="2" effect="0"/>
+            <sound note="D_D" octave="4" instrument="7" volume="2" effect="0"/>
+            <sound note="G_D" octave="3" instrument="1" volume="2" effect="0"/>
+            <sound note="F" octave="4" instrument="7" volume="2" effect="0"/>
+            <sound note="C_D" octave="4" instrument="7" volume="2" effect="0"/>
+            <sound note="C_D" octave="4" instrument="7" volume="2" effect="0"/>
+            <sound note="G_D" octave="3" instrument="7" volume="2" effect="0"/>
+            <sound note="G_D" octave="3" instrument="7" volume="2" effect="0"/>
+            <sound note="F" octave="3" instrument="7" volume="2" effect="0"/>
+            <sound note="F" octave="3" instrument="7" volume="2" effect="0"/>
+            <sound note="C_D" octave="3" instrument="7" volume="2" effect="0"/>
+            <sound note="C_D" octave="3" instrument="7" volume="2" effect="0"/>
+            <sound/>
+            <sound/>
+         </sounds>
+      </sample>
+      <sample speed="16" loopStart="0" loopStop="0">
+         <sounds length="32">
+            <sound note="F_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="F_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound/>
+            <sound/>
+            <sound note="C_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="C_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="C_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="C_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="C_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="C_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="C_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="C_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="A_D" octave="2" instrument="0" volume="5" effect="0"/>
+            <sound note="A_D" octave="2" instrument="0" volume="5" effect="0"/>
+            <sound note="A_D" octave="2" instrument="0" volume="5" effect="0"/>
+            <sound note="A_D" octave="2" instrument="0" volume="5" effect="0"/>
+            <sound note="A_D" octave="2" instrument="0" volume="5" effect="0"/>
+            <sound note="A_D" octave="2" instrument="0" volume="5" effect="0"/>
+            <sound note="D_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="D_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="C_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="C_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="C_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="C_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="C_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="C_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="C_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="C_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="0" volume="5" effect="0"/>
+         </sounds>
+      </sample>
+      <sample speed="16" loopStart="0" loopStop="0">
+         <sounds length="32">
+            <sound/>
+            <sound/>
+            <sound note="G_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="G_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="F_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="F_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="F_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="F_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound/>
+            <sound/>
+            <sound note="C_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="C_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="F_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="F_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="F_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="F_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound/>
+            <sound/>
+            <sound note="G_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="G_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="C_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="C_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="C_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="C_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound/>
+            <sound/>
+            <sound note="G_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="G_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="C_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="C_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="C_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="C_D" octave="2" instrument="7" volume="5" effect="0"/>
+         </sounds>
+      </sample>
+      <sample speed="16" loopStart="0" loopStop="0">
+         <sounds length="32">
+            <sound note="G_D" octave="2" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="0" volume="5" effect="0"/>
+            <sound/>
+            <sound note="A_D" octave="2" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="0" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="0" volume="5" effect="0"/>
             <sound/>
             <sound/>
             <sound/>
@@ -616,72 +544,36 @@
          <sounds length="32">
             <sound/>
             <sound/>
-            <sound note="A_D" octave="1" instrument="7" volume="5"/>
-            <sound note="A_D" octave="1" instrument="7" volume="5"/>
-            <sound note="D_D" octave="1" instrument="7" volume="5"/>
-            <sound note="D_D" octave="1" instrument="7" volume="5"/>
-            <sound note="D_D" octave="2" instrument="7" volume="5"/>
-            <sound note="D_D" octave="2" instrument="7" volume="5"/>
+            <sound note="G_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="G_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="F" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="F" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="F" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="F" octave="2" instrument="7" volume="5" effect="0"/>
             <sound/>
             <sound/>
-            <sound note="A_D" octave="1" instrument="7" volume="5"/>
-            <sound note="A_D" octave="1" instrument="7" volume="5"/>
-            <sound note="D_D" octave="1" instrument="7" volume="5"/>
-            <sound note="D_D" octave="1" instrument="7" volume="5"/>
-            <sound note="D_D" octave="2" instrument="7" volume="5"/>
-            <sound note="D_D" octave="2" instrument="7" volume="5"/>
+            <sound note="G_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="G_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="F" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="F" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="F" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="F" octave="2" instrument="7" volume="5" effect="0"/>
             <sound/>
             <sound/>
-            <sound note="A_D" octave="1" instrument="7" volume="5"/>
-            <sound note="A_D" octave="1" instrument="7" volume="5"/>
-            <sound note="D_D" octave="1" instrument="7" volume="5"/>
-            <sound note="D_D" octave="1" instrument="7" volume="5"/>
-            <sound note="D_D" octave="2" instrument="7" volume="5"/>
-            <sound note="D_D" octave="2" instrument="7" volume="5"/>
+            <sound note="G_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="G_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="C_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="C_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="C_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="C_D" octave="2" instrument="7" volume="5" effect="0"/>
             <sound/>
             <sound/>
-            <sound note="A_D" octave="1" instrument="7" volume="5"/>
-            <sound note="A_D" octave="1" instrument="7" volume="5"/>
-            <sound note="D_D" octave="1" instrument="7" volume="5"/>
-            <sound note="D_D" octave="1" instrument="7" volume="5"/>
-            <sound note="D_D" octave="2" instrument="7" volume="5"/>
-            <sound note="D_D" octave="2" instrument="7" volume="5"/>
-         </sounds>
-      </sample>
-      <sample speed="16" loopStart="0" loopStop="0">
-         <sounds length="32">
-            <sound/>
-            <sound/>
-            <sound/>
-            <sound/>
-            <sound note="F" octave="3" instrument="0" volume="7"/>
-            <sound note="F" octave="3" instrument="0" volume="7"/>
-            <sound note="F" octave="3" instrument="0" volume="7"/>
-            <sound note="F" octave="3" instrument="0" volume="7"/>
-            <sound note="F" octave="3" instrument="0" volume="7"/>
-            <sound note="F" octave="3" instrument="0" volume="7"/>
-            <sound note="F" octave="3" instrument="0" volume="7"/>
-            <sound note="F" octave="3" instrument="0" volume="7"/>
-            <sound note="D_D" octave="3" instrument="0" volume="7"/>
-            <sound note="D_D" octave="3" instrument="0" volume="7"/>
-            <sound note="D_D" octave="3" instrument="0" volume="7"/>
-            <sound note="D_D" octave="3" instrument="0" volume="7"/>
-            <sound note="D_D" octave="3" instrument="0" volume="7"/>
-            <sound note="D_D" octave="3" instrument="0" volume="7"/>
-            <sound note="F_D" octave="3" instrument="0" volume="7"/>
-            <sound note="F_D" octave="3" instrument="0" volume="7"/>
-            <sound note="F" octave="3" instrument="0" volume="7"/>
-            <sound note="F" octave="3" instrument="0" volume="7"/>
-            <sound note="F" octave="3" instrument="0" volume="7"/>
-            <sound note="F" octave="3" instrument="0" volume="7"/>
-            <sound note="F" octave="3" instrument="0" volume="7"/>
-            <sound note="F" octave="3" instrument="0" volume="7"/>
-            <sound note="F" octave="3" instrument="0" volume="7"/>
-            <sound note="F" octave="3" instrument="0" volume="7"/>
-            <sound note="C_D" octave="3" instrument="0" volume="7"/>
-            <sound note="C_D" octave="3" instrument="0" volume="7"/>
-            <sound note="C_D" octave="3" instrument="0" volume="7"/>
-            <sound note="C_D" octave="3" instrument="0" volume="7"/>
+            <sound note="G_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="G_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="F" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="F" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="F" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="F" octave="2" instrument="7" volume="5" effect="0"/>
          </sounds>
       </sample>
       <sample speed="16" loopStart="0" loopStop="0">
@@ -692,31 +584,31 @@
             <sound/>
             <sound/>
             <sound/>
-            <sound note="F_D" octave="3" instrument="1" volume="2"/>
-            <sound/>
-            <sound note="F_D" octave="3" instrument="1" volume="2"/>
             <sound/>
             <sound/>
             <sound/>
             <sound/>
             <sound/>
-            <sound note="G_D" octave="3" instrument="1" volume="2"/>
             <sound/>
-            <sound note="G_D" octave="3" instrument="1" volume="2"/>
+            <sound note="G_D" octave="3" instrument="1" volume="2" effect="0"/>
+            <sound/>
+            <sound note="G_D" octave="3" instrument="1" volume="2" effect="0"/>
+            <sound note="C_D" octave="3" instrument="7" volume="2" effect="0"/>
+            <sound note="G_D" octave="3" instrument="1" volume="2" effect="0"/>
+            <sound note="G_D" octave="3" instrument="7" volume="2" effect="0"/>
+            <sound note="G_D" octave="3" instrument="1" volume="2" effect="0"/>
+            <sound note="D_D" octave="4" instrument="7" volume="2" effect="0"/>
+            <sound note="G_D" octave="3" instrument="1" volume="2" effect="0"/>
+            <sound note="F" octave="4" instrument="7" volume="2" effect="0"/>
+            <sound note="C" octave="4" instrument="7" volume="2" effect="0"/>
+            <sound note="C" octave="4" instrument="7" volume="2" effect="0"/>
+            <sound note="G_D" octave="3" instrument="7" volume="2" effect="0"/>
+            <sound note="G_D" octave="3" instrument="7" volume="2" effect="0"/>
+            <sound note="F" octave="3" instrument="7" volume="2" effect="0"/>
+            <sound note="F" octave="3" instrument="7" volume="2" effect="0"/>
             <sound/>
             <sound/>
             <sound/>
-            <sound/>
-            <sound/>
-            <sound note="A_D" octave="3" instrument="1" volume="2"/>
-            <sound/>
-            <sound note="A_D" octave="3" instrument="1" volume="2"/>
-            <sound/>
-            <sound/>
-            <sound/>
-            <sound/>
-            <sound/>
-            <sound note="C" octave="4" instrument="1" volume="2"/>
             <sound/>
          </sounds>
       </sample>
@@ -724,104 +616,212 @@
          <sounds length="32">
             <sound/>
             <sound/>
-            <sound note="A_D" octave="1" instrument="7" volume="5"/>
-            <sound note="A_D" octave="1" instrument="7" volume="5"/>
-            <sound note="G_D" octave="1" instrument="7" volume="5"/>
-            <sound note="G_D" octave="1" instrument="7" volume="5"/>
-            <sound note="G_D" octave="2" instrument="7" volume="5"/>
-            <sound note="G_D" octave="2" instrument="7" volume="5"/>
+            <sound note="A_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="A_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="D_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="D_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="D_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="D_D" octave="2" instrument="7" volume="5" effect="0"/>
             <sound/>
             <sound/>
-            <sound note="D_D" octave="2" instrument="7" volume="5"/>
-            <sound note="D_D" octave="2" instrument="7" volume="5"/>
-            <sound note="G_D" octave="1" instrument="7" volume="5"/>
-            <sound note="G_D" octave="1" instrument="7" volume="5"/>
-            <sound note="G_D" octave="2" instrument="7" volume="5"/>
-            <sound note="G_D" octave="2" instrument="7" volume="5"/>
+            <sound note="A_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="A_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="D_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="D_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="D_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="D_D" octave="2" instrument="7" volume="5" effect="0"/>
             <sound/>
             <sound/>
-            <sound note="D_D" octave="2" instrument="7" volume="5"/>
-            <sound note="D_D" octave="2" instrument="7" volume="5"/>
-            <sound note="G_D" octave="1" instrument="7" volume="5"/>
-            <sound note="G_D" octave="1" instrument="7" volume="5"/>
-            <sound note="G_D" octave="2" instrument="7" volume="5"/>
-            <sound note="G_D" octave="2" instrument="7" volume="5"/>
+            <sound note="A_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="A_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="D_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="D_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="D_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="D_D" octave="2" instrument="7" volume="5" effect="0"/>
             <sound/>
             <sound/>
-            <sound note="D_D" octave="2" instrument="7" volume="5"/>
-            <sound note="D_D" octave="2" instrument="7" volume="5"/>
-            <sound note="G_D" octave="1" instrument="7" volume="5"/>
-            <sound note="G_D" octave="1" instrument="7" volume="5"/>
-            <sound note="G_D" octave="2" instrument="7" volume="5"/>
-            <sound note="G_D" octave="2" instrument="7" volume="5"/>
+            <sound note="A_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="A_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="D_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="D_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="D_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="D_D" octave="2" instrument="7" volume="5" effect="0"/>
          </sounds>
       </sample>
       <sample speed="16" loopStart="0" loopStop="0">
          <sounds length="32">
-            <sound note="C" octave="4" instrument="1" volume="2"/>
             <sound/>
             <sound/>
             <sound/>
             <sound/>
-            <sound/>
-            <sound note="C_D" octave="4" instrument="1" volume="2"/>
-            <sound/>
-            <sound note="C_D" octave="4" instrument="1" volume="2"/>
-            <sound/>
-            <sound/>
-            <sound/>
-            <sound note="C_D" octave="3" instrument="1" volume="3"/>
-            <sound note="C_D" octave="3" instrument="1" volume="3"/>
-            <sound note="A_D" octave="3" instrument="1" volume="2"/>
-            <sound/>
-            <sound note="A_D" octave="3" instrument="1" volume="2"/>
-            <sound/>
-            <sound note="F" octave="3" instrument="1" volume="3"/>
-            <sound/>
-            <sound note="D_D" octave="3" instrument="1" volume="3"/>
-            <sound note="D_D" octave="3" instrument="1" volume="3"/>
-            <sound note="C" octave="4" instrument="1" volume="2"/>
-            <sound/>
-            <sound note="C" octave="4" instrument="1" volume="2"/>
-            <sound/>
-            <sound/>
-            <sound/>
-            <sound note="F" octave="4" instrument="1" volume="2"/>
-            <sound note="F" octave="4" instrument="1" volume="2"/>
-            <sound note="F" octave="4" instrument="1" volume="2"/>
-            <sound note="F" octave="4" instrument="1" volume="2"/>
+            <sound note="F" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="F" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="F" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="F" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="F" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="F" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="F" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="F" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="D_D" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="D_D" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="D_D" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="D_D" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="D_D" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="D_D" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="F_D" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="F_D" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="F" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="F" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="F" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="F" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="F" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="F" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="F" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="F" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="C_D" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="C_D" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="C_D" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="C_D" octave="3" instrument="0" volume="7" effect="0"/>
          </sounds>
       </sample>
       <sample speed="16" loopStart="0" loopStop="0">
          <sounds length="32">
-            <sound note="C_D" octave="3" instrument="0" volume="7"/>
-            <sound note="C_D" octave="3" instrument="0" volume="7"/>
-            <sound note="F" octave="3" instrument="0" volume="5"/>
-            <sound note="F" octave="3" instrument="0" volume="5"/>
-            <sound note="D_D" octave="3" instrument="0" volume="5"/>
-            <sound note="D_D" octave="3" instrument="0" volume="5"/>
-            <sound note="D_D" octave="3" instrument="0" volume="5"/>
-            <sound note="D_D" octave="3" instrument="0" volume="5"/>
-            <sound note="D_D" octave="3" instrument="0" volume="5"/>
-            <sound note="D_D" octave="3" instrument="0" volume="5"/>
-            <sound note="D_D" octave="3" instrument="0" volume="5"/>
-            <sound note="D_D" octave="3" instrument="0" volume="5"/>
-            <sound note="D_D" octave="3" instrument="0" volume="5"/>
-            <sound note="D_D" octave="3" instrument="0" volume="5"/>
-            <sound note="C" octave="3" instrument="1" volume="3"/>
-            <sound note="D_D" octave="3" instrument="0" volume="5"/>
-            <sound note="C_D" octave="3" instrument="1" volume="3"/>
-            <sound note="D_D" octave="3" instrument="0" volume="5"/>
-            <sound note="D_D" octave="3" instrument="0" volume="5"/>
-            <sound note="D_D" octave="3" instrument="0" volume="5"/>
-            <sound note="D_D" octave="3" instrument="0" volume="5"/>
-            <sound note="D_D" octave="3" instrument="0" volume="5"/>
-            <sound note="D_D" octave="3" instrument="0" volume="5"/>
-            <sound note="D_D" octave="3" instrument="0" volume="5"/>
-            <sound note="D_D" octave="3" instrument="0" volume="5"/>
-            <sound note="D_D" octave="3" instrument="0" volume="5"/>
-            <sound note="D_D" octave="3" instrument="0" volume="5"/>
-            <sound note="D_D" octave="3" instrument="0" volume="5"/>
+            <sound/>
+            <sound/>
+            <sound/>
+            <sound/>
+            <sound/>
+            <sound/>
+            <sound note="F_D" octave="3" instrument="1" volume="2" effect="0"/>
+            <sound/>
+            <sound note="F_D" octave="3" instrument="1" volume="2" effect="0"/>
+            <sound/>
+            <sound/>
+            <sound/>
+            <sound/>
+            <sound/>
+            <sound note="G_D" octave="3" instrument="1" volume="2" effect="0"/>
+            <sound/>
+            <sound note="G_D" octave="3" instrument="1" volume="2" effect="0"/>
+            <sound/>
+            <sound/>
+            <sound/>
+            <sound/>
+            <sound/>
+            <sound note="A_D" octave="3" instrument="1" volume="2" effect="0"/>
+            <sound/>
+            <sound note="A_D" octave="3" instrument="1" volume="2" effect="0"/>
+            <sound/>
+            <sound/>
+            <sound/>
+            <sound/>
+            <sound/>
+            <sound note="C" octave="4" instrument="1" volume="2" effect="0"/>
+            <sound/>
+         </sounds>
+      </sample>
+      <sample speed="16" loopStart="0" loopStop="0">
+         <sounds length="32">
+            <sound/>
+            <sound/>
+            <sound note="A_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="A_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="G_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="G_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound/>
+            <sound/>
+            <sound note="D_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="D_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="G_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="G_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound/>
+            <sound/>
+            <sound note="D_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="D_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="G_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="G_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound/>
+            <sound/>
+            <sound note="D_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="D_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="G_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="G_D" octave="1" instrument="7" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="7" volume="5" effect="0"/>
+            <sound note="G_D" octave="2" instrument="7" volume="5" effect="0"/>
+         </sounds>
+      </sample>
+      <sample speed="16" loopStart="0" loopStop="0">
+         <sounds length="32">
+            <sound note="C" octave="4" instrument="1" volume="2" effect="0"/>
+            <sound/>
+            <sound/>
+            <sound/>
+            <sound/>
+            <sound/>
+            <sound note="C_D" octave="4" instrument="1" volume="2" effect="0"/>
+            <sound/>
+            <sound note="C_D" octave="4" instrument="1" volume="2" effect="0"/>
+            <sound/>
+            <sound/>
+            <sound/>
+            <sound note="C_D" octave="3" instrument="1" volume="3" effect="0"/>
+            <sound note="C_D" octave="3" instrument="1" volume="3" effect="0"/>
+            <sound note="A_D" octave="3" instrument="1" volume="2" effect="0"/>
+            <sound/>
+            <sound note="A_D" octave="3" instrument="1" volume="2" effect="0"/>
+            <sound/>
+            <sound note="F" octave="3" instrument="1" volume="3" effect="0"/>
+            <sound/>
+            <sound note="D_D" octave="3" instrument="1" volume="3" effect="0"/>
+            <sound note="D_D" octave="3" instrument="1" volume="3" effect="0"/>
+            <sound note="C" octave="4" instrument="1" volume="2" effect="0"/>
+            <sound/>
+            <sound note="C" octave="4" instrument="1" volume="2" effect="0"/>
+            <sound/>
+            <sound/>
+            <sound/>
+            <sound note="F" octave="4" instrument="1" volume="2" effect="0"/>
+            <sound note="F" octave="4" instrument="1" volume="2" effect="0"/>
+            <sound note="F" octave="4" instrument="1" volume="2" effect="0"/>
+            <sound note="F" octave="4" instrument="1" volume="2" effect="0"/>
+         </sounds>
+      </sample>
+      <sample speed="16" loopStart="0" loopStop="0">
+         <sounds length="32">
+            <sound note="C_D" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="C_D" octave="3" instrument="0" volume="7" effect="0"/>
+            <sound note="F" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="F" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="D_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="D_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="D_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="D_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="D_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="D_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="D_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="D_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="D_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="D_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="C" octave="3" instrument="1" volume="3" effect="0"/>
+            <sound note="D_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="C_D" octave="3" instrument="1" volume="3" effect="0"/>
+            <sound note="D_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="D_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="D_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="D_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="D_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="D_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="D_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="D_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="D_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="D_D" octave="3" instrument="0" volume="5" effect="0"/>
+            <sound note="D_D" octave="3" instrument="0" volume="5" effect="0"/>
             <sound/>
             <sound/>
             <sound/>

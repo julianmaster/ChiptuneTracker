@@ -9,7 +9,8 @@ import com.jsyn.unitgen.UnitFilter;
  */
 public class CustomRamp extends UnitFilter {
 
-    public static final int COUNT_PERIOD_GROUP = 2;
+    public static final int COUNT_CHANGE_PERIOD = 4;
+    public static final int COUNT_STASE_PERIOD = 16;
 
     public UnitInputPort startValue;
     public UnitInputPort endValue;
@@ -36,24 +37,25 @@ public class CustomRamp extends UnitFilter {
 
         if(isStart) {
             isStart = false;
-            count = COUNT_PERIOD_GROUP;
+            count = COUNT_CHANGE_PERIOD + COUNT_STASE_PERIOD;
         }
 
-        if(count > 0) {
+        if(count > COUNT_STASE_PERIOD) {
             count--;
-//            System.out.println("bad");
-//            System.out.println(currentValue);
-            double part = ((startValue.get() - currentValue) / ((double)limit - (double)start)) / COUNT_PERIOD_GROUP;
+            double part = ((startValue.get() - currentValue) / ((double)limit - (double)start)) / COUNT_CHANGE_PERIOD;
 
             for (int i = start; i < limit; i++) {
                 currentValue = currentValue + part;
                 outputs[i] = currentValue;
             }
         }
+        else if(count > 0) {
+            count--;
+            for (int i = start; i < limit; i++) {
+                outputs[i] = currentValue;
+            }
+        }
         else {
-//            System.out.println("good");
-//            System.out.println(currentValue);
-
             for (int i = start; i < limit; i++) {
                 a = -(endValue.get() - startValue.get()) / duration.get();
                 b = endValue.get();

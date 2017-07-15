@@ -14,6 +14,8 @@ import com.chiptunetracker.model.*;
 
 public class PatternView extends View {
 
+	private static final Color EFFECT_COLOR = new Color(0xae8b9eff);
+
 	private int sampleCursor = 0;
 	private int soundCursor = 0;
 	private int soundConfCursor = 0;
@@ -525,6 +527,7 @@ public class PatternView extends View {
 			sound.octave = chiptuneTracker.getSampleView().getOctaveCursor();
 			sound.instrument = chiptuneTracker.getSampleView().getInstrumentCursor();
 			sound.volume = chiptuneTracker.getSampleView().getVolumeCursor();
+			sound.volume = chiptuneTracker.getSampleView().getEffectCursor();
 			
 			chiptuneTracker.getChanels().playSound(sound);
 		}
@@ -842,7 +845,7 @@ public class PatternView extends View {
 							sound.octave.toString(), 		Color.GREEN, 	soundConfCursor == 1 ? Color.YELLOW : Color.BLUE,
 							sound.instrument.toString(), 	Color.MAGENTA, 	soundConfCursor == 2 ? Color.YELLOW : Color.BLUE,
 							sound.volume.toString(), 		Color.CYAN, 	soundConfCursor == 3 ? Color.YELLOW : Color.BLUE,
-							DOT, 							Color.GRAY, 	soundConfCursor == 4 ? Color.YELLOW : Color.BLUE);
+							sound.effect.toString(),		EFFECT_COLOR, 	soundConfCursor == 4 ? Color.YELLOW : Color.BLUE);
 				}
 				else {
 					printSound(asciiTerminal, x, y,
@@ -867,7 +870,7 @@ public class PatternView extends View {
 							sound.octave.toString(), 		Color.GREEN, 	backgroundColor,
 							sound.instrument.toString(), 	Color.MAGENTA, 	backgroundColor,
 							sound.volume.toString(), 		Color.CYAN, 	backgroundColor,
-							DOT, 							Color.GRAY, 	backgroundColor);
+							sound.effect.toString(),		EFFECT_COLOR, 	backgroundColor);
 				}
 				else {
 					for(int j = x; j < x + 6; j++) {

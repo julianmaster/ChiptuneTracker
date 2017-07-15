@@ -7,14 +7,16 @@ import com.softsynth.shared.time.TimeStamp;
 public class OscillatorCircuit extends CustomCircuit {
 	private UnitOscillator osc;
 	private EnvelopeDAHDSR ampEnv;
-	private CustomRamp ramp;
+//	private CustomRamp ramp;
+	private LinearRamp ramp;
 
 	public OscillatorCircuit(UnitOscillator osc) {
 		this.osc = osc;
 		
 		add(osc);
 		add(ampEnv = new EnvelopeDAHDSR());
-		add(ramp = new CustomRamp());
+//		add(ramp = new CustomRamp());
+		add(ramp = new LinearRamp());
 
 		ramp.output.connect(osc.amplitude);
 		osc.output.connect(ampEnv.amplitude);
@@ -23,8 +25,6 @@ public class OscillatorCircuit extends CustomCircuit {
 		ampEnv.attack.set(0.01d);
 		ampEnv.sustain.set(1.0d);
 		ampEnv.release.set(0.01d);
-
-		usePreset(0);
 	}
 
 	@Override
@@ -34,57 +34,96 @@ public class OscillatorCircuit extends CustomCircuit {
 
 	@Override
 	public void usePreset(int presetIndex, double frequency, double amplitude, double duration, TimeStamp timeStamp) {
+//		switch (presetIndex) {
+//			case 0:
+//				ramp.isStart = true;
+//				ramp.startValue.set(amplitude, timeStamp);
+//				ramp.endValue.set(amplitude, timeStamp);
+//				break;
+//
+//			case 1:
+//				ramp.isStart = true;
+//				ramp.startValue.set(amplitude, timeStamp);
+//				ramp.endValue.set(amplitude, timeStamp);
+//				break;
+//
+//			case 2:
+//				ramp.isStart = true;
+//				ramp.startValue.set(amplitude, timeStamp);
+//				ramp.endValue.set(amplitude, timeStamp);
+//				break;
+//
+//			case 3:
+//				ramp.isStart = true;
+//				ramp.startValue.set(amplitude, timeStamp);
+//				ramp.endValue.set(amplitude, timeStamp);
+//				break;
+//
+//			case 4:
+//				ramp.isStart = true;
+//				ramp.startValue.set(0.0d, timeStamp);
+//				ramp.endValue.set(amplitude, timeStamp);
+//				ramp.duration.set(duration, timeStamp);
+//				ramp.time.set(duration, timeStamp);
+//				break;
+//
+//			case 5:
+//				ramp.isStart = true;
+//				ramp.startValue.set(amplitude, timeStamp);
+//				ramp.endValue.set(0.0d, timeStamp);
+//				ramp.duration.set(duration, timeStamp);
+//				ramp.time.set(duration, timeStamp);
+//				break;
+//
+//			case 6:
+//				ramp.isStart = true;
+//				ramp.startValue.set(amplitude, timeStamp);
+//				ramp.endValue.set(amplitude, timeStamp);
+//				break;
+//
+//			case 7:
+//				ramp.isStart = true;
+//				ramp.startValue.set(amplitude, timeStamp);
+//				ramp.endValue.set(amplitude, timeStamp);
+//				break;
+//		}
+
 		switch (presetIndex) {
 			case 0:
-				ramp.isStart = true;
-				ramp.startValue.set(amplitude, timeStamp);
-				ramp.endValue.set(amplitude, timeStamp);
+				ramp.input.set(amplitude, timeStamp);
+				ramp.time.set(0.01d, timeStamp);
 				break;
 
 			case 1:
-				ramp.isStart = true;
-				ramp.startValue.set(amplitude, timeStamp);
-				ramp.endValue.set(amplitude, timeStamp);
+				ramp.input.set(amplitude, timeStamp);
 				break;
 
 			case 2:
-				ramp.isStart = true;
-				ramp.startValue.set(amplitude, timeStamp);
-				ramp.endValue.set(amplitude, timeStamp);
+				ramp.input.set(amplitude, timeStamp);
 				break;
 
 			case 3:
-				ramp.isStart = true;
-				ramp.startValue.set(amplitude, timeStamp);
-				ramp.endValue.set(amplitude, timeStamp);
+				ramp.input.set(amplitude, timeStamp);
 				break;
 
 			case 4:
-				ramp.isStart = true;
-				ramp.startValue.set(0.0d, timeStamp);
-				ramp.endValue.set(amplitude, timeStamp);
-				ramp.duration.set(duration, timeStamp);
+				osc.amplitude.set(0.0d, timeStamp);
+				ramp.input.set(amplitude, timeStamp);
 				ramp.time.set(duration, timeStamp);
 				break;
 
 			case 5:
-				ramp.isStart = true;
-				ramp.startValue.set(amplitude, timeStamp);
-				ramp.endValue.set(0.0d, timeStamp);
-				ramp.duration.set(duration, timeStamp);
+				osc.amplitude.set(amplitude, timeStamp);
+				ramp.input.set(0.0d, timeStamp);
 				ramp.time.set(duration, timeStamp);
 				break;
 
 			case 6:
-				ramp.isStart = true;
-				ramp.startValue.set(amplitude, timeStamp);
-				ramp.endValue.set(amplitude, timeStamp);
+				ramp.input.set(amplitude, timeStamp);
 				break;
 
 			case 7:
-				ramp.isStart = true;
-				ramp.startValue.set(amplitude, timeStamp);
-				ramp.endValue.set(amplitude, timeStamp);
+				ramp.input.set(amplitude, timeStamp);
 				break;
 		}
 	}

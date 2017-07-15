@@ -15,7 +15,7 @@ public class Sound {
 	@Attribute
 	public Integer volume;
 
-	@Attribute(required=false)
+	@Attribute
 	public Integer effect;
 	
 	public Sound() {

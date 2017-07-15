@@ -16,6 +16,7 @@ import com.jsyn.unitgen.SquareOscillatorBL;
 import com.jsyn.unitgen.TriangleOscillator;
 import com.jsyn.unitgen.WhiteNoise;
 import com.jsyn.util.WaveRecorder;
+import com.softsynth.shared.time.ScheduledCommand;
 import com.softsynth.shared.time.TimeStamp;
 
 public class FileRecorder {
@@ -30,7 +31,7 @@ public class FileRecorder {
 	public FileRecorder() {
 		synth = JSyn.createSynthesizer();
 		synth.setRealTime(false);
-		
+
 		chanels = new ChanelRecorder[CHANELS];
 		
 		for(int i = 0; i < CHANELS; i++) {
@@ -52,11 +53,11 @@ public class FileRecorder {
 		File waveFile = new File(filename);
 		if(waveFile.canWrite() || !waveFile.exists()) {
 			recorder = new WaveRecorder(getSynth(), waveFile);
-			
+
 			for(int i = 0; i < CHANELS; i++) {
 				chanels[i].init();
 			}
-			
+
 			recorder.start();
 			synth.start();
 			
@@ -292,16 +293,13 @@ public class FileRecorder {
 			
 			final TimeStamp start = new TimeStamp(time);
 			TimeStamp end = new TimeStamp(time + samplefrequency);
-			
+
+			voices[sound.instrument].usePreset(sound.effect, frequency, volume, samplefrequency, start);
 			voices[sound.instrument].noteOn(frequency, volume, start);
-	
+
 			voices[sound.instrument].noteOff(end);
 		}
-		
-		public int getSample() {
-			return sample;
-		}
-		
+
 		public void stop() {
 			double time = fileRecorder.getSynth().getCurrentTime();
 			for(CustomCircuit circuit : voices) {
