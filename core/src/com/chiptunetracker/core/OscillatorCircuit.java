@@ -96,14 +96,17 @@ public class OscillatorCircuit extends CustomCircuit {
 
 			case 1:
 				ramp.input.set(amplitude, timeStamp);
+				ramp.time.set(0.01d, timeStamp);
 				break;
 
 			case 2:
 				ramp.input.set(amplitude, timeStamp);
+				ramp.time.set(0.01d, timeStamp);
 				break;
 
 			case 3:
 				ramp.input.set(amplitude, timeStamp);
+				ramp.time.set(0.01d, timeStamp);
 				break;
 
 			case 4:
@@ -120,10 +123,12 @@ public class OscillatorCircuit extends CustomCircuit {
 
 			case 6:
 				ramp.input.set(amplitude, timeStamp);
+				ramp.time.set(0.01d, timeStamp);
 				break;
 
 			case 7:
 				ramp.input.set(amplitude, timeStamp);
+				ramp.time.set(0.01d, timeStamp);
 				break;
 		}
 	}
