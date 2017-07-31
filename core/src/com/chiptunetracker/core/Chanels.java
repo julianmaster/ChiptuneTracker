@@ -40,6 +40,7 @@ public class Chanels {
 	 */
 	
 	public void playSound(Sound sound) {
+		chanels[0].clearLastSound();
 		chanels[0].play(sound);
 	}
 	
@@ -54,6 +55,7 @@ public class Chanels {
 	
 	public void playSample(int sampleIndex) {
 		playSample = true;
+		chanels[0].clearLastSound();
 		chanels[0].playSample(sampleIndex, -1);
 	}
 	
@@ -94,6 +96,9 @@ public class Chanels {
 	public void playPattern(int patternIndex) {
 		currentPattern = patternIndex;
 		playPattern = true;
+		for(int i = 0; i < CHANELS; i++) {
+			chanels[i].clearLastSound();
+		}
 		next();
 	}
 	

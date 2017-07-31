@@ -20,13 +20,10 @@ import com.chiptunetracker.model.Sound;
 
 public class SampleView extends View {
 
-	private static final Color EFFECT_COLOR = new Color(0xae8b9eff);
-
 	private int sampleCursor = 0;
 	private int soundCursor = 0;
 	private int soundConfCursor = 0;
-	private int effectCursor = 0;
-	
+
 	// Loop buttons
 	private AsciiTerminalButton buttonLoopStartSample;
 	private AsciiTerminalButton buttonLoopStopSample;
@@ -51,15 +48,23 @@ public class SampleView extends View {
 	private List<AsciiSelectableTerminalButton> instrumentButtons = new ArrayList<>();
 	// Current oscillator button active
 	private AsciiSelectableTerminalButton currentInstrumentButton = null;
+
+	// Oscillator cursor
+	private int effectCursor = 0;
+	// Oscillator button list
+	private List<AsciiSelectableTerminalButton> effectButtons = new ArrayList<>();
+	// Current oscillator button active
+	private AsciiSelectableTerminalButton currentEffectButton = null;
 	
 	public SampleView(ChiptuneTracker chiptuneTracker) {
 		super(chiptuneTracker);
 		createSampleButtons();
 		createSpeedButtons();
+		createLoopButtons();
 		createOctaveButtons();
 		createVolumeButtons();
 		createOscillatorButtons();
-		createLoopButtons();
+		createEffectButtons();
 		changeSample(0);
 	}
 	
@@ -236,6 +241,32 @@ public class SampleView extends View {
 			}
 		}
 		getListActor().addAll(instrumentButtons);
+	}
+
+	private void createEffectButtons() {
+		AsciiTerminal asciiTerminal = chiptuneTracker.getAsciiTerminal();
+
+		for(int i = 0; i <= 7; i++) {
+			AsciiSelectableTerminalButton button = new AsciiSelectableTerminalButton(asciiTerminal, String.valueOf((char)(240 + i)), ChiptuneTracker.WINDOW_WIDTH - 8 - 1 + i, 6, Color.LIGHT_GRAY, Color.WHITE, Color.WHITE, Color.CORAL, asciiTerminal.getDefaultCharacterBackgroundColor());
+			button.addListener(new ClickListener() {
+				@Override
+				public void clicked(InputEvent event, float x, float y) {
+					currentEffectButton.setSelected(false);
+					AsciiSelectableTerminalButton button = (AsciiSelectableTerminalButton)event.getTarget();
+					button.setSelected(true);
+					currentEffectButton = button;
+					changeEffect(button.getName());
+				}
+			});
+
+			effectButtons.add(button);
+			if(i == 0) {
+				currentEffectButton = button;
+				currentEffectButton.setSelected(true);
+			}
+		}
+
+		getListActor().addAll(effectButtons);
 	}
 	
 	@Override
@@ -429,6 +460,10 @@ public class SampleView extends View {
 		instrumentCursor = instrument.charAt(0) - 224;
 	}
 
+	private void changeEffect(String effect) {
+		effectCursor = effect.charAt(0) - 240;
+	}
+
 	@Override
 	public void render(float delta) {
 		super.render(delta);
@@ -450,11 +485,17 @@ public class SampleView extends View {
 		
 		// Volume
 		asciiTerminal.writeString(1, 6, "Vol", Color.LIGHT_GRAY);
-		
+
+		// Oscillator
+		asciiTerminal.writeString(16, 4, "Osc", Color.LIGHT_GRAY);
+
+		// Effect
+		asciiTerminal.writeString(15, 6, "Efft", Color.LIGHT_GRAY);
+
 		// Effects
-		for(int i = 0; i < 8; i++) {
-			asciiTerminal.write(ChiptuneTracker.WINDOW_WIDTH - 8 - 1 + i, 6, (char)(240 + i), Color.LIGHT_GRAY, Color.BLACK);
-		}
+//		for(int i = 0; i < 8; i++) {
+//			asciiTerminal.write(ChiptuneTracker.WINDOW_WIDTH - 8 - 1 + i, 6, (char)(240 + i), Color.LIGHT_GRAY, Color.BLACK);
+//		}
 		
 		// Sounds
 		for(int i = 0; i < Sample.SIZE; i++) {
@@ -470,7 +511,7 @@ public class SampleView extends View {
 							sound.octave.toString(), 		Color.GREEN, 	soundConfCursor == 1 ? Color.YELLOW : Color.BLUE,
 							sound.instrument.toString(), 	Color.MAGENTA, 	soundConfCursor == 2 ? Color.YELLOW : Color.BLUE,
 							sound.volume.toString(), 		Color.CYAN, 	soundConfCursor == 3 ? Color.YELLOW : Color.BLUE,
-							sound.effect.toString(),		EFFECT_COLOR, 	soundConfCursor == 4 ? Color.YELLOW : Color.BLUE);
+							sound.effect.toString(),		Color.CORAL, 	soundConfCursor == 4 ? Color.YELLOW : Color.BLUE);
 				}
 				else {
 					printSound(asciiTerminal, x, y,
@@ -495,7 +536,7 @@ public class SampleView extends View {
 							sound.octave.toString(), 		Color.GREEN, 	backgroundColor,
 							sound.instrument.toString(), 	Color.MAGENTA, 	backgroundColor,
 							sound.volume.toString(), 		Color.CYAN, 	backgroundColor,
-							sound.effect.toString(), 		EFFECT_COLOR, 	backgroundColor);
+							sound.effect.toString(), 		Color.CORAL, 	backgroundColor);
 				}
 				else {
 					for(int j = x; j < x + 6; j++) {

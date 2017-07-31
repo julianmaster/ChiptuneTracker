@@ -32,11 +32,12 @@ public class WhiteNoiseCircuit extends CustomCircuit {
 	}
 
 	@Override
-	public void usePreset(int presetIndex, double frequency, double amplitude, double duration, TimeStamp timeStamp) {
+	public boolean usePreset(int presetIndex, double frequency, double amplitude, double duration, TimeStamp timeStamp) {
 		switch (presetIndex) {
 			case 0:
 				break;
 		}
+		return false;
 	}
 
 	@Override
