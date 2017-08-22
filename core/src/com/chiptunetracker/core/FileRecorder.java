@@ -2,11 +2,13 @@ package com.chiptunetracker.core;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
 
 import com.chiptunetracker.model.Notes;
 import com.chiptunetracker.model.Pattern;
 import com.chiptunetracker.model.Sample;
 import com.chiptunetracker.model.Sound;
+import com.chiptunetracker.osc.*;
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.unitgen.FunctionOscillator;
@@ -63,7 +65,7 @@ public class FileRecorder {
 			
 			currentPattern = 0;
 			savePattern = true;
-			double startSoundTime = synth.getCurrentTime();
+			double startSoundTime = synth.getCurrentTime()+1;
 			double endSoundTime = update(startSoundTime);
 			
 			synth.sleepUntil(endSoundTime);
@@ -186,15 +188,19 @@ public class FileRecorder {
 	 */
 	
 	class ChanelRecorder {
+		public static final int GROUP = Chanel.GROUP;
 		public static final int INSTRUMENTS = Chanel.INSTRUMENTS;
 		public static final int VOLUME_MAX = Chanel.VOLUME_MAX;
 		
 		private final FileRecorder fileRecorder;
-		
-		private CustomCircuit[] voices;
-		
+
+		private CustomCircuit[][] voices;
+		private int currentGroup = 0;
+
 		private boolean start = false;
 		private boolean finish = false;
+
+		private Sound lastSound = null;
 		
 		private int sample;
 		private int sampleSpeed;
@@ -204,30 +210,55 @@ public class FileRecorder {
 		
 		public ChanelRecorder(FileRecorder fileRecorder) {
 			this.fileRecorder = fileRecorder;
-			
-			voices = new CustomCircuit[INSTRUMENTS];
+
+			voices = new CustomCircuit[GROUP][INSTRUMENTS];
 		}
 		
 		public void init() {
-			add(0, new OscillatorCircuit(new SineOscillator()));
-			FunctionOscillator sineSawtoothOscillator = new FunctionOscillator();
-			sineSawtoothOscillator.function.set(new SineSawtoothFunction());
-			add(1, new OscillatorCircuit(sineSawtoothOscillator));
-			add(2, new OscillatorCircuit(new SawtoothOscillatorDPW()));
-			add(3, new OscillatorCircuit(new SquareOscillatorBL()));
-			add(4, new OscillatorCircuit(new DemiSquareOscillator()));
-			FunctionOscillator mountainOscillator = new FunctionOscillator();
-			mountainOscillator.function.set(new MoutainFunction());
-			add(5, new OscillatorCircuit(mountainOscillator));
-			add(6, new WhiteNoiseCircuit(new WhiteNoise()));
-			add(7, new OscillatorCircuit(new TriangleOscillator()));
+			voices = new CustomCircuit[GROUP][INSTRUMENTS];
+
+			for(int i = 0; i < GROUP; i++) {
+				FunctionOscillator triOscillator = new FunctionOscillator();
+				triOscillator.function.set(new TriFunction());
+				add(i, 0, new OscillatorCircuit(triOscillator));
+
+				FunctionOscillator unevenTriOscillator = new FunctionOscillator();
+				unevenTriOscillator.function.set(new UnevenTriFunction());
+				add(i, 1, new OscillatorCircuit(unevenTriOscillator));
+
+				FunctionOscillator sawOscillator = new FunctionOscillator();
+				sawOscillator.function.set(new SawFunction());
+				add(i, 2, new OscillatorCircuit(sawOscillator));
+
+				FunctionOscillator sqrOscillator = new FunctionOscillator();
+				sqrOscillator.function.set(new SqrFunction());
+				add(i, 3, new OscillatorCircuit(sqrOscillator));
+
+				FunctionOscillator pulseOscillator = new FunctionOscillator();
+				pulseOscillator.function.set(new PulseFunction());
+				add(i, 4, new OscillatorCircuit(pulseOscillator));
+
+				FunctionOscillator demiTriOscillator = new FunctionOscillator();
+				demiTriOscillator.function.set(new DemiTriFunction());
+				add(i, 5, new OscillatorCircuit(demiTriOscillator));
+
+				FunctionOscillator noiseOscillator = new FunctionOscillator();
+				noiseOscillator.function.set(new NoiseFunction());
+				add(i, 6, new OscillatorCircuit(noiseOscillator));
+
+				FunctionOscillator detunedTri1Oscillator = new FunctionOscillator();
+				detunedTri1Oscillator.function.set(new DetunedTriFunction1());
+				FunctionOscillator detunedTri2Oscillator = new FunctionOscillator();
+				detunedTri2Oscillator.function.set(new DetunedTriFunction2());
+				add(i, 7, new DualOscillatorCircuit(detunedTri1Oscillator, detunedTri2Oscillator));
+			}
 		}
 		
-		public void add(int position, CustomCircuit circuit) {
+		private void add(int group, int position, CustomCircuit circuit) {
 			fileRecorder.getSynth().add(circuit);
 			circuit.getOutput().connect(0, fileRecorder.getRecorder().getInput(), 0);
 			circuit.getOutput().connect(0, fileRecorder.getRecorder().getInput(), 1);
-			voices[position] = circuit;
+			voices[group][position] = circuit;
 		}
 		
 		public void playSample(int sampleIndex, double startSoundTime) {
@@ -252,7 +283,7 @@ public class FileRecorder {
 				Sound sound = ChiptuneTracker.getInstance().getData().samples.get(sample).sounds[soundCursor];
 				
 				if(start && sound != null) {
-					playNote(sound, soundCursor, sampleSpeed, lastSoundTime);
+					playNote(sound, sampleSpeed, lastSoundTime);
 					lastSoundTime += sampleFrequency;
 					start = false;
 				}
@@ -262,7 +293,7 @@ public class FileRecorder {
 				}
 				// Note exist
 				else if(sound != null) {
-					playNote(sound, soundCursor, sampleSpeed, lastSoundTime);
+					playNote(sound, sampleSpeed, lastSoundTime);
 					lastSoundTime += sampleFrequency;
 				}
 				// Silence
@@ -285,7 +316,7 @@ public class FileRecorder {
 			return false;
 		}
 		
-		private void playNote(final Sound sound, final int position, int speed, double time) {
+		private void playNote(final Sound sound, int speed, double time) {
 			// Cap the value to 0.25 (1 chanel on 4 play as same time)
 			final double volume = Math.min((double) sound.volume / (double) (VOLUME_MAX * Chanels.CHANELS), 0.25d);
 			final double frequency = Notes.getFrequency(sound.octave, sound.note);
@@ -294,17 +325,39 @@ public class FileRecorder {
 			final TimeStamp start = new TimeStamp(time);
 			TimeStamp end = new TimeStamp(time + samplefrequency);
 
-			voices[sound.instrument].usePreset(sound.effect, frequency, volume, samplefrequency, start);
-			voices[sound.instrument].noteOn(frequency, volume, start);
+			// Start note
+			if(lastSound != null && lastSound.instrument == sound.instrument) {
+				boolean change = false;
+				if(lastSound.effect == 5 && sound.effect != 4) {
+					change = true;
+				}
+				else if(lastSound.effect == 4 && sound.effect == 4) {
+					change = true;
+				}
+				else if(lastSound.effect != 5 && sound.effect == 4) {
+					change = true;
+				}
 
-			voices[sound.instrument].noteOff(end);
+				if(change) {
+					currentGroup = currentGroup < GROUP - 1 ? currentGroup+1 : 0;
+				}
+			}
+			voices[currentGroup][sound.instrument].usePreset(sound.effect, frequency, volume, samplefrequency, start);
+			voices[currentGroup][sound.instrument].noteOn(frequency, volume, start);
+
+			// End Note
+			voices[currentGroup][sound.instrument].noteOff(end);
+
+			lastSound = sound;
 		}
 
 		public void stop() {
 			double time = fileRecorder.getSynth().getCurrentTime();
-			for(CustomCircuit circuit : voices) {
-				circuit.noteOff(new TimeStamp(time));
-				circuit.noteOff(new TimeStamp(lastSoundTime));
+			for(int i = 0; i < GROUP; i++) {
+				for(CustomCircuit circuit : voices[i]) {
+					circuit.noteOff(new TimeStamp(time));
+					circuit.noteOff(new TimeStamp(lastSoundTime));
+				}
 			}
 		}
 		

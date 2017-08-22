@@ -3,6 +3,7 @@ package com.chiptunetracker.core;
 import com.chiptunetracker.model.Notes;
 import com.chiptunetracker.model.Sample;
 import com.chiptunetracker.model.Sound;
+import com.chiptunetracker.osc.*;
 import com.jsyn.Synthesizer;
 import com.jsyn.unitgen.FunctionOscillator;
 import com.jsyn.unitgen.SawtoothOscillatorDPW;
@@ -47,18 +48,54 @@ public class Chanel {
 		voices = new CustomCircuit[GROUP][INSTRUMENTS];
 
 		for(int i = 0; i < GROUP; i++) {
-			add(i, 0, new OscillatorCircuit(new SineOscillator()));
-			FunctionOscillator sineSawtoothOscillator = new FunctionOscillator();
-			sineSawtoothOscillator.function.set(new SineSawtoothFunction());
-			add(i, 1, new OscillatorCircuit(sineSawtoothOscillator));
-			add(i, 2, new OscillatorCircuit(new SawtoothOscillatorDPW()));
-			add(i, 3, new OscillatorCircuit(new SquareOscillatorBL()));
-			add(i, 4, new OscillatorCircuit(new DemiSquareOscillator()));
-			FunctionOscillator mountainOscillator = new FunctionOscillator();
-			mountainOscillator.function.set(new MoutainFunction());
-			add(i, 5, new OscillatorCircuit(mountainOscillator));
-			add(i, 6, new WhiteNoiseCircuit(new WhiteNoise()));
-			add(i, 7, new OscillatorCircuit(new TriangleOscillator()));
+//			add(i, 0, new OscillatorCircuit(new SineOscillator()));
+//			FunctionOscillator sineSawtoothOscillator = new FunctionOscillator();
+//			sineSawtoothOscillator.function.set(new SineSawtoothFunction());
+//			add(i, 1, new OscillatorCircuit(sineSawtoothOscillator));
+//			add(i, 2, new OscillatorCircuit(new SawtoothOscillatorDPW()));
+//			add(i, 3, new OscillatorCircuit(new SquareOscillatorBL()));
+//			add(i, 4, new OscillatorCircuit(new DemiSquareOscillator()));
+//			FunctionOscillator mountainOscillator = new FunctionOscillator();
+//			mountainOscillator.function.set(new MoutainFunction());
+//			add(i, 5, new OscillatorCircuit(mountainOscillator));
+//			add(i, 6, new WhiteNoiseCircuit(new WhiteNoise()));
+//			add(i, 7, new OscillatorCircuit(new TriangleOscillator()));
+
+
+
+			FunctionOscillator triOscillator = new FunctionOscillator();
+			triOscillator.function.set(new TriFunction());
+			add(i, 0, new OscillatorCircuit(triOscillator));
+
+			FunctionOscillator unevenTriOscillator = new FunctionOscillator();
+			unevenTriOscillator.function.set(new UnevenTriFunction());
+			add(i, 1, new OscillatorCircuit(unevenTriOscillator));
+
+			FunctionOscillator sawOscillator = new FunctionOscillator();
+			sawOscillator.function.set(new SawFunction());
+			add(i, 2, new OscillatorCircuit(sawOscillator));
+
+			FunctionOscillator sqrOscillator = new FunctionOscillator();
+			sqrOscillator.function.set(new SqrFunction());
+			add(i, 3, new OscillatorCircuit(sqrOscillator));
+
+			FunctionOscillator pulseOscillator = new FunctionOscillator();
+			pulseOscillator.function.set(new PulseFunction());
+			add(i, 4, new OscillatorCircuit(pulseOscillator));
+
+			FunctionOscillator demiTriOscillator = new FunctionOscillator();
+			demiTriOscillator.function.set(new DemiTriFunction());
+			add(i, 5, new OscillatorCircuit(demiTriOscillator));
+
+			FunctionOscillator noiseOscillator = new FunctionOscillator();
+			noiseOscillator.function.set(new NoiseFunction());
+			add(i, 6, new OscillatorCircuit(noiseOscillator));
+
+			FunctionOscillator detunedTri1Oscillator = new FunctionOscillator();
+			detunedTri1Oscillator.function.set(new DetunedTriFunction1());
+			FunctionOscillator detunedTri2Oscillator = new FunctionOscillator();
+			detunedTri2Oscillator.function.set(new DetunedTriFunction2());
+			add(i, 7, new DualOscillatorCircuit(detunedTri1Oscillator, detunedTri2Oscillator));
 		}
 	}
 	

@@ -5,6 +5,8 @@ import com.jsyn.unitgen.*;
 import com.softsynth.shared.time.TimeStamp;
 
 public class OscillatorCircuit extends CustomCircuit {
+	private SineOscillator sin;
+	private Add freqAdder;
 	private UnitOscillator osc;
 	private EnvelopeDAHDSR ampEnv;
 	private CustomLinearRamp ramp;
@@ -14,10 +16,15 @@ public class OscillatorCircuit extends CustomCircuit {
 		this.osc = osc;
 		
 		add(osc);
+		add(sin = new SineOscillator());
+		add(freqAdder = new Add());
 		add(ampEnv = new EnvelopeDAHDSR());
 		add(ramp = new CustomLinearRamp());
 		add(multiply = new Multiply());
 
+
+		sin.output.connect(freqAdder.inputB);
+		freqAdder.output.connect(osc.frequency);
 		osc.output.connect(multiply.inputA);
 		ramp.output.connect(multiply.inputB);
 		multiply.output.connect(ampEnv.amplitude);
@@ -34,67 +41,79 @@ public class OscillatorCircuit extends CustomCircuit {
 	}
 
 	@Override
-	public boolean usePreset(int presetIndex, double frequency, double amplitude, double duration, TimeStamp timeStamp) {
+	public void usePreset(int presetIndex, double frequency, double amplitude, double duration, TimeStamp timeStamp) {
 		switch (presetIndex) {
 			case 0:
+				sin.frequency.set(0.0f, timeStamp);
+				sin.amplitude.set(0.0f, timeStamp);
 				ramp.isStart.set(UnitGenerator.TRUE, timeStamp);
 				ramp.startValue.set(amplitude, timeStamp);
 				ramp.input.set(amplitude, timeStamp);
-				return false;
+				break;
 
 			case 1:
+				sin.frequency.set(0.0f, timeStamp);
+				sin.amplitude.set(0.0f, timeStamp);
 				ramp.isStart.set(UnitGenerator.TRUE, timeStamp);
 				ramp.startValue.set(amplitude, timeStamp);
 				ramp.input.set(amplitude, timeStamp);
-				return false;
+				break;
 
 			case 2:
+				sin.frequency.set(10.0f, timeStamp);
+				sin.amplitude.set(4.0f, timeStamp);
 				ramp.isStart.set(UnitGenerator.TRUE, timeStamp);
 				ramp.startValue.set(amplitude, timeStamp);
 				ramp.input.set(amplitude, timeStamp);
-				return false;
+				break;
 
 			case 3:
+				sin.frequency.set(0.0f, timeStamp);
+				sin.amplitude.set(0.0f, timeStamp);
 				ramp.isStart.set(UnitGenerator.TRUE, timeStamp);
 				ramp.startValue.set(amplitude, timeStamp);
 				ramp.input.set(amplitude, timeStamp);
-				return false;
+				break;
 
 			case 4:
+				sin.frequency.set(0.0f, timeStamp);
+				sin.amplitude.set(0.0f, timeStamp);
 				ramp.isStart.set(UnitGenerator.TRUE, timeStamp);
-				ramp.startValue.set(0.0d, timeStamp);
+				ramp.startValue.set(amplitude*0.1d, timeStamp);
 				ramp.input.set(amplitude, timeStamp);
 				ramp.time.set(duration, timeStamp);
-				return true;
+				break;
 
 			case 5:
+				sin.frequency.set(0.0f, timeStamp);
+				sin.amplitude.set(0.0f, timeStamp);
 				ramp.isStart.set(UnitGenerator.TRUE, timeStamp);
 				ramp.startValue.set(amplitude, timeStamp);
 				ramp.input.set(amplitude*0.1d, timeStamp);
 				ramp.time.set(duration, timeStamp);
-				return true;
+				break;
 
 			case 6:
+				sin.frequency.set(0.0f, timeStamp);
+				sin.amplitude.set(0.0f, timeStamp);
 				ramp.isStart.set(UnitGenerator.TRUE, timeStamp);
 				ramp.startValue.set(amplitude, timeStamp);
 				ramp.input.set(amplitude, timeStamp);
-				return false;
+				break;
 
 			case 7:
+				sin.frequency.set(0.0f, timeStamp);
+				sin.amplitude.set(0.0f, timeStamp);
 				ramp.isStart.set(UnitGenerator.TRUE, timeStamp);
 				ramp.startValue.set(amplitude, timeStamp);
 				ramp.input.set(amplitude, timeStamp);
-				return false;
+				break;
 		}
-
-		return false;
 	}
 
 	@Override
 	public void noteOn(double frequency, double amplitude, TimeStamp timeStamp) {
-		osc.frequency.set(frequency, timeStamp);
-//		ramp.startValue.set(amplitude, timeStamp);
-//		ramp.endValue.set(amplitude, timeStamp);
+		freqAdder.inputA.set(frequency, timeStamp);
 
 		ampEnv.input.on(timeStamp);
 	}

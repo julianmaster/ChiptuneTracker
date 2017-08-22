@@ -6,5 +6,5 @@ import com.softsynth.shared.time.TimeStamp;
 
 public abstract class CustomCircuit extends Circuit implements UnitVoice {
 
-    public abstract boolean usePreset(int presetIndex, double frequency, double amplitude, double duration, TimeStamp timeStamp);
+    public abstract void usePreset(int presetIndex, double frequency, double amplitude, double duration, TimeStamp timeStamp);
 }
