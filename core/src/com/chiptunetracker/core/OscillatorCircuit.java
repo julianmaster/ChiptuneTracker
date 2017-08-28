@@ -114,7 +114,7 @@ public class OscillatorCircuit extends CustomCircuit {
 	@Override
 	public void noteOn(double frequency, double amplitude, TimeStamp timeStamp) {
 		freqAdder.inputA.set(frequency, timeStamp);
-
+		System.out.println("coucou");
 		ampEnv.input.on(timeStamp);
 	}
 	

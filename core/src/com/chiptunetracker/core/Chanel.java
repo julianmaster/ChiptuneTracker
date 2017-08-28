@@ -48,21 +48,6 @@ public class Chanel {
 		voices = new CustomCircuit[GROUP][INSTRUMENTS];
 
 		for(int i = 0; i < GROUP; i++) {
-//			add(i, 0, new OscillatorCircuit(new SineOscillator()));
-//			FunctionOscillator sineSawtoothOscillator = new FunctionOscillator();
-//			sineSawtoothOscillator.function.set(new SineSawtoothFunction());
-//			add(i, 1, new OscillatorCircuit(sineSawtoothOscillator));
-//			add(i, 2, new OscillatorCircuit(new SawtoothOscillatorDPW()));
-//			add(i, 3, new OscillatorCircuit(new SquareOscillatorBL()));
-//			add(i, 4, new OscillatorCircuit(new DemiSquareOscillator()));
-//			FunctionOscillator mountainOscillator = new FunctionOscillator();
-//			mountainOscillator.function.set(new MoutainFunction());
-//			add(i, 5, new OscillatorCircuit(mountainOscillator));
-//			add(i, 6, new WhiteNoiseCircuit(new WhiteNoise()));
-//			add(i, 7, new OscillatorCircuit(new TriangleOscillator()));
-
-
-
 			FunctionOscillator triOscillator = new FunctionOscillator();
 			triOscillator.function.set(new TriFunction());
 			add(i, 0, new OscillatorCircuit(triOscillator));
