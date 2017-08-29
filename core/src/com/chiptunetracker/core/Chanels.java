@@ -165,12 +165,11 @@ public class Chanels {
 			for(int i = 0; i < CHANELS; i++) {
 				chanels[i].stop();
 			}
-			
-			chanels[0].clear();
-			chanels[1].clear();
-			chanels[2].clear();
-			chanels[3].clear();
-			
+
+			for(int i = 0; i < CHANELS; i++) {
+				chanels[i].clear();
+			}
+
 			if(currentPattern >= ChiptuneTracker.getInstance().getData().patterns.size()) {
 				playPattern = false;
 				return;
