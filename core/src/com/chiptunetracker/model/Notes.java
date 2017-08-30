@@ -8,6 +8,19 @@ import java.util.Map;
 
 public class Notes {
 	private static Map<Pair<Integer, Note>, Double> notes = new HashMap<Pair<Integer, Note>, Double>() {{
+		this.put(new Pair<>(0, Note.C), 65.41);
+		this.put(new Pair<>(0, Note.C_D), 69.30);
+		this.put(new Pair<>(0, Note.D), 73.42);
+		this.put(new Pair<>(0, Note.D_D), 77.78);
+		this.put(new Pair<>(0, Note.E), 82.41);
+		this.put(new Pair<>(0, Note.F), 87.31);
+		this.put(new Pair<>(0, Note.F_D), 92.50);
+		this.put(new Pair<>(0, Note.G), 98.00);
+		this.put(new Pair<>(0, Note.G_D), 103.83);
+		this.put(new Pair<>(0, Note.A), 110.00);
+		this.put(new Pair<>(0, Note.A_D), 116.54);
+		this.put(new Pair<>(0, Note.B), 123.47);
+
 		this.put(new Pair<>(1, Note.C), 130.81);
 		this.put(new Pair<>(1, Note.C_D), 138.59);
 		this.put(new Pair<>(1, Note.D), 146.83);
@@ -59,6 +72,19 @@ public class Notes {
 		this.put(new Pair<>(4, Note.A), 1760.00);
 		this.put(new Pair<>(4, Note.A_D), 1864.66);
 		this.put(new Pair<>(4, Note.B), 1975.53);
+
+		this.put(new Pair<>(5, Note.C), 1046.50);
+		this.put(new Pair<>(5, Note.C_D), 1108.73);
+		this.put(new Pair<>(5, Note.D), 1174.66);
+		this.put(new Pair<>(5, Note.D_D), 1244.51);
+		this.put(new Pair<>(5, Note.E), 1318.51);
+		this.put(new Pair<>(5, Note.F), 1396.91);
+		this.put(new Pair<>(5, Note.F_D), 1479.98);
+		this.put(new Pair<>(5, Note.G), 1567.98);
+		this.put(new Pair<>(5, Note.G_D), 1661.22);
+		this.put(new Pair<>(5, Note.A), 1760.00);
+		this.put(new Pair<>(5, Note.A_D), 1864.66);
+		this.put(new Pair<>(5, Note.B), 1975.53);
 	}};
 
 	public static Double getFrequency(Integer octave, Note note) {
