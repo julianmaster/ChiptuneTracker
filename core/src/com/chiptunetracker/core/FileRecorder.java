@@ -62,12 +62,12 @@ public class FileRecorder {
 
 			recorder.start();
 			synth.start();
-			
+
 			currentPattern = 0;
 			savePattern = true;
-			double startSoundTime = synth.getCurrentTime();
+			double startSoundTime = synth.getCurrentTime()+synth.getFramePeriod();
 			next(startSoundTime);
-			double endSoundTime = update(startSoundTime);
+			double endSoundTime = update();
 			
 			synth.sleepUntil(endSoundTime);
 			
@@ -92,8 +92,8 @@ public class FileRecorder {
 	 * ---------- 
 	 */
 	
-	public double update(double startSoundTime) {
-		double soundTime = startSoundTime;
+	public double update() {
+		double soundTime = 0;
 		
 		do {
 			for(int i = 0; i < CHANELS; i++) {
@@ -284,19 +284,16 @@ public class FileRecorder {
 				Sound sound = ChiptuneTracker.getInstance().getData().samples.get(sample).sounds[soundCursor];
 				
 				if(start && sound != null) {
-					System.out.println("1");
 					playNote(sound, sampleSpeed, lastSoundTime);
 					lastSoundTime += sampleFrequency;
 					start = false;
 				}
 				else if(start && sound == null) {
-					System.out.println("2");
 					lastSoundTime += sampleFrequency;
 					start = false;
 				}
 				// Note exist
 				else if(sound != null) {
-					System.out.println("3");
 					playNote(sound, sampleSpeed, lastSoundTime);
 					lastSoundTime += sampleFrequency;
 				}
@@ -368,7 +365,7 @@ public class FileRecorder {
 		public double getLastSoundTime() {
 			return lastSoundTime;
 		}
-		
+
 		public void clear() {
 			sample = -1;
 			finish = false;
