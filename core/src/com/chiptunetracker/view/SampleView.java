@@ -171,8 +171,8 @@ public class SampleView extends View {
 	private void createOctaveButtons() {
 		AsciiTerminal asciiTerminal = chiptuneTracker.getAsciiTerminal();
 		
-		for(int i = 1; i <= 4; i++) {
-			AsciiSelectableTerminalButton button = new AsciiSelectableTerminalButton(asciiTerminal, String.valueOf(i), 4 + i, 4, Color.LIGHT_GRAY, Color.WHITE, Color.WHITE, Color.GREEN, asciiTerminal.getDefaultCharacterBackgroundColor());
+		for(int i = 0; i <= 5; i++) {
+			AsciiSelectableTerminalButton button = new AsciiSelectableTerminalButton(asciiTerminal, String.valueOf(i), 5 + i, 4, Color.LIGHT_GRAY, Color.WHITE, Color.WHITE, Color.GREEN, asciiTerminal.getDefaultCharacterBackgroundColor());
 			button.addListener(new ClickListener() {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
@@ -185,7 +185,7 @@ public class SampleView extends View {
 			});
 			
 			octaveButtons.add(button);
-			if(i == 2) {
+			if(i == octaveCursor) {
 				currentOctaveButton = button;
 				currentOctaveButton.setSelected(true);
 			}
@@ -210,7 +210,7 @@ public class SampleView extends View {
 			});
 			
 			volumeButtons.add(button);
-			if(i == 5) {
+			if(i == volumeCursor) {
 				currentVolumeButton = button;
 				currentVolumeButton.setSelected(true);
 			}
@@ -235,7 +235,7 @@ public class SampleView extends View {
 			});
 			
 			instrumentButtons.add(button);
-			if(i == 0) {
+			if(i == instrumentCursor) {
 				currentInstrumentButton = button;
 				currentInstrumentButton.setSelected(true);
 			}
@@ -260,7 +260,7 @@ public class SampleView extends View {
 			});
 
 			effectButtons.add(button);
-			if(i == 0) {
+			if(i == effectCursor) {
 				currentEffectButton = button;
 				currentEffectButton.setSelected(true);
 			}
@@ -345,7 +345,7 @@ public class SampleView extends View {
 	
 	private void setOctave(int octave) {
 		chiptuneTracker.setChangeData(true);
-		if(octave >= 1 && octave <= 4) {
+		if(octave >= 0 && octave <= 5) {
 			Sample sample = chiptuneTracker.getData().samples.get(sampleCursor);
 			Sound sound = sample.sounds[soundCursor];
 			if(sound != null) {

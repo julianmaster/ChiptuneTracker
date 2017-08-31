@@ -73,18 +73,18 @@ public class Notes {
 		this.put(new Pair<>(4, Note.A_D), 1864.66);
 		this.put(new Pair<>(4, Note.B), 1975.53);
 
-		this.put(new Pair<>(5, Note.C), 1046.50);
-		this.put(new Pair<>(5, Note.C_D), 1108.73);
-		this.put(new Pair<>(5, Note.D), 1174.66);
-		this.put(new Pair<>(5, Note.D_D), 1244.51);
-		this.put(new Pair<>(5, Note.E), 1318.51);
-		this.put(new Pair<>(5, Note.F), 1396.91);
-		this.put(new Pair<>(5, Note.F_D), 1479.98);
-		this.put(new Pair<>(5, Note.G), 1567.98);
-		this.put(new Pair<>(5, Note.G_D), 1661.22);
-		this.put(new Pair<>(5, Note.A), 1760.00);
-		this.put(new Pair<>(5, Note.A_D), 1864.66);
-		this.put(new Pair<>(5, Note.B), 1975.53);
+		this.put(new Pair<>(5, Note.C), 2093.00);
+		this.put(new Pair<>(5, Note.C_D), 2217.46);
+		this.put(new Pair<>(5, Note.D), 2349.32);
+		this.put(new Pair<>(5, Note.D_D), 2489.02);
+		this.put(new Pair<>(5, Note.E), 2637.02);
+		this.put(new Pair<>(5, Note.F), 2793.83);
+		this.put(new Pair<>(5, Note.F_D), 2959.96);
+		this.put(new Pair<>(5, Note.G), 3135.96);
+		this.put(new Pair<>(5, Note.G_D), 3322.44);
+		this.put(new Pair<>(5, Note.A), 3520.00);
+		this.put(new Pair<>(5, Note.A_D), 3729.31);
+		this.put(new Pair<>(5, Note.B), 3951.07);
 	}};
 
 	public static Double getFrequency(Integer octave, Note note) {

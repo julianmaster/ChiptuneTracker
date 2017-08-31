@@ -541,7 +541,7 @@ public class PatternView extends View {
 	
 	private void setOctave(int octave) {
 		chiptuneTracker.setChangeData(true);
-		if(octave >= 1 && octave <= 4) {
+		if(octave >= 0 && octave <= 5) {
 			Sample sample = chiptuneTracker.getData().samples.get(sampleCursor);
 			Sound sound = sample.sounds[soundCursor];
 			if(sound != null) {
