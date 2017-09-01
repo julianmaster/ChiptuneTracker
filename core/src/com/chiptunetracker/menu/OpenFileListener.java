@@ -3,6 +3,7 @@ package com.chiptunetracker.menu;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Array;
 import com.chiptunetracker.core.ChiptuneTracker;
+import com.chiptunetracker.core.DataManager;
 import com.chiptunetracker.model.Data;
 import com.kotcrab.vis.ui.util.dialog.Dialogs;
 import com.kotcrab.vis.ui.widget.file.FileChooser;
@@ -17,8 +18,8 @@ import java.io.File;
  */
 public class OpenFileListener extends NewFileListener {
 
-    public OpenFileListener(FileChooser fileChooser, StringBuilder currentFile) {
-        super(fileChooser, currentFile);
+    public OpenFileListener(FileChooser fileChooser, DataManager dataManager) {
+        super(fileChooser, dataManager);
     }
 
     @Override
@@ -49,11 +50,11 @@ public class OpenFileListener extends NewFileListener {
                     }
 
                     ChiptuneTracker.getInstance().setData(data);
-                    if(currentFile == null) {
-                        currentFile = new StringBuilder();
+                    if(dataManager.getCurrentFile() == null) {
+                        dataManager.setCurrentFile(new StringBuilder());
                     }
-                    currentFile.setLength(0);
-                    currentFile.append(file.getAbsolutePath());
+                    dataManager.getCurrentFile().setLength(0);
+                    dataManager.getCurrentFile().append(file.getAbsolutePath());
                     ChiptuneTracker.getInstance().setChangeData(false);
                     ChiptuneTracker.getInstance().setInitSampleView(true);
                     ChiptuneTracker.getInstance().setInitPatternView(true);

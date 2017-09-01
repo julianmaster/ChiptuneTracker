@@ -11,7 +11,7 @@ public class DesktopLauncher {
 		new LwjglApplication(ChiptuneTracker.getInstance(), config) {
 			@Override
 			public void exit() {
-				new ExitListener(ChiptuneTracker.getInstance().getDataManager().getFileChooser(), ChiptuneTracker.getInstance().getDataManager().getCurrentFile()) {
+				new ExitListener(ChiptuneTracker.getInstance().getDataManager().getFileChooser(), ChiptuneTracker.getInstance().getDataManager()) {
 					@Override
 					public void additionalYesActions() {
 						endRun();

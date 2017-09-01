@@ -38,11 +38,11 @@ public class DataManager {
 	private final FileChooser fileChooser = new FileChooser(FileChooser.Mode.OPEN);
 
 	public void newFile() {
-		new NewFileListener(fileChooser, currentFile);
+		new NewFileListener(fileChooser, this);
 	}
 	
 	public void open() {
-		new OpenFileListener(fileChooser, currentFile);
+		new OpenFileListener(fileChooser, this);
 	}
 
 	public void save() throws Exception {
@@ -65,7 +65,7 @@ public class DataManager {
 	public void saveAs() {
 		fileChooser.setMode(FileChooser.Mode.SAVE);
 		fileChooser.setSize(ChiptuneTracker.getInstance().getAsciiTerminal().getFullWidth(), ChiptuneTracker.getInstance().getAsciiTerminal().getFullHeight());
-		fileChooser.setListener(new SaveFileListener(currentFile));
+		fileChooser.setListener(new SaveFileListener(this));
 
 		((View) ChiptuneTracker.getInstance().getScreen()).setListActorTouchables(Touchable.disabled);
 		ChiptuneTracker.getInstance().getAsciiTerminal().addActor(fileChooser.fadeIn());
@@ -198,5 +198,9 @@ public class DataManager {
 
 	public StringBuilder getCurrentFile() {
 		return currentFile;
+	}
+
+	public void setCurrentFile(StringBuilder currentFile) {
+		this.currentFile = currentFile;
 	}
 }

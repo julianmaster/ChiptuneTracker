@@ -2,6 +2,7 @@ package com.chiptunetracker.menu;
 
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.chiptunetracker.core.ChiptuneTracker;
+import com.chiptunetracker.core.DataManager;
 import com.chiptunetracker.view.View;
 import com.kotcrab.vis.ui.util.dialog.Dialogs;
 import com.kotcrab.vis.ui.util.dialog.OptionDialogListener;
@@ -19,19 +20,19 @@ import java.util.LinkedList;
 public class NewFileListener implements OptionDialogListener {
 
     protected final FileChooser fileChooser;
-    protected StringBuilder currentFile;
+    protected final DataManager dataManager;
 
-    public NewFileListener(FileChooser fileChooser, StringBuilder currentFile) {
+    public NewFileListener(FileChooser fileChooser, DataManager dataManager) {
         this.fileChooser = fileChooser;
-        this.currentFile = currentFile;
+        this.dataManager = dataManager;
 
         if(ChiptuneTracker.getInstance().isChangeData()) {
             String text;
-            if(currentFile == null) {
+            if(dataManager.getCurrentFile() == null) {
                 text = "New file has been modified. Save changes?";
             }
             else {
-                text = currentFile+" has been modified. Save changes?";
+                text = dataManager.getCurrentFile()+" has been modified. Save changes?";
             }
 
             Dialogs.showOptionDialog(ChiptuneTracker.getInstance().getAsciiTerminal().getStage(), "Save Resource", text, Dialogs.OptionDialogType.YES_NO_CANCEL, this);
@@ -47,12 +48,13 @@ public class NewFileListener implements OptionDialogListener {
     @Override
     public void yes() {
         try {
-            if(currentFile != null) {
-                File file = new File(currentFile.toString());
+            if(dataManager.getCurrentFile() != null) {
+                File file = new File(dataManager.getCurrentFile().toString());
                 if(file.canWrite()) {
                     Serializer serializer = new Persister();
                     serializer.write(ChiptuneTracker.getInstance().getData(), file);
                     clearAction();
+                    additionalYesActions();
                 }
                 else {
                     throw new IOException("Unable to write in the file !");
@@ -61,7 +63,7 @@ public class NewFileListener implements OptionDialogListener {
             else {
                 fileChooser.setMode(FileChooser.Mode.SAVE);
                 fileChooser.setSize(ChiptuneTracker.getInstance().getAsciiTerminal().getFullWidth(), ChiptuneTracker.getInstance().getAsciiTerminal().getFullHeight());
-                fileChooser.setListener(new SaveFileListener(currentFile) {
+                fileChooser.setListener(new SaveFileListener(dataManager) {
                     @Override
                     public void additionalActions() {
                         clearAction();
@@ -81,7 +83,7 @@ public class NewFileListener implements OptionDialogListener {
     }
 
     public void clearAction() {
-        currentFile = null;
+        dataManager.setCurrentFile(null);
         ChiptuneTracker.getInstance().setInitSampleView(true);
         ChiptuneTracker.getInstance().setInitPatternView(true);
         ChiptuneTracker.getInstance().setScreen(ChiptuneTracker.getInstance().getMenuView());

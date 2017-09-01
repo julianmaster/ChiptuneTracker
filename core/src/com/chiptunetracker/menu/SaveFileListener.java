@@ -4,6 +4,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Array;
 import com.chiptunetracker.core.ChiptuneTracker;
+import com.chiptunetracker.core.DataManager;
 import com.chiptunetracker.view.View;
 import com.kotcrab.vis.ui.util.dialog.Dialogs;
 import com.kotcrab.vis.ui.widget.file.FileChooserListener;
@@ -17,10 +18,10 @@ import java.io.File;
  */
 public class SaveFileListener implements FileChooserListener {
 
-    private StringBuilder currentFile;
+    private final DataManager dataManager;
 
-    public SaveFileListener(StringBuilder currentFile) {
-        this.currentFile = currentFile;
+    public SaveFileListener(DataManager dataManager) {
+        this.dataManager = dataManager;
     }
 
     @Override
@@ -33,11 +34,11 @@ public class SaveFileListener implements FileChooserListener {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            if(currentFile == null) {
-                currentFile = new StringBuilder();
+            if(dataManager.getCurrentFile() == null) {
+                dataManager.setCurrentFile(new StringBuilder());
             }
-            currentFile.setLength(0);
-            currentFile.append(file.getAbsolutePath());
+            dataManager.getCurrentFile().setLength(0);
+            dataManager.getCurrentFile().append(file.getAbsolutePath());
             ChiptuneTracker.getInstance().setChangeData(false);
             additionalActions();
         }
