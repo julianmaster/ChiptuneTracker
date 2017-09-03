@@ -55,12 +55,14 @@ public class NewFileListener implements OptionDialogListener {
                     serializer.write(ChiptuneTracker.getInstance().getData(), file);
                     clearAction();
                     additionalYesActions();
+                    ((View) ChiptuneTracker.getInstance().getScreen()).setListActorTouchables(Touchable.enabled);
                 }
                 else {
                     throw new IOException("Unable to write in the file !");
                 }
             }
             else {
+                fileChooser.setFileTypeFilter(null);
                 fileChooser.setMode(FileChooser.Mode.SAVE);
                 fileChooser.setSize(ChiptuneTracker.getInstance().getAsciiTerminal().getFullWidth(), ChiptuneTracker.getInstance().getAsciiTerminal().getFullHeight());
                 fileChooser.setListener(new SaveFileListener(dataManager) {

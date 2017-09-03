@@ -63,6 +63,7 @@ public class DataManager {
 	}
 	
 	public void saveAs() {
+		fileChooser.setFileTypeFilter(null);
 		fileChooser.setMode(FileChooser.Mode.SAVE);
 		fileChooser.setSize(ChiptuneTracker.getInstance().getAsciiTerminal().getFullWidth(), ChiptuneTracker.getInstance().getAsciiTerminal().getFullHeight());
 		fileChooser.setListener(new SaveFileListener(this));

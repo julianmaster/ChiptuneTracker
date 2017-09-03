@@ -33,6 +33,7 @@ public class OpenFileListener extends NewFileListener {
     }
 
     public void openAction() {
+        fileChooser.setFileTypeFilter(null);
         fileChooser.setMode(FileChooser.Mode.OPEN);
         fileChooser.setSize(ChiptuneTracker.getInstance().getAsciiTerminal().getFullWidth(), ChiptuneTracker.getInstance().getAsciiTerminal().getFullHeight());
         fileChooser.setListener(new FileChooserAdapter() {
