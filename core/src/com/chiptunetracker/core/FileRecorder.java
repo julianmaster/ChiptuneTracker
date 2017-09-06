@@ -57,6 +57,10 @@ public class FileRecorder {
 			recorder = new WaveRecorder(getSynth(), waveFile);
 
 			for(int i = 0; i < CHANELS; i++) {
+				chanels[i].clearLastSound();
+			}
+
+			for(int i = 0; i < CHANELS; i++) {
 				chanels[i].init();
 			}
 
@@ -253,6 +257,8 @@ public class FileRecorder {
 				detunedTri2Oscillator.function.set(new DetunedTriFunction2());
 				add(i, 7, new DualOscillatorCircuit(detunedTri1Oscillator, detunedTri2Oscillator));
 			}
+
+			lastSound = null;
 		}
 		
 		private void add(int group, int position, CustomCircuit circuit) {
@@ -343,7 +349,7 @@ public class FileRecorder {
 					currentGroup = currentGroup < GROUP - 1 ? currentGroup+1 : 0;
 				}
 			}
-			voices[currentGroup][sound.instrument].usePreset(sound.effect, frequency, volume, samplefrequency, start);
+			voices[currentGroup][sound.instrument].usePreset(lastSound, sound.effect, frequency, volume, samplefrequency, start);
 			voices[currentGroup][sound.instrument].noteOn(frequency, volume, start);
 
 			// End Note
@@ -369,6 +375,10 @@ public class FileRecorder {
 		public void clear() {
 			sample = -1;
 			finish = false;
+		}
+
+		public void clearLastSound() {
+			this.lastSound = null;
 		}
 	}
 }

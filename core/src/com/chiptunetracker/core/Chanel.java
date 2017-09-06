@@ -83,7 +83,7 @@ public class Chanel {
 			add(i, 7, new DualOscillatorCircuit(detunedTri1Oscillator, detunedTri2Oscillator));
 		}
 	}
-	
+
 	private void add(int group, int position, CustomCircuit circuit) {
 		chanels.getSynth().add(circuit);
 		circuit.getOutput().connect(0, chanels.getLineOut().input, 0);
@@ -189,7 +189,7 @@ public class Chanel {
 				}
 
 				lastGroup.add(currentGroup);
-				voices[currentGroup][sound.instrument].usePreset(sound.effect, frequency, volume, samplefrequency, getSynthesizer(currentGroup, sound.instrument).createTimeStamp());
+				voices[currentGroup][sound.instrument].usePreset(lastSound, sound.effect, frequency, volume, samplefrequency, getSynthesizer(currentGroup, sound.instrument).createTimeStamp());
 				voices[currentGroup][sound.instrument].noteOn(frequency, volume, getSynthesizer(currentGroup, sound.instrument).createTimeStamp());
 				UICursor = position;
 				lastSound = sound;
