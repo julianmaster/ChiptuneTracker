@@ -122,7 +122,7 @@ public class Chanel {
 			double currentTime = chanels.getSynth().getCurrentTime();
 			if(currentTime > lastSoundTime) {
 				Sound sound = ChiptuneTracker.getInstance().getData().samples.get(sample).sounds[soundCursor];
-				
+
 				if(start && sound != null) {
 					playNote(sound, soundCursor, sampleSpeed, currentTime);
 					lastSoundTime = currentTime;
@@ -142,7 +142,9 @@ public class Chanel {
 					lastSoundTime += sampleFrequency;
 					playSilence(soundCursor, lastSoundTime);
 				}
-				
+
+
+
 				if(soundCursor < Sample.SIZE) {
 					soundCursor++;
 				}
@@ -160,52 +162,78 @@ public class Chanel {
 	}
 
 	private void playNote(final Sound sound, final int position, int speed, double time) {
-		// Cap the value to 0.25 (1 chanel on 4 play as same time)
-		final double volume = Math.min((double) sound.volume / (double) (VOLUME_MAX * Chanels.CHANELS), 0.25d);
-		final double frequency = Notes.getFrequency(sound.octave, sound.note);
 		double samplefrequency = 1 / ((double) speed / 2);
-		
-		final TimeStamp start = new TimeStamp(time);
-		TimeStamp end = new TimeStamp(time + samplefrequency);
 
-		getSynthesizer(currentGroup, sound.instrument).scheduleCommand(start, new ScheduledCommand() {
-			@Override
-			public void run() {
-				if(lastSound != null && lastSound.instrument == sound.instrument) {
-					boolean change = false;
-					if(lastSound.effect == 5 && sound.effect != 4) {
-						change = true;
-					}
-					else if(lastSound.effect == 4 && sound.effect == 4) {
-						change = true;
-					}
-					else if(lastSound.effect != 5 && sound.effect == 4) {
-						change = true;
-					}
-
-					if(change) {
-						currentGroup = currentGroup < GROUP - 1 ? currentGroup+1 : 0;
-					}
+		LinkedList<Sound> soundToPlay = new LinkedList<>();
+		if(sound.effect != 6 && sound.effect != 7) {
+			soundToPlay.push(sound);
+		}
+		else if(sound.effect == 6) {
+			for(int loop = 0; loop < 1; loop++) {
+				for(int soundArpeggio = 0; soundArpeggio < 4; soundArpeggio++){
+					soundToPlay.push(ChiptuneTracker.getInstance().getData().samples.get(sample).sounds[position / 4 + soundArpeggio]);
 				}
+			}
+		}
+		else {
+			for(int soundArpeggio = 0; soundArpeggio < 4; soundArpeggio++){
+				soundToPlay.push(ChiptuneTracker.getInstance().getData().samples.get(sample).sounds[position / 4 + soundArpeggio]);
+			}
+		}
 
-				lastGroup.add(currentGroup);
-				voices[currentGroup][sound.instrument].usePreset(lastSound, sound.effect, frequency, volume, samplefrequency, getSynthesizer(currentGroup, sound.instrument).createTimeStamp());
-				voices[currentGroup][sound.instrument].noteOn(frequency, volume, getSynthesizer(currentGroup, sound.instrument).createTimeStamp());
-				UICursor = position;
-				lastSound = sound;
+		for(int soundIndex = 0; soundIndex < soundToPlay.size(); soundIndex++) {
+			Sound currentSound = soundToPlay.get(soundIndex);
+			if(currentSound != null) {
+
+				// Cap the value to 0.25 (1 chanel on 4 play as same time)
+				final double volume = Math.min((double) currentSound.volume / (double) (VOLUME_MAX * Chanels.CHANELS), 0.25d);
+				final double frequency = Notes.getFrequency(currentSound.octave, currentSound.note);
+
+
+				final TimeStamp start = new TimeStamp(time + samplefrequency / (double)soundToPlay.size() * soundIndex);
+				TimeStamp end = new TimeStamp(time + samplefrequency / (double)soundToPlay.size() * (soundIndex + 1));
+
+
+				getSynthesizer(currentGroup, currentSound.instrument).scheduleCommand(start, new ScheduledCommand() {
+					@Override
+					public void run() {
+						if(lastSound != null && lastSound.instrument == currentSound.instrument) {
+							boolean change = false;
+							if(lastSound.effect == 5 && currentSound.effect != 4) {
+								change = true;
+							}
+							else if(lastSound.effect == 4 && currentSound.effect == 4) {
+								change = true;
+							}
+							else if(lastSound.effect != 5 && currentSound.effect == 4) {
+								change = true;
+							}
+
+							if(change) {
+								currentGroup = currentGroup < GROUP - 1 ? currentGroup+1 : 0;
+							}
+						}
+
+						lastGroup.add(currentGroup);
+						voices[currentGroup][currentSound.instrument].usePreset(lastSound, currentSound.effect, frequency, volume, samplefrequency / (double)soundToPlay.size(), getSynthesizer(currentGroup, currentSound.instrument).createTimeStamp());
+						voices[currentGroup][currentSound.instrument].noteOn(frequency, volume, getSynthesizer(currentGroup, currentSound.instrument).createTimeStamp());
+						UICursor = position;
+						lastSound = currentSound;
+					}
+				});
+
+				getSynthesizer(currentGroup, currentSound.instrument).scheduleCommand(end, new ScheduledCommand() {
+					@Override
+					public void run() {
+						int group = currentGroup;
+						if(!lastGroup.isEmpty()) {
+							group = lastGroup.pop();
+						}
+						voices[group][currentSound.instrument].noteOff(getSynthesizer(group, currentSound.instrument).createTimeStamp());
+					}
+				});
 			}
-		});
-		
-		getSynthesizer(currentGroup, sound.instrument).scheduleCommand(end, new ScheduledCommand() {
-			@Override
-			public void run() {
-				int group = currentGroup;
-				if(!lastGroup.isEmpty()) {
-					group = lastGroup.pop();
-				}
-				voices[group][sound.instrument].noteOff(getSynthesizer(group, sound.instrument).createTimeStamp());
-			}
-		});
+		}
 	}
 	
 	private void playSilence(final int position, double time) {
