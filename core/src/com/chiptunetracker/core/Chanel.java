@@ -169,15 +169,23 @@ public class Chanel {
 			soundToPlay.push(sound);
 		}
 		else if(sound.effect == 6) {
-			for(int soundArpeggio = 0; soundArpeggio < 4; soundArpeggio++){
+			for(int soundArpeggio = 0; soundArpeggio < 4; soundArpeggio++) {
 				soundToPlay.add(ChiptuneTracker.getInstance().getData().samples.get(sample).sounds[position / 4 * 4 + soundArpeggio]);
 			}
 		}
 		else {
+			boolean empty = true;
 			int arpeggioIndex = position % 2 == 0 ? position / 4 * 4 : position / 4 * 4 + 2;
-			System.out.println(arpeggioIndex);
-			for(int soundArpeggio = arpeggioIndex; soundArpeggio < arpeggioIndex + 2; soundArpeggio++){
-				soundToPlay.add(ChiptuneTracker.getInstance().getData().samples.get(sample).sounds[soundArpeggio]);
+			for(int soundArpeggio = arpeggioIndex; soundArpeggio < arpeggioIndex + 2; soundArpeggio++) {
+				Sound arpeggioSound = ChiptuneTracker.getInstance().getData().samples.get(sample).sounds[soundArpeggio];
+				if(arpeggioSound != null) {
+					empty = false;
+				}
+				soundToPlay.add(arpeggioSound);
+			}
+			if(empty) {
+				playSilence(position, time);
+				return;
 			}
 		}
 
