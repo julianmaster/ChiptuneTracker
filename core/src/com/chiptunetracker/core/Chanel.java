@@ -95,9 +95,9 @@ public class Chanel {
 		return voices[group][instrument].getSynthesizer();
 	}
 	
-	public void play(Sound sound) {
+	public void play(Sound sound, int position) {
 		double time = chanels.getSynth().getCurrentTime();
-		playNote(sound, 0, 16, time);
+		playNote(sound, position, 16, time);
 	}
 	
 	public void playSample(int sampleIndex, int nextPatternIndex) {

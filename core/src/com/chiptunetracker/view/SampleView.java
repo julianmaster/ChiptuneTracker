@@ -331,7 +331,7 @@ public class SampleView extends View {
 			sound.volume = volumeCursor;
 			sound.effect = effectCursor;
 			
-			chiptuneTracker.getChanels().playSound(sound);
+			chiptuneTracker.getChanels().playSound(sound, soundCursor);
 		}
 		else {
 			sample.sounds[soundCursor] = null;
@@ -350,13 +350,13 @@ public class SampleView extends View {
 			Sound sound = sample.sounds[soundCursor];
 			if(sound != null) {
 				sound.octave = octave;
-				
+
+				chiptuneTracker.getChanels().playSound(sound, soundCursor);
+
 				soundCursor++;
 				if(soundCursor > Sample.SIZE - 1) {
 					soundCursor = 0;
 				}
-				
-				chiptuneTracker.getChanels().playSound(sound);
 			}
 		}
 	}
@@ -373,12 +373,13 @@ public class SampleView extends View {
 				else {
 					sound.volume = volume;
 				}
-				
+
+				chiptuneTracker.getChanels().playSound(sound, soundCursor);
+
 				soundCursor++;
 				if(soundCursor > Sample.SIZE - 1) {
 					soundCursor = 0;
 				}
-				chiptuneTracker.getChanels().playSound(sound);
 			}
 		}
 	}
@@ -390,12 +391,13 @@ public class SampleView extends View {
 			Sound sound = sample.sounds[soundCursor];
 			if(sound != null) {
 				sound.instrument = instrument;
-				
+
+				chiptuneTracker.getChanels().playSound(sound, soundCursor);
+
 				soundCursor++;
 				if(soundCursor > Sample.SIZE - 1) {
 					soundCursor = 0;
 				}
-				chiptuneTracker.getChanels().playSound(sound);
 			}
 		}
 	}
@@ -408,11 +410,12 @@ public class SampleView extends View {
 			if(sound != null) {
 				sound.effect = effect;
 
+				chiptuneTracker.getChanels().playSound(sound, soundCursor);
+
 				soundCursor++;
 				if(soundCursor > Sample.SIZE - 1) {
 					soundCursor = 0;
 				}
-				chiptuneTracker.getChanels().playSound(sound);
 			}
 		}
 	}

@@ -39,9 +39,9 @@ public class Chanels {
 	 * ---------- 
 	 */
 	
-	public void playSound(Sound sound) {
+	public void playSound(Sound sound, int position) {
 		chanels[0].clearLastSound();
-		chanels[0].play(sound);
+		chanels[0].play(sound, position);
 	}
 	
 	
