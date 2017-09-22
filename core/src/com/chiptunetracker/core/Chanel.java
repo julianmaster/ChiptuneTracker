@@ -174,18 +174,41 @@ public class Chanel {
 			}
 		}
 		else {
-			boolean empty = true;
-			int arpeggioIndex = position % 2 == 0 ? position / 4 * 4 : position / 4 * 4 + 2;
-			for(int soundArpeggio = arpeggioIndex; soundArpeggio < arpeggioIndex + 2; soundArpeggio++) {
-				Sound arpeggioSound = ChiptuneTracker.getInstance().getData().samples.get(sample).sounds[soundArpeggio];
-				if(arpeggioSound != null) {
-					empty = false;
-				}
-				soundToPlay.add(arpeggioSound);
+			Sound[] sounds = new Sound[4];
+			for(int i = 0; i < 4; i++) {
+				sounds[i] = ChiptuneTracker.getInstance().getData().samples.get(sample).sounds[position / 4 * 4 + i];
 			}
-			if(empty) {
-				playSilence(position, time);
-				return;
+
+			int minNote = 0;
+			for(int i = 0; i < 4; i++) {
+				if(sounds[i] != null) {
+					minNote = i;
+					break;
+				}
+			}
+			int maxNote = 4;
+			for(int i = 4; i >= 0; i--) {
+				if(sounds[i-1] != null) {
+					maxNote = i;
+					break;
+				}
+			}
+
+			if(maxNote - minNote == 1) {
+				soundToPlay.add(sounds[minNote]);
+			}
+			else if(maxNote - minNote == 2) {
+				for(int i = minNote; i <= maxNote; i++) {
+					soundToPlay.add(sounds[i]);
+				}
+			}
+			else {
+				int max = position % 2 == 0 ? 2 : 4;
+				for(int i = position % 2 == 0 ? 0 : 2; i < max; i++) {
+					if(sounds[i] != null) {
+						soundToPlay.add(sounds[i]);
+					}
+				}
 			}
 		}
 
