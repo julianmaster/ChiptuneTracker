@@ -136,10 +136,15 @@ public class SampleView extends View {
 						sample.loopStart++;
 					}
 				}
-				if(event.getButton() == Input.Buttons.RIGHT) {
-					if(sample.loopStart > 0) {
-						sample.loopStart--;
-					}
+				buttonLoopStartSample.setName(String.format("%02d", sample.loopStart));
+			}
+		});
+		buttonLoopStartSample.addListener(new ClickListener(Input.Buttons.RIGHT) {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				Sample sample = chiptuneTracker.getData().samples.get(sampleCursor);
+				if(sample.loopStart > 0) {
+					sample.loopStart--;
 				}
 				buttonLoopStartSample.setName(String.format("%02d", sample.loopStart));
 			}
@@ -156,10 +161,15 @@ public class SampleView extends View {
 						sample.loopStop++;
 					}
 				}
-				if(event.getButton() == Input.Buttons.RIGHT) {
-					if(sample.loopStop > sample.loopStart) {
-						sample.loopStop--;
-					}
+				buttonLoopStopSample.setName(String.format("%02d", sample.loopStop));
+			}
+		});
+		buttonLoopStopSample.addListener(new ClickListener(Input.Buttons.RIGHT) {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				Sample sample = chiptuneTracker.getData().samples.get(sampleCursor);
+				if(sample.loopStop > sample.loopStart) {
+					sample.loopStop--;
 				}
 				buttonLoopStopSample.setName(String.format("%02d", sample.loopStop));
 			}

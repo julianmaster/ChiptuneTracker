@@ -290,7 +290,7 @@ public class FileRecorder {
 				Sound sound = ChiptuneTracker.getInstance().getData().samples.get(sample).sounds[soundCursor];
 				
 				if(start && sound != null) {
-					playNote(sound, sampleSpeed, lastSoundTime);
+					playNote(sound, soundCursor, sampleSpeed, lastSoundTime);
 					lastSoundTime += sampleFrequency;
 					start = false;
 				}
@@ -300,7 +300,7 @@ public class FileRecorder {
 				}
 				// Note exist
 				else if(sound != null) {
-					playNote(sound, sampleSpeed, lastSoundTime);
+					playNote(sound, soundCursor, sampleSpeed, lastSoundTime);
 					lastSoundTime += sampleFrequency;
 				}
 				// Silence
@@ -323,39 +323,96 @@ public class FileRecorder {
 			return false;
 		}
 		
-		private void playNote(final Sound sound, int speed, double time) {
-			// Cap the value to 0.25 (1 chanel on 4 play as same time)
-			final double volume = Math.min((double) sound.volume / (double) (VOLUME_MAX * Chanels.CHANELS), 0.25d);
-			final double frequency = Notes.getFrequency(sound.octave, sound.note);
+		private void playNote(final Sound sound, final int position, int speed, double time) {
 			double samplefrequency = 1 / ((double) speed / 2);
-			
-			final TimeStamp start = new TimeStamp(time);
-			TimeStamp end = new TimeStamp(time + samplefrequency);
 
-			// Start note
-			if(lastSound != null && lastSound.instrument == sound.instrument) {
-				boolean change = false;
-				if(lastSound.effect == 5 && sound.effect != 4) {
-					change = true;
-				}
-				else if(lastSound.effect == 4 && sound.effect == 4) {
-					change = true;
-				}
-				else if(lastSound.effect != 5 && sound.effect == 4) {
-					change = true;
-				}
-
-				if(change) {
-					currentGroup = currentGroup < GROUP - 1 ? currentGroup+1 : 0;
+			LinkedList<Sound> soundToPlay = new LinkedList<>();
+			if(sound.effect != 6 && sound.effect != 7) {
+				soundToPlay.push(sound);
+			}
+			else if(sound.effect == 6) {
+				for(int soundArpeggio = 0; soundArpeggio < 4; soundArpeggio++) {
+					soundToPlay.add(ChiptuneTracker.getInstance().getData().samples.get(sample).sounds[position / 4 * 4 + soundArpeggio]);
 				}
 			}
-			voices[currentGroup][sound.instrument].usePreset(lastSound, sound.effect, frequency, volume, samplefrequency, start);
-			voices[currentGroup][sound.instrument].noteOn(frequency, volume, start);
+			else {
+				Sound[] sounds = new Sound[4];
+				for(int i = 0; i < 4; i++) {
+					sounds[i] = ChiptuneTracker.getInstance().getData().samples.get(sample).sounds[position / 4 * 4 + i];
+				}
 
-			// End Note
-			voices[currentGroup][sound.instrument].noteOff(end);
+				int minNote = 0;
+				for(int i = 0; i < 4; i++) {
+					if(sounds[i] != null) {
+						minNote = i;
+						break;
+					}
+				}
+				int maxNote = 4;
+				for(int i = 4; i >= 0; i--) {
+					if(sounds[i-1] != null) {
+						maxNote = i;
+						break;
+					}
+				}
 
-			lastSound = sound;
+				if(maxNote - minNote == 1) {
+					soundToPlay.add(sounds[minNote]);
+				}
+				else if(maxNote - minNote == 2) {
+					for(int i = minNote; i <= maxNote; i++) {
+						soundToPlay.add(sounds[i]);
+					}
+				}
+				else {
+					int max = position % 2 == 0 ? 2 : 4;
+					for(int i = position % 2 == 0 ? 0 : 2; i < max; i++) {
+						if(sounds[i] != null) {
+							soundToPlay.add(sounds[i]);
+						}
+					}
+				}
+			}
+
+			for(int soundIndex = 0; soundIndex < soundToPlay.size(); soundIndex++) {
+				Sound currentSound = soundToPlay.get(soundIndex);
+				if(currentSound != null) {
+
+					// Cap the value to 0.25 (1 chanel on 4 play as same time)
+					final double volume = Math.min((double) currentSound.volume / (double) (VOLUME_MAX * Chanels.CHANELS), 0.25d);
+					final double frequency = Notes.getFrequency(currentSound.octave, currentSound.note);
+
+
+					final TimeStamp start = new TimeStamp(time + samplefrequency / (double)soundToPlay.size() * soundIndex);
+					TimeStamp end = new TimeStamp(time + samplefrequency / (double)soundToPlay.size() * (soundIndex + 1));
+
+
+					// Start note
+					if(lastSound != null && lastSound.instrument == currentSound.instrument) {
+						boolean change = false;
+						if(lastSound.effect == 5 && currentSound.effect != 4) {
+							change = true;
+						}
+						else if(lastSound.effect == 4 && currentSound.effect == 4) {
+							change = true;
+						}
+						else if(lastSound.effect != 5 && currentSound.effect == 4) {
+							change = true;
+						}
+
+						if(change) {
+							currentGroup = currentGroup < GROUP - 1 ? currentGroup+1 : 0;
+						}
+					}
+
+					voices[currentGroup][currentSound.instrument].usePreset(lastSound, currentSound.effect, frequency, volume, samplefrequency / (double)soundToPlay.size(), start);
+					voices[currentGroup][currentSound.instrument].noteOn(frequency, volume, start);
+
+					voices[currentGroup][currentSound.instrument].noteOff(end);
+
+					lastSound = currentSound;
+				}
+			}
 		}
 
 		public void stop() {
