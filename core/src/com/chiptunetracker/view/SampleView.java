@@ -610,13 +610,19 @@ public class SampleView extends View {
 		}
 
 		// Write note
-		else if(Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.Q) && chiptuneTracker.getMenuView().isQwertyKeys()) {
+			setSound(Note.C);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.A) && !chiptuneTracker.getMenuView().isQwertyKeys()) {
 			setSound(Note.C);
 		}
 		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
 			setSound(Note.C_D);
 		}
-		else if(Gdx.input.isKeyJustPressed(Input.Keys.W)) {
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.W) && chiptuneTracker.getMenuView().isQwertyKeys()) {
+			setSound(Note.D);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.Z) && !chiptuneTracker.getMenuView().isQwertyKeys()) {
 			setSound(Note.D);
 		}
 		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)) {

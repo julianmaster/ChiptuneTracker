@@ -709,13 +709,19 @@ public class PatternView extends View {
 		}
 
 		// Write note
-		else if(Gdx.input.isKeyJustPressed(Input.Keys.Q) && pattern.getList().get(sampleCursor) != null) {
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.Q) && chiptuneTracker.getMenuView().isQwertyKeys() && pattern.getList().get(sampleCursor) != null) {
+			setSound(Note.C);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.A) && !chiptuneTracker.getMenuView().isQwertyKeys() && pattern.getList().get(sampleCursor) != null) {
 			setSound(Note.C);
 		}
 		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_2) && pattern.getList().get(sampleCursor) != null) {
 			setSound(Note.C_D);
 		}
-		else if(Gdx.input.isKeyJustPressed(Input.Keys.W) && pattern.getList().get(sampleCursor) != null) {
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.W) && chiptuneTracker.getMenuView().isQwertyKeys() && pattern.getList().get(sampleCursor) != null) {
+			setSound(Note.D);
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.Z) && !chiptuneTracker.getMenuView().isQwertyKeys() && pattern.getList().get(sampleCursor) != null) {
 			setSound(Note.D);
 		}
 		else if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_3) && pattern.getList().get(sampleCursor) != null) {
