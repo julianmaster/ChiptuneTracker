@@ -508,12 +508,17 @@ public class PatternView extends View {
 		else if(soundConfCursor == 3) {
 			setVolume(value);
 		}
+		// Effect
+		else if(soundConfCursor == 4) {
+			setEffect(value);
+		}
 	}
 	
 	private void setSound(Note note) {
 		chiptuneTracker.setChangeData(true);
-		Sample sample = chiptuneTracker.getData().samples.get(sampleCursor);
-		
+		Pattern pattern = chiptuneTracker.getData().patterns.get(patternCursor);
+		Sample sample = chiptuneTracker.getData().samples.get(pattern.getList().get(sampleCursor));
+
 		if(chiptuneTracker.getSampleView().getVolumeCursor() != 0) {
 			Sound sound = sample.sounds[soundCursor];
 			if(sound == null) {
@@ -540,9 +545,10 @@ public class PatternView extends View {
 	}
 	
 	private void setOctave(int octave) {
-		chiptuneTracker.setChangeData(true);
 		if(octave >= 0 && octave <= 5) {
-			Sample sample = chiptuneTracker.getData().samples.get(sampleCursor);
+			chiptuneTracker.setChangeData(true);
+			Pattern pattern = chiptuneTracker.getData().patterns.get(patternCursor);
+			Sample sample = chiptuneTracker.getData().samples.get(pattern.getList().get(sampleCursor));
 			Sound sound = sample.sounds[soundCursor];
 			if(sound != null) {
 				sound.octave = octave;
@@ -558,9 +564,10 @@ public class PatternView extends View {
 	}
 	
 	private void setVolume(int volume) {
-		chiptuneTracker.setChangeData(true);
 		if(volume >= 0 && volume <= 7) {
-			Sample sample = chiptuneTracker.getData().samples.get(sampleCursor);
+			chiptuneTracker.setChangeData(true);
+			Pattern pattern = chiptuneTracker.getData().patterns.get(patternCursor);
+			Sample sample = chiptuneTracker.getData().samples.get(pattern.getList().get(sampleCursor));
 			Sound sound = sample.sounds[soundCursor];
 			if(sound != null) {
 				if(volume == 0) {
@@ -581,12 +588,32 @@ public class PatternView extends View {
 	}
 	
 	private void setInstrument(int instrument) {
-		chiptuneTracker.setChangeData(true);
 		if(instrument >= 0 && instrument <= 7) {
-			Sample sample = chiptuneTracker.getData().samples.get(sampleCursor);
+			chiptuneTracker.setChangeData(true);
+			Pattern pattern = chiptuneTracker.getData().patterns.get(patternCursor);
+			Sample sample = chiptuneTracker.getData().samples.get(pattern.getList().get(sampleCursor));
 			Sound sound = sample.sounds[soundCursor];
 			if(sound != null) {
 				sound.instrument = instrument;
+
+				chiptuneTracker.getChanels().playSound(sound, soundCursor);
+
+				soundCursor++;
+				if(soundCursor > Sample.SIZE - 1) {
+					soundCursor = 0;
+				}
+			}
+		}
+	}
+
+	private void setEffect(int effect) {
+		if(effect >= 0 && effect <= 7) {
+			chiptuneTracker.setChangeData(true);
+			Pattern pattern = chiptuneTracker.getData().patterns.get(patternCursor);
+			Sample sample = chiptuneTracker.getData().samples.get(pattern.getList().get(sampleCursor));
+			Sound sound = sample.sounds[soundCursor];
+			if(sound != null) {
+				sound.effect = effect;
 
 				chiptuneTracker.getChanels().playSound(sound, soundCursor);
 
@@ -681,7 +708,6 @@ public class PatternView extends View {
 				soundConfCursor++;
 			}
 			else if(sampleCursor < 3) {
-
 				int nextSelectSample = sampleCursor;
 				for(int i = sampleCursor + 1; i < 4; i++) {
 					if(pattern.getList().get(i) != null) {
