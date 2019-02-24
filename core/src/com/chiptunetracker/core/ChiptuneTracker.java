@@ -4,16 +4,11 @@ import com.asciiterminal.ui.AsciiTerminal;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.chiptunetracker.model.Data;
 import com.chiptunetracker.view.MenuView;
 import com.chiptunetracker.view.PatternView;
 import com.chiptunetracker.view.SampleView;
-import com.chiptunetracker.view.View;
 import com.kotcrab.vis.ui.VisUI;
-import com.kotcrab.vis.ui.util.dialog.Dialogs;
-
-import javax.swing.*;
 
 public class ChiptuneTracker extends Game {
 	public static final String TITLE = "ChiptuneTracker";

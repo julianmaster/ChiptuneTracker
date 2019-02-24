@@ -1,36 +1,22 @@
 package com.chiptunetracker.core;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.LinkedList;
-
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import com.chiptunetracker.menu.NewFileListener;
 import com.chiptunetracker.menu.OpenFileListener;
 import com.chiptunetracker.menu.SaveFileListener;
-import com.chiptunetracker.model.Data;
 import com.chiptunetracker.view.MenuView;
 import com.chiptunetracker.view.View;
-import com.kotcrab.vis.ui.FocusManager;
-import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.util.dialog.Dialogs;
-import com.kotcrab.vis.ui.util.dialog.InputDialogAdapter;
-import com.kotcrab.vis.ui.util.dialog.OptionDialogAdapter;
-import com.kotcrab.vis.ui.util.dialog.OptionDialogListener;
 import com.kotcrab.vis.ui.widget.file.FileChooser;
 import com.kotcrab.vis.ui.widget.file.FileChooserAdapter;
 import com.kotcrab.vis.ui.widget.file.FileTypeFilter;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
+
+import java.io.File;
+import java.io.IOException;
 
 public class DataManager {
 	
