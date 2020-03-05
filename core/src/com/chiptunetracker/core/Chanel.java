@@ -6,15 +6,9 @@ import com.chiptunetracker.model.Sound;
 import com.chiptunetracker.osc.*;
 import com.jsyn.Synthesizer;
 import com.jsyn.unitgen.FunctionOscillator;
-import com.jsyn.unitgen.SawtoothOscillatorDPW;
-import com.jsyn.unitgen.SineOscillator;
-import com.jsyn.unitgen.SquareOscillatorBL;
-import com.jsyn.unitgen.TriangleOscillator;
-import com.jsyn.unitgen.WhiteNoise;
 import com.softsynth.shared.time.ScheduledCommand;
 import com.softsynth.shared.time.TimeStamp;
 
-import java.util.Deque;
 import java.util.LinkedList;
 
 public class Chanel {
@@ -29,7 +23,7 @@ public class Chanel {
 	private LinkedList<Integer> lastGroup = new LinkedList<>();
 
 	private boolean start = false;
-	private boolean finish = false;
+	private boolean finished = false;
 
 	private Sound lastSound = null;
 	
@@ -41,6 +35,8 @@ public class Chanel {
 	private int soundCursor;
 	
 	private int UICursor;
+
+	private boolean looped = false;
 	
 	public Chanel(Chanels chanels) {
 		this.chanels = chanels;
@@ -100,25 +96,28 @@ public class Chanel {
 		playNote(sound, position, 16, time);
 	}
 	
-	public void playSample(int sampleIndex, int nextPatternIndex) {
+	public void playSample(int sampleIndex, int nextPatternIndex, boolean start) {
 		this.sample = sampleIndex;
 		this.pattern = nextPatternIndex;
 		
 		Sample samplePlay = ChiptuneTracker.getInstance().getData().samples.get(sample);
-		
-		lastSoundTime = chanels.getSynth().getCurrentTime();
+
+		this.start = start;
+		if(start) {
+			lastSoundTime = chanels.getSynth().getCurrentTime();
+		}
+
 		sampleSpeed = samplePlay.speed;
 		sampleFrequency = 1 / ((double)samplePlay.speed / 2);
 		soundCursor = 0;
-		start = true;
-		finish = false;
+		finished = false;
 
 		// Timer UI cursor
 		UICursor = 0;
 	}
 	
 	public void update() {
-		if(!finish && sample != -1) {
+		if(!finished && sample != -1) {
 			double currentTime = chanels.getSynth().getCurrentTime();
 			if(currentTime > lastSoundTime) {
 				Sound sound = ChiptuneTracker.getInstance().getData().samples.get(sample).sounds[soundCursor];
@@ -151,10 +150,14 @@ public class Chanel {
 				
 				if(soundCursor == ChiptuneTracker.getInstance().getData().samples.get(sample).loopStop && soundCursor != ChiptuneTracker.getInstance().getData().samples.get(sample).loopStart) {
 					soundCursor = ChiptuneTracker.getInstance().getData().samples.get(sample).loopStart;
+					looped = true;
+					if(ChiptuneTracker.getInstance().getChanels().allLooped()) {
+						stop(lastSoundTime + sampleFrequency);
+					}
 				}
 				
 				if(soundCursor == Sample.SIZE) {
-					finish = true;
+					finished = true;
 					stop(lastSoundTime + sampleFrequency);
 				}
 			}
@@ -287,10 +290,11 @@ public class Chanel {
 		for(int i = 0; i < GROUP; i++) {
 			for(CustomCircuit circuit : voices[i]) {
 				circuit.noteOff(new TimeStamp(time));
-				circuit.noteOff(new TimeStamp(lastSoundTime));
+//				circuit.noteOff(new TimeStamp(lastSoundTime));
 			}
 		}
 		lastGroup.clear();
+		System.out.println("stop1");
 	}
 	
 	private void stop(double time) {
@@ -299,10 +303,11 @@ public class Chanel {
 			@Override
 			public void run() {
 				synchronized (chanels) {
-					if(finish && (pattern == -1 || pattern == chanels.getNextPattern())) {
+					if((finished || looped) && (pattern == -1 || pattern == chanels.getNextPattern())) {
 						chanels.next();
 					}
 				}
+				System.out.println("stop2");
 			}
 		});
 	}
@@ -310,11 +315,20 @@ public class Chanel {
 	public void clear() {
 		pattern = -1;
 		sample = -1;
-		finish = false;
+		looped = false;
+		finished = false;
 	}
 	
 	public int getSoundCursor() {
 		return UICursor;
+	}
+
+	public boolean isLooped() {
+		return looped;
+	}
+
+	public boolean isFinished() {
+		return finished;
 	}
 
 	public void clearLastSound() {

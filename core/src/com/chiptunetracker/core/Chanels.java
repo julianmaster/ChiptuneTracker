@@ -15,6 +15,7 @@ public class Chanels {
 	private boolean playSample = false;
 	
 	private boolean playPattern = false;
+	private boolean start = false;
 	private int currentPattern;
 	
 	public Chanels() {
@@ -56,16 +57,12 @@ public class Chanels {
 	public void playSample(int sampleIndex) {
 		playSample = true;
 		chanels[0].clearLastSound();
-		chanels[0].playSample(sampleIndex, -1);
+		chanels[0].playSample(sampleIndex, -1, true);
 	}
 	
 	public void stopSample() {
 		chanels[0].stop();
 		playSample = false;
-	}
-	
-	public void getSample() {
-		chanels[0].getSample();
 	}
 	
 	public int getSampleCursor(int i) {
@@ -81,11 +78,7 @@ public class Chanels {
 		return playSample;
 	}
 	
-	public void setPlaySample(boolean playSample) {
-		this.playSample = playSample;
-	}
-	
-	
+
 	
 	/**
 	 * ----------
@@ -96,6 +89,7 @@ public class Chanels {
 	public void playPattern(int patternIndex) {
 		currentPattern = patternIndex;
 		playPattern = true;
+		start = true;
 		for(int i = 0; i < CHANELS; i++) {
 			chanels[i].clearLastSound();
 		}
@@ -154,7 +148,7 @@ public class Chanels {
 	 * Next
 	 * ---------- 
 	 */
-	
+
 	public void next() {
 		if(playSample) {
 			chanels[0].stop();
@@ -162,10 +156,11 @@ public class Chanels {
 		}
 		
 		if(playPattern) {
-			for(int i = 0; i < CHANELS; i++) {
-				chanels[i].stop();
+			if(start) {
+				for(int i = 0; i < CHANELS; i++) {
+					chanels[i].stop();
+				}
 			}
-
 			for(int i = 0; i < CHANELS; i++) {
 				chanels[i].clear();
 			}
@@ -178,19 +173,19 @@ public class Chanels {
 			
 			boolean finish = true;
 			if(pattern.sample1 != null) {
-				chanels[0].playSample(pattern.sample1, currentPattern + 1);
+				chanels[0].playSample(pattern.sample1, currentPattern + 1, start);
 				finish = false;
 			}
 			if(pattern.sample2 != null) {
-				chanels[1].playSample(pattern.sample2, currentPattern + 1);
+				chanels[1].playSample(pattern.sample2, currentPattern + 1, start);
 				finish = false;
 			}
 			if(pattern.sample3 != null) {
-				chanels[2].playSample(pattern.sample3, currentPattern + 1);
+				chanels[2].playSample(pattern.sample3, currentPattern + 1, start);
 				finish = false;
 			}
 			if(pattern.sample4 != null) {
-				chanels[3].playSample(pattern.sample4, currentPattern + 1);
+				chanels[3].playSample(pattern.sample4, currentPattern + 1, start);
 				finish = false;
 			}
 			
@@ -198,13 +193,33 @@ public class Chanels {
 			if(playPattern) {
 				currentPattern++;
 			}
+
+			start = false;
 		}
 	}
 
+
+	/**
+	 * ----------
+	 * Looped / Finished
+	 * ----------
+	 */
 	
-	
-	
-	
+	public boolean allLooped() {
+		boolean looped = true;
+		for(int i = 0; i < 4; i++) {
+			if(chanels[i] != null) {
+				looped &= chanels[i].isLooped();
+			}
+		}
+		return looped;
+	}
+
+	public boolean allFinished() {
+		return chanels[0].isFinished() && chanels[1].isFinished() && chanels[2].isFinished() && chanels[3].isFinished();
+	}
+
+
 	
 	/**
 	 * ----------
