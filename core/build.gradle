@@ -1,11 +1,14 @@
-apply plugin: "java"
-
-sourceCompatibility = 1.8
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+eclipse.project.name = appName + '-core'
 
-sourceSets.main.java.srcDirs = [ "src/" ]
+dependencies {
+    api "com.badlogicgames.gdx:gdx:$gdxVersion"
+    api "com.kotcrab.vis:vis-ui:$visUiVersion"
+    api "org.simpleframework:simple-xml:$simplexmlVersion"
+    implementation "com.github.philburk:jsyn:latest.release"
+    implementation "com.github.julianmaster:asciiterminal:$asciiTerminalVersion"
 
-
-eclipse.project {
-    name = appName + "-core"
+    if(enableGraalNative == 'true') {
+        implementation "io.github.berstanio:gdx-svmhelper-annotations:$graalHelperVersion"
+    }
 }
